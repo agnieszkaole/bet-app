@@ -1,0 +1,2 @@
+// Container( // height: 200, // child: WebViewPlus( // initialUrl:
+'assets/index.html', // javascriptMode: JavascriptMode.unrestricted, // ), // ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bet_app/widgets/goalstat.dart';
 import 'package:bet_app/widgets/matchstat.dart';
 import 'package:flutter/material.dart';
@@ -30,27 +32,14 @@ Widget PageBody(List allmatches) {
       Expanded(
         flex: 5,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "MATCHES",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.0,
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: allmatches.length,
-                  itemBuilder: (context, index) {
-                    return matchTile(allmatches[index]);
-                  },
-                ),
-              )
-            ],
+          padding: const EdgeInsets.all(5.0),
+          child: Expanded(
+            child: ListView.builder(
+              itemCount: allmatches.length,
+              itemBuilder: (context, index) {
+                return matchTile(allmatches[index]);
+              },
+            ),
           ),
         ),
       )

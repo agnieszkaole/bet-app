@@ -1,4 +1,5 @@
 import 'package:bet_app/screens/matches_screen.dart';
+import 'package:bet_app/screens/predict_result_screen.dart';
 
 import 'package:flutter/material.dart';
 
@@ -14,9 +15,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> pages = const [
     MatchesScreen(),
-    MatchesScreen(),
-    MatchesScreen(),
-    MatchesScreen(),
+    PredictResultScreen(),
+    PredictResultScreen(),
+    PredictResultScreen(),
   ];
 
   @override

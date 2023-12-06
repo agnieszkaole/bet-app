@@ -32,12 +32,12 @@ class SoccerApp extends StatefulWidget {
 }
 
 class _SoccerAppState extends State<SoccerApp> {
-  // late Future _getData();
+  late Future dataFuture;
 
   @override
   void initState() {
     super.initState();
-    _getData();
+    dataFuture = _getData();
   }
 
   _getData() async {
@@ -54,7 +54,7 @@ class _SoccerAppState extends State<SoccerApp> {
         centerTitle: true,
       ),
       body: FutureBuilder(
-          future: _getData(),
+          future: dataFuture,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

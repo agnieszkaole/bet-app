@@ -1,3 +1,7 @@
+import 'package:intl/intl.dart';
+
+final formatter = DateFormat('dd.MM.y - HH:mm');
+
 class SoccerMatch {
   Fixture fixture;
   Team home;
@@ -30,6 +34,10 @@ class Fixture {
       date: json['date'],
       status: Status.fromJson(json['status']),
     );
+  }
+
+  String get formattedDate {
+    return formatter.format(DateTime.parse(date));
   }
 }
 
