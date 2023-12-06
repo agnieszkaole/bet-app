@@ -37,7 +37,7 @@ Widget PageBody(List allmatches) {
             child: ListView.builder(
               itemCount: allmatches.length,
               itemBuilder: (context, index) {
-                return matchTile(allmatches[index]);
+                return MatchTile(match: allmatches[index]);
               },
             ),
           ),
