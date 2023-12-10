@@ -1,21 +1,21 @@
-import "package:bet_app/widgets/predicted_list.dart";
-import "package:flutter/material.dart";
+// import "package:bet_app/widgets/predicted_list.dart";
+// import "package:flutter/material.dart";
 
-class PredictedScreen extends StatefulWidget {
-  const PredictedScreen({super.key});
+// class PredictedScreen extends StatefulWidget {
+//   const PredictedScreen({super.key});
 
-  @override
-  State<PredictedScreen> createState() => _PredictedScreenState();
-}
+//   @override
+//   State<PredictedScreen> createState() => _PredictedScreenState();
+// }
 
-class _PredictedScreenState extends State<PredictedScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Twoje typy'),
-        ),
-        body: const PredictedList());
+// class _PredictedScreenState extends State<PredictedScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+          // title: const Text('Twoje typy'),
+        // ),
+        // body: const PredictedList());
     // body: ListView.builder(
     //   itemCount: items.length,
     //   itemBuilder: (context, index) {
@@ -36,5 +36,6 @@ class _PredictedScreenState extends State<PredictedScreen> {
     //     );
     //   },
     // ),
-  }
-}
+  // }
+// }
+//

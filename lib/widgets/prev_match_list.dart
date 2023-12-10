@@ -1,13 +1,35 @@
 import 'dart:convert';
 
-import 'package:bet_app/widgets/goalstat.dart';
-import 'package:bet_app/widgets/matchstat.dart';
+import 'package:bet_app/widgets/prev_match_item.dart';
+import 'package:bet_app/widgets/xgoalstat.dart';
+import 'package:bet_app/widgets/xmatchstat.dart';
 import 'package:flutter/material.dart';
-import 'package:bet_app/widgets/matchtile.dart';
+import 'package:bet_app/widgets/next_match_item.dart';
 
-Widget PageBody(List allmatches) {
+Widget prevMatchList(List allmatches) {
   return Column(
     children: [
+      Expanded(
+        flex: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: ListView.builder(
+            itemCount: allmatches.length,
+            itemBuilder: (context, index) {
+              return PrevMatchItem(match: allmatches[index]);
+            },
+          ),
+        ),
+      )
+    ],
+  );
+}
+
+// Widget MatchList(List allmatches) {
+
+// }
+
+
       // Expanded(
       //   flex: 2,
       //   child: Container(
@@ -29,20 +51,3 @@ Widget PageBody(List allmatches) {
       //     ),
       //   ),
       // ),
-      Expanded(
-        flex: 5,
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Expanded(
-            child: ListView.builder(
-              itemCount: allmatches.length,
-              itemBuilder: (context, index) {
-                return MatchTile(match: allmatches[index]);
-              },
-            ),
-          ),
-        ),
-      )
-    ],
-  );
-}
