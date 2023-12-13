@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:bet_app/widgets/next_match_item.dart';
 
 class NextMatchList extends StatelessWidget {
-  const NextMatchList({super.key, required this.allmatches});
-  final List allmatches;
+  const NextMatchList({super.key, required this.matches});
+  final List matches;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const DataPicker(),
+        DataPicker(),
         Expanded(
           flex: 5,
           child: Padding(
             padding: const EdgeInsets.all(5.0),
             child: ListView.builder(
-              itemCount: allmatches.length,
+              itemCount: matches.length,
               itemBuilder: (context, index) {
-                return NextMatchItem(match: allmatches[index]);
+                return NextMatchItem(match: matches[index]);
               },
             ),
           ),

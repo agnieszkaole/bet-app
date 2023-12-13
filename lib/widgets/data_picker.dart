@@ -3,18 +3,16 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:weekly_date_picker/weekly_date_picker.dart';
 
+var _selectedDate = DateTime.now();
+
 class DataPicker extends StatefulWidget {
-  const DataPicker({
-    super.key,
-  });
+  const DataPicker({super.key});
 
   @override
   DataPickerState createState() => DataPickerState();
 }
 
 class DataPickerState extends State<DataPicker> {
-  var _selectedDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('pl_PL', null);

@@ -20,7 +20,8 @@ class _NextMatchesScreenState extends State<NextMatchesScreen> {
   }
 
   _getData() async {
-    return await SoccerApi().getNextMatches('2023-12-12');
+    return await SoccerApi()
+        .getMatches('', league: '960', season: "2023", status: 'ns-tbd');
   }
 
   @override
@@ -52,7 +53,7 @@ class _NextMatchesScreenState extends State<NextMatchesScreen> {
                 child: Text("Brak danych do wyświetlenia"),
               );
             } else if (snapshot.hasData) {
-              return NextMatchList(allmatches: snapshot.data!);
+              return NextMatchList(matches: snapshot.data!);
             }
           }
           throw Exception('cos jest nie tak');

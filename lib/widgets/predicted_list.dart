@@ -1,5 +1,7 @@
+import 'package:bet_app/provider/predicted_match_provider.dart';
 import 'package:bet_app/widgets/predicted_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PredictedList extends StatefulWidget {
   const PredictedList({super.key});
@@ -11,16 +13,26 @@ class PredictedList extends StatefulWidget {
 class _PredictedListState extends State<PredictedList> {
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        // Expanded(
-        //   child: ListView.builder(
-        //     itemCount: matches.length,
-        //     itemBuilder: (context, index) => PredictedItem(),
-        //   ),
-        // ),
-        PredictedItem()
-      ],
-    );
+    final predictedMatchList =
+        context.watch<PredictedMatchProvider>().predictedMatchList;
+    print(predictedMatchList);
+    return (predictedMatchList.isEmpty)
+        ? const Center(
+            child: Text(
+              'Nie dodano żadnych zakładów',
+              style: TextStyle(fontSize: 16),
+            ),
+          )
+        : Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: predictedMatchList.length,
+                  itemBuilder: (context, index) =>
+                      PredictedItem(predictedMatch: predictedMatchList[index]),
+                ),
+              )
+            ],
+          );
   }
 }

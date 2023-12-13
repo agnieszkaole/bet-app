@@ -1,4 +1,6 @@
+import 'package:bet_app/screens/groups_screen.dart';
 import 'package:bet_app/screens/next_matches_screen.dart';
+import 'package:bet_app/screens/predicted_screen.dart';
 import 'package:bet_app/screens/prev_matches_screen.dart';
 import 'package:bet_app/widgets/main_drawer.dart';
 import 'package:bet_app/widgets/predicted_item.dart';
@@ -18,9 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> pages = const [
     NextMatchesScreen(),
-    PrevMatchesScreen(),
-    PrevMatchesScreen(),
-    PrevMatchesScreen(),
+    PredictedScreen(),
+    GroupsScreen()
   ];
 
   @override
@@ -51,24 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: currentPage,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
-              label: 'Typuj',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.recent_actors_outlined),
-              label: 'Zakończone',
-              //
+              icon: Icon(Icons.sports_soccer),
+              label: 'Mecze',
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.bookmark_add_outlined,
+                Icons.handshake_outlined,
               ),
               label: 'Zakłady',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.recent_actors_outlined),
-              label: 'Ranking',
-              //
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.group),

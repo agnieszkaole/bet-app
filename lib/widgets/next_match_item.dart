@@ -15,7 +15,7 @@ class NextMatchItem extends StatelessWidget {
     var awayName = match.away.name;
     // var awayGoal = match.goal.away;
     var awayLogo = match.away.logoUrl;
-
+    var matchTime = match.fixture.formattedDate;
     // if (homeGoal == null) homeGoal = 0;
     // if (awayGoal == null) awayGoal = 0;
 
@@ -25,7 +25,7 @@ class NextMatchItem extends StatelessWidget {
       // height: 220,
       child: Card(
         // color: const Color.fromARGB(255, 43, 43, 43),
-        margin: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -37,7 +37,7 @@ class NextMatchItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                match.fixture.formattedDate,
+                matchTime,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -76,11 +76,11 @@ class NextMatchItem extends StatelessWidget {
                     // height: 36.0,
                     // ),
                   ),
-                  Expanded(
-                    child: const Text(
+                  const Expanded(
+                    child: Text(
                       "vs",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 22.0,
                       ),
@@ -123,6 +123,7 @@ class NextMatchItem extends StatelessWidget {
                                   teamAwayName: awayName,
                                   teamHomeLogo: homeLogo,
                                   teamAwayLogo: awayLogo,
+                                  matchTime: matchTime,
                                 ),
                               ),
                             );
@@ -150,8 +151,7 @@ class NextMatchItem extends StatelessWidget {
                             // ),
                             elevation: 3.0,
                           ),
-                          child: const Text(
-                              'Dodano! Szukaj w zakładce Twoje zakłady'),
+                          child: const Text('Dodano do zakładów'),
                         )),
             ],
           ),

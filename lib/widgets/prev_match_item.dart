@@ -50,11 +50,11 @@ class PrevMatchItem extends StatelessWidget {
             //             "${elapsedTime}'",
             //             style: const TextStyle(fontSize: 14),
             //           ),
-            // Text(
-            //   match.fixture.status.long,
-            //   style: TextStyle(fontSize: 14),
-            // ),
-            // ],
+            //     Text(
+            //       match.fixture.status.long,
+            //       style: TextStyle(fontSize: 14),
+            //     ),
+            //   ],
             // ),
             const SizedBox(height: 10),
             Row(

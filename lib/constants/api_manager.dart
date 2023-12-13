@@ -4,23 +4,31 @@ import 'package:bet_app/models/soccermodel.dart';
 import 'package:http/http.dart';
 
 class SoccerApi {
-  static const _baseUrl = "https://v3.football.api-sports.io/fixtures";
+  static const _baseUrl = "https://v3.football.api-sports.io/fixtures?";
   static const liveApi = '$_baseUrl?live=all';
   static const prevApi =
       '$_baseUrl?last=20&status=ft-aet-pen&league=960&season=2023';
-  static const byDateApi = '$_baseUrl?status=ns-tbd&league=2&season=2023&date=';
+  // static const byDateApi = '$_baseUrl?status=ns-tbd&date=;
 
   static const headers = {
     'x-rapidapi-host': "v3.football.api-sports.io",
     'x-rapidapi-key': "210d8f8075e74dbbfc3f783d1b574c19",
   };
 
-  Future getNextMatches(date) async {
-    Response res = await get(Uri.parse(byDateApi + date), headers: headers);
+  Future getMatches(date, {league, season, status}) async {
+    String? dateUrl = date == "" ? "" : "date=$date";
+    String? leagueUrl = league == "" ? "" : '&league=$league';
+    String? seasonUrl = season == "" ? "" : '&season=$season';
+    String? statusUrl = status == "" ? "" : '&status=$status';
+
+    Response res = await get(
+        Uri.parse('$_baseUrl$dateUrl$leagueUrl$seasonUrl$statusUrl'),
+        headers: headers);
+
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
       List<dynamic> matchesList = data['response'];
-      print(matchesList.length);
+      // print(matchesList.length);
       List<SoccerMatch> matches = matchesList
           .map((dynamic item) => SoccerMatch.fromJson(item))
           .toList();

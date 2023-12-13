@@ -1,10 +1,12 @@
 import 'dart:convert';
 // import 'package:bet_app/widgets/predicted_item.dart';
 // import 'package:bet_app/widgets/predicted_list.dart';
+import 'package:bet_app/provider/predicted_match_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class PredictResult extends StatefulWidget {
   const PredictResult({
@@ -13,12 +15,14 @@ class PredictResult extends StatefulWidget {
     required this.teamAwayName,
     required this.teamHomeLogo,
     required this.teamAwayLogo,
+    required this.matchTime,
   });
 
   final String teamHomeName;
   final String teamAwayName;
   final String teamHomeLogo;
   final String teamAwayLogo;
+  final String matchTime;
 
   @override
   State<PredictResult> createState() => _PredictResultItemState();
@@ -27,11 +31,7 @@ class PredictResult extends StatefulWidget {
 class _PredictResultItemState extends State<PredictResult> {
   int? _resultHome;
   int? _resultAway;
-  bool isSaved = false;
-
   final _formKey = GlobalKey<FormState>();
-
-  // var _isSending = false;
 
   void _saveResultPrediction() async {
     if (_formKey.currentState!.validate()) {
@@ -58,26 +58,28 @@ class _PredictResultItemState extends State<PredictResult> {
           },
         ),
       );
-      // final Map<String, dynamic> resData = json.decode(response.body);
 
       if (!context.mounted) {
         return;
       }
 
-      Navigator.of(context).pop(() {
-        setState(() {
-          isSaved = true;
-        });
-      });
-
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (context) => const PredictedItem(
-      //       teamPrediction1: team1,
-      //       teamPrediction2: team2,
-      //     ),
-      //   ),
-      // );
+      Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
+        {
+          'teamHomeName': widget.teamHomeName,
+          'teamHomeLogo': widget.teamHomeLogo,
+          'teamHomeGoal': _resultHome,
+          'teamAwayName': widget.teamAwayName,
+          'teamAwayLogo': widget.teamAwayLogo,
+          'teamAwayGoal': _resultAway,
+          'matchTime': widget.matchTime,
+        },
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Mecz został dodany'),
+        ),
+      );
+      Navigator.of(context).pop();
     }
   }
 
