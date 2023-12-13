@@ -10,7 +10,15 @@ class NextMatchList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DataPicker(),
+        const DataPicker(),
+        const Text(
+          'Mistrzostwa Europy 2024 - kwalifikacje',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
         Expanded(
           flex: 5,
           child: Padding(

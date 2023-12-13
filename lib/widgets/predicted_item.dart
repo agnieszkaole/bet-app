@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PredictedItem extends StatelessWidget {
-  PredictedItem({super.key, required this.predictedMatch});
+  const PredictedItem({super.key, required this.predictedMatch});
   final Map<String, dynamic> predictedMatch;
 
   @override
   Widget build(BuildContext context) {
-    // var matchTime = predictedMatch.
-    print(predictedMatch);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       clipBehavior: Clip.hardEdge,
@@ -46,7 +44,7 @@ class PredictedItem extends StatelessWidget {
                   padding: const EdgeInsets.all(5.0),
                   child: CachedNetworkImage(
                     imageUrl: predictedMatch['teamHomeLogo'].toString(),
-                    fadeInDuration: Duration(milliseconds: 50),
+                    fadeInDuration: const Duration(milliseconds: 50),
                     // placeholder: (context, url) =>
                     //     const CircularProgressIndicator(),
                     errorWidget: (context, url, error) =>
@@ -102,18 +100,19 @@ class PredictedItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   height: 50,
-                  child: (DateTime.now().hour > 9)
+                  child: (DateTime.now().hour > 15)
                       ? null
                       : OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            shape: StadiumBorder(),
-                            side: BorderSide(
+                            shape: const StadiumBorder(),
+                            side: const BorderSide(
                               width: 1,
-                              color: const Color.fromARGB(255, 40, 122, 43),
+                              color: Color.fromARGB(255, 40, 122, 43),
                             ),
-                            foregroundColor: Color.fromARGB(255, 176, 206, 177),
+                            foregroundColor:
+                                const Color.fromARGB(255, 176, 206, 177),
                           ),
                           onPressed: () {},
                           child: const Text('Edytuj'),
@@ -133,12 +132,12 @@ class PredictedItem extends StatelessWidget {
                         ),
                 ),
                 Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     height: 50,
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        shape: StadiumBorder(),
-                        side: BorderSide(
+                        shape: const StadiumBorder(),
+                        side: const BorderSide(
                           width: 1,
                           color: Colors.red,
                         ),

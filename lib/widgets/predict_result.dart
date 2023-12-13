@@ -16,6 +16,7 @@ class PredictResult extends StatefulWidget {
     required this.teamHomeLogo,
     required this.teamAwayLogo,
     required this.matchTime,
+    required this.matchId,
   });
 
   final String teamHomeName;
@@ -23,6 +24,7 @@ class PredictResult extends StatefulWidget {
   final String teamHomeLogo;
   final String teamAwayLogo;
   final String matchTime;
+  final int matchId;
 
   @override
   State<PredictResult> createState() => _PredictResultItemState();
@@ -47,6 +49,7 @@ class _PredictResultItemState extends State<PredictResult> {
         },
         body: json.encode(
           {
+            'matchId': widget.matchId,
             'Home': {
               "teamHomeName": widget.teamHomeName,
               "teamHomePrediction": _resultHome,
@@ -72,6 +75,7 @@ class _PredictResultItemState extends State<PredictResult> {
           'teamAwayLogo': widget.teamAwayLogo,
           'teamAwayGoal': _resultAway,
           'matchTime': widget.matchTime,
+          'matchId': widget.matchId,
         },
       );
       ScaffoldMessenger.of(context).showSnackBar(
@@ -85,6 +89,8 @@ class _PredictResultItemState extends State<PredictResult> {
 
   @override
   Widget build(BuildContext context) {
+    final predictedMatchList =
+        context.watch<PredictedMatchProvider>().predictedMatchList;
     return Scaffold(
       appBar: AppBar(),
       body: Center(

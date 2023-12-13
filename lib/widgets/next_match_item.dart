@@ -3,23 +3,22 @@ import 'package:bet_app/widgets/predict_result.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+
 class NextMatchItem extends StatelessWidget {
   final SoccerMatch match;
   const NextMatchItem({super.key, required this.match});
 
+
   @override
   Widget build(BuildContext context) {
+    int matchId = match.fixture.id;
     var homeName = match.home.name;
-    // var homeGoal = match.goal.home;
     var homeLogo = match.home.logoUrl;
     var awayName = match.away.name;
-    // var awayGoal = match.goal.away;
     var awayLogo = match.away.logoUrl;
     var matchTime = match.fixture.formattedDate;
-    // if (homeGoal == null) homeGoal = 0;
-    // if (awayGoal == null) awayGoal = 0;
 
-    bool isSaved = true;
+    bool isSaved = false;
 
     return SizedBox(
       // height: 220,
@@ -32,7 +31,7 @@ class NextMatchItem extends StatelessWidget {
         ),
         elevation: 2,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -111,9 +110,9 @@ class NextMatchItem extends StatelessWidget {
                 ],
               ),
               Container(
-                  height: 40,
-                  margin: const EdgeInsets.only(top: 20),
-                  child: isSaved
+                  height: 30,
+                  margin: const EdgeInsets.only(top: 15),
+                  child: !isSaved
                       ? ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -124,6 +123,7 @@ class NextMatchItem extends StatelessWidget {
                                   teamHomeLogo: homeLogo,
                                   teamAwayLogo: awayLogo,
                                   matchTime: matchTime,
+                                  matchId: matchId,
                                 ),
                               ),
                             );

@@ -11,11 +11,7 @@ class PredictedScreen extends StatefulWidget {
 class _PredictedScreenState extends State<PredictedScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Twoje typy'),
-        ),
-        body: PredictedList());
+    return PredictedList();
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:bet_app/provider/predicted_match_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:bet_app/widgets/predicted_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,13 +26,26 @@ class _PredictedListState extends State<PredictedList> {
           )
         : Column(
             children: [
+              const Text(
+                'Edycja jest możliwa tylko do godziny 15.00 w dniu meczu.',
+                style: TextStyle(fontSize: 13),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                'Mistrzostwa Europy 2024 - kwalifikacje',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: predictedMatchList.length,
                   itemBuilder: (context, index) =>
                       PredictedItem(predictedMatch: predictedMatchList[index]),
                 ),
-              )
+              ),
+              const SizedBox(height: 15),
             ],
           );
   }
