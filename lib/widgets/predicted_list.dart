@@ -2,7 +2,6 @@ import 'package:bet_app/provider/predicted_match_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:bet_app/widgets/predicted_item.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PredictedList extends StatefulWidget {
   const PredictedList({super.key});
@@ -16,7 +15,7 @@ class _PredictedListState extends State<PredictedList> {
   Widget build(BuildContext context) {
     final predictedMatchList =
         context.watch<PredictedMatchProvider>().predictedMatchList;
-    print(predictedMatchList);
+    // print(predictedMatchList);
     return (predictedMatchList.isEmpty)
         ? const Center(
             child: Text(
@@ -27,7 +26,7 @@ class _PredictedListState extends State<PredictedList> {
         : Column(
             children: [
               const Text(
-                'Edycja jest możliwa tylko do godziny 15.00 w dniu meczu.',
+                'Edycja jest możliwa tylko do 2 godzin przed meczem',
                 style: TextStyle(fontSize: 13),
               ),
               const SizedBox(height: 15),
@@ -41,8 +40,10 @@ class _PredictedListState extends State<PredictedList> {
               Expanded(
                 child: ListView.builder(
                   itemCount: predictedMatchList.length,
-                  itemBuilder: (context, index) =>
-                      PredictedItem(predictedMatch: predictedMatchList[index]),
+                  itemBuilder: (context, index) => PredictedItem(
+                    predictedMatch: predictedMatchList[index],
+                    key: ValueKey(predictedMatchList[index]),
+                  ),
                 ),
               ),
               const SizedBox(height: 15),

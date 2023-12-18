@@ -3,6 +3,7 @@ import 'package:bet_app/screens/next_matches_screen.dart';
 import 'package:bet_app/screens/predicted_screen.dart';
 import 'package:bet_app/screens/prev_matches_screen.dart';
 import 'package:bet_app/widgets/main_drawer.dart';
+import 'package:bet_app/widgets/next_match_list.dart';
 import 'package:bet_app/widgets/predicted_item.dart';
 import 'package:bet_app/widgets/predicted_list.dart';
 
@@ -18,10 +19,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
 
-  List<Widget> pages = const [
-    NextMatchesScreen(),
-    PredictedScreen(),
-    GroupsScreen()
+  List<Widget> pages = [
+    const NextMatchesScreen(),
+    const PredictedScreen(),
+    const GroupsScreen()
   ];
 
   @override

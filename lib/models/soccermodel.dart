@@ -7,18 +7,34 @@ class SoccerMatch {
   Team home;
   Team away;
   Goal goal;
+  League league;
   SoccerMatch(
       {required this.fixture,
       required this.home,
       required this.away,
-      required this.goal});
+      required this.goal,
+      required this.league});
 
   factory SoccerMatch.fromJson(Map<String, dynamic> json) {
     return SoccerMatch(
         fixture: Fixture.fromJson(json['fixture']),
         home: Team.fromJson(json['teams']['home']),
         away: Team.fromJson(json['teams']['away']),
-        goal: Goal.fromJson(json['goals']));
+        goal: Goal.fromJson(json['goals']),
+        league: League.fromJson(json['league']));
+  }
+}
+
+class League {
+  int id;
+  String name;
+  League({required this.id, required this.name});
+
+  factory League.fromJson(Map<String, dynamic> json) {
+    return League(
+      id: json['id'],
+      name: json['name'],
+    );
   }
 }
 
@@ -38,6 +54,10 @@ class Fixture {
 
   String get formattedDate {
     return formatter.format(DateTime.parse(date));
+  }
+
+  int get matchId {
+    return id;
   }
 }
 

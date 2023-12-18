@@ -6,7 +6,7 @@ class PredictedMatchProvider extends ChangeNotifier {
   void addMatch(Map<String, dynamic> match) {
     predictedMatchList.add(match);
     notifyListeners();
-    print(predictedMatchList);
+    // print(predictedMatchList);
   }
 
   void removeMatch(Map<String, dynamic> match) {

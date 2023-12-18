@@ -1,12 +1,19 @@
 import 'package:bet_app/provider/predicted_match_provider.dart';
+import 'package:bet_app/widgets/next_match_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PredictedItem extends StatelessWidget {
-  const PredictedItem({super.key, required this.predictedMatch});
+class PredictedItem extends StatefulWidget {
+  PredictedItem({super.key, required this.predictedMatch});
   final Map<String, dynamic> predictedMatch;
+  bool isNewMatch = true;
 
+  @override
+  State<PredictedItem> createState() => _PredictedItemState();
+}
+
+class _PredictedItemState extends State<PredictedItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,7 +29,7 @@ class PredictedItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              predictedMatch['matchTime'],
+              widget.predictedMatch['matchTime'],
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
@@ -32,7 +39,7 @@ class PredictedItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    predictedMatch['teamHomeName'].toString(),
+                    widget.predictedMatch['teamHomeName'].toString(),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
@@ -43,7 +50,7 @@ class PredictedItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: CachedNetworkImage(
-                    imageUrl: predictedMatch['teamHomeLogo'].toString(),
+                    imageUrl: widget.predictedMatch['teamHomeLogo'].toString(),
                     fadeInDuration: const Duration(milliseconds: 50),
                     // placeholder: (context, url) =>
                     //     const CircularProgressIndicator(),
@@ -61,7 +68,7 @@ class PredictedItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    "${predictedMatch['teamHomeGoal']} - ${predictedMatch['teamAwayGoal']}",
+                    "${widget.predictedMatch['teamHomeGoal']} - ${widget.predictedMatch['teamAwayGoal']}",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
@@ -72,7 +79,7 @@ class PredictedItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: CachedNetworkImage(
-                    imageUrl: predictedMatch['teamAwayLogo'].toString(),
+                    imageUrl: widget.predictedMatch['teamAwayLogo'].toString(),
                     // placeholder: (context, url) =>
                     //     const CircularProgressIndicator(),
                     errorWidget: (context, url, error) =>
@@ -83,7 +90,7 @@ class PredictedItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    predictedMatch['teamAwayName'].toString(),
+                    widget.predictedMatch['teamAwayName'].toString(),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
@@ -102,7 +109,7 @@ class PredictedItem extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   height: 50,
-                  child: (DateTime.now().hour > 15)
+                  child: (DateTime.now().hour > 17)
                       ? null
                       : OutlinedButton(
                           style: OutlinedButton.styleFrom(
@@ -171,12 +178,30 @@ class PredictedItem extends StatelessWidget {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     context
                                         .read<PredictedMatchProvider>()
-                                        .removeMatch(predictedMatch);
+                                        .removeMatch(widget.predictedMatch);
                                     Navigator.of(context).pop();
+                                    // final newValue = await Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) => NextMatchItem(
+                                    //     isNewMatch: widget.isNewMatch,
+                                    //   ),
+                                    // ));
+                                    // setState(() {
+                                    //   widget.isNewMatch = newValue;
+                                    // });
                                   },
+
+                                  // onPressed: () {
+
+                                  //   context
+                                  //       .read<PredictedMatchProvider>()
+                                  //       .removeMatch(predictedMatch);
+
+                                  //   Navigator.of(context).pop();
+                                  // },
                                   child: const Text(
                                     'Tak',
                                     style: TextStyle(

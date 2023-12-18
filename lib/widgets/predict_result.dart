@@ -1,7 +1,7 @@
 import 'dart:convert';
-// import 'package:bet_app/widgets/predicted_item.dart';
-// import 'package:bet_app/widgets/predicted_list.dart';
 import 'package:bet_app/provider/predicted_match_provider.dart';
+import 'package:bet_app/widgets/next_match_item.dart';
+import 'package:bet_app/widgets/next_match_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +17,7 @@ class PredictResult extends StatefulWidget {
     required this.teamAwayLogo,
     required this.matchTime,
     required this.matchId,
+    required bool isNewMatch,
   });
 
   final String teamHomeName;
@@ -27,13 +28,15 @@ class PredictResult extends StatefulWidget {
   final int matchId;
 
   @override
-  State<PredictResult> createState() => _PredictResultItemState();
+  State<PredictResult> createState() => _PredictResultState();
 }
 
-class _PredictResultItemState extends State<PredictResult> {
+class _PredictResultState extends State<PredictResult> {
   int? _resultHome;
   int? _resultAway;
+  bool _isNewMatch = true;
   final _formKey = GlobalKey<FormState>();
+  var returndata = "empty";
 
   void _saveResultPrediction() async {
     if (_formKey.currentState!.validate()) {
@@ -65,7 +68,9 @@ class _PredictResultItemState extends State<PredictResult> {
       if (!context.mounted) {
         return;
       }
-
+      setState(() {
+        _isNewMatch = !_isNewMatch;
+      });
       Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
         {
           'teamHomeName': widget.teamHomeName,
@@ -75,22 +80,21 @@ class _PredictResultItemState extends State<PredictResult> {
           'teamAwayLogo': widget.teamAwayLogo,
           'teamAwayGoal': _resultAway,
           'matchTime': widget.matchTime,
-          'matchId': widget.matchId,
+          'isNewMatch': _isNewMatch,
         },
       );
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Mecz został dodany'),
         ),
       );
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(_isNewMatch);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final predictedMatchList =
-        context.watch<PredictedMatchProvider>().predictedMatchList;
     return Scaffold(
       appBar: AppBar(),
       body: Center(
