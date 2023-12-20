@@ -8,27 +8,33 @@ import 'package:flutter/material.dart';
 class NextMatchList extends StatelessWidget {
   const NextMatchList({super.key, required this.matches});
   final List<SoccerMatch> matches;
-
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      const DataPicker(),
+      // const DataPicker(),
+      // const Text(
+      //   'Wybierz ligę',
+      //   style: TextStyle(
+      //     fontSize: 18,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      // ),
       const Text(
-        'Wybierz ligę',
+        'Mistrzostwa Europy 2024 - kwalifikacje',
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),
 
-      Text(
-        "",
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      const SizedBox(height: 10),
+      // Text(
+      //   "",
+      //   style: TextStyle(
+      //     fontSize: 18,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      // ),
+      // const SizedBox(height: 10),
       Expanded(
         flex: 5,
         child: Padding(

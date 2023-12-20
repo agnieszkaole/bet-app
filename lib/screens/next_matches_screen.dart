@@ -21,7 +21,7 @@ class _NextMatchesScreenState extends State<NextMatchesScreen> {
 
   _getData() async {
     return await SoccerApi()
-        .getMatches('', league: '960', season: "2023", status: 'ns-tbd');
+        .getMatches('', league: '110', season: "2023", status: 'ns-tbd');
     // .getMatches('', league: '2', season: "2023", status: '');
   }
 

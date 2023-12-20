@@ -1,12 +1,8 @@
 import 'package:bet_app/screens/groups_screen.dart';
 import 'package:bet_app/screens/next_matches_screen.dart';
 import 'package:bet_app/screens/predicted_screen.dart';
-import 'package:bet_app/screens/prev_matches_screen.dart';
+import 'package:bet_app/screens/select_criteria_screen.dart';
 import 'package:bet_app/widgets/main_drawer.dart';
-import 'package:bet_app/widgets/next_match_list.dart';
-import 'package:bet_app/widgets/predicted_item.dart';
-import 'package:bet_app/widgets/predicted_list.dart';
-
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
 
   List<Widget> pages = [
+    // const SelectCriteriaScreen(),
     const NextMatchesScreen(),
     const PredictedScreen(),
     const GroupsScreen()
@@ -52,6 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           currentIndex: currentPage,
           items: const [
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.settings),
+            //   label: 'Kryteria',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.sports_soccer),
               label: 'Mecze',
@@ -72,4 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+class SelectLeagueScreen {
+  const SelectLeagueScreen();
 }

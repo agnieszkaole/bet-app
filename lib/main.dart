@@ -1,8 +1,5 @@
 import 'package:bet_app/provider/predicted_match_provider.dart';
 import 'package:bet_app/screens/home_screen.dart';
-import 'package:bet_app/screens/next_matches_screen.dart';
-import 'package:bet_app/screens/predicted_screen.dart';
-import 'package:bet_app/widgets/next_match_item.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

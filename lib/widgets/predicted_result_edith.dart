@@ -1,48 +1,32 @@
 import 'dart:convert';
-import 'package:bet_app/models/soccermodel.dart';
 import 'package:bet_app/provider/predicted_match_provider.dart';
-import 'package:bet_app/widgets/next_match_item.dart';
-import 'package:bet_app/widgets/next_match_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-class PredictResult extends StatefulWidget {
-  const PredictResult({
-    super.key,
-    required this.teamHomeName,
-    required this.teamAwayName,
-    required this.teamHomeLogo,
-    required this.teamAwayLogo,
-    required this.matchTime,
-    required this.matchId,
-    required this.match,
-    required this.leagueName,
-    required bool isNewMatch,
-  });
+final formatter = DateFormat.yMd();
 
-  final String teamHomeName;
-  final String teamAwayName;
-  final String teamHomeLogo;
-  final String teamAwayLogo;
-  final String matchTime;
-  final int matchId;
-  final SoccerMatch match;
-  final String leagueName;
+class PredictedResultEdith extends StatefulWidget {
+  PredictedResultEdith({
+    super.key,
+    // required this.predictedMatch,
+  });
+  // Map<String, dynamic> predictedMatch;
+
   @override
-  State<PredictResult> createState() => _PredictResultState();
+  State<PredictedResultEdith> createState() => _PredictedResultEdithState();
 }
 
-class _PredictResultState extends State<PredictResult> {
+class _PredictedResultEdithState extends State<PredictedResultEdith> {
+  // final _titleController = TextEditingController();
   int? _resultHome;
   int? _resultAway;
-  bool _isNewMatch = true;
-
   final _formKey = GlobalKey<FormState>();
 
-  void _savePredictResult() async {
+  void _saveEdithResultPrediction() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -56,13 +40,13 @@ class _PredictResultState extends State<PredictResult> {
         },
         body: json.encode(
           {
-            'matchId': widget.matchId,
+            // 'matchId': widget.matchId,
             'Home': {
-              "teamHomeName": widget.teamHomeName,
+              // "teamHomeName": widget.teamHomeName,
               "teamHomePrediction": _resultHome,
             },
             'Away': {
-              "teamAwayName": widget.teamAwayName,
+              // "teamAwayName": widget.teamAwayName,
               "teamAwayPrediction": _resultAway,
             },
           },
@@ -72,31 +56,30 @@ class _PredictResultState extends State<PredictResult> {
       if (!context.mounted) {
         return;
       }
-      setState(() {
-        _isNewMatch = !_isNewMatch;
-      });
-      Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
-        {
-          'teamHomeName': widget.teamHomeName,
-          'teamHomeLogo': widget.teamHomeLogo,
-          'teamHomeGoal': _resultHome,
-          'teamAwayName': widget.teamAwayName,
-          'teamAwayLogo': widget.teamAwayLogo,
-          'teamAwayGoal': _resultAway,
-          'matchTime': widget.matchTime,
-          'isNewMatch': _isNewMatch,
-          'matchId': widget.matchId,
-          'leagueName': widget.leagueName
-        },
-      );
+      final predictedMatchList =
+          context.watch<PredictedMatchProvider>().predictedMatchList;
+
+      for (var i = 0; i < predictedMatchList.length; i++) {
+        Map<String, dynamic> predictedMatch = predictedMatchList[i];
+        if (_resultHome != predictedMatch['teamHomeGoal'] ||
+            _resultAway != predictedMatch['awayHomeGoal']) {
+          Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
+            {
+              'teamHomeGoal': _resultHome,
+              'teamAwayGoal': _resultAway,
+              // 'matchId': widget.matchId
+            },
+          );
+        }
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Mecz został dodany'),
+          content: Text('Wynik został edytowany'),
         ),
       );
-      Navigator.of(context).pop(_isNewMatch);
     }
+    // Navigator.of(context).pop();
   }
 
   @override
@@ -108,11 +91,11 @@ class _PredictResultState extends State<PredictResult> {
           padding: const EdgeInsets.all(5),
           child: Form(
             key: _formKey,
-             autovalidateMode: AutovalidateMode.onUserInteraction,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
                 const Text(
-                  'Podaj wynik',
+                  'Edytuj wynik',
                   style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.center,
                 ),
@@ -131,7 +114,7 @@ class _PredictResultState extends State<PredictResult> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  widget.teamHomeName,
+                                  ' widget.predictedMatch',
                                   style: const TextStyle(fontSize: 17),
                                   softWrap: true,
                                   maxLines: 3,
@@ -140,7 +123,7 @@ class _PredictResultState extends State<PredictResult> {
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
-                                    imageUrl: widget.teamHomeLogo,
+                                    imageUrl: "fthfdh",
                                     fadeInDuration: Duration(milliseconds: 50),
                                     // placeholder: (context, url) =>
                                     //     const CircularProgressIndicator(),
@@ -167,7 +150,6 @@ class _PredictResultState extends State<PredictResult> {
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(2),
                                 ],
-
                                 autofocus: false,
                                 style: const TextStyle(
                                   color: Colors.white,
@@ -203,7 +185,7 @@ class _PredictResultState extends State<PredictResult> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  _resultHome = int.parse(value!);
+                                  // _resultHome = int.parse(value!);
                                 },
                               ),
                             ],
@@ -280,7 +262,7 @@ class _PredictResultState extends State<PredictResult> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  _resultAway = int.parse(value!);
+                                  // _resultAway = int.parse(value!);
                                 },
                               ),
                             ],
@@ -293,7 +275,7 @@ class _PredictResultState extends State<PredictResult> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  widget.teamAwayName,
+                                  "fghfghfg",
                                   style: const TextStyle(fontSize: 17),
                                   softWrap: true,
                                   maxLines: 3,
@@ -302,7 +284,7 @@ class _PredictResultState extends State<PredictResult> {
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
-                                    imageUrl: widget.teamAwayLogo,
+                                    imageUrl: "fghfghfghfgh",
                                     fadeInDuration: Duration(milliseconds: 50),
                                     // placeholder: (context, url) =>
                                     //     const CircularProgressIndicator(),
@@ -317,51 +299,15 @@ class _PredictResultState extends State<PredictResult> {
                     ),
                   ],
                 ),
-
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Zwycięstwo'),
-                //     ),
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Remis'),
-                //     ),
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Zwycięstwo'),
-                //     ),
-                //   ],
-                // ),
-
+                const SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: _savePredictResult,
+                    onPressed: _saveEdithResultPrediction,
+                    // onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       foregroundColor:
                           Colors.white, //change background color of button

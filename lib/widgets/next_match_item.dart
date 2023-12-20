@@ -1,15 +1,14 @@
 import 'package:bet_app/models/soccermodel.dart';
-import 'package:bet_app/provider/predicted_match_provider.dart';
+
 import 'package:bet_app/widgets/predict_result.dart';
-import 'package:bet_app/widgets/predicted_list.dart';
+import 'package:bet_app/widgets/predicted_item.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class NextMatchItem extends StatefulWidget {
   NextMatchItem({required this.match, super.key});
   final SoccerMatch match;
-  bool isNewMatch = true;
 
   @override
   State<NextMatchItem> createState() => _NextMatchItemState();
@@ -19,16 +18,10 @@ class _NextMatchItemState extends State<NextMatchItem>
     with AutomaticKeepAliveClientMixin<NextMatchItem> {
   @override
   bool get wantKeepAlive => true;
-
+  bool isNewMatch = true;
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    final predictedMatchList =
-        context.watch<PredictedMatchProvider>().predictedMatchList;
-    final predictedMatch =
-        predictedMatchList.map((predictedMatch) => predictedMatch);
-    print(predictedMatch);
 
     int matchId = widget.match.fixture.id;
     var homeName = widget.match.home.name;
@@ -36,12 +29,10 @@ class _NextMatchItemState extends State<NextMatchItem>
     var awayName = widget.match.away.name;
     var awayLogo = widget.match.away.logoUrl;
     var matchTime = widget.match.fixture.formattedDate;
-
+    var leagueName = widget.match.league.name;
     return Container(
       child: SizedBox(
-        // height: 220,
         child: Card(
-          // color: const Color.fromARGB(255, 43, 43, 43),
           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           clipBehavior: Clip.hardEdge,
           shape: RoundedRectangleBorder(
@@ -87,7 +78,6 @@ class _NextMatchItemState extends State<NextMatchItem>
                         width: 36.0,
                         height: 36.0,
                       ),
-
                       //  Image.network(
                       //   homeLogo,
                       //   width: 36.0,
@@ -113,7 +103,6 @@ class _NextMatchItemState extends State<NextMatchItem>
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         width: 36.0,
-                        // height: 36.0,
                       ),
                     ),
                     Expanded(
@@ -129,13 +118,13 @@ class _NextMatchItemState extends State<NextMatchItem>
                   ],
                 ),
                 Container(
-                  // height: 130,
                   margin: const EdgeInsets.only(top: 15),
-                  child: widget.isNewMatch
+                  child: (isNewMatch)
                       ? ElevatedButton(
                           onPressed: () async {
-                            final newValue = await Navigator.of(context)
-                                .push(MaterialPageRoute(
+                            final newValueIsNewMatch =
+                                await Navigator.of(context)
+                                    .push(MaterialPageRoute(
                               builder: (context) => PredictResult(
                                 teamHomeName: homeName,
                                 teamAwayName: awayName,
@@ -143,11 +132,25 @@ class _NextMatchItemState extends State<NextMatchItem>
                                 teamAwayLogo: awayLogo,
                                 matchTime: matchTime,
                                 matchId: matchId,
-                                isNewMatch: widget.isNewMatch,
+                                isNewMatch: isNewMatch,
+                                match: widget.match,
+                                leagueName: leagueName,
                               ),
                             ));
+
+                            // final newValueRemovedFromPredicted =
+                            //     await Navigator.of(context)
+                            //         .push(MaterialPageRoute(
+                            //   builder: (context) => PredictedItem(
+                            //     removedFromPredicted: removedFromPredicted,
+                            //     predictedMatch: const {},
+                            //   ),
+                            // ));
+
                             setState(() {
-                              widget.isNewMatch = newValue;
+                              isNewMatch = newValueIsNewMatch;
+                              // removedFromPredicted =
+                              //     newValueRemovedFromPredicted;
                             });
                           },
                           style: ElevatedButton.styleFrom(
@@ -164,13 +167,8 @@ class _NextMatchItemState extends State<NextMatchItem>
                       : OutlinedButton(
                           onPressed: null,
                           style: ElevatedButton.styleFrom(
-                            // disabledBackgroundColor:
-                            //     const Color.fromARGB(193, 77, 77, 77),
                             disabledForegroundColor:
                                 Color.fromARGB(193, 206, 206, 206),
-                            // shape: RoundedRectangleBorder(
-                            //   borderRadius: BorderRadius.circular(25),
-                            // ),
                             elevation: 3.0,
                           ),
                           child: const Text('Dodano do zakładów'),

@@ -11,7 +11,7 @@ class PredictedScreen extends StatefulWidget {
 class _PredictedScreenState extends State<PredictedScreen> {
   @override
   Widget build(BuildContext context) {
-    return PredictedList();
+    return const PredictedList();
   }
 }
 
