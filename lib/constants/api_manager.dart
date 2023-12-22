@@ -5,9 +5,9 @@ import 'package:http/http.dart';
 
 class SoccerApi {
   static const _baseUrl = "https://v3.football.api-sports.io/fixtures?";
-  static const liveApi = '$_baseUrl?live=all';
-  static const prevApi =
-      '$_baseUrl?last=20&status=ft-aet-pen&league=960&season=2023';
+  // static const liveApi = '$_baseUrl?live=all';
+  // static const prevApi =
+  //     '$_baseUrl?last=20&status=ft-aet-pen&league=960&season=2023';
   // static const byDateApi = '$_baseUrl?status=ns-tbd&date=;
 
   static const headers = {
@@ -15,14 +15,15 @@ class SoccerApi {
     'x-rapidapi-key': "210d8f8075e74dbbfc3f783d1b574c19",
   };
 
-  Future getMatches(date, {league, season, status}) async {
+  Future getMatches(date, {league, season, status, live}) async {
     String? dateUrl = date == "" ? "" : "date=$date";
     String? leagueUrl = league == "" ? "" : '&league=$league';
     String? seasonUrl = season == "" ? "" : '&season=$season';
     String? statusUrl = status == "" ? "" : '&status=$status';
+    String? liveUrl = live == "" ? "" : '&live=$live';
 
     Response res = await get(
-        Uri.parse('$_baseUrl$dateUrl$leagueUrl$seasonUrl$statusUrl'),
+        Uri.parse('$_baseUrl$dateUrl$leagueUrl$seasonUrl$statusUrl$liveUrl'),
         headers: headers);
 
     if (res.statusCode == 200) {

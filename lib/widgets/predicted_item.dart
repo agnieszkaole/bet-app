@@ -1,11 +1,6 @@
-import 'package:bet_app/models/soccermodel.dart';
-import 'package:bet_app/provider/predicted_match_provider.dart';
-import 'package:bet_app/widgets/predicted_item_edith.dart';
-import 'package:bet_app/widgets/next_match_item.dart';
 import 'package:bet_app/widgets/predicted_result_edith.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PredictedItem extends StatefulWidget {
   PredictedItem({
@@ -26,6 +21,7 @@ class _PredictedItemState extends State<PredictedItem> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
+          // color: Color.fromARGB(82, 40, 122, 43),
           border:
               Border.all(width: 1, color: Color.fromARGB(162, 145, 145, 145)),
           borderRadius: const BorderRadius.all(Radius.circular(10))),
@@ -113,10 +109,22 @@ class _PredictedItemState extends State<PredictedItem> {
             const SizedBox(
               height: 10,
             ),
+            Text('Wynik meczu:'),
+            Text(
+              "? - ?",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 22.0,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             SizedBox(
               width: 120,
               height: 35,
-              child: (DateTime.now().hour > 22)
+              child: (DateTime.now().hour > 24)
                   ? null
                   : TextButton(
                       style: TextButton.styleFrom(

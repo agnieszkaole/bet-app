@@ -196,7 +196,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                     const Padding(
                       padding: EdgeInsets.all(5.0),
                       child: Text(
-                        ":",
+                        "-",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,

@@ -108,7 +108,7 @@ class _PredictResultState extends State<PredictResult> {
           padding: const EdgeInsets.all(5),
           child: Form(
             key: _formKey,
-             autovalidateMode: AutovalidateMode.onUserInteraction,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
                 const Text(
@@ -167,7 +167,6 @@ class _PredictResultState extends State<PredictResult> {
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(2),
                                 ],
-
                                 autofocus: false,
                                 style: const TextStyle(
                                   color: Colors.white,
@@ -214,7 +213,7 @@ class _PredictResultState extends State<PredictResult> {
                     const Padding(
                       padding: EdgeInsets.all(5.0),
                       child: Text(
-                        ":",
+                        "-",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,

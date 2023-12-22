@@ -23,17 +23,13 @@ class _PredictedListState extends State<PredictedList> {
     return (predictedMatchList.isEmpty)
         ? const Center(
             child: Text(
-              'Nie dodano żadnych zakładów',
-              style: TextStyle(fontSize: 16),
+              'Nie dodano żadnych zakładów.',
+              style: TextStyle(fontSize: 20),
             ),
           )
         : Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // const Text(
-              //   'Edycja jest możliwa tylko do 2 godzin przed meczem',
-              //   style: TextStyle(fontSize: 13),
-              // ),
-              const SizedBox(height: 15),
               Expanded(
                 child: ListView.builder(
                   itemCount: predictedMatchList.length,

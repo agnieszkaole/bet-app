@@ -1,7 +1,8 @@
 import 'package:bet_app/screens/groups_screen.dart';
-import 'package:bet_app/screens/next_matches_screen.dart';
 import 'package:bet_app/screens/predicted_screen.dart';
+import 'package:bet_app/screens/ranking_screen.dart';
 import 'package:bet_app/screens/select_criteria_screen.dart';
+import 'package:bet_app/services/get_api_data.dart';
 import 'package:bet_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
 
   List<Widget> pages = [
-    // const SelectCriteriaScreen(),
+    const SelectCriteriaScreen(),
     const NextMatchesScreen(),
     const PredictedScreen(),
+    const RankingScreen(),
     const GroupsScreen()
   ];
 
@@ -49,10 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           currentIndex: currentPage,
           items: const [
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.settings),
-            //   label: 'Kryteria',
-            // ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.sports_score),
+              label: 'Liga',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.sports_soccer),
               label: 'Mecze',
@@ -64,6 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Zakłady',
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.trending_up),
+              label: 'Ranking',
+              //
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.group),
               label: 'Grupy',
               //
@@ -73,8 +80,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class SelectLeagueScreen {
-  const SelectLeagueScreen();
 }

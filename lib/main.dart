@@ -1,9 +1,10 @@
 import 'package:bet_app/provider/predicted_match_provider.dart';
 import 'package:bet_app/screens/home_screen.dart';
+import 'package:bet_app/screens/login_screen.dart';
+import 'package:bet_app/screens/signup_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runApp(
@@ -22,12 +23,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'hkhjkjh',
-        theme: ThemeData.dark(
+        title: 'Betapp',
+        theme: ThemeData(
           useMaterial3: true,
           // colorScheme: ColorScheme.fromSeed(
-          // brightness: Brightness.dark,
-          // seedColor: Colors.grey,
+          brightness: Brightness.dark,
+          // seedColor: Color.fromARGB(255, 39, 176, 46),
           // ),
           // textTheme: GoogleFonts.latoTextTheme(),
         ),
@@ -39,6 +40,8 @@ class MyApp extends StatelessWidget {
         // }
         // ,
         home: const HomeScreen(),
+        // home: const SignupScreen(),
+        // home: const LoginScreen(),
       ),
     );
   }
