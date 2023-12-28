@@ -30,6 +30,13 @@ class _PredictedListState extends State<PredictedList> {
         : Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const Text(
+                'Wytypowane mecze',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: predictedMatchList.length,

@@ -1,10 +1,10 @@
 import 'package:bet_app/models/soccermodel.dart';
-import 'package:bet_app/provider/predicted_match_provider.dart';
-import 'package:bet_app/widgets/data_picker.dart';
+// import 'package:bet_app/provider/predicted_match_provider.dart';
+// import 'package:bet_app/widgets/data_picker.dart';
 import 'package:bet_app/widgets/next_match_item.dart';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class NextMatchList extends StatefulWidget {
   const NextMatchList({super.key, required this.matches});
@@ -15,11 +15,11 @@ class NextMatchList extends StatefulWidget {
 }
 
 class _NextMatchListState extends State<NextMatchList> {
-  final test = true;
+  final isMatchesExist = true;
   bool? isSelected;
   @override
   Widget build(BuildContext context) {
-    return (!test)
+    return (!isMatchesExist)
         ? const Center(
             child: Text(
               'Nie znaleziono żadnych meczów.\nZmień kryteria wyszukiwania',
@@ -46,7 +46,7 @@ class _NextMatchListState extends State<NextMatchList> {
 
               // const DataPicker(),
               const Text(
-                'Mistrzostwa Europy 2024 ',
+                'Wybrana liga - nazwa',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -59,9 +59,7 @@ class _NextMatchListState extends State<NextMatchList> {
                   child: ListView.builder(
                     itemCount: widget.matches.length,
                     itemBuilder: (context, index) {
-                      return
-                          // key: ValueKey(matches[index]),
-                          NextMatchItem(
+                      return NextMatchItem(
                         match: widget.matches[index],
                       );
                     },

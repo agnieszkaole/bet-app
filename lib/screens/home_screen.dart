@@ -1,24 +1,42 @@
+import 'package:bet_app/models/soccermodel.dart';
 import 'package:bet_app/screens/groups_screen.dart';
 import 'package:bet_app/screens/predicted_screen.dart';
 import 'package:bet_app/screens/ranking_screen.dart';
 import 'package:bet_app/screens/select_criteria_screen.dart';
 import 'package:bet_app/services/get_api_data.dart';
 import 'package:bet_app/widgets/main_drawer.dart';
+import 'package:bet_app/widgets/next_match_list.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static String? args;
+
+  // @override
+  // void initState() {
+  //   args = "";
+  //   super.initState();
+  // }
+
+  @override
+  void didChangeDependencies() {
+    args = ModalRoute.of(context)!.settings.arguments as String?;
+    super.didChangeDependencies();
+  }
+
   int currentPage = 0;
 
   List<Widget> pages = [
     const SelectCriteriaScreen(),
-    const NextMatchesScreen(),
+    GetApiData(leagueApi: args),
     const PredictedScreen(),
     const RankingScreen(),
     const GroupsScreen()
@@ -30,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Betapp',
+            'Bet',
             style: TextStyle(
               fontSize: 25,
             ),
