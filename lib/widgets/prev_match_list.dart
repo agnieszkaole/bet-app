@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:bet_app/widgets/prev_match_item.dart';
-import 'package:bet_app/widgets/xgoalstat.dart';
-import 'package:bet_app/widgets/xmatchstat.dart';
 import 'package:flutter/material.dart';
-import 'package:bet_app/widgets/next_match_item.dart';
 
 Widget prevMatchList(List allmatches) {
   return Column(

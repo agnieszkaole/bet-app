@@ -15,6 +15,7 @@ class PredictedList extends StatefulWidget {
 }
 
 class _PredictedListState extends State<PredictedList> {
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     final predictedMatchList =
@@ -37,11 +38,22 @@ class _PredictedListState extends State<PredictedList> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(height: 10),
               Expanded(
-                child: ListView.builder(
-                  itemCount: predictedMatchList.length,
-                  itemBuilder: (context, index) => PredictedItem(
-                    predictedMatch: predictedMatchList[index],
+                child: RawScrollbar(
+                  // thumbVisibility: true,
+                  trackVisibility: true,
+                  trackColor: Color.fromARGB(43, 40, 122, 43),
+                  thumbColor: const Color.fromARGB(255, 40, 122, 43),
+                  controller: _scrollController,
+                  radius: const Radius.circular(10),
+                  crossAxisMargin: 2,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: predictedMatchList.length,
+                    itemBuilder: (context, index) => PredictedItem(
+                      predictedMatch: predictedMatchList[index],
+                    ),
                   ),
                 ),
               ),

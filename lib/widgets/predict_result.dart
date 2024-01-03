@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:bet_app/models/soccermodel.dart';
 import 'package:bet_app/provider/predicted_match_provider.dart';
-import 'package:bet_app/widgets/next_match_item.dart';
-import 'package:bet_app/widgets/next_match_list.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

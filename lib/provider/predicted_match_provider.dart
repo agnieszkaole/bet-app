@@ -8,20 +8,13 @@ class PredictedMatchProvider extends ChangeNotifier {
         (predictedMatch) => predictedMatch['matchId'] != match['matchId'])) {
       predictedMatchList.add(match);
       notifyListeners();
-      print(predictedMatchList);
+      // print(predictedMatchList);
     }
-
-    // predictedMatchList.add(match);
-    // notifyListeners();
-    // print(predictedMatchList.length);
   }
 
   void removeMatch(Map<String, dynamic> match) {
     predictedMatchList.remove(match);
     notifyListeners();
-    print(predictedMatchList.length);
+    // print(predictedMatchList.length);
   }
 }
-    // predictedMatchList.add(match);
-    // notifyListeners();
-    // print(predictedMatchList.length);

@@ -1,4 +1,3 @@
-import "package:bet_app/widgets/predicted_list.dart";
 import "package:flutter/material.dart";
 
 class GroupsScreen extends StatefulWidget {

@@ -1,3 +1,4 @@
+import "package:bet_app/widgets/main_drawer.dart";
 import "package:bet_app/widgets/predicted_list.dart";
 import "package:flutter/material.dart";
 
@@ -11,7 +12,17 @@ class PredictedScreen extends StatefulWidget {
 class _PredictedScreenState extends State<PredictedScreen> {
   @override
   Widget build(BuildContext context) {
-    return const PredictedList();
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Bet&win',
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          ),
+        ),
+        drawer: const MainDrawer(),
+        body: const PredictedList());
   }
 }
 

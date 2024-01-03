@@ -1,7 +1,6 @@
 import 'package:bet_app/models/soccermodel.dart';
 
 import 'package:bet_app/widgets/predict_result.dart';
-import 'package:bet_app/widgets/predicted_item.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,13 @@ class _NextMatchItemState extends State<NextMatchItem>
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
+                Text(
+                  leagueName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

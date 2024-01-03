@@ -1,12 +1,19 @@
 import "dart:core";
 import "package:bet_app/constants/api_manager.dart";
+import "package:bet_app/models/soccermodel.dart";
+import "package:bet_app/provider/bottom_navigation_provider.dart";
+import "package:bet_app/provider/next_matches_provider.dart";
+import "package:bet_app/screens/home_screen.dart";
 import "package:bet_app/widgets/next_match_list.dart";
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 class GetApiData extends StatefulWidget {
-  GetApiData({super.key, required this.leagueApi});
-
-  final String? leagueApi;
+  const GetApiData({
+    super.key,
+    this.leagueNumber,
+  });
+  final String? leagueNumber;
 
   @override
   State<GetApiData> createState() => _GetApiDataState();
@@ -14,25 +21,50 @@ class GetApiData extends StatefulWidget {
 
 class _GetApiDataState extends State<GetApiData> {
   late Future dataFuture;
-  // String? leagueNumber;
   String? statusApi = 'ns-tbd';
-  String? seasonApi = '2023';
-  // String? leagueApi = '2';
-  // String? leagueApi = "";
+  String? seasonApi;
+  String? leagueApi;
   String? liveApi = '';
-
-  _getData() async {
-    return await SoccerApi().getMatches('',
-        league: widget.leagueApi,
-        season: seasonApi,
-        status: statusApi,
-        live: liveApi);
-  }
 
   @override
   void initState() {
     super.initState();
     dataFuture = _getData();
+  }
+
+  // Future _getData() async {
+  //   return await SoccerApi().getMatches(
+  //     '',
+  //     league: widget.leagueNumber,
+  //     season: seasonApi,
+  //     status: statusApi,
+  //     live: liveApi,
+  //   );
+  // }
+
+  Future<List<SoccerMatch>> _getData() async {
+    // await Future.delayed(Duration(seconds: 3));
+    final season1Data = await SoccerApi().getMatches(
+      '',
+      league: widget.leagueNumber,
+      season: '2023',
+      status: statusApi,
+      live: liveApi,
+    );
+
+    final season2Data = await SoccerApi().getMatches(
+      '',
+      league: widget.leagueNumber,
+      season: '2024',
+      status: statusApi,
+      live: liveApi,
+    );
+
+    List<SoccerMatch> mergedData = [];
+    mergedData.addAll(season1Data);
+    mergedData.addAll(season2Data);
+
+    return mergedData;
   }
 
   @override
@@ -52,33 +84,15 @@ class _GetApiDataState extends State<GetApiData> {
               return Text('$error',
                   style: const TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
-            } else if (snapshot.data!.isEmpty) {
-              return Expanded(
-                child: Container(
-                  width: double.infinity,
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Brak meczów do wyświetlenia.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        "Nie została wybrana liga  lub \n nie są rozgrywane mecze w wybranej kategorii.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              );
             } else if (snapshot.hasData) {
               if (statusApi == 'ns-tbd') {
-                // print('przekazane argumenty: $arguments');
-                return NextMatchList(matches: snapshot.data!);
+                Provider.of<NextMatchesProvider>(context, listen: false)
+                    .clearMatches();
+                Provider.of<NextMatchesProvider>(context, listen: false)
+                    .saveMatches(snapshot.data!);
+
+                return HomeScreen();
+                // return const SizedBox();
               }
             }
           }

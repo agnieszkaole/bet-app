@@ -16,7 +16,7 @@ const List<Map<String, dynamic>> leagueNames = [
   },
   {
     "id": 4,
-    "name": "Mistrzosta Europy",
+    "name": "Mistrzostwa Europy",
     "number": 4,
   },
   {

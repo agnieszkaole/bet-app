@@ -1,10 +1,10 @@
+import 'package:bet_app/provider/bottom_navigation_provider.dart';
+import 'package:bet_app/provider/next_matches_provider.dart';
 import 'package:bet_app/provider/predicted_match_provider.dart';
 import 'package:bet_app/screens/home_screen.dart';
-import 'package:bet_app/screens/select_criteria_screen.dart';
-import 'package:bet_app/services/get_api_data.dart';
-import 'package:bet_app/widgets/next_match_list.dart';
-// import 'package:bet_app/screens/login_screen.dart';
-// import 'package:bet_app/screens/signup_screen.dart';
+
+import 'package:bet_app/screens/login_screen.dart';
+import 'package:bet_app/screens/signup_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => PredictedMatchProvider()),
+        ChangeNotifierProvider(create: (context) => NextMatchesProvider()),
+        ChangeNotifierProvider(create: (context) => BottomNavigationProvider()),
       ],
       child: ConstrainedBox(
         constraints: const BoxConstraints(
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
           ),
           routes: {
             // '/getApiData': (context) => GetApiData(),
-            '/home': (context) => HomeScreen(),
+            // '/home': (context) => HomeScreen(),
             // '/nextMatchList': (context) => NextMatchList(
             //       matches: [],
             //     ),
