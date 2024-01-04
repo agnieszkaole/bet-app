@@ -91,7 +91,7 @@ class _PredictResultState extends State<PredictResult> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Mecz został dodany'),
+          content: Text('Mecz został dodany!'),
         ),
       );
       Navigator.of(context).pop(_isNewMatch);
@@ -118,202 +118,212 @@ class _PredictResultState extends State<PredictResult> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                            width: 130,
-                            // height: 100,
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              width: 130,
+                              // height: 200,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    widget.teamHomeName,
+                                    style: const TextStyle(fontSize: 17),
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.teamHomeLogo,
+                                      fadeInDuration:
+                                          Duration(milliseconds: 50),
+                                      // placeholder: (context, url) =>
+                                      //     const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      width: 45.0,
+                                    ),
+                                    // child: Image.network(
+                                    //   widget.teamHomeLogo,
+                                    //   width: 45.0,
+                                    //   // height: 36.0,
+                                    // ),
+                                  ),
+                                ],
+                              )),
+                          SizedBox(
+                            width: 40,
+                            height: 80,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  widget.teamHomeName,
-                                  style: const TextStyle(fontSize: 17),
-                                  softWrap: true,
-                                  maxLines: 3,
-                                  textAlign: TextAlign.center,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.teamHomeLogo,
-                                    fadeInDuration: Duration(milliseconds: 50),
-                                    // placeholder: (context, url) =>
-                                    //     const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                    width: 45.0,
+                                TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(2),
+                                  ],
+                                  autofocus: false,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
                                   ),
-                                  // child: Image.network(
-                                  //   widget.teamHomeLogo,
-                                  //   width: 45.0,
-                                  //   // height: 36.0,
-                                  // ),
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                    hintText: '?',
+                                    border: const OutlineInputBorder(),
+                                    contentPadding: EdgeInsets.zero,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 40, 122, 43)),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.greenAccent),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide:
+                                          const BorderSide(color: Colors.red),
+                                    ),
+                                  ),
+                                  initialValue: "",
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Wpisz poprawną liczbę';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _resultHome = int.parse(value!);
+                                  },
                                 ),
                               ],
-                            )),
-                        SizedBox(
-                          width: 40,
-                          height: 80,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextFormField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(2),
-                                ],
-                                autofocus: false,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                  hintText: '?',
-                                  border: const OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.zero,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 40, 122, 43)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: Colors.greenAccent),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                  ),
-                                ),
-                                initialValue: "",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Wpisz poprawną liczbę';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _resultHome = int.parse(value!);
-                                },
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text(
-                        "-",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
+                        ],
+                      ),
+                      Container(
+                        width: 14,
+                        child: const Text(
+                          "-",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 40,
-                          height: 80,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextFormField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(2),
-                                ],
-                                autofocus: false,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.zero,
-                                  hintText: '?',
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 40, 122, 43),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.greenAccent,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  // focusedErrorBorder: OutlineInputBorder(
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  //   borderSide: const BorderSide(
-                                  //     color: Colors.red,
-                                  //     width: 2,
-                                  //   ),
-                                  // ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.red,
-                                      width: 2,
-                                    ),
-                                  ),
-                                ),
-                                initialValue: "",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Wpisz poprawn liczbę';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _resultAway = int.parse(value!);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                            width: 130,
-                            height: 130,
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 40,
+                            height: 80,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  widget.teamAwayName,
-                                  style: const TextStyle(fontSize: 17),
-                                  softWrap: true,
-                                  maxLines: 3,
-                                  textAlign: TextAlign.center,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.teamAwayLogo,
-                                    fadeInDuration: Duration(milliseconds: 50),
-                                    // placeholder: (context, url) =>
-                                    //     const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                    width: 45.0,
+                                TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(2),
+                                  ],
+                                  autofocus: false,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
                                   ),
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                    border: const OutlineInputBorder(),
+                                    contentPadding: EdgeInsets.zero,
+                                    hintText: '?',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 40, 122, 43),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Colors.greenAccent,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    // focusedErrorBorder: OutlineInputBorder(
+                                    //   borderRadius: BorderRadius.circular(10),
+                                    //   borderSide: const BorderSide(
+                                    //     color: Colors.red,
+                                    //     width: 2,
+                                    //   ),
+                                    // ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                        width: 2,
+                                      ),
+                                    ),
+                                  ),
+                                  initialValue: "",
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Wpisz poprawn liczbę';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _resultAway = int.parse(value!);
+                                  },
                                 ),
                               ],
-                            )),
-                      ],
-                    ),
-                  ],
+                            ),
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              width: 130,
+                              // height: 130,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    widget.teamAwayName,
+                                    style: const TextStyle(fontSize: 17),
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.teamAwayLogo,
+                                      fadeInDuration:
+                                          Duration(milliseconds: 50),
+                                      // placeholder: (context, url) =>
+                                      //     const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      width: 45.0,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 // Row(
@@ -354,7 +364,7 @@ class _PredictResultState extends State<PredictResult> {
                 //     ),
                 //   ],
                 // ),
-
+                const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   height: 50,

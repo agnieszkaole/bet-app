@@ -27,6 +27,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     setState(() {
       selectedLeagueNumber = newLeagueNumber;
     });
+    // fetchDataForNewLeague(newLeagueNumber);
     GetApiData getApiDataScreen =
         GetApiData(leagueNumber: selectedLeagueNumber);
     Navigator.push(
@@ -36,24 +37,19 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     // GetApiData(leagueNumber: selectedLeagueNumber);
   }
 
-  void navigateToNextMatchList(String leagueName) {
+  void navigateToNextMatchList(String leagueName, String leagueLogo) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => NextMatchList(leagueName: leagueName),
+      builder: (context) =>
+          NextMatchList(leagueName: leagueName, leagueLogo: leagueLogo),
     ));
   }
-
-  // void onTapLeague(String leagueNumber) {
-  //   setState(() {
-  //     selectedLeagueNumber = leagueNumber;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Bet&win',
+          'Bet',
           style: TextStyle(
             fontSize: 25,
           ),
@@ -63,47 +59,67 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
       body: Column(
         children: [
           const Text(
-            'Wybierz ligę',
+            'Wybierz ligę do wytypowania',
             style: TextStyle(fontSize: 20),
           ),
           Expanded(
-            child: GridView(
-              padding: const EdgeInsets.all(20),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 3 / 1.5,
-                // childAspectRatio: 5,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 15,
-              ),
+            child: ListView(
+              padding: const EdgeInsets.all(10),
+              // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              // crossAxisCount: 2,
+              // childAspectRatio: 3 / 1.5,
+              // childAspectRatio: 5,
+              // crossAxisSpacing: 10,
+              // mainAxisSpacing: 10,
+              // ),
               children: [
                 for (final league in leagueNames)
-                  Card(
-                    child: InkWell(
-                      onTap: () async {
-                        String leagueNumber = league['number'].toString();
-                        String leagueName = league['name'].toString();
-                        updateLeagueNumber(leagueNumber);
-                        // onTapLeague(leagueNumber);
-                        navigateToNextMatchList(leagueName);
+                  Container(
+                    margin: EdgeInsets.all(4),
+                    child: Card(
+                      color: const Color.fromARGB(255, 40, 122, 43),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 8),
+                        child: InkWell(
+                          onTap: () async {
+                            String leagueNumber = league['number'].toString();
+                            String leagueName = league['name'].toString();
+                            String leagueLogo = league['logo'].toString();
+                            updateLeagueNumber(leagueNumber);
+                            navigateToNextMatchList(leagueName, leagueLogo);
 
-                        // context.read<BottomNavigationProvider>().updateIndex(1);
-                      },
-                      borderRadius: BorderRadius.circular(24),
-                      splashColor: const Color.fromARGB(207, 1, 2, 1),
-                      child: Ink(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          color: cardColor,
-                        ),
-                        child: Center(
-                          child: Text(
-                            league["name"],
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                            textAlign: TextAlign.center,
+                            // context
+                            //     .read<BottomNavigationProvider>()
+                            //     .updateIndex(1);
+                          },
+                          borderRadius: BorderRadius.circular(8),
+                          splashColor: const Color.fromARGB(207, 1, 2, 1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                league["name"],
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                              Container(
+                                width: 60,
+                                height: 60,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  // color: Color.fromARGB(255, 169, 224, 172),
+                                  color: Colors.white,
+                                ),
+                                child: Image.network(
+                                  league['logo'],
+                                  width: 60.0,
+                                  height: 60.0,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -117,9 +133,3 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     );
   }
 }
-  // Navigator.of(
-                          //   context,
-                          // ).pushNamed(
-                          //   '/home',
-                          //   arguments: leagueNumberSelect,
-                          // );

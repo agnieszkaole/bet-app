@@ -1,5 +1,8 @@
 import 'package:bet_app/provider/bottom_navigation_provider.dart';
+import 'package:bet_app/screens/groups_screen.dart';
+import 'package:bet_app/screens/next_matches_screen.dart';
 import 'package:bet_app/screens/predicted_screen.dart';
+import 'package:bet_app/screens/ranking_screen.dart';
 import 'package:bet_app/screens/select_criteria_screen.dart';
 import 'package:bet_app/widgets/main_drawer.dart';
 import 'package:bet_app/widgets/next_match_list.dart';
@@ -16,20 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // static int currentPage = 0;
-
-  // List<Widget> pages = [
-  //   SelectCriteriaScreen(),
-  //   NextMatchList(matches: []),
-  //   const PredictedScreen(),
-  // ];
-
-  // void indexUpdate(int value) {
-  //   setState(() {
-  //     currentPage = value;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     // print(currentPage);
@@ -39,10 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, provider, _) {
             return IndexedStack(
               index: provider.selectedIndex,
-              children: [
+              children: const [
                 SelectCriteriaScreen(),
-                // NextMatchList(matches: []),
-                const PredictedScreen(),
+                PredictedScreen(),
+                RankingScreen(),
+                GroupsScreen(),
               ],
             );
           },
@@ -50,35 +40,32 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar:
             Consumer<BottomNavigationProvider>(builder: (context, provider, _) {
           return BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             currentIndex: provider.selectedIndex,
             onTap: (index) {
               provider.updateIndex(index);
             },
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(Icons.sports_score),
+                icon: Icon(Icons.category_rounded),
                 label: 'Wydarzenia',
               ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.sports_soccer),
-              //   label: 'Mecze',
-              // ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.handshake_outlined,
                 ),
-                label: 'Zakłady',
+                label: 'Twoje typy',
               ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.trending_up),
-              //   label: 'Ranking',
-              //   //
-              // ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.group),
-              //   label: 'Grupy',
-              //   //
-              // ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.trending_up),
+                label: 'Ranking',
+                //
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.group),
+                label: 'Grupy',
+                //
+              ),
             ],
           );
         }),

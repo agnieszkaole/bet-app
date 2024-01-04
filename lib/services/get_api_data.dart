@@ -1,5 +1,5 @@
 import "dart:core";
-import "package:bet_app/constants/api_manager.dart";
+import 'package:bet_app/services/soccer_api_service.dart';
 import "package:bet_app/models/soccermodel.dart";
 import "package:bet_app/provider/bottom_navigation_provider.dart";
 import "package:bet_app/provider/next_matches_provider.dart";
@@ -21,6 +21,7 @@ class GetApiData extends StatefulWidget {
 
 class _GetApiDataState extends State<GetApiData> {
   late Future dataFuture;
+  late Future leagueFuture;
   String? statusApi = 'ns-tbd';
   String? seasonApi;
   String? leagueApi;
@@ -30,20 +31,10 @@ class _GetApiDataState extends State<GetApiData> {
   void initState() {
     super.initState();
     dataFuture = _getData();
+    // leagueFuture = _fetchDataForNewLeague();
   }
 
-  // Future _getData() async {
-  //   return await SoccerApi().getMatches(
-  //     '',
-  //     league: widget.leagueNumber,
-  //     season: seasonApi,
-  //     status: statusApi,
-  //     live: liveApi,
-  //   );
-  // }
-
   Future<List<SoccerMatch>> _getData() async {
-    // await Future.delayed(Duration(seconds: 3));
     final season1Data = await SoccerApi().getMatches(
       '',
       league: widget.leagueNumber,
@@ -64,6 +55,9 @@ class _GetApiDataState extends State<GetApiData> {
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
 
+    Provider.of<NextMatchesProvider>(context, listen: false)
+        .saveMatches(mergedData);
+
     return mergedData;
   }
 
@@ -81,19 +75,27 @@ class _GetApiDataState extends State<GetApiData> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
               final error = snapshot.error;
-              return Text('$error',
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
+              return Center(
+                child: Text('$error',
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20)),
+              );
             } else if (snapshot.hasData) {
-              if (statusApi == 'ns-tbd') {
-                Provider.of<NextMatchesProvider>(context, listen: false)
-                    .clearMatches();
-                Provider.of<NextMatchesProvider>(context, listen: false)
-                    .saveMatches(snapshot.data!);
+              // if (statusApi == 'ns-tbd') {
+              // Future.delayed(const Duration(seconds: 3));
 
-                return HomeScreen();
-                // return const SizedBox();
-              }
+              // Provider.of<NextMatchesProvider>(context, listen: false)
+              //     .clearMatches();
+
+              // Provider.of<NextMatchesProvider>(context, listen: false)
+              //     .saveMatches(snapshot.data!);
+              // Provider.of<NextMatchesProvider>(context, listen: false)
+              //     .saveMatches(snapshot.data!);
+
+              return HomeScreen();
+              // return const SizedBox();
+              // }
             }
           }
           throw Exception('cos jest nie tak');

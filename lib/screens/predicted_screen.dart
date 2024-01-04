@@ -15,7 +15,7 @@ class _PredictedScreenState extends State<PredictedScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Bet&win',
+            'Bet',
             style: TextStyle(
               fontSize: 25,
             ),

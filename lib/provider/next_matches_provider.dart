@@ -2,15 +2,16 @@ import 'package:bet_app/models/soccermodel.dart';
 import 'package:flutter/material.dart';
 
 class NextMatchesProvider extends ChangeNotifier {
-  List<SoccerMatch> nextMatchesList = [];
+  List<SoccerMatch> _nextMatchesList = [];
+  List<SoccerMatch> get nextMatchesList => _nextMatchesList;
 
   void saveMatches(List<SoccerMatch> matches) {
-    nextMatchesList.addAll(matches);
+    _nextMatchesList = matches;
+    notifyListeners();
   }
-  // notifyListeners();
 
   void clearMatches() {
-    nextMatchesList.clear();
-    //   // notifyListeners();
+    _nextMatchesList.clear();
+    notifyListeners();
   }
 }

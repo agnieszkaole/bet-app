@@ -1,3 +1,4 @@
+import "package:bet_app/widgets/main_drawer.dart";
 import "package:flutter/material.dart";
 
 class GroupsScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
             ),
           ],
         ),
+        drawer: MainDrawer(),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -33,14 +35,14 @@ class _GroupsScreenState extends State<GroupsScreen> {
               TextButton(
                 onPressed: () {},
                 child: const Text(
-                  'Maciej i koledzy',
+                  '..........',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
               TextButton(
                 onPressed: () {},
                 child: const Text(
-                  'Maciej i Staś',
+                  '..........',
                   style: TextStyle(fontSize: 16),
                 ),
               ),

@@ -1,3 +1,4 @@
+import "package:bet_app/widgets/main_drawer.dart";
 import "package:flutter/material.dart";
 
 class RankingScreen extends StatefulWidget {
@@ -14,9 +15,10 @@ class _RankingScreenState extends State<RankingScreen> {
         appBar: AppBar(
           title: const Text('Ranking'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: const Column(
+        drawer: const MainDrawer(),
+        body: const Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -24,23 +26,23 @@ class _RankingScreenState extends State<RankingScreen> {
                 style: TextStyle(fontSize: 20),
               ),
               Text(
-                '1. Maciej',
+                '1. ..........',
                 style: TextStyle(fontSize: 16),
               ),
               Text(
-                '2. Staś',
+                '2. ..........',
                 style: TextStyle(fontSize: 16),
               ),
               Text(
-                '3. Grzesiek',
+                '3. ..........',
                 style: TextStyle(fontSize: 16),
               ),
               Text(
-                '4. Michał',
+                '4. ..........',
                 style: TextStyle(fontSize: 16),
               ),
               Text(
-                '5. Piotrek',
+                '5. ..........',
                 style: TextStyle(fontSize: 16),
               ),
             ],

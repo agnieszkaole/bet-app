@@ -28,12 +28,15 @@ class SoccerMatch {
 class League {
   int id;
   String name;
-  League({required this.id, required this.name});
+  String logo;
+
+  League({required this.id, required this.name, required this.logo});
 
   factory League.fromJson(Map<String, dynamic> json) {
     return League(
       id: json['id'],
       name: json['name'],
+      logo: json['logo'],
     );
   }
 }

@@ -20,7 +20,7 @@ class MainDrawer extends StatelessWidget {
                 //   width: 18,
                 // ),
                 Text(
-                  'Bet&win',
+                  'Bet',
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
