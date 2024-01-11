@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(Icons.sports),
+                icon: Icon(Icons.emoji_events_rounded),
                 label: 'Wybierz ligę',
               ),
               BottomNavigationBarItem(

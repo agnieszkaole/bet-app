@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String? errorMessage = '';
+  String errorMessage = '';
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
@@ -42,16 +42,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<User?> signInWithEmailAndPassword() async {
+  Future<String?> signInUser() async {
+    if (_controllerEmail.text.isEmpty || _controllerPassword.text.isEmpty) {
+      setState(() {
+        errorMessage = "Wszystkie pola muszą być uzupełnione.";
+      });
+      return errorMessage;
+    }
+
     try {
       User? user = await Auth().signInWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
-        errorCallback: (errorMessageAuth) {
-          setState(() {
-            errorMessage = errorMessageAuth;
-          });
-        },
       );
 
       if (user != null) {
@@ -59,20 +61,43 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => HomeScreen(),
         ));
+        return null; // Sign-in successful
       }
-      return user;
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "invalid-email":
+          print('FirebaseAuthException: ${e.message}, code: ${e.code}');
+          errorMessage = "Podany e-mail jest nieprawidłowy.";
+          break;
+        case "user-not-found":
+          print('FirebaseAuthException: ${e.message}, code: ${e.code}');
+          errorMessage = "Nie znaleziono użytkownika o podanym adresie e-mail.";
+          break;
+        case "wrong-password":
+          print('FirebaseAuthException: ${e.message}, code: ${e.code}');
+          errorMessage = "Hasło jest nieprawidłowe.";
+          break;
+        case "invalid-credential":
+          print('FirebaseAuthException: ${e.message}, code: ${e.code}');
+          errorMessage = "Nieprawidłowy e-mail lub hasło.";
+          break;
+        default:
+          print(e.code);
+          errorMessage =
+              "Logowanie nie powiodło się. Proszę spróbować ponownie.";
+          break;
+      }
       setState(() {
-        errorMessage = e.toString();
+        errorMessage = errorMessage;
       });
-      print('Error signing in: $e');
-      return null;
+      return errorMessage;
     }
   }
 
   Widget _errorMessage() {
     return Text(
-      errorMessage == '' ? '' : 'Nieprawidłowy e-mail lub hasło.',
+      errorMessage == '' ? '' : errorMessage,
+      // "",
       style: TextStyle(
         color: Colors.red,
       ),
@@ -81,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _submitButton() {
     return ElevatedButton(
-        onPressed: signInWithEmailAndPassword,
+        onPressed: () async {
+          await signInUser();
+        },
         style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(),
           backgroundColor: const Color.fromARGB(255, 40, 122, 43),
@@ -191,7 +218,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: signInWithEmailAndPassword,
+                        onPressed: () {
+                          signInUser();
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: const StadiumBorder(),
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -203,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Row(

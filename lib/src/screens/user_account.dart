@@ -27,11 +27,11 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   Future<void> signOut() async {
     try {
       await Auth().signOut();
+      print('User is logged out: ${user!.uid}');
       setState(() {
         user = null;
         isLogged = false;
       });
-      print('User is logged out');
     } catch (e) {
       print('Error signing out: $e');
     }
@@ -46,32 +46,69 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     ));
   }
 
-  // Future<void> checkLoggedIn() async {
-  //   FirebaseAuth auth = FirebaseAuth.instance;
-  //   User? user = auth.currentUser;
-  //   setState(() {
-  //     isLogged = !isLogged;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Twój profil"),
+        title: const Text(
+          'Profil użytkownika',
+          style: TextStyle(fontSize: 20),
+        ),
+        actions: [
+          if (isLogged == true)
+            GestureDetector(
+              onTap: () {
+                signOut();
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(Icons.logout),
+              ),
+            ),
+        ],
       ),
       body: Container(
           height: double.infinity,
           width: double.infinity,
+          padding: EdgeInsets.all(25),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(user?.email ?? 'Niezalogowyany'),
-              ElevatedButton(
-                onPressed: isLogged ? signOut : signIn,
-                child: Text(isLogged ? 'Wyloguj' : 'Zaloguj'),
-              )
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                user?.email != null
+                    ? 'Użytkownik: ${user?.email}'
+                    : 'Użytkownik: niezalogowany',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 20),
+              if (isLogged == false)
+                GestureDetector(
+                  onTap: () {
+                    signOut();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Text('Zaloguj'),
+                        ),
+                        Icon(Icons.login_rounded),
+                      ],
+                    ),
+                  ),
+                ),
+
+              // ElevatedButton(
+              //   onPressed: isLogged ? signOut : signIn,
+              //   child: Text(isLogged ? 'Wyloguj' : 'Zaloguj'),
+              // )
+              // if (isLogged == false)
+              //   ElevatedButton(
+              //     onPressed: signIn,
+              //     child: const Text('Zaloguj'),
+              //   ),
             ],
           )),
     );

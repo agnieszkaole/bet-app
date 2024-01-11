@@ -44,6 +44,8 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
+  envied: ^0.5.3
+  envied_generator: ^0.5.3
 
   # google_fonts: ^6.1.0
 
@@ -58,7 +60,7 @@ dev_dependencies:
   custom_lint:
   riverpod_generator: ^2.3.8
   riverpod_lint: ^2.3.6
-  build_runner: ^2.1.7
+  build_runner: ^2.4.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

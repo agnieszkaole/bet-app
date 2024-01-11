@@ -1,6 +1,8 @@
+import 'package:bet_app/src/features/authentication/screens/sign_up/successful_registration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-typedef ErrorCallback = void Function(String errorMessageAuth);
+// typedef ErrorCallback = void Function(String errorMessageAuth);
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -10,32 +12,48 @@ class Auth {
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   Future<User?> signInWithEmailAndPassword({
-    // required String name,
-    required String email,
-    required String password,
-    required ErrorCallback errorCallback,
-  }) async {
-    try {
-      UserCredential userCredential =
-          await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return userCredential.user;
-    } catch (e) {
-      errorCallback(e.toString());
-      return null;
-    }
-  }
-
-  Future<void> createUserWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+    // try {
+    UserCredential userCredential =
+        await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+    print('User signed in: ${userCredential.user}');
+    return userCredential.user;
+    // } catch (e) {
+    //   print('Error signing in: $e');
+    //   return null;
+    // }
+  }
+
+  Future createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String confirmPassword,
+    required String displayName,
+    // required ErrorCallback errorCallback,
+    required BuildContext context,
+  }) async {
+    // try {
+    UserCredential userCredential =
+        await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    User? user = userCredential.user;
+    if (user != null) {
+      await user.updateDisplayName(displayName);
+    }
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const SuccessfulRegistration(),
+    ));
+    // } catch (e) {
+    // errorCallback(e.toString());
+    // }
   }
 
   Future<void> signOut() async {
