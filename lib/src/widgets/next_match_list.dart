@@ -37,7 +37,7 @@ class NextMatchList extends StatefulWidget {
 class _NextMatchListState extends State<NextMatchList> {
   final ScrollController _scrollController = ScrollController();
   // late List<SoccerMatch> nextMatchesList;
-  int displayedItems = 10;
+  int displayedItems = 20;
   bool isLoading = true;
   bool hasFetchedData = false;
 
@@ -96,7 +96,6 @@ class _NextMatchListState extends State<NextMatchList> {
                   // width: double.infinity,
                   child: Column(
                     children: [
-                      // const DataPicker(),
                       Container(
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 40, 122, 43),
@@ -133,7 +132,8 @@ class _NextMatchListState extends State<NextMatchList> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const DataPicker(),
+                      // const SizedBox(height: 10),
                       Expanded(
                         flex: 5,
                         child: Padding(
@@ -168,7 +168,7 @@ class _NextMatchListState extends State<NextMatchList> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              displayedItems += 10;
+                              displayedItems += 20;
                               if (displayedItems > nextMatchesList.length) {
                                 displayedItems = nextMatchesList.length;
                               }

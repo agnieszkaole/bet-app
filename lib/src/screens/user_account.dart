@@ -1,13 +1,11 @@
 import 'package:bet_app/main.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
-import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:bet_app/src/services/auth.dart';
 
 class UserAccountScreen extends StatefulWidget {
-  UserAccountScreen({super.key});
+  const UserAccountScreen({super.key});
 
   @override
   State<UserAccountScreen> createState() => _UserAccountScreenState();
@@ -15,13 +13,17 @@ class UserAccountScreen extends StatefulWidget {
 
 class _UserAccountScreenState extends State<UserAccountScreen> {
   User? user = Auth().currentUser;
-  bool isLogged = false;
+  late bool isAnonymous = true;
 
   @override
   void initState() {
     super.initState();
     user = Auth().currentUser;
-    isLogged = user != null;
+    Auth.checkUserStatus().then((result) {
+      setState(() {
+        isAnonymous = result;
+      });
+    });
   }
 
   Future<void> signOut() async {
@@ -30,19 +32,19 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
       print('User is logged out: ${user!.uid}');
       setState(() {
         user = null;
-        isLogged = false;
+        // isLogged = false;
       });
     } catch (e) {
       print('Error signing out: $e');
     }
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => LoginScreen(),
+      builder: (context) => const LoginScreen(),
     ));
   }
 
   void signIn() async {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => LoginScreen(),
+      builder: (context) => const LoginScreen(),
     ));
   }
 
@@ -51,66 +53,167 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Profil użytkownika',
+          'Profil',
           style: TextStyle(fontSize: 20),
         ),
         actions: [
-          if (isLogged == true)
+          if (!isAnonymous)
             GestureDetector(
               onTap: () {
                 signOut();
               },
               child: const Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Icon(Icons.logout),
-              ),
-            ),
+                  padding: EdgeInsets.only(right: 20),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Text(
+                          'Wyloguj',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      Icon(Icons.logout),
+                    ],
+                  )),
+            )
         ],
       ),
       body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          padding: EdgeInsets.all(25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                user?.email != null
-                    ? 'Użytkownik: ${user?.email}'
-                    : 'Użytkownik: niezalogowany',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 20),
-              if (isLogged == false)
-                GestureDetector(
-                  onTap: () {
-                    signOut();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 10),
-                          child: Text('Zaloguj'),
-                        ),
-                        Icon(Icons.login_rounded),
-                      ],
-                    ),
-                  ),
-                ),
+        height: double.infinity,
+        width: double.infinity,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                // isLogged
+                // ?
 
-              // ElevatedButton(
-              //   onPressed: isLogged ? signOut : signIn,
-              //   child: Text(isLogged ? 'Wyloguj' : 'Zaloguj'),
-              // )
-              // if (isLogged == false)
-              //   ElevatedButton(
-              //     onPressed: signIn,
-              //     child: const Text('Zaloguj'),
-              //   ),
-            ],
-          )),
+                user?.isAnonymous == true
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 117, 117, 117),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50.0)),
+                                // border: Border.all(
+                                //   color: Colors.white,
+                                //   width: 1,
+                                // ),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Icon(
+                                  Icons.person_rounded,
+                                  size: 60,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Gość ',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              'W tym trybie masz dostęp jedynie do niektórych funkcji. Zaloguj się, żeby móc w\u{00A0}pełni korzystać z\u{00A0}aplikacji.',
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 20),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 25),
+                              width: 200,
+                              height: 50,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
+                                  ));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const StadiumBorder(),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 40, 122, 43),
+                                ),
+                                child: const Text(
+                                  "Zaloguj",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                          ])
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 117, 117, 117),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50.0)),
+                                    // border: Border.all(
+                                    //   color: Colors.white,
+                                    //   width: 1,
+                                    // ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Icon(
+                                      Icons.person_rounded,
+                                      size: 60,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+
+                          Text(
+                            user?.email != null
+                                ? 'Nazwa użytkownika: dummy data'
+                                : 'Brak danych',
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                            user?.email != null
+                                ? 'Email: ${user?.email}'
+                                : 'Brak danych',
+                          ),
+                          const SizedBox(height: 50),
+                          // Text(
+                          //   'Zmień nazwę użytkownika',
+                          //   style: const TextStyle(fontSize: 16),
+                          // ),
+                          // Text(
+                          //   'Zmień hasło',
+                          //   style: const TextStyle(fontSize: 16),
+                          // ),
+                          // Text(
+                          //   'Usuń konto',
+                          //   style: const TextStyle(fontSize: 16),
+                          // ),
+                        ],
+                      )
+                // :
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

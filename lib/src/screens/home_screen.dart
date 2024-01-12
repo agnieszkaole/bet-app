@@ -1,9 +1,11 @@
+import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
 import 'package:bet_app/src/screens/predicted_screen.dart';
 import 'package:bet_app/src/screens/ranking_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/screens/user_account.dart';
+import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,35 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late bool isAnonymous = true;
+  late String email = '';
+
+  @override
+  void initState() {
+    super.initState();
+    Auth.checkUserStatus().then((result) {
+      setState(() {
+        isAnonymous = result;
+      });
+    });
+  }
+
+  Future<void> someFunction() async {
+    Map<String, dynamic> result = await Auth.checkUserStatus();
+    bool? isAnonymous = result['isAnonymous'];
+    String? userEmail = result['email'];
+
+    if (isAnonymous != null) {
+      if (isAnonymous) {
+        print('User is logged in anonymously');
+      } else {
+        print('User is logged in with email: $userEmail');
+      }
+    } else {
+      print('No user is currently logged in');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // print(currentPage);
@@ -25,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
+            // Text(userEmail ?? 'Niezalogowany'),
             IconButton(
               onPressed: () {
                 // Navigator.of(context).pop();
@@ -35,8 +67,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-              icon: Icon(Icons.account_circle),
-              iconSize: 30,
+              icon: isAnonymous
+                  ? Icon(
+                      Icons.account_circle,
+                      size: 45,
+                      color: Color.fromARGB(255, 163, 163, 163),
+                    )
+                  : Icon(
+                      Icons.account_circle,
+                      size: 45,
+                      color: Color.fromARGB(255, 53, 163, 57),
+                    ),
             ),
           ],
           title: const Text(
@@ -66,7 +107,24 @@ class _HomeScreenState extends State<HomeScreen> {
             type: BottomNavigationBarType.fixed,
             currentIndex: provider.selectedIndex,
             onTap: (index) {
-              provider.updateIndex(index);
+              // provider.updateIndex(index);
+              if (!isAnonymous || (index == 0 || index == 1)) {
+                provider.updateIndex(index);
+              } else if (isAnonymous && (index == 2 || index == 3)) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Zaloguj się aby korzystać z tych funkcji.'),
+                    action: SnackBarAction(
+                      label: 'Zaloguj',
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ));
+                      },
+                    ),
+                  ),
+                );
+              }
             },
             items: const [
               BottomNavigationBarItem(

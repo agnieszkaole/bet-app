@@ -1,8 +1,30 @@
 import 'package:bet_app/src/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:bet_app/src/services/auth.dart';
 
-class ContinueAsGuestScreen extends StatelessWidget {
+class ContinueAsGuestScreen extends StatefulWidget {
   const ContinueAsGuestScreen({super.key});
+
+  @override
+  State<ContinueAsGuestScreen> createState() => _ContinueAsGuestScreenState();
+}
+
+class _ContinueAsGuestScreenState extends State<ContinueAsGuestScreen> {
+  Future<User?> signInUserAnonymous() async {
+    try {
+      User? user = await Auth().signInAnonymously();
+      if (user != null) {
+        // print('User is logged in: ${user.uid}');
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ));
+        return user;
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +33,16 @@ class ContinueAsGuestScreen extends StatelessWidget {
         textStyle: const TextStyle(fontSize: 16),
         foregroundColor: Colors.white,
       ),
-      onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ));
+      onPressed: () async {
+        User? user = await signInUserAnonymous();
+        if (user != null) {
+          print("User is signed in: ${user.uid}");
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ));
+        } else {
+          print("Failed to sign in anonymously");
+        }
       },
       child: const Text(
         'Kontynuuj jako gość',

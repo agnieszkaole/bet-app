@@ -1,6 +1,5 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/continue_as_guest.dart';
-import 'package:bet_app/src/features/authentication/screens/sign_up/successful_registration.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _errorMessage() {
     return Text(
       errorMessage == '' ? '' : errorMessage,
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.red,
       ),
     );
@@ -187,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
+                          builder: (context) => const LoginScreen(),
                         ));
                       },
                       child: const Text(

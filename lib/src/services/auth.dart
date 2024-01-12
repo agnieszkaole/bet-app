@@ -11,6 +11,24 @@ class Auth {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
+  static checkUserStatus() async {
+    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    User? user = _firebaseAuth.currentUser;
+
+    if (user != null) {
+      if (user.isAnonymous) {
+        print('User is logged in anonymously');
+        return true;
+      } else {
+        print('User is logged in with email: ${user.email}');
+        return false;
+      }
+    } else {
+      print('No user is currently logged in');
+      // return false;
+    }
+  }
+
   Future<User?> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -27,6 +45,18 @@ class Auth {
     //   print('Error signing in: $e');
     //   return null;
     // }
+  }
+
+  Future<User?> signInAnonymously() async {
+    try {
+      UserCredential userCredential = await _firebaseAuth.signInAnonymously();
+      User? user = userCredential.user!;
+      print("Anonymous user created: ${user.uid}");
+      return user;
+    } catch (e) {
+      print("Error creating anonymous user: $e");
+      return null;
+    }
   }
 
   Future createUserWithEmailAndPassword({

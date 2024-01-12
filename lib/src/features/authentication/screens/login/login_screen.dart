@@ -1,5 +1,4 @@
 import 'package:bet_app/src/features/authentication/screens/login/widgets/continue_as_guest.dart';
-import 'package:bet_app/src/features/authentication/screens/login/widgets/login_form_widget.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/login_header_widget.dart';
 import 'package:bet_app/src/features/authentication/screens/sign_up/singup_screen.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
@@ -34,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18),
             borderSide: BorderSide.none),
-        fillColor: Color.fromARGB(255, 48, 85, 50),
+        fillColor: const Color.fromARGB(255, 48, 85, 50),
         filled: true,
         prefixIcon: Icon(icon),
       ),
@@ -63,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
         return null; // Sign-in successful
       }
+      return null;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "invalid-email":
@@ -98,23 +98,23 @@ class _LoginScreenState extends State<LoginScreen> {
     return Text(
       errorMessage == '' ? '' : errorMessage,
       // "",
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.red,
       ),
     );
   }
 
-  Widget _submitButton() {
-    return ElevatedButton(
-        onPressed: () async {
-          await signInUser();
-        },
-        style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          backgroundColor: const Color.fromARGB(255, 40, 122, 43),
-        ),
-        child: Text('Zaloguj'));
-  }
+  // Widget _submitButton() {
+  //   return ElevatedButton(
+  //       onPressed: () async {
+  //         await signInUser();
+  //       },
+  //       style: ElevatedButton.styleFrom(
+  //         shape: const StadiumBorder(),
+  //         backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+  //       ),
+  //       child: Text('Zaloguj'));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +135,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     // _entryField('name', _controllerEmail, Icons.person, false),
                     // const SizedBox(height: 20),
-                    _entryField('e-mail', _controllerEmail, Icons.email, false),
+                    _entryField('E-mail', _controllerEmail, Icons.email, false),
                     const SizedBox(height: 20),
                     _entryField(
-                        'password', _controllerPassword, Icons.password, true),
+                        'Hasło', _controllerPassword, Icons.password, true),
                     const SizedBox(height: 10),
                     _errorMessage(),
                     TextButton(
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           builder: (context) => Padding(
                             padding: MediaQuery.of(context).viewInsets,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 40, vertical: 60),
                               width: double.infinity,
                               decoration: const BoxDecoration(
@@ -190,8 +190,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(18),
                                               borderSide: BorderSide.none),
-                                          fillColor:
-                                              Color.fromARGB(255, 48, 85, 50),
+                                          fillColor: const Color.fromARGB(
+                                              255, 48, 85, 50),
                                           filled: true,
                                           prefixIcon: const Icon(Icons.mail),
                                         ),
@@ -242,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SignUpScreen(),
+                          builder: (context) => const SignUpScreen(),
                         ));
                       },
                       child: const Text(
@@ -258,19 +258,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 45,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Color.fromARGB(255, 228, 228, 228),
+                    color: const Color.fromARGB(255, 228, 228, 228),
                     border: Border.all(
                       color: const Color.fromARGB(255, 40, 122, 43),
                     ),
-                    boxShadow: [
-                      BoxShadow(
+                    // boxShadow: [
+                    //  BoxShadow(
 
-                          // color: Colors.white.withOpacity(0.5),
-                          // spreadRadius: 1,
-                          // blurRadius: 1,
-                          // offset: const Offset(0, 1), // changes position of shadow
-                          ),
-                    ],
+                    // color: Colors.white.withOpacity(0.5),
+                    // spreadRadius: 1,
+                    // blurRadius: 1,
+                    // offset: const Offset(0, 1), // changes position of shadow
+                    // ),
+                    // ],
                   ),
                   child: TextButton(
                     onPressed: () {},

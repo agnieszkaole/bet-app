@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
+import 'package:bet_app/src/screens/predicted_screen.dart';
+import 'package:bet_app/src/widgets/predicted_item.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +92,15 @@ class _PredictResultState extends State<PredictResult> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Mecz został dodany!'),
+        SnackBar(
+          content: const Text('Mecz został dodany!'),
+          // action: SnackBarAction(
+          //     label: 'Zobacz',
+          //     onPressed: () {
+          //       Navigator.of(context).push(MaterialPageRoute(
+          //         builder: (context) => PredictedScreen(),
+          //       ));
+          //     }),
         ),
       );
       Navigator.of(context).pop(_isNewMatch);
