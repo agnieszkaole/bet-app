@@ -31,8 +31,9 @@ class _PredictedListState extends State<PredictedList> {
         : Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(height: 15),
               const Text(
-                'Wytypowane mecze',
+                'Twoje wytypowane mecze',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

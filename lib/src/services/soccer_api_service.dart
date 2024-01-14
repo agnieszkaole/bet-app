@@ -29,6 +29,8 @@ class SoccerApi {
     String? liveUrl = live == "" ? "" : '&live=$live';
 
     Response res = await get(
+        // Uri.parse('$_baseUrl$dateUrl$leagueUrl$seasonUrl$statusUrl$liveUrl'),
+        // headers: headers);
         Uri.parse('$_baseUrl$dateUrl$leagueUrl$seasonUrl$statusUrl$liveUrl'),
         headers: headers);
 

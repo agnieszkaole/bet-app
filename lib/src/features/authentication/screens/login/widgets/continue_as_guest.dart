@@ -15,7 +15,6 @@ class _ContinueAsGuestScreenState extends State<ContinueAsGuestScreen> {
     try {
       User? user = await Auth().signInAnonymously();
       if (user != null) {
-        // print('User is logged in: ${user.uid}');
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => HomeScreen(),
         ));

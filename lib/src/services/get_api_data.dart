@@ -83,15 +83,6 @@ class _GetApiDataState extends State<GetApiData> {
               );
             } else if (snapshot.hasData) {
               // if (statusApi == 'ns-tbd') {
-              // Future.delayed(const Duration(seconds: 3));
-
-              // Provider.of<NextMatchesProvider>(context, listen: false)
-              //     .clearMatches();
-
-              // Provider.of<NextMatchesProvider>(context, listen: false)
-              //     .saveMatches(snapshot.data!);
-              // Provider.of<NextMatchesProvider>(context, listen: false)
-              //     .saveMatches(snapshot.data!);
 
               return HomeScreen();
               // return const SizedBox();

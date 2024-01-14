@@ -1,10 +1,6 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/screens/predicted_screen.dart';
-import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/services/soccer_api_service.dart';
-import 'package:bet_app/src/constants/league_names.dart';
 import 'package:bet_app/src/widgets/data_picker.dart';
 // import 'package:bet_app/provider/predicted_match_provider.dart';
 // import 'package:bet_app/widgets/data_picker.dart';
@@ -15,17 +11,20 @@ import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 class NextMatchList extends StatefulWidget {
-  const NextMatchList(
-      {super.key,
-      this.matches,
-      this.leagueName,
-      this.leagueNumber,
-      this.leagueLogo});
+  const NextMatchList({
+    super.key,
+    this.matches,
+    this.leagueName,
+    this.leagueNumber,
+    this.leagueLogo,
+    // this.selectedDate
+  });
 
   final List<SoccerMatch>? matches;
   final String? leagueName;
   final String? leagueNumber;
   final String? leagueLogo;
+  // final DateTime? selectedDate;
 
   static final GlobalKey<_NextMatchListState> nextMatchListKey =
       GlobalKey<_NextMatchListState>();
@@ -36,7 +35,7 @@ class NextMatchList extends StatefulWidget {
 
 class _NextMatchListState extends State<NextMatchList> {
   final ScrollController _scrollController = ScrollController();
-  // late List<SoccerMatch> nextMatchesList;
+  late DateTime _selectedDate;
   int displayedItems = 20;
   bool isLoading = true;
   bool hasFetchedData = false;
@@ -45,6 +44,10 @@ class _NextMatchListState extends State<NextMatchList> {
   void initState() {
     super.initState();
     fetchDataForNewLeague(widget.leagueNumber);
+
+    // setState(() {
+    // _selectedDate = widget.selectedDate;
+    // });
   }
 
   Future fetchDataForNewLeague(String? leagueNumber) async {
@@ -54,6 +57,7 @@ class _NextMatchListState extends State<NextMatchList> {
         isLoading = false;
         hasFetchedData = true;
       });
+
       return data;
     } catch (error) {
       print('Error fetching data: $error');
@@ -71,10 +75,6 @@ class _NextMatchListState extends State<NextMatchList> {
 
     return Scaffold(
       appBar: AppBar(
-        // title: const Text(
-        //   'Wybierz ligę',
-        //   style: TextStyle(fontSize: 18),
-        // ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -151,6 +151,10 @@ class _NextMatchListState extends State<NextMatchList> {
                               // itemCount: nextMatchesList.length,
                               itemCount: displayedItems,
                               itemBuilder: (context, index) {
+                                NextMatchesProvider.sortMatchesByDate(
+                                    nextMatchesList);
+                                // NextMatchesProvider.showMatchesByDate(
+                                //     _selectedDate);
                                 if (index < nextMatchesList.length) {
                                   return NextMatchItem(
                                     match: nextMatchesList[index],

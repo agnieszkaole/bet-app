@@ -13,18 +13,41 @@ class UserAccountScreen extends StatefulWidget {
 
 class _UserAccountScreenState extends State<UserAccountScreen> {
   User? user = Auth().currentUser;
-  late bool isAnonymous = true;
+  bool isAnonymous = true;
+  String email = "";
 
   @override
   void initState() {
     super.initState();
-    user = Auth().currentUser;
-    Auth.checkUserStatus().then((result) {
-      setState(() {
-        isAnonymous = result;
-      });
+    setState(() {
+      isAnonymous = user!.isAnonymous;
+      // email = user!.email;
     });
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _fetchUserData();
+  // }
+
+  // Future _fetchUserData() async {
+  //   Map<String, dynamic> userData = await Auth.checkUserStatus();
+  //   bool? isAnonymous = userData['isAnonymous'];
+  //   String? userEmail = userData['email'];
+  //   return userData;
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   user = Auth().currentUser;
+  //   Auth.checkUserStatus().then((result) {
+  //     setState(() {
+  //       isAnonymous = result;
+  //     });
+  //   });
+  // }
 
   Future<void> signOut() async {
     try {
@@ -92,7 +115,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                 // isLogged
                 // ?
 
-                user?.isAnonymous == true
+                isAnonymous
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,

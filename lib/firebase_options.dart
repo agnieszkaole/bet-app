@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +43,15 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyA1lBkuN8_wjNbJCG5-H9iXC8iw7WrFKZ4',
+    appId: '1:936911404344:web:44d6f2d5d50f5c4ec715cd',
+    messagingSenderId: '936911404344',
+    projectId: 'bet-app-fd68c',
+    authDomain: 'bet-app-fd68c.firebaseapp.com',
+    storageBucket: 'bet-app-fd68c.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDQH7O8aVHkV4D1C17il8LsF5ZxZ5aogqg',
     appId: '1:936911404344:android:c2bc3a4652e60648c715cd',
@@ -64,5 +67,14 @@ class DefaultFirebaseOptions {
     projectId: 'bet-app-fd68c',
     storageBucket: 'bet-app-fd68c.appspot.com',
     iosBundleId: 'com.example.betApp',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBt2ePOTdjTF_wrU95jFDkGjyMOnq-aQ0k',
+    appId: '1:936911404344:ios:2224e929c8166a5fc715cd',
+    messagingSenderId: '936911404344',
+    projectId: 'bet-app-fd68c',
+    storageBucket: 'bet-app-fd68c.appspot.com',
+    iosBundleId: 'com.example.betApp.RunnerTests',
   );
 }

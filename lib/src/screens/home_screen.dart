@@ -7,6 +7,7 @@ import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/screens/user_account.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,47 +21,38 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late bool isAnonymous = true;
-  late String email = '';
+  // User? user = Auth().currentUser;
+  bool isAnonymous = true;
+  String email = "";
 
   @override
   void initState() {
     super.initState();
-    Auth.checkUserStatus().then((result) {
-      setState(() {
-        isAnonymous = result;
-      });
-    });
+    _fetchUserData();
   }
 
-  Future<void> someFunction() async {
-    Map<String, dynamic> result = await Auth.checkUserStatus();
-    bool? isAnonymous = result['isAnonymous'];
-    String? userEmail = result['email'];
-
-    if (isAnonymous != null) {
-      if (isAnonymous) {
-        print('User is logged in anonymously');
-      } else {
-        print('User is logged in with email: $userEmail');
-      }
+  Future<void> _fetchUserData() async {
+    User? user = Auth().currentUser;
+    if (user != null) {
+      setState(() {
+        isAnonymous = user.isAnonymous;
+        email = user.email ?? "Gość";
+      });
     } else {
       print('No user is currently logged in');
+      return;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(currentPage);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            // Text(userEmail ?? 'Niezalogowany'),
+            Text(email),
             IconButton(
               onPressed: () {
-                // Navigator.of(context).pop();
-
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (ctx) => UserAccountScreen(),
@@ -76,12 +68,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   : Icon(
                       Icons.account_circle,
                       size: 45,
-                      color: Color.fromARGB(255, 53, 163, 57),
+                      color: Color.fromARGB(255, 59, 182, 63),
                     ),
             ),
           ],
           title: const Text(
-            'Bet',
+            'Betapp',
             style: TextStyle(
               fontSize: 25,
             ),
@@ -143,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.group),
+                icon: Icon(Icons.groups_rounded),
                 label: 'Grupy',
                 //
               ),
