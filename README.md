@@ -17,3 +17,4 @@ Password: 111111
 ![betapp_5](https://github.com/agnieszkaole/bet-app/assets/78696014/743105b3-53a3-4aef-819a-2a14febc507d)
 ![betapp_6](https://github.com/agnieszkaole/bet-app/assets/78696014/d56af354-fc1e-44b6-aa0b-a0c218378591)
 
+![betapp_7](https://github.com/agnieszkaole/bet-app/assets/78696014/653bf34d-08e3-4dc0-9828-60a8e9d2d982)
