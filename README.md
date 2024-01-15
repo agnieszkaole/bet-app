@@ -3,7 +3,7 @@
 An application for friends to predict match results.
 
 #
-Default emain: mobile@gmail.com
+Default email: mobile@gmail.com
 
 Password: 111111
 
