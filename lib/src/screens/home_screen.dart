@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: const [
                 SelectCriteriaScreen(),
                 PredictedScreen(),
-                RankingScreen(),
+                // RankingScreen(),
                 GroupsScreen(),
               ],
             );
@@ -129,11 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 label: 'Twoje typy',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.trending_up),
-                label: 'Ranking',
-                //
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.trending_up),
+              //   label: 'Ranking',
+              //   //
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.groups_rounded),
                 label: 'Grupy',

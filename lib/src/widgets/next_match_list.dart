@@ -44,10 +44,6 @@ class _NextMatchListState extends State<NextMatchList> {
   void initState() {
     super.initState();
     fetchDataForNewLeague(widget.leagueNumber);
-
-    // setState(() {
-    // _selectedDate = widget.selectedDate;
-    // });
   }
 
   Future fetchDataForNewLeague(String? leagueNumber) async {
@@ -91,107 +87,97 @@ class _NextMatchListState extends State<NextMatchList> {
               child: CircularProgressIndicator(),
             )
           : hasFetchedData && nextMatchesList.isNotEmpty
-              ? Container(
-                  padding: EdgeInsets.all(10),
-                  // width: double.infinity,
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 40, 122, 43),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  // color: Color.fromARGB(255, 169, 224, 172),
-                                  color: Colors.white,
-                                ),
-                                child: Image.network(
-                                  widget.leagueLogo!,
+              ? Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 40, 122, 43),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              // color: Color.fromARGB(255, 169, 224, 172),
+                              color: Colors.white,
+                            ),
+                            child: Image.network(
+                              widget.leagueLogo!,
 
-                                  // width: 50.0,
-                                  // height: 50.0,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                widget.leagueName!,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const DataPicker(),
-                      // const SizedBox(height: 10),
-                      Expanded(
-                        flex: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: RawScrollbar(
-                            // thumbVisibility: true,
-                            trackVisibility: true,
-                            trackColor: Color.fromARGB(43, 40, 122, 43),
-                            thumbColor: const Color.fromARGB(255, 40, 122, 43),
-                            controller: _scrollController,
-                            radius: const Radius.circular(10),
-                            crossAxisMargin: 2,
-                            child: ListView.builder(
-                              controller: _scrollController,
-                              // itemCount: nextMatchesList.length,
-                              itemCount: displayedItems,
-                              itemBuilder: (context, index) {
-                                NextMatchesProvider.sortMatchesByDate(
-                                    nextMatchesList);
-                                // NextMatchesProvider.showMatchesByDate(
-                                //     _selectedDate);
-                                if (index < nextMatchesList.length) {
-                                  return NextMatchItem(
-                                    match: nextMatchesList[index],
-                                  );
-                                } else {
-                                  return SizedBox();
-                                }
-                              },
+                              // width: 50.0,
+                              // height: 50.0,
                             ),
                           ),
-                        ),
+                          const SizedBox(height: 10),
+                          Text(
+                            widget.leagueName!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 15),
-                      if (displayedItems < nextMatchesList.length)
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              displayedItems += 20;
-                              if (displayedItems > nextMatchesList.length) {
-                                displayedItems = nextMatchesList.length;
-                              }
-                            });
+                    ),
+                    // const DataPicker(),
+                    // const SizedBox(height: 10),
+                    Expanded(
+                      child: RawScrollbar(
+                        // thumbVisibility: true,
+                        trackVisibility: true,
+                        trackColor: const Color.fromARGB(43, 40, 122, 43),
+                        thumbColor: const Color.fromARGB(255, 40, 122, 43),
+                        controller: _scrollController,
+                        radius: const Radius.circular(10),
+                        crossAxisMargin: 2,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          // itemCount: nextMatchesList.length,
+                          itemCount: displayedItems,
+                          itemBuilder: (context, index) {
+                            NextMatchesProvider.sortMatchesByDate(
+                                nextMatchesList);
+                            // NextMatchesProvider.showMatchesByDate(
+                            //     _selectedDate);
+                            if (index < nextMatchesList.length) {
+                              return NextMatchItem(
+                                match: nextMatchesList[index],
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
                           },
-                          style: ElevatedButton.styleFrom(
-                              side: const BorderSide(
-                            width: 0.8,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    if (displayedItems < nextMatchesList.length)
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            displayedItems += 20;
+                            if (displayedItems > nextMatchesList.length) {
+                              displayedItems = nextMatchesList.length;
+                            }
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            side: const BorderSide(
+                          width: 0.8,
+                          color: Color.fromARGB(255, 93, 202, 97),
+                        )),
+                        child: Text(
+                          'Pokaż więcej (pozostało ${nextMatchesList.length - displayedItems})',
+                          style: const TextStyle(
                             color: Color.fromARGB(255, 93, 202, 97),
-                          )),
-                          child: Text(
-                            'Pokaż więcej (pozostało ${nextMatchesList.length - displayedItems})',
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 93, 202, 97),
-                            ),
                           ),
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 )
               : const Center(
                   child: Text(

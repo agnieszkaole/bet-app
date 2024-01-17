@@ -41,7 +41,7 @@ class DataPickerState extends State<DataPicker> {
             backgroundColor: const Color(0xFF1A1A1A),
             weekdayTextColor: const Color(0xFF8A8A8A),
             digitsColor: Colors.white,
-            selectedBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
+            // selectedBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
             weekdays: const ["Pn", "Wt", "Śr", "Cz", "Pt", "Sb", "Nd"],
             daysInWeek: 7,
           ),

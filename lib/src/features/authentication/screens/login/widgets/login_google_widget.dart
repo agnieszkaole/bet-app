@@ -13,15 +13,14 @@ class LoginGoogle extends StatelessWidget {
         border: Border.all(
           color: const Color.fromARGB(255, 40, 122, 43),
         ),
-        boxShadow: const [
-          BoxShadow(
-
-              // color: Colors.white.withOpacity(0.5),
-              // spreadRadius: 1,
-              // blurRadius: 1,
-              // offset: const Offset(0, 1), // changes position of shadow
-              ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.white.withOpacity(0.5),
+        //     spreadRadius: 1,
+        //     blurRadius: 1,
+        //     offset: const Offset(0, 1), // changes position of shadow
+        //   ),
+        // ],
       ),
       child: TextButton(
         onPressed: () {},
@@ -33,8 +32,7 @@ class LoginGoogle extends StatelessWidget {
             //   width: 30.0,
             //   decoration: const BoxDecoration(
             //     image: DecorationImage(
-            //         image: AssetImage(
-            //             'assets/images/login_signup/google.png'),
+            //         image: AssetImage('assets/images/login_signup/google.png'),
             //         fit: BoxFit.cover),
             //     shape: BoxShape.circle,
             //   ),

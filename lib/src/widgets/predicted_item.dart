@@ -126,7 +126,7 @@ class _PredictedItemState extends State<PredictedItem> {
               child: SizedBox(
                 width: 40,
                 height: 40,
-                child: (DateTime.now().hour > 20)
+                child: (DateTime.now().hour > 24)
                     // true
                     ? null
                     : OutlinedButton(

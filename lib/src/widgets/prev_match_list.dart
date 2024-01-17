@@ -5,7 +5,7 @@ Widget prevMatchList(List allmatches) {
   return Column(
     children: [
       Expanded(
-        flex: 5,
+        // flex: 5,
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: ListView.builder(
