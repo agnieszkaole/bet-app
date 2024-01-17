@@ -21,6 +21,7 @@ class SelectCriteriaScreen extends StatefulWidget {
 class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
   int currentPage = 0;
   var cardColor = const Color.fromARGB(255, 40, 122, 43);
+  User? user = Auth().currentUser;
 
   String? selectedLeagueNumber;
   String? selectedLeagueName;
@@ -35,6 +36,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
       if (user != null) {
         username = user.email ?? '';
         isAnomous = user.isAnonymous;
+        username = user.displayName;
       }
     });
   }

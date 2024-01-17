@@ -25,30 +25,6 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _fetchUserData();
-  // }
-
-  // Future _fetchUserData() async {
-  //   Map<String, dynamic> userData = await Auth.checkUserStatus();
-  //   bool? isAnonymous = userData['isAnonymous'];
-  //   String? userEmail = userData['email'];
-  //   return userData;
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   user = Auth().currentUser;
-  //   Auth.checkUserStatus().then((result) {
-  //     setState(() {
-  //       isAnonymous = result;
-  //     });
-  //   });
-  // }
-
   Future<void> signOut() async {
     try {
       await Auth().signOut();
@@ -206,8 +182,8 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                           const SizedBox(height: 20),
 
                           Text(
-                            user?.email != null
-                                ? 'Nazwa użytkownika: dummy data'
+                            user?.displayName != null
+                                ? 'Nazwa użytkownika: ${user?.displayName}'
                                 : 'Brak danych',
                           ),
                           const SizedBox(height: 20),

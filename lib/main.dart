@@ -1,4 +1,5 @@
 import 'package:bet_app/firebase_options.dart';
+import 'package:bet_app/src/features/authentication/screens/auth/auth_screens.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
@@ -56,13 +57,15 @@ class MyApp extends StatelessWidget {
                 stream: firebaseAuth.authStateChanges(),
                 builder: (context, AsyncSnapshot<User?> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (snapshot.hasData) {
-                    return HomeScreen();
+                    // return HomeScreen();
+                    return const AuthScreens();
                   } else {
                     return const LoginScreen();
+                    // return const AuthScreens();
                   }
                 }),
           ),

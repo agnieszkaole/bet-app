@@ -41,13 +41,11 @@ class Auth {
     }
   }
 
-  Future createUserWithEmailAndPassword({
+  Future<void> createUserWithEmailAndPassword({
     required String email,
     required String password,
     required String confirmPassword,
     required String displayName,
-    // required ErrorCallback errorCallback,
-    required BuildContext context,
   }) async {
     // try {
     UserCredential userCredential =
@@ -60,11 +58,9 @@ class Auth {
     if (user != null) {
       await user.updateDisplayName(displayName);
     }
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const SuccessfulRegistration(),
-    ));
     // } catch (e) {
-    // errorCallback(e.toString());
+    //   print('Error creating user: $e');
+    //   // Handle error, e.g., display an error message to the user
     // }
   }
 

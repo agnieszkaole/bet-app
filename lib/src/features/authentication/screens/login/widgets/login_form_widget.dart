@@ -17,6 +17,12 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
+  void showHomeScreen() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => HomeScreen(),
+    ));
+  }
+
   Widget _entryField(
     String title,
     TextEditingController controller,
@@ -64,9 +70,10 @@ class _LoginFormState extends State<LoginForm> {
 
       if (user != null) {
         print('User is logged in: ${user.uid}');
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ));
+        // Navigator.of(context).push(MaterialPageRoute(
+        //   builder: (context) => HomeScreen(),
+        // ));
+        showHomeScreen();
         return null; // Sign-in successful
       }
       return null;
@@ -76,10 +83,10 @@ class _LoginFormState extends State<LoginForm> {
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
           errorMessage = "Podany e-mail jest nieprawidłowy.";
           break;
-        case "user-not-found":
-          print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage = "Nie znaleziono użytkownika o podanym adresie e-mail.";
-          break;
+        // case "user-not-found":
+        //   print('FirebaseAuthException: ${e.message}, code: ${e.code}');
+        //   errorMessage = "Nie znaleziono użytkownika o podanym adresie e-mail.";
+        //   break;
         case "wrong-password":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
           errorMessage = "Hasło jest nieprawidłowe.";

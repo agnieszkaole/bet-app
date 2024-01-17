@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // User? user = Auth().currentUser;
   bool isAnonymous = true;
-  String email = "";
+  String email = "Gość";
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => UserAccountScreen(),
+                    builder: (ctx) => const UserAccountScreen(),
                   ),
                 );
               },
