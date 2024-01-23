@@ -50,11 +50,6 @@ class MyApp extends StatelessWidget {
                     bodyColor: const Color.fromARGB(255, 255, 255, 255),
                   ),
             ),
-
-            // home: HomeScreen(),
-            // home: const SignUpScreen(),
-            // home: const LoginScreen(),
-
             home: StreamBuilder<User?>(
                 stream: firebaseAuth.authStateChanges(),
                 builder: (context, AsyncSnapshot<User?> snapshot) {

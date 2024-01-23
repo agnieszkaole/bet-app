@@ -55,12 +55,11 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
         return;
       }
 
-      String clickedMatchId = widget.matchId.toString();
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .collection('matches')
-          .where('matchId', isEqualTo: clickedMatchId)
+          .where('matchId', isEqualTo: widget.matchId)
           .get();
 
       for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
@@ -76,12 +75,12 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
     }
   }
 
-  void edithResult(int newResultHome, int newResultAway) {
-    setState(() {
-      _resultHome = newResultHome;
-      _resultAway = newResultAway;
-    });
-  }
+  // void edithResult(int newResultHome, int newResultAway) {
+  //   setState(() {
+  //     _resultHome = newResultHome;
+  //     _resultAway = newResultAway;
+  //   });
+  // }
 
   Future<void> _saveEdithResultPrediction() async {
     if (_formKey.currentState!.validate()) {
@@ -98,11 +97,6 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
             .updateMatchResult(widget.matchId, _resultHome, _resultAway);
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: const Text('Mecz został dodany!'),
-        ),
-      );
       Navigator.of(context).pop();
     }
   }
