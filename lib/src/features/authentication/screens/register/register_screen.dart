@@ -1,20 +1,21 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/continue_as_guest.dart';
-import 'package:bet_app/src/features/authentication/screens/sign_up/successful_registration.dart';
+import 'package:bet_app/src/features/authentication/screens/register/successful_registration.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   // final VoidCallback? showHomeScreen;
-  const SignUpScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<RegisterScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends State<RegisterScreen> {
   String errorMessage = '';
 
   final TextEditingController _controllerName = TextEditingController();
@@ -80,23 +81,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     try {
-      // List<String> signInMethods =
-      //     await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-
-      // if (signInMethods.isNotEmpty) {
-      //   print(
-      //       'Użytkownik o podanym adresie email już istnieje: $signInMethods');
-      // } else {
-      //   print('Email nie jest powiązany z innym kontem.');
-      // }
-
       await Auth().createUserWithEmailAndPassword(
         email: email,
         password: password,
-        confirmPassword: _controllerConfirmPassword.text,
-        displayName: _controllerName.text,
       );
       showSuccesfulScreen();
+      addUserDetails(
+        _controllerName.text.trim(),
+        _controllerEmail.text.trim(),
+      );
       // return null;
     } on FirebaseAuthException catch (e) {
       // print('Error: $e');
@@ -124,6 +117,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
     return errorMessage;
+  }
+
+  Future<void> addUserDetails(String username, String email) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'username': username,
+          'email': email,
+        });
+      } else {
+        print('User is not authenticated');
+      }
+    } catch (e) {
+      print('Error adding user details: $e');
+    }
   }
 
   @override

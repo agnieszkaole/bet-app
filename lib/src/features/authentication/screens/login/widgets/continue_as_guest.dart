@@ -20,6 +20,7 @@ class _ContinueAsGuestScreenState extends State<ContinueAsGuestScreen> {
         ));
         return user;
       }
+      return null;
     } on FirebaseAuthException catch (e) {
       print(e.code);
     }

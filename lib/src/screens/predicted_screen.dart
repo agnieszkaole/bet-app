@@ -1,9 +1,12 @@
 import 'package:bet_app/src/widgets/main_drawer.dart';
 import 'package:bet_app/src/widgets/predicted_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 
 class PredictedScreen extends StatefulWidget {
-  const PredictedScreen({super.key});
+  const PredictedScreen({
+    super.key,
+  });
 
   @override
   State<PredictedScreen> createState() => _PredictedScreenState();

@@ -1,10 +1,12 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/soccer_api_service.dart';
 import 'package:bet_app/src/widgets/data_picker.dart';
 // import 'package:bet_app/provider/predicted_match_provider.dart';
 // import 'package:bet_app/widgets/data_picker.dart';
 import 'package:bet_app/src/widgets/next_match_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

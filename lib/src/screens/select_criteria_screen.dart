@@ -25,8 +25,9 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
 
   String? selectedLeagueNumber;
   String? selectedLeagueName;
-  String? username;
+  String? username = "";
   bool? isAnomous = true;
+  String? email = "";
 
   @override
   void initState() {
@@ -36,7 +37,8 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
       if (user != null) {
         username = user.email ?? '';
         isAnomous = user.isAnonymous;
-        username = user.displayName;
+        username = user.displayName ?? '';
+        email = user.email ?? '';
       }
     });
   }
@@ -74,14 +76,10 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
             children: [
               const SizedBox(height: 20),
               Text(
-                'Witaj',
+                'Witaj $email',
+                // 'Hello $username',
                 style: TextStyle(fontSize: 35),
               ),
-              if (isAnomous == false)
-                Text(
-                  '$username',
-                  style: TextStyle(fontSize: 20),
-                ),
               const Divider(
                 height: 50,
                 color: Color.fromARGB(150, 76, 175, 79),
@@ -89,6 +87,8 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
               ),
               const Text(
                 'Wybierz ligę do wytypowania',
+                // 'Select a league to bet',
+
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(height: 10),

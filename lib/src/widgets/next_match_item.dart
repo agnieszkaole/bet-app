@@ -130,10 +130,10 @@ class _NextMatchItemState extends State<NextMatchItem>
                       final newValueIsNewMatch =
                           await Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => PredictResult(
-                          teamHomeName: homeName,
-                          teamAwayName: awayName,
-                          teamHomeLogo: homeLogo,
-                          teamAwayLogo: awayLogo,
+                          homeName: homeName,
+                          awayName: awayName,
+                          homeLogo: homeLogo,
+                          awayLogo: awayLogo,
                           matchTime: matchTime,
                           matchId: matchId,
                           isNewMatch: isNewMatch,

@@ -2,9 +2,13 @@ import 'dart:convert';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/screens/predicted_screen.dart';
-import 'package:bet_app/src/widgets/predicted_item.dart';
+import 'package:bet_app/src/services/auth.dart';
+import 'package:bet_app/src/widgets/predicted_item_local.dart';
+import 'package:bet_app/src/widgets/predicted_result_edith.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -13,10 +17,10 @@ import 'package:provider/provider.dart';
 class PredictResult extends StatefulWidget {
   const PredictResult({
     super.key,
-    required this.teamHomeName,
-    required this.teamAwayName,
-    required this.teamHomeLogo,
-    required this.teamAwayLogo,
+    required this.homeName,
+    required this.awayName,
+    required this.homeLogo,
+    required this.awayLogo,
     required this.matchTime,
     required this.matchId,
     required this.match,
@@ -24,10 +28,10 @@ class PredictResult extends StatefulWidget {
     required bool isNewMatch,
   });
 
-  final String teamHomeName;
-  final String teamAwayName;
-  final String teamHomeLogo;
-  final String teamAwayLogo;
+  final String homeName;
+  final String awayName;
+  final String homeLogo;
+  final String awayLogo;
   final String matchTime;
   final int matchId;
   final SoccerMatch match;
@@ -42,33 +46,74 @@ class _PredictResultState extends State<PredictResult> {
   bool _isNewMatch = true;
 
   final _formKey = GlobalKey<FormState>();
+  User? user = Auth().currentUser;
+  bool isAnonymous = true;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isAnonymous = user!.isAnonymous;
+    });
+  }
+
+  Future<void> addPredictedMatch(
+      String homeName,
+      String awayName,
+      String homeLogo,
+      String awayLogo,
+      int? homeGoal,
+      int? awayGoal,
+      String leagueName,
+      int matchId,
+      String matchTime) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        print('User is not authenticated');
+        return;
+      }
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('matches')
+          .add({
+        'homeName': homeName,
+        'awayName': awayName,
+        'homeLogo': homeLogo,
+        'awayLogo': awayLogo,
+        'homeGoal': homeGoal,
+        'awayGoal': awayGoal,
+        'leagueName': leagueName,
+        'matchId': matchId,
+        'matchTime': matchTime,
+      });
+
+      print('Predicted match added to Firestore for the user');
+    } catch (e) {
+      print('Error adding predicted match: $e');
+    }
+  }
+
+  // void edithResult() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => PredictedResultEdith(
+  //         teamHomeName: widget.homeName,
+  //         teamHomeLogo: widget.homeLogo,
+  //         teamAwayName: widget.awayName,
+  //         teamAwayLogo: widget.awayLogo,
+  //         matchId: widget.matchId,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void _savePredictResult() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-
-      final url = Uri.https(
-          'bet-app-d8cec-default-rtdb.europe-west1.firebasedatabase.app',
-          'result-prediction.json');
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(
-          {
-            'matchId': widget.matchId,
-            'Home': {
-              "teamHomeName": widget.teamHomeName,
-              "teamHomePrediction": _resultHome,
-            },
-            'Away': {
-              "teamAwayName": widget.teamAwayName,
-              "teamAwayPrediction": _resultAway,
-            },
-          },
-        ),
-      );
 
       if (!context.mounted) {
         return;
@@ -76,20 +121,34 @@ class _PredictResultState extends State<PredictResult> {
       setState(() {
         _isNewMatch = !_isNewMatch;
       });
-      Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
-        {
-          'teamHomeName': widget.teamHomeName,
-          'teamHomeLogo': widget.teamHomeLogo,
-          'teamHomeGoal': _resultHome,
-          'teamAwayName': widget.teamAwayName,
-          'teamAwayLogo': widget.teamAwayLogo,
-          'teamAwayGoal': _resultAway,
-          'matchTime': widget.matchTime,
-          'isNewMatch': _isNewMatch,
-          'matchId': widget.matchId,
-          'leagueName': widget.leagueName
-        },
-      );
+
+      if (!isAnonymous) {
+        addPredictedMatch(
+            widget.homeName,
+            widget.awayName,
+            widget.homeLogo,
+            widget.awayLogo,
+            _resultHome,
+            _resultAway,
+            widget.leagueName,
+            widget.matchId,
+            widget.matchTime);
+      } else {
+        Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
+          {
+            'teamHomeName': widget.homeName,
+            'teamHomeLogo': widget.homeLogo,
+            'teamHomeGoal': _resultHome,
+            'teamAwayName': widget.awayName,
+            'teamAwayLogo': widget.awayLogo,
+            'teamAwayGoal': _resultAway,
+            'matchTime': widget.matchTime,
+            'isNewMatch': _isNewMatch,
+            'matchId': widget.matchId,
+            'leagueName': widget.leagueName
+          },
+        );
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -104,6 +163,8 @@ class _PredictResultState extends State<PredictResult> {
         ),
       );
       Navigator.of(context).pop(_isNewMatch);
+
+      // edithResult();
     }
   }
 
@@ -142,7 +203,7 @@ class _PredictResultState extends State<PredictResult> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    widget.teamHomeName,
+                                    widget.homeName,
                                     style: const TextStyle(fontSize: 17),
                                     softWrap: true,
                                     maxLines: 3,
@@ -152,7 +213,7 @@ class _PredictResultState extends State<PredictResult> {
                                   Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.teamHomeLogo,
+                                      imageUrl: widget.homeLogo,
                                       fadeInDuration:
                                           Duration(milliseconds: 50),
                                       // placeholder: (context, url) =>
@@ -307,7 +368,7 @@ class _PredictResultState extends State<PredictResult> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    widget.teamAwayName,
+                                    widget.awayName,
                                     style: const TextStyle(fontSize: 17),
                                     softWrap: true,
                                     maxLines: 3,
@@ -317,7 +378,7 @@ class _PredictResultState extends State<PredictResult> {
                                   Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.teamAwayLogo,
+                                      imageUrl: widget.awayLogo,
                                       fadeInDuration:
                                           Duration(milliseconds: 50),
                                       // placeholder: (context, url) =>

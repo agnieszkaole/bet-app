@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
+import 'package:bet_app/src/services/auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -10,11 +13,19 @@ import 'package:provider/provider.dart';
 final formatter = DateFormat.yMd();
 
 class PredictedResultEdith extends StatefulWidget {
-  PredictedResultEdith({
+  const PredictedResultEdith({
     super.key,
-    // required this.predictedMatch,
+    required this.teamHomeName,
+    required this.teamHomeLogo,
+    required this.teamAwayName,
+    required this.teamAwayLogo,
+    required this.matchId,
   });
-  // Map<String, dynamic> predictedMatch;
+  final String teamHomeName;
+  final String teamHomeLogo;
+  final String teamAwayName;
+  final String teamAwayLogo;
+  final int matchId;
 
   @override
   State<PredictedResultEdith> createState() => _PredictedResultEdithState();
@@ -22,68 +33,89 @@ class PredictedResultEdith extends StatefulWidget {
 
 class _PredictedResultEdithState extends State<PredictedResultEdith> {
   // final _titleController = TextEditingController();
-  int? _resultHome;
-  int? _resultAway;
+  late int _resultHome;
+  late int _resultAway;
+  User? user = Auth().currentUser;
+  bool isAnonymous = true;
   final _formKey = GlobalKey<FormState>();
 
-  void _saveEdithResultPrediction() async {
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isAnonymous = user!.isAnonymous;
+    });
+  }
+
+  Future<void> updatePredictedMatch(int? _resultHome, int? _resultAway) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        print('User is not authenticated');
+        return;
+      }
+
+      String clickedMatchId = widget.matchId.toString();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('matches')
+          .where('matchId', isEqualTo: clickedMatchId)
+          .get();
+
+      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+        await documentSnapshot.reference.update({
+          'homeGoal': _resultHome,
+          'awayGoal': _resultAway,
+        });
+      }
+
+      print('Predicted match edithed in Firestore for the user');
+    } catch (e) {
+      print('Error edithind predicted match: $e');
+    }
+  }
+
+  void edithResult(int newResultHome, int newResultAway) {
+    setState(() {
+      _resultHome = newResultHome;
+      _resultAway = newResultAway;
+    });
+  }
+
+  Future<void> _saveEdithResultPrediction() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-
-      final url = Uri.https(
-          'bet-app-d8cec-default-rtdb.europe-west1.firebasedatabase.app',
-          'result-prediction.json');
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(
-          {
-            // 'matchId': widget.matchId,
-            'Home': {
-              // "teamHomeName": widget.teamHomeName,
-              "teamHomePrediction": _resultHome,
-            },
-            'Away': {
-              // "teamAwayName": widget.teamAwayName,
-              "teamAwayPrediction": _resultAway,
-            },
-          },
-        ),
-      );
 
       if (!context.mounted) {
         return;
       }
-      final predictedMatchList =
-          context.watch<PredictedMatchProvider>().predictedMatchList;
 
-      for (var i = 0; i < predictedMatchList.length; i++) {
-        Map<String, dynamic> predictedMatch = predictedMatchList[i];
-        if (_resultHome != predictedMatch['teamHomeGoal'] ||
-            _resultAway != predictedMatch['awayHomeGoal']) {
-          Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
-            {
-              'teamHomeGoal': _resultHome,
-              'teamAwayGoal': _resultAway,
-              // 'matchId': widget.matchId
-            },
-          );
-        }
+      if (!isAnonymous) {
+        updatePredictedMatch(_resultHome, _resultAway);
+      } else {
+        Provider.of<PredictedMatchProvider>(context, listen: false)
+            .updateMatchResult(widget.matchId, _resultHome, _resultAway);
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Wynik został edytowany'),
+          content: const Text('Mecz został dodany!'),
         ),
       );
+      Navigator.of(context).pop();
     }
-    // Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    // late List<Map<String, dynamic>> predictedMatchList =
+    //     context.read<PredictedMatchProvider>().predictedMatchList;
+    // Map<String, dynamic> predictedMatch = {};
+    // for (var i = 0; i < predictedMatchList.length; i++) {
+    //   predictedMatch = predictedMatchList[i];
+    // }
+
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -114,7 +146,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  ' widget.predictedMatch',
+                                  widget.teamHomeName,
                                   style: const TextStyle(fontSize: 17),
                                   softWrap: true,
                                   maxLines: 3,
@@ -123,7 +155,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
-                                    imageUrl: "fthfdh",
+                                    imageUrl: widget.teamHomeLogo,
                                     fadeInDuration: Duration(milliseconds: 50),
                                     // placeholder: (context, url) =>
                                     //     const CircularProgressIndicator(),
@@ -185,7 +217,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  // _resultHome = int.parse(value!);
+                                  _resultHome = int.parse(value!);
                                 },
                               ),
                             ],
@@ -262,7 +294,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  // _resultAway = int.parse(value!);
+                                  _resultAway = int.parse(value!);
                                 },
                               ),
                             ],
@@ -275,7 +307,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "fghfghfg",
+                                  widget.teamAwayName,
                                   style: const TextStyle(fontSize: 17),
                                   softWrap: true,
                                   maxLines: 3,
@@ -284,7 +316,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
-                                    imageUrl: "fghfghfghfgh",
+                                    imageUrl: widget.teamAwayLogo,
                                     fadeInDuration: Duration(milliseconds: 50),
                                     // placeholder: (context, url) =>
                                     //     const CircularProgressIndicator(),
@@ -306,8 +338,12 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: _saveEdithResultPrediction,
-                    // onPressed: () {},
+                    onPressed: () {
+                      _saveEdithResultPrediction();
+                    },
+                    // onPressed: () {
+                    // print();
+                    // },
                     style: ElevatedButton.styleFrom(
                       foregroundColor:
                           Colors.white, //change background color of button

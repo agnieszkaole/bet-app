@@ -2,18 +2,18 @@ import 'package:bet_app/src/widgets/predicted_result_edith.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class PredictedItem extends StatefulWidget {
-  PredictedItem({
+class PredictedItemLocal extends StatefulWidget {
+  PredictedItemLocal({
     super.key,
     required this.predictedMatch,
   });
   Map<String, dynamic> predictedMatch;
 
   @override
-  State<PredictedItem> createState() => _PredictedItemState();
+  State<PredictedItemLocal> createState() => _PredictedItemLocalState();
 }
 
-class _PredictedItemState extends State<PredictedItem> {
+class _PredictedItemLocalState extends State<PredictedItemLocal> {
   bool isNewMatch = true;
 
   @override
@@ -145,7 +145,17 @@ class _PredictedItemState extends State<PredictedItem> {
                         // onPressed: () {},
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PredictedResultEdith(),
+                            builder: (context) => PredictedResultEdith(
+                              teamHomeName:
+                                  widget.predictedMatch['teamHomeName'],
+                              teamAwayName:
+                                  widget.predictedMatch['teamAwayName'],
+                              teamHomeLogo:
+                                  widget.predictedMatch['teamHomeLogo'],
+                              teamAwayLogo:
+                                  widget.predictedMatch['teamAwayLogo'],
+                              matchId: widget.predictedMatch['matchId'],
+                            ),
                           ));
                         },
                         child: const Align(

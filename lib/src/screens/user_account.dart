@@ -1,8 +1,10 @@
 import 'package:bet_app/main.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
+import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bet_app/src/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class UserAccountScreen extends StatefulWidget {
   const UserAccountScreen({super.key});
@@ -14,41 +16,39 @@ class UserAccountScreen extends StatefulWidget {
 class _UserAccountScreenState extends State<UserAccountScreen> {
   User? user = Auth().currentUser;
   bool isAnonymous = true;
-  String email = "";
+  String? email = "";
 
   @override
   void initState() {
     super.initState();
     setState(() {
       isAnonymous = user!.isAnonymous;
-      // email = user!.email;
+      email = user!.email;
     });
   }
 
-  Future<void> signOut() async {
-    try {
-      await Auth().signOut();
-      print('User is logged out: ${user!.uid}');
-      setState(() {
-        user = null;
-        // isLogged = false;
-      });
-    } catch (e) {
-      print('Error signing out: $e');
-    }
+  void showLoginScreen() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const LoginScreen(),
     ));
   }
 
-  void signIn() async {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const LoginScreen(),
-    ));
+  Future<void> signOut() async {
+    await Auth().signOutUserAccount();
+    print('User is logged out: ${user!.uid}');
+
+    // setState(() {
+    //   user = null;
+    // });
+    showLoginScreen();
   }
 
   @override
   Widget build(BuildContext context) {
+    // var predictedMatchProvider = Provider.of<PredictedMatchProvider>(context);
+    // if (predictedMatchProvider.predictedMatchList.isNotEmpty) {
+    //   predictedMatchProvider.predictedMatchList.clear();
+    // }
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -66,7 +66,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 10),
+                        padding: EdgeInsets.only(right: 10),
                         child: Text(
                           'Wyloguj',
                           style: TextStyle(fontSize: 16),
@@ -83,14 +83,9 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         width: double.infinity,
         padding: const EdgeInsets.all(10),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
               children: [
-                // isLogged
-                // ?
-
                 isAnonymous
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -116,18 +111,18 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                             ),
                             const SizedBox(height: 20),
                             const Text(
-                              'Gość ',
+                              'Niezalogowany',
                               style: TextStyle(fontSize: 24),
                             ),
-                            SizedBox(height: 20),
-                            Text(
+                            const SizedBox(height: 20),
+                            const Text(
                               'W tym trybie masz dostęp jedynie do niektórych funkcji. Zaloguj się, żeby móc w\u{00A0}pełni korzystać z\u{00A0}aplikacji.',
                               style: TextStyle(fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Container(
-                              margin: EdgeInsets.symmetric(vertical: 25),
+                              margin: const EdgeInsets.symmetric(vertical: 25),
                               width: 200,
                               height: 50,
                               child: ElevatedButton(
@@ -135,6 +130,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => const LoginScreen(),
                                   ));
+                                  signOut();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: const StadiumBorder(),
@@ -148,7 +144,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                           ])
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -180,31 +176,33 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                             ),
                           ),
                           const SizedBox(height: 20),
-
                           Text(
                             user?.displayName != null
                                 ? 'Nazwa użytkownika: ${user?.displayName}'
                                 : 'Brak danych',
+                            style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            user?.email != null
-                                ? 'Email: ${user?.email}'
-                                : 'Brak danych',
-                          ),
+                              user?.email != null
+                                  ? 'Email: ${user?.email}'
+                                  : 'Brak danych',
+                              style: const TextStyle(fontSize: 20)),
                           const SizedBox(height: 50),
-                          // Text(
-                          //   'Zmień nazwę użytkownika',
-                          //   style: const TextStyle(fontSize: 16),
-                          // ),
-                          // Text(
-                          //   'Zmień hasło',
-                          //   style: const TextStyle(fontSize: 16),
-                          // ),
-                          // Text(
-                          //   'Usuń konto',
-                          //   style: const TextStyle(fontSize: 16),
-                          // ),
+                          const Text(
+                            'Zmień nazwę użytkownika',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Zmień hasło',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Usuń konto',
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ],
                       )
                 // :

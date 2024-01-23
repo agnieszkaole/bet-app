@@ -1,6 +1,10 @@
-import 'package:bet_app/src/features/authentication/screens/sign_up/successful_registration.dart';
+// import 'dart:js';
+
+import 'package:bet_app/src/features/authentication/screens/register/successful_registration.dart';
+import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // typedef ErrorCallback = void Function(String errorMessageAuth);
 
@@ -44,27 +48,23 @@ class Auth {
   Future<void> createUserWithEmailAndPassword({
     required String email,
     required String password,
-    required String confirmPassword,
-    required String displayName,
   }) async {
-    // try {
-    UserCredential userCredential =
-        await _firebaseAuth.createUserWithEmailAndPassword(
+    await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-
-    User? user = userCredential.user;
-    if (user != null) {
-      await user.updateDisplayName(displayName);
-    }
-    // } catch (e) {
-    //   print('Error creating user: $e');
-    //   // Handle error, e.g., display an error message to the user
-    // }
   }
 
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+  Future<void> signOutUserAccount() async {
+    try {
+      // User? user = _firebaseAuth.currentUser;
+      // if (user != null && user.isAnonymous) {
+      //   await user.delete();
+      //   print('Anonymous user deleted successfully.');
+      // }
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      print('Error signing out: $e');
+    }
   }
 }

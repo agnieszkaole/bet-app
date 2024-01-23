@@ -1,7 +1,7 @@
 import 'package:bet_app/src/features/authentication/screens/login/widgets/continue_as_guest.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/login_form_widget.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/login_header_widget.dart';
-import 'package:bet_app/src/features/authentication/screens/sign_up/singup_screen.dart';
+import 'package:bet_app/src/features/authentication/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const SignUpScreen(),
+                          builder: (context) => const RegisterScreen(),
                         ));
                       },
                       child: const Text(

@@ -5,6 +5,7 @@ import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,8 @@ Future<void> main() async {
 
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: true);
   runApp(const MyApp());
 }
 

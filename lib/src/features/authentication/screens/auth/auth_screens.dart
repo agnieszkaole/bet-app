@@ -1,5 +1,5 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
-import 'package:bet_app/src/features/authentication/screens/sign_up/singup_screen.dart';
+import 'package:bet_app/src/features/authentication/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreens extends StatefulWidget {
@@ -23,7 +23,7 @@ class _AuthScreensState extends State<AuthScreens> {
     if (showLoginPage) {
       return const LoginScreen();
     } else {
-      return const SignUpScreen();
+      return const RegisterScreen();
     }
   }
 }

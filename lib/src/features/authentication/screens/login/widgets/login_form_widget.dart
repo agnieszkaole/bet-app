@@ -1,8 +1,10 @@
 import 'package:bet_app/src/features/authentication/screens/login/widgets/forget_password.dart';
+import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({super.key});
@@ -17,7 +19,7 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  void showHomeScreen() {
+  void showHomeScreen(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => HomeScreen(),
     ));
@@ -54,28 +56,34 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Future<String?> signInUser() async {
+  // var predictedMatchProvider = Provider.of<PredictedMatchProvider>(context);
+  // if (predictedMatchProvider.predictedMatchList.isNotEmpty) {
+  //   predictedMatchProvider.predictedMatchList.clear();
+  // }
+
+  Future<String?> signInUser(BuildContext context) async {
+    // var bottomNavigationIndex =
+    //     Provider.of<BottomNavigationProvider>(context).selectedIndex;
     if (_controllerEmail.text.isEmpty || _controllerPassword.text.isEmpty) {
       setState(() {
         errorMessage = "Wszystkie pola muszą być uzupełnione.";
       });
       return errorMessage;
     }
-
     try {
       User? user = await Auth().signInWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
+        email: _controllerEmail.text.trim(),
+        password: _controllerPassword.text.trim(),
       );
 
       if (user != null) {
         print('User is logged in: ${user.uid}');
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context) => HomeScreen(),
-        // ));
-        showHomeScreen();
-        return null; // Sign-in successful
+        Provider.of<BottomNavigationProvider>(context, listen: false)
+            .updateIndex(0);
+        showHomeScreen(context);
+        return null;
       }
+
       return null;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -83,10 +91,6 @@ class _LoginFormState extends State<LoginForm> {
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
           errorMessage = "Podany e-mail jest nieprawidłowy.";
           break;
-        // case "user-not-found":
-        //   print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-        //   errorMessage = "Nie znaleziono użytkownika o podanym adresie e-mail.";
-        //   break;
         case "wrong-password":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
           errorMessage = "Hasło jest nieprawidłowe.";
@@ -124,7 +128,7 @@ class _LoginFormState extends State<LoginForm> {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              signInUser();
+              signInUser(context);
             },
             style: ElevatedButton.styleFrom(
               shape: const StadiumBorder(),
