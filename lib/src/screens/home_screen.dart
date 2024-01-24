@@ -23,8 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // User? user = Auth().currentUser;
   bool isAnonymous = true;
-  String email = "Niezalogowany";
-  String username = "Niezalogowany";
+  // String email = "Niezalogowany";
 
   @override
   void initState() {
@@ -37,8 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (user != null) {
       setState(() {
         isAnonymous = user.isAnonymous;
-        email = user.email ?? "Niezalogowany";
-        // username = user.displayName ?? "Niezalogowany";
+        // email = user.email ?? "Niezalogowany";
       });
     } else {
       print('No user is currently logged in');
@@ -52,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            Text(email),
+            // Text(email),
             IconButton(
               onPressed: () {
                 Navigator.of(context).push(

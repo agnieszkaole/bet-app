@@ -19,7 +19,6 @@ class Auth {
     required String email,
     required String password,
   }) async {
-    // try {
     UserCredential userCredential =
         await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
@@ -27,22 +26,18 @@ class Auth {
     );
     print('User signed in: ${userCredential.user}');
     return userCredential.user;
-    // } catch (e) {
-    //   print('Error signing in: $e');
-    //   return null;
-    // }
   }
 
   Future<User?> signInAnonymously() async {
-    try {
-      UserCredential userCredential = await _firebaseAuth.signInAnonymously();
-      User? user = userCredential.user!;
-      print("Anonymous user created: ${user.uid}");
-      return user;
-    } catch (e) {
-      print("Error creating anonymous user: $e");
-      return null;
-    }
+    // try {
+    UserCredential userCredential = await _firebaseAuth.signInAnonymously();
+    User? user = userCredential.user!;
+    print("Anonymous user created: ${user.uid}");
+    return user;
+    // } catch (e) {
+    // print("Error creating anonymous user: $e");
+    // return null;
+    // }
   }
 
   Future<void> createUserWithEmailAndPassword({

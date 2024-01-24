@@ -1,5 +1,5 @@
 import "dart:core";
-import 'package:bet_app/src/services/soccer_api_service.dart';
+import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
@@ -8,18 +8,18 @@ import 'package:bet_app/src/widgets/next_match_list.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
-class GetApiData extends StatefulWidget {
-  const GetApiData({
+class ApiData extends StatefulWidget {
+  const ApiData({
     super.key,
     this.leagueNumber,
   });
   final String? leagueNumber;
 
   @override
-  State<GetApiData> createState() => _GetApiDataState();
+  State<ApiData> createState() => _ApiDataState();
 }
 
-class _GetApiDataState extends State<GetApiData> {
+class _ApiDataState extends State<ApiData> {
   late Future dataFuture;
   late Future leagueFuture;
   String? statusApi = 'ns-tbd';

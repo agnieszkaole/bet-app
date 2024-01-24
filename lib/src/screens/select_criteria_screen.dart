@@ -1,9 +1,12 @@
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/auth.dart';
-import 'package:bet_app/src/services/get_api_data.dart';
+
+import 'package:bet_app/src/services/api_data.dart';
+import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
 import 'package:bet_app/src/widgets/next_match_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:bet_app/src/constants/league_names.dart';
@@ -21,26 +24,29 @@ class SelectCriteriaScreen extends StatefulWidget {
 class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
   int currentPage = 0;
   var cardColor = const Color.fromARGB(255, 40, 122, 43);
-  User? user = Auth().currentUser;
 
   String? selectedLeagueNumber;
   String? selectedLeagueName;
-  String? username = "";
-  bool? isAnomous = true;
-  String? email = "";
+  User? user = Auth().currentUser;
+  bool? isAnonymous = true;
+  // String? email = "";
+  String? username;
 
   @override
   void initState() {
     super.initState();
+    initUserDetails();
+  }
+
+  Future<void> initUserDetails() async {
     setState(() {
       User? user = Auth().currentUser;
       if (user != null) {
-        username = user.email ?? '';
-        isAnomous = user.isAnonymous;
-        username = user.displayName ?? '';
-        email = user.email ?? '';
+        isAnonymous = user.isAnonymous;
       }
     });
+    username = await UserData().getUsernameFromFirebase();
+    setState(() {});
   }
 
   void updateLeagueNumber(String? newLeagueNumber) {
@@ -48,8 +54,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
       selectedLeagueNumber = newLeagueNumber;
     });
     // fetchDataForNewLeague(newLeagueNumber);
-    GetApiData getApiDataScreen =
-        GetApiData(leagueNumber: selectedLeagueNumber);
+    ApiData getApiDataScreen = ApiData(leagueNumber: selectedLeagueNumber);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => getApiDataScreen),
@@ -76,7 +81,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
             children: [
               const SizedBox(height: 20),
               Text(
-                'Witaj $email',
+                'Witaj $username',
                 // 'Hello $username',
                 style: TextStyle(fontSize: 35),
               ),

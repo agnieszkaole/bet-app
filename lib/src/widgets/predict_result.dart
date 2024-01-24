@@ -25,7 +25,6 @@ class PredictResult extends StatefulWidget {
     required this.matchId,
     required this.match,
     required this.leagueName,
-    required bool isNewMatch,
   });
 
   final String homeName;
@@ -43,7 +42,6 @@ class PredictResult extends StatefulWidget {
 class _PredictResultState extends State<PredictResult> {
   int? _resultHome;
   int? _resultAway;
-  bool _isNewMatch = true;
 
   final _formKey = GlobalKey<FormState>();
   User? user = Auth().currentUser;
@@ -58,21 +56,41 @@ class _PredictResultState extends State<PredictResult> {
   }
 
   Future<void> addPredictedMatch(
-      String homeName,
-      String awayName,
-      String homeLogo,
-      String awayLogo,
-      int? homeGoal,
-      int? awayGoal,
-      String leagueName,
-      int matchId,
-      String matchTime) async {
+    String homeName,
+    String awayName,
+    String homeLogo,
+    String awayLogo,
+    int? homeGoal,
+    int? awayGoal,
+    String leagueName,
+    int matchId,
+    String matchTime,
+  ) async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         print('User is not authenticated');
         return;
       }
+
+      // QuerySnapshot<Map<String, dynamic>> existingMatches =
+      //     await FirebaseFirestore.instance
+      //         .collection('users')
+      //         .doc(user.uid)
+      //         .collection('matches')
+      //         .where('matchId', isEqualTo: matchId)
+      //         .get();
+
+      // if (existingMatches.docs.isNotEmpty) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(
+      //       content: Text('Ten mecz jest już dodany!'),
+      //       duration: Duration(milliseconds: 1500),
+      //     ),
+      //   );
+
+      //   return;
+      // }
 
       await FirebaseFirestore.instance
           .collection('users')
@@ -96,44 +114,47 @@ class _PredictResultState extends State<PredictResult> {
     }
   }
 
-  // void edithResult() {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => PredictedResultEdith(
-  //         teamHomeName: widget.homeName,
-  //         teamHomeLogo: widget.homeLogo,
-  //         teamAwayName: widget.awayName,
-  //         teamAwayLogo: widget.awayLogo,
-  //         matchId: widget.matchId,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   void _savePredictResult() async {
+    // final predictedMatchList =
+    //     context.watch<PredictedMatchProvider>().predictedMatchList;
+    // int? predictedMatchId;
+    // for (var i = 0; i > predictedMatchList.length; i++) {
+    //   predictedMatchId = predictedMatchList[i]['matchId'];
+    // }
+
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
       if (!context.mounted) {
         return;
       }
-      setState(() {
-        _isNewMatch = !_isNewMatch;
-      });
+      // setState(() {
+      //   isNewMatch = !isNewMatch;
+      // });
 
       if (!isAnonymous) {
         addPredictedMatch(
-            widget.homeName,
-            widget.awayName,
-            widget.homeLogo,
-            widget.awayLogo,
-            _resultHome,
-            _resultAway,
-            widget.leagueName,
-            widget.matchId,
-            widget.matchTime);
+          widget.homeName,
+          widget.awayName,
+          widget.homeLogo,
+          widget.awayLogo,
+          _resultHome,
+          _resultAway,
+          widget.leagueName,
+          widget.matchId,
+          widget.matchTime,
+        );
       } else {
+        // if (predictedMatchId == widget.matchId) {
+        //   print('dfgdfg $predictedMatchId');
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(
+        //       content: const Text('Ten mecz jest już dodany!'),
+        //     ),
+        //   );
+        //   Navigator.of(context).pop();
+        //   return;
+        // }
         Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
           {
             'teamHomeName': widget.homeName,
@@ -143,28 +164,26 @@ class _PredictResultState extends State<PredictResult> {
             'teamAwayLogo': widget.awayLogo,
             'teamAwayGoal': _resultAway,
             'matchTime': widget.matchTime,
-            'isNewMatch': _isNewMatch,
             'matchId': widget.matchId,
             'leagueName': widget.leagueName
           },
         );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Mecz został dodany!'),
+            // action: SnackBarAction(
+            //     label: 'Zobacz',
+            //     onPressed: () {
+            //       Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => PredictedScreen(),
+            //       ));
+            //     }),
+          ),
+        );
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Mecz został dodany!'),
-          // action: SnackBarAction(
-          //     label: 'Zobacz',
-          //     onPressed: () {
-          //       Navigator.of(context).push(MaterialPageRoute(
-          //         builder: (context) => PredictedScreen(),
-          //       ));
-          //     }),
-        ),
-      );
-      Navigator.of(context).pop(_isNewMatch);
-
-      // edithResult();
+      // Navigator.of(context).pop(isNewMatch);
+      Navigator.of(context).pop();
     }
   }
 

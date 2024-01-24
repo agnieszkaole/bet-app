@@ -17,7 +17,7 @@ class _NextMatchItemState extends State<NextMatchItem>
     with AutomaticKeepAliveClientMixin<NextMatchItem> {
   @override
   bool get wantKeepAlive => true;
-  bool isNewMatch = true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -124,7 +124,7 @@ class _NextMatchItemState extends State<NextMatchItem>
           ),
           Container(
             margin: const EdgeInsets.only(top: 15),
-            child: (isNewMatch)
+            child: (true)
                 ? ElevatedButton(
                     onPressed: () async {
                       final newValueIsNewMatch =
@@ -136,15 +136,10 @@ class _NextMatchItemState extends State<NextMatchItem>
                           awayLogo: awayLogo,
                           matchTime: matchTime,
                           matchId: matchId,
-                          isNewMatch: isNewMatch,
                           match: widget.match,
                           leagueName: leagueName,
                         ),
                       ));
-
-                      setState(() {
-                        isNewMatch = newValueIsNewMatch;
-                      });
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

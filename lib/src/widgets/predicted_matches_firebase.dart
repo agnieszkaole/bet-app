@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:bet_app/src/widgets/predicted_item_firebase.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
@@ -15,12 +17,28 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
   User? user = FirebaseAuth.instance.currentUser;
   bool isAnonymous = true;
 
+  StreamSubscription<QuerySnapshot>? _streamSubscription;
+
   @override
   void initState() {
     super.initState();
     setState(() {
       isAnonymous = user!.isAnonymous;
     });
+    _streamSubscription = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('matches')
+        .snapshots()
+        .listen((snapshot) {
+      // Handle the snapshot
+    });
+  }
+
+  @override
+  void dispose() {
+    _streamSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -46,16 +64,31 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
               Map<String, dynamic> data =
                   firestoreDocuments[index].data() as Map<String, dynamic>;
 
-              // String homeName = data['homeName'];
-              // String awayName = data['awayName'];
-              // int? homeGoal = data['homeGoal'];
-              // int? awayGoal = data['awayGoal'];
-              // String leagueName = data['leagueName'];
-              // int matchId = data['matchId'];
-              // String matchTime = data['matchTime'];
-              print(data['homelogo']);
-
-              return PredictedItemFirebase(data: data);
+              return Dismissible(
+                  key: Key(data['matchId'].toString()),
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onDismissed: (direction) {
+                    Map<String, dynamic> deletedData = firestoreDocuments[index]
+                        .data() as Map<String, dynamic>;
+                    String documentId = firestoreDocuments[index].id;
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user!.uid)
+                        .collection('matches')
+                        .doc(documentId)
+                        .delete();
+                    setState(() {
+                      firestoreDocuments.insert(
+                          index, deletedData as DocumentSnapshot<Object?>);
+                    });
+                  },
+                  child: PredictedItemFirebase(data: data));
             },
           );
         }

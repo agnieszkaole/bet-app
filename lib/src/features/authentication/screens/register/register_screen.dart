@@ -12,10 +12,10 @@ class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _SignUpScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _SignUpScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   String errorMessage = '';
 
   final TextEditingController _controllerName = TextEditingController();

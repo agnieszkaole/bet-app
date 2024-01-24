@@ -11,10 +11,6 @@ import 'package:provider/provider.dart';
 
 class SoccerApi {
   static const _baseUrl = "https://v3.football.api-sports.io/fixtures?";
-  // static const liveApi = '$_baseUrl?live=all';
-  // static const prevApi =
-  //     '$_baseUrl?last=20&status=ft-aet-pen&league=960&season=2023';
-  // static const byDateApi = '$_baseUrl?status=ns-tbd&date=;
 
   static const headers = {
     'x-rapidapi-host': "v3.football.api-sports.io",
@@ -29,8 +25,6 @@ class SoccerApi {
     String? liveUrl = live == "" ? "" : '&live=$live';
 
     Response res = await get(
-        // Uri.parse('$_baseUrl$dateUrl$leagueUrl$seasonUrl$statusUrl$liveUrl'),
-        // headers: headers);
         Uri.parse('$_baseUrl$dateUrl$leagueUrl$seasonUrl$statusUrl$liveUrl'),
         headers: headers);
 

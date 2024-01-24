@@ -1,6 +1,7 @@
 import 'package:bet_app/main.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
+import 'package:bet_app/src/services/user_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bet_app/src/services/auth.dart';
@@ -16,15 +17,34 @@ class UserAccountScreen extends StatefulWidget {
 class _UserAccountScreenState extends State<UserAccountScreen> {
   User? user = Auth().currentUser;
   bool isAnonymous = true;
-  String? email = "";
+  String? email = '';
+  String? username = '';
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   setState(() {
+  //     isAnonymous = user!.isAnonymous;
+  //     email = user!.email;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
+    initUserDetails();
+  }
+
+  Future<void> initUserDetails() async {
     setState(() {
-      isAnonymous = user!.isAnonymous;
-      email = user!.email;
+      User? user = Auth().currentUser;
+      if (user != null) {
+        isAnonymous = user.isAnonymous;
+        email = user.email;
+      }
     });
+    username = await UserData().getUsernameFromFirebase();
+    setState(() {});
   }
 
   void showLoginScreen() {
@@ -177,9 +197,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            user?.displayName != null
-                                ? 'Nazwa użytkownika: ${user?.displayName}'
-                                : 'Brak danych',
+                            'Nazwa użytkownika: ${username}',
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 20),

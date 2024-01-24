@@ -95,6 +95,11 @@ class _LoginFormState extends State<LoginForm> {
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
           errorMessage = "Hasło jest nieprawidłowe.";
           break;
+        case "too-many-requests":
+          print('FirebaseAuthException: ${e.message}, code: ${e.code}');
+          errorMessage =
+              "Zablokowano dostęp z powodu nietypowej aktywności. Spróbuj ponownie później. ";
+          break;
         case "invalid-credential":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
           errorMessage = "Nieprawidłowy e-mail lub hasło.";

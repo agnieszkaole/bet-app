@@ -1,7 +1,7 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/auth.dart';
-import 'package:bet_app/src/services/soccer_api_service.dart';
+import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/data_picker.dart';
 // import 'package:bet_app/provider/predicted_match_provider.dart';
 // import 'package:bet_app/widgets/data_picker.dart';
@@ -41,6 +41,7 @@ class _NextMatchListState extends State<NextMatchList> {
   int displayedItems = 20;
   bool isLoading = true;
   bool hasFetchedData = false;
+  bool isNewMatch = true;
 
   @override
   void initState() {
@@ -54,6 +55,7 @@ class _NextMatchListState extends State<NextMatchList> {
       setState(() {
         isLoading = false;
         hasFetchedData = true;
+        isNewMatch = false;
       });
 
       return data;

@@ -63,6 +63,8 @@ android {
         debug {
             manifestPlaceholders.securityConfig = "@xml/network_security_config_dev"
         }
+
+
     }
 }
 
