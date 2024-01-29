@@ -61,7 +61,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<String?> createUserAndCheckEmail(String email, String password) async {
+  Future<String?> createUserAndCheckEmail(
+      String email, String password, displayName) async {
     await Future.delayed(Duration.zero);
     if (_controllerEmail.text.isEmpty ||
         _controllerPassword.text.isEmpty ||
@@ -81,10 +82,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     try {
-      await Auth().createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await Auth().createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await userCredential.user?.updateDisplayName(displayName);
       showSuccesfulScreen();
       addUserDetails(
         _controllerName.text.trim(),
@@ -191,6 +194,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     await createUserAndCheckEmail(
                       _controllerEmail.text,
                       _controllerPassword.text,
+                      _controllerName.text,
                     );
                     // await createUserAndCheckEmail(
                     //   _controllerEmail.text,

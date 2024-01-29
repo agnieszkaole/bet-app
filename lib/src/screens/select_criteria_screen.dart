@@ -1,5 +1,6 @@
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:bet_app/src/services/auth.dart';
 
 import 'package:bet_app/src/services/api_data.dart';
@@ -30,7 +31,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
   User? user = Auth().currentUser;
   bool? isAnonymous = true;
   // String? email = "";
-  String? username;
+  String? username = '';
 
   @override
   void initState() {
@@ -81,7 +82,9 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
             children: [
               const SizedBox(height: 20),
               Text(
-                'Witaj $username',
+                user?.displayName != null
+                    ? 'Witaj ${user?.displayName}'
+                    : 'Witaj',
                 // 'Hello $username',
                 style: TextStyle(fontSize: 35),
               ),
@@ -164,6 +167,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                 color: Color.fromARGB(150, 76, 175, 79),
                 thickness: 1,
               ),
+              // (isAnonymous ?? false) ? const Text('') : const UserGroups()
             ],
           ),
         ),

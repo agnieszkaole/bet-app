@@ -197,9 +197,10 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            'Nazwa użytkownika: ${username}',
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                              user?.displayName != null
+                                  ? 'Nazwa użytkownika: ${user?.displayName}'
+                                  : 'Brak danych',
+                              style: const TextStyle(fontSize: 20)),
                           const SizedBox(height: 20),
                           Text(
                               user?.email != null

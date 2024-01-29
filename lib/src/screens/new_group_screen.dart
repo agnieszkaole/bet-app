@@ -14,12 +14,18 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   Groups groups = Groups();
   List<Map<String, dynamic>> members = [];
   String? _groupName;
+  // String? _groupId;
 
   Future<String?> createNewGroup() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
 
       await groups.createGroup(_groupName, members);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Utworzyłeś nową grupę $_groupName'),
+        ),
+      );
       Navigator.of(context).pop();
     }
     return _groupName;

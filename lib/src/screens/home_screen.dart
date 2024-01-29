@@ -120,8 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(Icons.emoji_events_rounded),
-                label: 'Wybierz ligę',
+                // icon: Icon(Icons.emoji_events_rounded),
+                icon: Icon(Icons.home),
+                label: 'Główna',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
