@@ -1,16 +1,23 @@
+import 'package:bet_app/src/screens/group_tab.dart';
 import 'package:bet_app/src/services/groups.dart';
+import 'package:bet_app/src/widgets/group_details.dart';
 
 import 'package:flutter/material.dart';
 
-class UserGroups extends StatelessWidget {
+class UserGroups extends StatefulWidget {
   const UserGroups({super.key});
 
+  @override
+  State<UserGroups> createState() => _UserGroupsState();
+}
+
+class _UserGroupsState extends State<UserGroups> {
   @override
   Widget build(BuildContext context) {
     Groups groups = Groups();
 
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: groups.getUserGroupsWithMembers(),
+      future: groups.getUserGroupsData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
@@ -65,19 +72,26 @@ class UserGroups extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final groupData = userGroups[index];
                       String? groupName = groupData['groupName'];
-                      // String? groupId = groupData['groupId'];
-                      int groupMembers = groupData['numberOfUsers'];
-
+                      String? groupId = groupData['groupId'];
+                      String? creatorUsername = groupData['creatorUsername'];
+                      int? groupMembers = groupData['numberOfUsers'];
                       return GestureDetector(
                         onTap: () {
-                          print(groupName);
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => GroupTabs(
+                              groupName: groupName,
+                              groupId: groupId,
+                              groupMembers: groupMembers,
+                              creatorUsername: creatorUsername,
+                            ),
+                          ));
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5),
                           margin: const EdgeInsets.symmetric(
                               horizontal: 5, vertical: 10),
                           height: 50,
-                          width: 230,
+                          width: 240,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
@@ -102,6 +116,8 @@ class UserGroups extends StatelessWidget {
                                         // backgroundImage: AssetImage(
                                         //   'assets/images/image-from-rawpixel-id-6626581-original.png',
                                         // ),
+                                        child: Icon(Icons.groups),
+
                                         backgroundColor:
                                             Color.fromARGB(255, 40, 122, 43),
                                       ),
@@ -119,17 +135,11 @@ class UserGroups extends StatelessWidget {
                                           Text('Uczestnicy: $groupMembers',
                                               style: TextStyle(fontSize: 16)),
                                         ]),
+                                    const SizedBox(width: 10),
                                     const Icon(Icons.login_rounded),
                                   ],
                                 ),
                               ),
-                              // const Divider(
-                              //   height: 20,
-                              //   color: Color.fromARGB(158, 76, 175, 79),
-                              //   thickness: 1,
-                              //   // indent: 20,
-                              //   // endIndent: 20,
-                              // ),
                             ],
                           ),
                         ),

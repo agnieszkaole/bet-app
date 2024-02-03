@@ -5,22 +5,24 @@ class Groups {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> createGroup(
-      String? groupName, List<Map<String, dynamic>>? members) async {
+  Future<void> createGroup(String? groupName, String? privacyType,
+      List<Map<String, dynamic>>? members) async {
     try {
       User? currentUser = _auth.currentUser;
 
       if (currentUser != null) {
-        members?.add(
-          {'memberUid': currentUser.uid, 'memberEmail': currentUser.email},
-        );
+        members?.add({
+          'memberUid': currentUser.uid,
+          'memberUsername': currentUser.displayName,
+        });
 
         DocumentReference groupReference =
             await _firestore.collection('groups').add({
           'name': groupName,
           'creatorUid': currentUser.uid,
-          'creatorEmail': currentUser.email,
-          'members': members
+          'creatorUsername': currentUser.displayName,
+          'members': members,
+          'privacyType': privacyType,
         });
 
         await _firestore.collection('users').doc(currentUser.uid).update({
@@ -28,6 +30,7 @@ class Groups {
             {
               'groupId': groupReference.id,
               'groupName': groupName,
+              'privacyType': privacyType,
             },
           ]),
         });
@@ -58,13 +61,13 @@ class Groups {
           // Check if the user is already a member
           bool isUserAlreadyMember = members.any((member) =>
               member['memberUid'] == currentUser.uid &&
-              member['memberEmail'] == currentUser.email);
+              member['memberUsername'] == currentUser.displayName);
 
           if (!isUserAlreadyMember) {
             // Add the current user as a member
             members.add({
               'memberUid': currentUser.uid,
-              'memberEmail': currentUser.email,
+              'memberUsername': currentUser.displayName,
             });
 
             // Update the group document with the new member
@@ -118,32 +121,47 @@ class Groups {
   //     return userGroups;
   //   }
   // }
-
-  Future<int> getNumberOfUsersInGroup(String groupId) async {
+  Future<Map<String, dynamic>> getDataAboutGroup(String groupId) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> groupSnapshot =
           await _firestore.collection('groups').doc(groupId).get();
 
       if (groupSnapshot.exists) {
-        // Check if the 'members' field exists in the group data
+        int? numberOfUsers;
+        String? creatorUsername;
+        String? privacyType;
+        List<Map<String, dynamic>> members = [];
+
         if (groupSnapshot.data()?['members'] != null) {
-          List<Map<String, dynamic>> members =
+          members =
               List<Map<String, dynamic>>.from(groupSnapshot.data()?['members']);
 
-          // Return the number of users in the group
-          return members.length;
+          numberOfUsers = members.length;
         }
+        if (groupSnapshot.data()?['creatorUsername'] != null) {
+          creatorUsername = groupSnapshot.data()?['creatorUsername'];
+        }
+
+        if (groupSnapshot.data()?['privacyType'] != null) {
+          privacyType = groupSnapshot.data()?['privacyType'];
+        }
+
+        return {
+          'numberOfUsers': numberOfUsers,
+          'creatorUsername': creatorUsername,
+          'privacyType': privacyType,
+          'members': members,
+        };
       }
 
-      // If the group or 'members' field doesn't exist, return 0
-      return 0;
+      return {'error': 'Group not found'};
     } catch (e) {
-      print('Error getting number of users in group: $e');
-      return 0;
+      print('Error getting group data: $e');
+      return {'error': 'Error getting group data'};
     }
   }
 
-  Future<List<Map<String, dynamic>>> getUserGroupsWithMembers() async {
+  Future<List<Map<String, dynamic>>> getUserGroupsData() async {
     List<Map<String, dynamic>> userGroups = [];
 
     try {
@@ -157,12 +175,17 @@ class Groups {
           userGroups = List<Map<String, dynamic>>.from(
               userSnapshot.data()?['groups'] ?? []);
 
-          // Add the number of users in each group to the userGroups list
-          for (var group in userGroups) {
+          await Future.wait(userGroups.map((group) async {
             String? groupId = group['groupId'];
-            int numberOfUsers = await getNumberOfUsersInGroup(groupId ?? '');
-            group['numberOfUsers'] = numberOfUsers;
-          }
+            Map<String, dynamic> groupData =
+                await getDataAboutGroup(groupId ?? '');
+
+            int? numberOfUsers = groupData['numberOfUsers'];
+            String? creatorUsername = groupData['creatorUsername'];
+
+            group['numberOfUsers'] = numberOfUsers ?? 0;
+            group['creatorUsername'] = creatorUsername;
+          }));
         }
       }
       return userGroups;

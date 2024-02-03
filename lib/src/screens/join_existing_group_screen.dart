@@ -1,11 +1,77 @@
+import 'dart:async';
+import 'package:bet_app/main.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:bet_app/src/widgets/group_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+class GroupListScreen extends StatelessWidget {
+  const GroupListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Wybierz grupę'),
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: Column(
+              children: [
+                SizedBox(height: 15),
+                TabBar(
+                  padding: EdgeInsets.only(bottom: 20),
+                  indicatorColor: Colors.green,
+                  indicatorWeight: 2.0,
+                  labelColor: Colors.white,
+                  dividerColor: Color.fromARGB(38, 255, 255, 255),
+                  tabs: [
+                    Tab(
+                      iconMargin: EdgeInsets.zero,
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.lock_open_outlined, size: 25),
+                          SizedBox(width: 5),
+                          Text('Publiczne'),
+                        ],
+                      ),
+                    ),
+                    Tab(
+                      iconMargin: EdgeInsets.zero,
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.lock_rounded, size: 25),
+                          SizedBox(width: 5),
+                          Text('Prywatne'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        body: const TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            JoinExistingGroupScreen(privacyType: 'public'),
+            JoinExistingGroupScreen(privacyType: 'private'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class JoinExistingGroupScreen extends StatefulWidget {
-  const JoinExistingGroupScreen({super.key});
+  const JoinExistingGroupScreen({super.key, this.privacyType});
+
+  final String? privacyType;
 
   @override
   State<JoinExistingGroupScreen> createState() =>
@@ -13,27 +79,59 @@ class JoinExistingGroupScreen extends StatefulWidget {
 }
 
 class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
-  Groups groups = Groups();
+  final Groups groups = Groups();
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // String? groupId;
-  // String? groupName;
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _searchController = TextEditingController();
+  final StreamController<List<Map<String, dynamic>>> groupStreamController =
+      BehaviorSubject<List<Map<String, dynamic>>>();
 
-  // Future<String?> joinToExistingGroup(
-  //     String? groupId, BuildContext context) async {
-  //   try {
-  //     await groups.joinGroup(groupId);
-  //     Navigator.of(context).pop();
-  //     return groupId;
-  //   } catch (e) {
-  //     print('Error joining group: $e');
-  //     rethrow;
-  //   }
-  // }
+  @override
+  void initState() {
+    super.initState();
+    groupStreamController.add([]);
+    _searchController.addListener(() {
+      updateFilteredGroups(_searchController.text);
+    });
+  }
 
-  Future<String?> joinToExistingGroup(
-      String? groupId, String? groupName, BuildContext context) async {
+  @override
+  void dispose() {
+    groupStreamController.close();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchFilteredGroups(
+      String searchText) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('groups')
+        .where('name', isGreaterThanOrEqualTo: searchText.toLowerCase())
+        .where('name', isLessThanOrEqualTo: '${searchText.toLowerCase()}\uf8ff')
+        // .where('privacyType', isEqualTo: widget.privacyType)
+        .get();
+
+    List<Map<String, dynamic>> groups = querySnapshot.docs
+        .map((doc) => doc.data()..['groupId'] = doc.id)
+        .toList();
+    print(groups.length);
+    return groups;
+  }
+
+  Future<void> updateFilteredGroups(String searchText) async {
+    List<Map<String, dynamic>> filteredGroups =
+        await fetchFilteredGroups(searchText);
+    // print('Filtered Groups: $filteredGroups');
+    await Future.delayed(const Duration(milliseconds: 300));
+    filteredGroups = filteredGroups
+        .where((group) => group['privacyType'] == widget.privacyType)
+        .toList();
+    groupStreamController.add(filteredGroups);
+  }
+
+  Future<String?> joinToExistingGroup(String? groupId, String? groupName,
+      String? privacyType, BuildContext context) async {
     try {
       await groups.joinGroup(groupId);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -51,121 +149,302 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dołącz do grupy'),
-      ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: _firestore.collection('groups').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text(
-                'Brak dostępnych grup.',
-                style: TextStyle(fontSize: 22),
-              ),
-            );
-          } else {
-            List<Map<String, dynamic>> groups = snapshot.data!.docs.map((doc) {
-              Map<String, dynamic> data = doc.data();
-              String? groupId = doc.id;
-              data['groupId'] = groupId;
-              return data;
-            }).toList();
+    return Column(
+      children: [
+        Container(
+          width: 300,
+          height: 70,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: SearchBar(
+            leading: const Icon(Icons.search),
+            hintText: 'Wyszukaj grupę',
+            controller: _searchController,
+            onChanged: (text) {
+              updateFilteredGroups(text);
+            },
+          ),
+        ),
+        _searchController.text.isNotEmpty
+            ? Expanded(
+                child: StreamBuilder<List<Map<String, dynamic>>>(
+                  stream: groupStreamController.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text(
+                          'Nie dodano żadnej grupy.',
+                          style: TextStyle(fontSize: 22),
+                        ),
+                      );
+                    } else if (snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'Nie znaleziono grupy.',
+                          style: TextStyle(fontSize: 22),
+                        ),
+                      );
+                    } else {
+                      List<Map<String, dynamic>> groupsFiltered =
+                          snapshot.data!;
 
-            return Center(
-              child: SizedBox(
-                width: 300,
-                child: ListView.builder(
-                  itemCount: groups.length,
-                  itemBuilder: (context, index) {
-                    final groupData = groups[index];
-                    String? groupName = groupData['name'] ?? '';
-                    String? groupId = groupData['groupId'];
-                    int groupMembers =
-                        (groupData['members'] as List<dynamic>?)?.length ?? 0;
+                      return ListView.builder(
+                          itemCount: groupsFiltered.length,
+                          itemBuilder: (context, index) {
+                            final groupData = groupsFiltered[index];
+                            String? groupName = groupData['name'] ?? '';
+                            String? groupId = groupData['groupId'];
+                            String? creatorUsername =
+                                groupData['creatorUsername'];
+                            int? groupMembers =
+                                (groupData['members'] as List<dynamic>?)
+                                        ?.length ??
+                                    0;
 
-                    return GestureDetector(
-                      onTap: () {
-                        if (groupId != null) {
-                          joinToExistingGroup(groupId, groupName, context);
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 10),
-                        // height: 80,
-                        width: 100,
-                        // decoration: BoxDecoration(
-                        //   borderRadius: BorderRadius.circular(10),
-                        //   border: Border.all(
-                        //     color: Color.fromARGB(255, 90, 90, 90),
-                        //     width: 1,
-                        //   ),
-                        // color: const Color.fromARGB(255, 56, 56, 56)
-                        // decoration: BoxDecoration(color: Colors.blue),
-                        // ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => GroupDetails(
+                                    groupId: groupId,
+                                    groupMembers: groupMembers,
+                                    groupName: groupName,
+                                    creatorUsername: creatorUsername,
+                                    privacyType: widget.privacyType,
+                                  ),
+                                ));
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(6.0),
-                                    child: CircleAvatar(
-                                      // backgroundImage: AssetImage(
-                                      //   'assets/images/image-from-rawpixel-id-6626581-original.png',
-                                      // ),
-                                      backgroundColor:
-                                          Color.fromARGB(255, 40, 122, 43),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SizedBox(
+                                      width: 300,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.all(6.0),
+                                            child: SizedBox(
+                                              width: 50,
+                                              child: CircleAvatar(
+                                                backgroundColor: Color.fromARGB(
+                                                    255, 40, 122, 43),
+                                                child: Icon(Icons.groups),
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '$groupName',
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Text(
+                                                'Uczestnicy: $groupMembers',
+                                                style: const TextStyle(
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(width: 30),
+                                          widget.privacyType == 'public'
+                                              ? GestureDetector(
+                                                  onTap: () async {
+                                                    if (groupId != null) {
+                                                      await joinToExistingGroup(
+                                                          groupId,
+                                                          groupName,
+                                                          widget.privacyType,
+                                                          context);
+                                                    }
+                                                  },
+                                                  child: const Icon(
+                                                    Icons
+                                                        .person_add_alt_1_rounded,
+                                                    size: 30,
+                                                  ),
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () async {
+                                                    // if (groupId != null) {
+                                                    //   await joinToExistingGroup(
+                                                    //       groupId,
+                                                    //       groupName,
+                                                    //       privacyType,
+                                                    //       context);
+                                                    // }
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.key_outlined,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  Column(
-                                      // mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('$groupName',
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold)),
-                                        const SizedBox(height: 2),
-                                        Text('Uczestnicy: $groupMembers',
-                                            style: TextStyle(fontSize: 16)),
-                                      ]),
-                                  const SizedBox(width: 30),
-                                  const Icon(Icons.person_add_alt_1_rounded,
-                                      size: 30),
                                 ],
                               ),
-                            ),
-                            const Divider(
-                              height: 20,
-                              color: Color.fromARGB(158, 76, 175, 79),
-                              thickness: 1,
-                              // indent: 20,
-                              // endIndent: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                            );
+                          });
+                    }
                   },
                 ),
-              ),
-            );
-          }
-        },
-      ),
+              )
+            : Expanded(
+                child: StreamBuilder<List<Map<String, dynamic>>>(
+                  stream: _firestore
+                      .collection('groups')
+                      .snapshots()
+                      .map((querySnapshot) {
+                    // return querySnapshot.docs.map((doc) => doc.data()).toList();
+                    return querySnapshot.docs.map((doc) {
+                      Map<String, dynamic> data = doc.data();
+                      data['groupId'] = doc.id;
+                      return data;
+                    }).toList();
+                  }),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'Nie dodano żadnych grup.',
+                          style: TextStyle(fontSize: 22),
+                        ),
+                      );
+                    } else {
+                      List<Map<String, dynamic>> groups = snapshot.data!;
+
+                      List<Map<String, dynamic>> filteredGroups = groups
+                          .where((group) =>
+                              group['privacyType'] == widget.privacyType)
+                          .toList();
+
+                      return ListView.builder(
+                        itemCount: filteredGroups.length,
+                        itemBuilder: (context, index) {
+                          final groupData = filteredGroups[index];
+                          String? groupName = groupData['name'] ?? '';
+                          String? groupId = groupData['groupId'] ?? '';
+                          String? creatorUsername =
+                              groupData['creatorUsername'];
+                          int? groupMembers =
+                              (groupData['members'] as List<dynamic>?)
+                                      ?.length ??
+                                  0;
+
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => GroupDetails(
+                                  groupId: groupId,
+                                  groupMembers: groupMembers,
+                                  groupName: groupName,
+                                  creatorUsername: creatorUsername,
+                                  privacyType: widget.privacyType,
+                                ),
+                              ));
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SizedBox(
+                                    width: 300,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(6.0),
+                                          child: CircleAvatar(
+                                            backgroundColor: Color.fromARGB(
+                                                255, 40, 122, 43),
+                                            child: Icon(Icons.groups),
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '$groupName',
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              'Uczestnicy: $groupMembers',
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 30),
+                                        widget.privacyType == 'public'
+                                            ? GestureDetector(
+                                                onTap: () async {
+                                                  if (groupId != null) {
+                                                    await joinToExistingGroup(
+                                                        groupId,
+                                                        groupName,
+                                                        widget.privacyType,
+                                                        context);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons
+                                                      .person_add_alt_1_rounded,
+                                                  size: 30,
+                                                ),
+                                              )
+                                            : GestureDetector(
+                                                onTap: () async {
+                                                  // if (groupId != null) {
+                                                  //   await joinToExistingGroup(
+                                                  //       groupId,
+                                                  //       groupName,
+                                                  //       privacyType,
+                                                  //       context);
+                                                  // }
+                                                },
+                                                child: const Icon(
+                                                  Icons.key_outlined,
+                                                  size: 30,
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              )
+      ],
     );
   }
 }

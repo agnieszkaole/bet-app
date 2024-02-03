@@ -3,6 +3,7 @@ import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/data_picker.dart';
+import 'package:bet_app/src/widgets/group_match_item.dart';
 // import 'package:bet_app/provider/predicted_match_provider.dart';
 // import 'package:bet_app/widgets/data_picker.dart';
 import 'package:bet_app/src/widgets/next_match_item.dart';
@@ -12,32 +13,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
-class NextMatchList extends StatefulWidget {
-  const NextMatchList({
+class GroupMatchList extends StatefulWidget {
+  const GroupMatchList({
     super.key,
     this.matches,
     this.leagueName,
     this.leagueNumber,
     this.leagueLogo,
-    // this.selectedDate
   });
 
   final List<SoccerMatch>? matches;
   final String? leagueName;
   final String? leagueNumber;
   final String? leagueLogo;
-  // final DateTime? selectedDate;
 
-  static final GlobalKey<_NextMatchListState> nextMatchListKey =
-      GlobalKey<_NextMatchListState>();
+  static final GlobalKey<_GroupMatchListState> nextMatchListKey =
+      GlobalKey<_GroupMatchListState>();
 
   @override
-  State<NextMatchList> createState() => _NextMatchListState();
+  State<GroupMatchList> createState() => _GroupMatchListState();
 }
 
-class _NextMatchListState extends State<NextMatchList> {
+class _GroupMatchListState extends State<GroupMatchList> {
   final ScrollController _scrollController = ScrollController();
-  late DateTime _selectedDate;
   int displayedItems = 20;
   bool isLoading = true;
   bool hasFetchedData = false;
@@ -49,6 +47,18 @@ class _NextMatchListState extends State<NextMatchList> {
     // fetchDataForNewLeague(widget.leagueNumber);
     fetchDataForNewLeague('960');
   }
+
+  // void updateLeagueNumber(String? newLeagueNumber) {
+  //   setState(() {
+  //     selectedLeagueNumber = newLeagueNumber;
+  //   });
+
+  //   ApiData getApiDataScreen = ApiData(leagueNumber: selectedLeagueNumber);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => getApiDataScreen),
+  //   );
+  // }
 
   Future fetchDataForNewLeague(String? leagueNumber) async {
     try {
@@ -75,61 +85,13 @@ class _NextMatchListState extends State<NextMatchList> {
         context.watch<NextMatchesProvider>().nextMatchesList;
 
     return Scaffold(
-      appBar: AppBar(
-          // leading: IconButton(
-          //   icon: Icon(Icons.arrow_back),
-          //   onPressed: () {
-          //     Navigator.pop(context);
-          //     Provider.of<NextMatchesProvider>(context, listen: false)
-          //         .clearMatches();
-          //   },
-          // ),
-          ),
-
-      // drawer: const MainDrawer(),
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : hasFetchedData && nextMatchesList.isNotEmpty
+          : hasFetchedData
               ? Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 40, 122, 43),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              // color: Color.fromARGB(255, 169, 224, 172),
-                              color: Colors.white,
-                            ),
-                            child: Image.network(
-                              widget.leagueLogo ?? '',
-
-                              // width: 50.0,
-                              // height: 50.0,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            widget.leagueName ?? '',
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // const DataPicker(),
-                    // const SizedBox(height: 10),
                     Expanded(
                       child: RawScrollbar(
                         // thumbVisibility: true,
@@ -149,7 +111,7 @@ class _NextMatchListState extends State<NextMatchList> {
                             // NextMatchesProvider.showMatchesByDate(
                             //     _selectedDate);
                             if (index < nextMatchesList.length) {
-                              return NextMatchItem(
+                              return GroupMatchItem(
                                 match: nextMatchesList[index],
                               );
                             } else {

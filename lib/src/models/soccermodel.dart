@@ -62,6 +62,22 @@ class Fixture {
   int get matchId {
     return id;
   }
+
+  DateTime get dateTime {
+    return DateTime.parse(date);
+  }
+
+  DateTime get dateTimePlusOneHour {
+    return dateTime.add(Duration(hours: 1));
+  }
+
+  String get formattedDateTime {
+    return formatter.format(dateTime);
+  }
+
+  String get formattedDateTimePlusOneHour {
+    return formatter.format(dateTimePlusOneHour);
+  }
 }
 
 class Status {

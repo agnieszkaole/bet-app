@@ -135,7 +135,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                       children: [
                         SizedBox(
                             width: 130,
-                            // height: 100,
+                            height: 150,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -296,7 +296,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                         ),
                         SizedBox(
                             width: 130,
-                            height: 130,
+                            height: 150,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

@@ -1,17 +1,17 @@
-import 'dart:convert';
+// import 'dart:convert';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
-import 'package:bet_app/src/screens/predicted_screen.dart';
+// import 'package:bet_app/src/screens/predicted_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
-import 'package:bet_app/src/widgets/predicted_item_local.dart';
-import 'package:bet_app/src/widgets/predicted_result_edith.dart';
+// import 'package:bet_app/src/widgets/predicted_item_local.dart';
+// import 'package:bet_app/src/widgets/predicted_result_edith.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class PredictResult extends StatefulWidget {
@@ -198,6 +198,7 @@ class _PredictResultState extends State<PredictResult> {
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
                   'Podaj wynik',
@@ -207,7 +208,7 @@ class _PredictResultState extends State<PredictResult> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
+                Container(
                   padding: const EdgeInsets.all(12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -215,40 +216,40 @@ class _PredictResultState extends State<PredictResult> {
                       Row(
                         children: [
                           Container(
-                              padding: EdgeInsets.all(10),
-                              width: 130,
-                              // height: 200,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    widget.homeName,
-                                    style: const TextStyle(fontSize: 17),
-                                    softWrap: true,
-                                    maxLines: 3,
-                                    textAlign: TextAlign.center,
+                            padding: EdgeInsets.all(10),
+                            width: 130,
+                            height: 150,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  widget.homeName,
+                                  style: const TextStyle(fontSize: 17),
+                                  softWrap: true,
+                                  maxLines: 3,
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 10),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.homeLogo,
+                                    fadeInDuration: Duration(milliseconds: 50),
+                                    // placeholder: (context, url) =>
+                                    //     const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                    width: 45.0,
                                   ),
-                                  SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: CachedNetworkImage(
-                                      imageUrl: widget.homeLogo,
-                                      fadeInDuration:
-                                          Duration(milliseconds: 50),
-                                      // placeholder: (context, url) =>
-                                      //     const CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
-                                      width: 45.0,
-                                    ),
-                                    // child: Image.network(
-                                    //   widget.teamHomeLogo,
-                                    //   width: 45.0,
-                                    //   // height: 36.0,
-                                    // ),
-                                  ),
-                                ],
-                              )),
+                                  // child: Image.network(
+                                  //   widget.teamHomeLogo,
+                                  //   width: 45.0,
+                                  //   // height: 36.0,
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          ),
                           SizedBox(
                             width: 40,
                             height: 80,
@@ -268,6 +269,10 @@ class _PredictResultState extends State<PredictResult> {
                                   textAlign: TextAlign.center,
                                   decoration: InputDecoration(
                                     hintText: '?',
+                                    errorStyle: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 14.0,
+                                    ),
                                     border: const OutlineInputBorder(),
                                     contentPadding: EdgeInsets.zero,
                                     enabledBorder: OutlineInputBorder(
@@ -334,35 +339,28 @@ class _PredictResultState extends State<PredictResult> {
                                   ),
                                   textAlign: TextAlign.center,
                                   decoration: InputDecoration(
+                                    hintText: '?',
+                                    errorStyle: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 14.0,
+                                    ),
                                     border: const OutlineInputBorder(),
                                     contentPadding: EdgeInsets.zero,
-                                    hintText: '?',
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 40, 122, 43),
-                                      ),
+                                          color:
+                                              Color.fromARGB(255, 40, 122, 43)),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: const BorderSide(
-                                        color: Colors.greenAccent,
-                                        width: 2,
-                                      ),
+                                          color: Colors.greenAccent),
                                     ),
-                                    // focusedErrorBorder: OutlineInputBorder(
-                                    //   borderRadius: BorderRadius.circular(10),
-                                    //   borderSide: const BorderSide(
-                                    //     color: Colors.red,
-                                    //     width: 2,
-                                    //   ),
-                                    // ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                        color: Colors.red,
-                                        width: 2,
-                                      ),
+                                      borderSide:
+                                          const BorderSide(color: Colors.red),
                                     ),
                                   ),
                                   initialValue: "",
@@ -382,7 +380,7 @@ class _PredictResultState extends State<PredictResult> {
                           Container(
                               padding: EdgeInsets.all(10),
                               width: 130,
-                              // height: 130,
+                              height: 150,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

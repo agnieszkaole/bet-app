@@ -5,16 +5,16 @@ import 'package:bet_app/src/widgets/predict_result.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class NextMatchItem extends StatefulWidget {
-  const NextMatchItem({required this.match, super.key});
+class GroupMatchItem extends StatefulWidget {
+  const GroupMatchItem({required this.match, super.key});
   final SoccerMatch match;
 
   @override
-  State<NextMatchItem> createState() => _NextMatchItemState();
+  State<GroupMatchItem> createState() => _GroupMatchItemState();
 }
 
-class _NextMatchItemState extends State<NextMatchItem>
-    with AutomaticKeepAliveClientMixin<NextMatchItem> {
+class _GroupMatchItemState extends State<GroupMatchItem>
+    with AutomaticKeepAliveClientMixin<GroupMatchItem> {
   @override
   bool get wantKeepAlive => true;
 

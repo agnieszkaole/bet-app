@@ -61,6 +61,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  Future<bool> isDisplayNameAvailable(String displayName) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('username',
+              isEqualTo:
+                  displayName) // Adjust 'username' to the actual field name in your Firestore collection
+          .get();
+
+      return querySnapshot.docs.isEmpty;
+    } catch (e) {
+      print('Error checking display name availability: $e');
+      // You may choose to return false or handle the error in a different way
+      return false;
+    }
+  }
+
   Future<String?> createUserAndCheckEmail(
       String email, String password, displayName) async {
     await Future.delayed(Duration.zero);
@@ -82,17 +99,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     try {
-      UserCredential userCredential =
-          await Auth().createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      await userCredential.user?.updateDisplayName(displayName);
-      showSuccesfulScreen();
-      addUserDetails(
-        _controllerName.text.trim(),
-        _controllerEmail.text.trim(),
-      );
+      bool isDisplayNameAvailableFirebase =
+          await isDisplayNameAvailable(displayName);
+      if (isDisplayNameAvailableFirebase) {
+        UserCredential userCredential =
+            await Auth().createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        await userCredential.user?.updateDisplayName(displayName);
+        showSuccesfulScreen();
+        addUserDetails(
+          _controllerName.text.trim(),
+          _controllerEmail.text.trim(),
+        );
+      } else {
+        errorMessage = "Wybrana nazwa użytkownika jest już zajęta.";
+        print(errorMessage);
+      }
+
       // return null;
     } on FirebaseAuthException catch (e) {
       // print('Error: $e');
@@ -142,11 +167,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          height: MediaQuery.of(context).size.height - 50,
-          width: double.infinity,
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        height: MediaQuery.of(context).size.height - 50,
+        width: double.infinity,
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,

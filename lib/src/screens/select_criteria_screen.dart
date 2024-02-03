@@ -1,17 +1,10 @@
-import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:bet_app/src/services/auth.dart';
-
 import 'package:bet_app/src/services/api_data.dart';
 import 'package:bet_app/src/services/user_data.dart';
-import 'package:bet_app/src/widgets/main_drawer.dart';
 import 'package:bet_app/src/widgets/next_match_list.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:bet_app/src/constants/league_names.dart';
-import "package:provider/provider.dart";
 
 class SelectCriteriaScreen extends StatefulWidget {
   const SelectCriteriaScreen({
@@ -25,12 +18,11 @@ class SelectCriteriaScreen extends StatefulWidget {
 class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
   int currentPage = 0;
   var cardColor = const Color.fromARGB(255, 40, 122, 43);
-
   String? selectedLeagueNumber;
   String? selectedLeagueName;
   User? user = Auth().currentUser;
   bool? isAnonymous = true;
-  // String? email = "";
+
   String? username = '';
 
   @override
@@ -54,13 +46,12 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     setState(() {
       selectedLeagueNumber = newLeagueNumber;
     });
-    // fetchDataForNewLeague(newLeagueNumber);
+
     ApiData getApiDataScreen = ApiData(leagueNumber: selectedLeagueNumber);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => getApiDataScreen),
     );
-    // GetApiData(leagueNumber: selectedLeagueNumber);
   }
 
   void navigateToNextMatchList(String leagueName, String leagueLogo) {
@@ -85,7 +76,6 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                 user?.displayName != null
                     ? 'Witaj ${user?.displayName}'
                     : 'Witaj',
-                // 'Hello $username',
                 style: TextStyle(fontSize: 35),
               ),
               const Divider(
@@ -118,10 +108,6 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                               String leagueLogo = league['logo'].toString();
                               updateLeagueNumber(leagueNumber);
                               navigateToNextMatchList(leagueName, leagueLogo);
-
-                              // context
-                              //     .read<BottomNavigationProvider>()
-                              //     .updateIndex(1);
                             },
                             borderRadius: BorderRadius.circular(8),
                             splashColor: const Color.fromARGB(207, 1, 2, 1),
@@ -134,7 +120,6 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                   padding: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    // color: Color.fromARGB(255, 169, 224, 172),
                                     color: Colors.white,
                                   ),
                                   child: Image.network(
@@ -167,7 +152,6 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                 color: Color.fromARGB(150, 76, 175, 79),
                 thickness: 1,
               ),
-              // (isAnonymous ?? false) ? const Text('') : const UserGroups()
             ],
           ),
         ),

@@ -414,6 +414,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.9"
+  flutter_search_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_search_bar
+      sha256: "6bc1d82c4caf04f40a9386833d5e2a8d947c89fee5c4c1e735957851677d1012"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -472,6 +480,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  horizontal_data_table:
+    dependency: "direct main"
+    description:
+      name: horizontal_data_table
+      sha256: c8ab5256bbced698a729f3e0ff2cb0e8e97416cdbb082860370eaf883badf722
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.1"
   hotreloader:
     dependency: transitive
     description:
@@ -785,7 +801,7 @@ packages:
     source: hosted
     version: "2.3.7"
   rxdart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: rxdart
       sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
