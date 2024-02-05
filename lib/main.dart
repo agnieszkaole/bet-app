@@ -4,7 +4,7 @@ import 'package:bet_app/src/features/authentication/screens/login/login_screen.d
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
-import 'package:bet_app/src/screens/home_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
               primaryColor: const Color.fromARGB(200, 40, 122, 43),
               textTheme: Theme.of(context).textTheme.apply(
                     bodyColor: const Color.fromARGB(255, 255, 255, 255),
+                    fontFamily: GoogleFonts.lato().fontFamily,
                   ),
             ),
             home: StreamBuilder<User?>(

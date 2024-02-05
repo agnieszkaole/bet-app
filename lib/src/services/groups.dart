@@ -5,7 +5,10 @@ class Groups {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> createGroup(String? groupName, String? privacyType,
+  Future<void> createGroup(
+      String? groupName,
+      String? privacyType,
+      Map<String, dynamic>? selectedLeague,
       List<Map<String, dynamic>>? members) async {
     try {
       User? currentUser = _auth.currentUser;
@@ -22,6 +25,10 @@ class Groups {
           'creatorUid': currentUser.uid,
           'creatorUsername': currentUser.displayName,
           'members': members,
+          'selectedLeague': {
+            'leagueName': selectedLeague?['name'],
+            'leagueNumber': selectedLeague?['number']
+          },
           'privacyType': privacyType,
         });
 
@@ -131,6 +138,7 @@ class Groups {
         String? creatorUsername;
         String? privacyType;
         List<Map<String, dynamic>> members = [];
+        Map<String, dynamic> selectedLeague = {};
 
         if (groupSnapshot.data()?['members'] != null) {
           members =
@@ -146,11 +154,18 @@ class Groups {
           privacyType = groupSnapshot.data()?['privacyType'];
         }
 
+        if (groupSnapshot.data()?['selectedLeague'] != null) {
+          selectedLeague = Map<String, dynamic>.from(
+              groupSnapshot.data()?['selectedLeague']);
+        }
+
         return {
           'numberOfUsers': numberOfUsers,
           'creatorUsername': creatorUsername,
           'privacyType': privacyType,
           'members': members,
+          'selectedLeague': selectedLeague,
+          // 'selected': members,
         };
       }
 

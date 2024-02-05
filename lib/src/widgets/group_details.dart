@@ -9,12 +9,14 @@ class GroupDetails extends StatefulWidget {
     required this.groupMembers,
     required this.creatorUsername,
     required this.privacyType,
+    this.selectedLeagueName,
   });
   final String? groupId;
   final String? groupName;
   final String? creatorUsername;
   final String? privacyType;
   final int? groupMembers;
+  final String? selectedLeagueName;
 
   @override
   State<GroupDetails> createState() => _GroupDetailsState();
@@ -31,45 +33,40 @@ class _GroupDetailsState extends State<GroupDetails> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              // decoration: BoxDecoration(color: Color.fromARGB(255, 100, 167, 74)),
               width: 260,
-              // height: 450,
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                 children: [
                   Container(
-                    // height: 80,
-                    // width: 260,
-                    // decoration:
-                    //     BoxDecoration(color: Color.fromARGB(192, 57, 129, 29)),
                     padding: EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Text(
-                        //       '${widget.groupName} ( ${widget.groupMembers} ',
-                        //       style: const TextStyle(fontSize: 26),
-                        //     ),
-                        //     const Icon(Icons.person, size: 28),
-                        //     Text(
-                        //       ' )',
-                        //       style: const TextStyle(fontSize: 26),
-                        //     ),
-                        //   ],
-                        // ),
-                        // const
+                        Text(
+                          'Group name',
+                          style: const TextStyle(fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 3),
                         Text(
                           '${widget.groupName} ',
                           style: const TextStyle(fontSize: 26),
                         ),
-                        SizedBox(height: 10),
+                        const Divider(
+                          height: 40,
+                          color: Color.fromARGB(255, 40, 122, 43),
+                          thickness: 1.2,
+                          indent: 20,
+                          endIndent: 20,
+                        ),
                         Text(
-                          'Mistrzostwa Europy - kwalifikacje',
-                          style: const TextStyle(fontSize: 18),
+                          'Selected league',
+                          style: const TextStyle(fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          '${widget.selectedLeagueName}',
+                          style: const TextStyle(fontSize: 24),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -78,7 +75,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                   const Divider(
                     height: 40,
                     color: Color.fromARGB(255, 40, 122, 43),
-                    thickness: 1.5,
+                    thickness: 1.2,
                     indent: 20,
                     endIndent: 20,
                   ),
@@ -93,8 +90,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                       children: [
                         // const SizedBox(height: 10),
                         Text(
-                          'Uczestnicy: ',
-                          style: TextStyle(fontSize: 18),
+                          'Members: ',
+                          style: TextStyle(fontSize: 20),
                         ),
 
                         GroupMembersList(
@@ -113,28 +110,28 @@ class _GroupDetailsState extends State<GroupDetails> {
                 children: [
                   /// admin ///
                   Text(
-                    'Zaproś znajomych ',
+                    'Invite friends',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 20),
                   Text(
-                    'Zmień nazwę grupy',
+                    'Change group name',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 20),
                   Text(
-                    'Usuń użytkownika',
+                    'Delete member',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 20),
                   Text(
-                    'Usuń grupę',
+                    'Delete group',
                     style: TextStyle(fontSize: 16),
                   ),
 
                   /// user ///
                   // const Text(
-                  //   'Opuść grupę',
+                  //   'Leave the group',
                   //   style: TextStyle(fontSize: 16),
                   // ),
                 ],

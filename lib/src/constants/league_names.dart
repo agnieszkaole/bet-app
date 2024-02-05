@@ -25,7 +25,7 @@ const List<Map<String, dynamic>> leagueNames = [
   },
   {
     "id": 5,
-    "name": "Mistrzostwa Europy - kwalifikacje",
+    "name": "Mistrzostwa Europy - kw.",
     "number": 960,
     "logo": "https://media.api-sports.io/football/leagues/4.png"
   },

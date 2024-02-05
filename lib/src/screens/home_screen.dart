@@ -2,10 +2,10 @@ import 'package:bet_app/src/features/authentication/screens/login/login_screen.d
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
 import 'package:bet_app/src/screens/predicted_screen.dart';
-import 'package:bet_app/src/screens/ranking_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/screens/user_account.dart';
 import 'package:bet_app/src/services/auth.dart';
+import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // User? user = Auth().currentUser;
   bool isAnonymous = true;
-  // String email = "Niezalogowany";
+  String username = '';
 
   @override
   void initState() {
@@ -33,14 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _fetchUserData() async {
     User? user = Auth().currentUser;
+
     if (user != null) {
+      // Fetch username from Firebase
+
+      String? firebaseUsername = await UserData().getUsernameFromFirebase();
       setState(() {
         isAnonymous = user.isAnonymous;
-        // email = user.email ?? "Niezalogowany";
+        username = firebaseUsername ?? '';
       });
     } else {
       print('No user is currently logged in');
-      return;
     }
   }
 
@@ -50,9 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            // Text(email),
+            Text(username),
             IconButton(
               onPressed: () {
+                print(username);
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (ctx) => const UserAccountScreen(),
@@ -122,13 +126,13 @@ class _HomeScreenState extends State<HomeScreen> {
               BottomNavigationBarItem(
                 // icon: Icon(Icons.emoji_events_rounded),
                 icon: Icon(Icons.home),
-                label: 'Główna',
+                label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.scoreboard_outlined,
                 ),
-                label: 'Twoje typy',
+                label: 'Predictions',
               ),
               // BottomNavigationBarItem(
               //   icon: Icon(Icons.trending_up),
@@ -137,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.groups_rounded),
-                label: 'Grupy',
+                label: 'Groups',
                 //
               ),
             ],

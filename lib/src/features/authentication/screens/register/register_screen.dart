@@ -86,14 +86,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _controllerName.text.isEmpty ||
         _controllerConfirmPassword.text.isEmpty) {
       setState(() {
-        errorMessage = "Wszystkie pola muszą być uzupełnione.";
+        errorMessage = "All fields must be completed.";
       });
       return errorMessage;
     }
 
     if (_controllerPassword.text != _controllerConfirmPassword.text) {
       setState(() {
-        errorMessage = "Podane hasła nie są identyczne.";
+        errorMessage = "Provide passwords are different.";
       });
       return errorMessage;
     }
@@ -114,7 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           _controllerEmail.text.trim(),
         );
       } else {
-        errorMessage = "Wybrana nazwa użytkownika jest już zajęta.";
+        errorMessage = "The selected username is already taken.";
         print(errorMessage);
       }
 
@@ -124,20 +124,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
       switch (e.code) {
         case "invalid-email":
           // print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage = "Podany e-mail jest nieprawidłowy.";
+          errorMessage = "Invalid email.";
           break;
         case "email-already-in-use":
           // print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage = "Konto o podanych adresie email już istnieje.";
+          errorMessage = "Email is already in use.";
           break;
         case "weak-password":
           // print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage = "Hasło powinno mieć co najmniej 6 znaków";
+          errorMessage =
+              "Weak password. The password should be at least 6 characters long.";
           break;
         default:
           print('ze switch default: $e.code');
-          errorMessage =
-              "Rejestracja nie powiodła się. Proszę spróbować ponownie.";
+          errorMessage = "Registration failed. Please try again.";
           break;
       }
       setState(() {
@@ -173,39 +173,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Column(
                 children: <Widget>[
                   const SizedBox(height: 60.0),
-                  const Text(
-                    "Zarejestruj się",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Text(
-                    "Stwórz swoje konto",
-                    style: TextStyle(fontSize: 15, color: Colors.grey[400]),
-                  )
+                    "Betapp",
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  ),
+                  const Text("Create your account",
+                      style: TextStyle(fontSize: 16)),
+                  const SizedBox(
+                    height: 50,
+                  ),
                 ],
               ),
               Column(
                 children: <Widget>[
-                  _entryField('nazwa użytkownika', _controllerName,
-                      Icons.person, false),
+                  _entryField('Username', _controllerName, Icons.person, false),
                   const SizedBox(height: 20),
-                  _entryField('e-mail', _controllerEmail, Icons.email, false),
+                  _entryField('Email', _controllerEmail, Icons.email, false),
                   const SizedBox(height: 20),
                   _entryField(
-                      'hasło', _controllerPassword, Icons.password, true),
+                      'Password', _controllerPassword, Icons.password, true),
                   const SizedBox(height: 20),
-                  _entryField('potwierdź hasło', _controllerConfirmPassword,
+                  _entryField('Confirm Password', _controllerConfirmPassword,
                       Icons.password, true),
                   const SizedBox(height: 10),
                   _errorMessage(),
@@ -244,7 +238,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     backgroundColor: const Color.fromARGB(255, 40, 122, 43),
                   ),
                   child: const Text(
-                    "Zarejestruj",
+                    "Sign up",
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
@@ -252,7 +246,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("Masz już konto?"),
+                  const Text("Already have an account?"),
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -260,7 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ));
                       },
                       child: const Text(
-                        "Zaloguj",
+                        "Log in",
                         style: TextStyle(
                           color: Color.fromARGB(255, 40, 122, 43),
                         ),

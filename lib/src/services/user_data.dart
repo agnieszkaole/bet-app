@@ -32,6 +32,6 @@ class UserData {
       print('$e');
     }
 
-    return username = '';
+    return '';
   }
 }

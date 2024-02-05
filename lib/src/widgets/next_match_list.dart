@@ -1,13 +1,7 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
-import 'package:bet_app/src/widgets/data_picker.dart';
-// import 'package:bet_app/provider/predicted_match_provider.dart';
-// import 'package:bet_app/widgets/data_picker.dart';
 import 'package:bet_app/src/widgets/next_match_item.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
@@ -24,7 +18,7 @@ class NextMatchList extends StatefulWidget {
 
   final List<SoccerMatch>? matches;
   final String? leagueName;
-  final String? leagueNumber;
+  final int? leagueNumber;
   final String? leagueLogo;
   // final DateTime? selectedDate;
 
@@ -46,13 +40,14 @@ class _NextMatchListState extends State<NextMatchList> {
   @override
   void initState() {
     super.initState();
-    // fetchDataForNewLeague(widget.leagueNumber);
-    fetchDataForNewLeague('960');
+    fetchDataForNewLeague(widget.leagueNumber);
+    // fetchDataForNewLeague('960');
   }
 
-  Future fetchDataForNewLeague(String? leagueNumber) async {
+  Future fetchDataForNewLeague(int? leagueNumber) async {
     try {
-      List<SoccerMatch> data = await SoccerApi().getMatches(leagueNumber);
+      List<SoccerMatch> data =
+          await SoccerApi().getMatches(widget.leagueNumber);
       setState(() {
         isLoading = false;
         hasFetchedData = true;

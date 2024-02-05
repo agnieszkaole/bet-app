@@ -45,7 +45,7 @@ class _ContinueAsGuestScreenState extends State<ContinueAsGuestScreen> {
         }
       },
       child: const Text(
-        'Kontynuuj jako gość',
+        'Continue as a guest',
         style: TextStyle(
           decoration: TextDecoration.underline,
         ),

@@ -34,6 +34,7 @@ class _LoginFormState extends State<LoginForm> {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         labelText: title,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18),
@@ -66,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
     //     Provider.of<BottomNavigationProvider>(context).selectedIndex;
     if (_controllerEmail.text.isEmpty || _controllerPassword.text.isEmpty) {
       setState(() {
-        errorMessage = "Wszystkie pola muszą być uzupełnione.";
+        errorMessage = "All fields must be completed.";
       });
       return errorMessage;
     }
@@ -89,25 +90,24 @@ class _LoginFormState extends State<LoginForm> {
       switch (e.code) {
         case "invalid-email":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage = "Podany e-mail jest nieprawidłowy.";
+          errorMessage = "Email address is invalid.";
           break;
         case "wrong-password":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage = "Hasło jest nieprawidłowe.";
+          errorMessage = "Password is invalid.";
           break;
         case "too-many-requests":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
           errorMessage =
-              "Zablokowano dostęp z powodu nietypowej aktywności. Spróbuj ponownie później. ";
+              "Access blocked due to unusual activity. Please try again later.";
           break;
         case "invalid-credential":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage = "Nieprawidłowy e-mail lub hasło.";
+          errorMessage = "Invalid email or password.";
           break;
         default:
           print(e.code);
-          errorMessage =
-              "Logowanie nie powiodło się. Proszę spróbować ponownie.";
+          errorMessage = "Login failed. Please try again.";
           break;
       }
       setState(() {
@@ -121,14 +121,19 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        _entryField('E-mail', _controllerEmail, Icons.email, false),
+        _entryField('Email', _controllerEmail, Icons.email, false),
         const SizedBox(height: 20),
-        _entryField('Hasło', _controllerPassword, Icons.password, true),
-        const SizedBox(height: 10),
-        _errorMessage(),
-        ForgetPassword(),
+        _entryField('Password', _controllerPassword, Icons.password, true),
         const SizedBox(height: 5),
+        _errorMessage(),
+        const Text(
+          'By logging in, I agree with Terms of Use and Privacy Policy.',
+          style: TextStyle(fontSize: 12),
+        ),
+        const SizedBox(height: 20),
+        ForgetPassword(),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -141,7 +146,7 @@ class _LoginFormState extends State<LoginForm> {
               backgroundColor: const Color.fromARGB(255, 40, 122, 43),
             ),
             child: const Text(
-              "Zaloguj",
+              "Login",
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),

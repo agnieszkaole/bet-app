@@ -13,8 +13,13 @@ class LoginHeader extends StatelessWidget {
             "Betapp",
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
           ),
+          // Text(
+          //   "",
+          //   style: TextStyle(fontSize: 16),
+          //   textAlign: TextAlign.center,
+          // ),
           Text(
-            "Wprowadź email i hasło",
+            "Log in to your account",
             style: TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),

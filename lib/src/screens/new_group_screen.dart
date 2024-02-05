@@ -19,23 +19,23 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   // String? _groupId;
   String? _privacySettings = 'public';
 
-  // Map<String, dynamic> selectedLeague = {};
+  late Map<String, dynamic>? selectedLeague;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if (leagueNames.isNotEmpty) {
-  //     selectedLeague = leagueNames.first;
-  //   }
-  // }
+  @override
+  void initState() {
+    super.initState();
+    selectedLeague = leagueNames[0];
+    // selectedLeague = null;
+  }
 
   Future<String?> createNewGroup() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      await groups.createGroup(_groupName, _privacySettings, members);
+      await groups.createGroup(
+          _groupName, _privacySettings, selectedLeague, members);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Utworzyłeś nową grupę: $_groupName'),
+          content: Text('You have created a new group: $_groupName'),
         ),
       );
       Navigator.of(context).pop();
@@ -45,143 +45,171 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic>? selectedLeague;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Utwórz nową grupę'),
+        title: Text('Create a new group'),
       ),
-      body: Center(
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: SizedBox(
-            width: 300,
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
-                TextFormField(
-                  autofocus: false,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    // hintText: 'Podaj nazwę grup',
-                    floatingLabelAlignment: FloatingLabelAlignment.center,
-                    labelText: 'Nazwa grupy',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    errorStyle: const TextStyle(
-                      color: Colors.red, // Set the color of the error message
-                      fontSize: 14.0, // Set the font size of the error message
-                    ),
-                    border: const OutlineInputBorder(),
-                    contentPadding: EdgeInsets.zero,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 40, 122, 43)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.greenAccent),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 255, 52, 37)),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: SizedBox(
+              width: 300,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 50),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 10),
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Enter the group name',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
-                  initialValue: "",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Wpisz nazwę grup';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _groupName = value;
-                  },
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Wybierz ligę',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${selectedLeague['name'] ?? 'None'}',
-                      style: const TextStyle(fontSize: 18),
+                  TextFormField(
+                    autofocus: false,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
-                    const SizedBox(height: 20),
-                    DropdownButton(
-                      isExpanded: true,
-                      value: selectedLeague,
-                      onChanged: (Map<String, dynamic>? newValue) {
-                        setState(() {
-                          selectedLeague = newValue ?? {};
-                        });
-                      },
-                      items: leagueNames
-                          .map<DropdownMenuItem<Map<String, dynamic>>>(
-                              (Map<String, dynamic> value) {
-                        return DropdownMenuItem<Map<String, dynamic>>(
-                          value: value,
-                          child: Container(
-                            height: 40,
-                            child: Center(
-                              child: Text(value['name'].toString()),
+                    decoration: InputDecoration(
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 14.0),
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.zero,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 40, 122, 43)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.greenAccent),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 255, 52, 37)),
+                      ),
+                    ),
+                    initialValue: "",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter the group name';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _groupName = value;
+                    },
+                  ),
+                  const SizedBox(height: 40),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 10),
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Select a league',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // const SizedBox(height: 10),
+                      SingleChildScrollView(
+                        child: InputDecorator(
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 40, 122, 43)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:
+                                  const BorderSide(color: Colors.greenAccent),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 255, 52, 37)),
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                RadioListTile(
-                  value: 'public',
-                  title: const Text("Publiczna"),
-                  subtitle: const Text(
-                      "Każdy może dołączyć bez dodatkowej weryfikacji"),
-                  activeColor: const Color.fromARGB(255, 40, 122, 43),
-                  groupValue: _privacySettings,
-                  onChanged: (val) => setState(() {
-                    _privacySettings = val!;
-                  }),
-                ),
-                RadioListTile(
-                  value: 'private',
-                  title: const Text("Prywatna"),
-                  subtitle:
-                      const Text("Aby dołączyć potrzebny jest kod dostępu."),
-                  activeColor: const Color.fromARGB(255, 40, 122, 43),
-                  groupValue: _privacySettings,
-                  onChanged: (val) => setState(() {
-                    _privacySettings = val!;
-                  }),
-                ),
-                const SizedBox(height: 50),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: createNewGroup,
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromARGB(255, 40, 122, 43),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      elevation: 5.0,
-                    ),
-                    child: const Text('Utwórz grupę'),
+                          child: SizedBox(
+                            height: 20,
+                            child: DropdownButton<Map<String, dynamic>>(
+                              underline: Container(
+                                height: 0,
+                              ),
+                              value: selectedLeague,
+                              items: leagueNames.map((league) {
+                                return DropdownMenuItem<Map<String, dynamic>>(
+                                  value: league,
+                                  child: Center(
+                                    child: Text(
+                                      league['name'],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedLeague = value!;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  RadioListTile(
+                    value: 'public',
+                    title: const Text("Public"),
+                    subtitle: const Text(
+                        "Anyone can join without additional verification."),
+                    activeColor: const Color.fromARGB(255, 40, 122, 43),
+                    groupValue: _privacySettings,
+                    onChanged: (val) => setState(() {
+                      _privacySettings = val!;
+                    }),
+                  ),
+                  RadioListTile(
+                    value: 'private',
+                    title: const Text("Private"),
+                    subtitle: const Text("To join you need an access code."),
+                    activeColor: const Color.fromARGB(255, 40, 122, 43),
+                    groupValue: _privacySettings,
+                    onChanged: (val) => setState(() {
+                      _privacySettings = val!;
+                    }),
+                  ),
+                  const SizedBox(height: 50),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: createNewGroup,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        elevation: 5.0,
+                      ),
+                      child: const Text('Create a group'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

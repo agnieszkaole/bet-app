@@ -18,16 +18,16 @@ class SuccessfulRegistration extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Udało się!',
+                  'Well done!',
                   style: TextStyle(fontSize: 36),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 Text(
-                  'Rejestracja konta: \n ${user?.email} \n przebiegła pomyślnie.',
+                  'Registration of account: \n ${user?.email} \n was successful.',
                   style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 50),
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(
@@ -42,7 +42,7 @@ class SuccessfulRegistration extends StatelessWidget {
                       backgroundColor: const Color.fromARGB(255, 40, 122, 43),
                     ),
                     child: const Text(
-                      "Zaloguj się",
+                      "Login",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),

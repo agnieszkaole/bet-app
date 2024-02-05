@@ -27,7 +27,7 @@ class ForgetPassword extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(children: [
                   const Text(
-                    'Zapomniałeś hasła?',
+                    'Forgot password?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 20,
@@ -36,7 +36,7 @@ class ForgetPassword extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const Text(
-                    'Podaj adres e-mail, otrzymasz 6-cyfrowy kod weryfikacyjny',
+                    'Enter your email address and you will receive a 6-digit verification code.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 16,
@@ -49,7 +49,7 @@ class ForgetPassword extends StatelessWidget {
                       TextFormField(
                         controller: _controllerForgetPassword,
                         decoration: InputDecoration(
-                          hintText: "E-mail",
+                          hintText: "Email",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
@@ -71,7 +71,7 @@ class ForgetPassword extends StatelessWidget {
         alignment: Alignment.centerRight,
       ),
       child: const Text(
-        "Zapomniałeś hasła?",
+        "Forgot password?",
         style: TextStyle(color: Color.fromARGB(255, 58, 158, 61)),
       ),
     );

@@ -15,7 +15,7 @@ class GroupListScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Wybierz grupę'),
+          title: const Text('Select a group'),
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(80),
             child: Column(
@@ -35,7 +35,7 @@ class GroupListScreen extends StatelessWidget {
                         children: [
                           Icon(Icons.lock_open_outlined, size: 25),
                           SizedBox(width: 5),
-                          Text('Publiczne'),
+                          Text('Public'),
                         ],
                       ),
                     ),
@@ -46,7 +46,7 @@ class GroupListScreen extends StatelessWidget {
                         children: [
                           Icon(Icons.lock_rounded, size: 25),
                           SizedBox(width: 5),
-                          Text('Prywatne'),
+                          Text('Private'),
                         ],
                       ),
                     ),
@@ -136,7 +136,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
       await groups.joinGroup(groupId);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Dołączyłeś do grupy $groupName'),
+          content: Text('You have joined the group: $groupName'),
         ),
       );
       Navigator.of(context).pop();
@@ -157,7 +157,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: SearchBar(
             leading: const Icon(Icons.search),
-            hintText: 'Wyszukaj grupę',
+            hintText: 'Search',
             controller: _searchController,
             onChanged: (text) {
               updateFilteredGroups(text);
@@ -176,14 +176,14 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                     } else if (!snapshot.hasData) {
                       return const Center(
                         child: Text(
-                          'Nie dodano żadnej grupy.',
+                          'No group added.',
                           style: TextStyle(fontSize: 22),
                         ),
                       );
                     } else if (snapshot.data!.isEmpty) {
                       return const Center(
                         child: Text(
-                          'Nie znaleziono grupy.',
+                          'Group not found..',
                           style: TextStyle(fontSize: 22),
                         ),
                       );
@@ -199,6 +199,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                             String? groupId = groupData['groupId'];
                             String? creatorUsername =
                                 groupData['creatorUsername'];
+
                             int? groupMembers =
                                 (groupData['members'] as List<dynamic>?)
                                         ?.length ??
@@ -251,7 +252,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                               ),
                                               const SizedBox(height: 2),
                                               Text(
-                                                'Uczestnicy: $groupMembers',
+                                                'Members: $groupMembers',
                                                 style: const TextStyle(
                                                     fontSize: 16),
                                               ),
@@ -323,7 +324,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Center(
                         child: Text(
-                          'Nie dodano żadnych grup.',
+                          'No groups added.',
                           style: TextStyle(fontSize: 22),
                         ),
                       );
@@ -343,6 +344,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                           String? groupId = groupData['groupId'] ?? '';
                           String? creatorUsername =
                               groupData['creatorUsername'];
+
                           int? groupMembers =
                               (groupData['members'] as List<dynamic>?)
                                       ?.length ??
@@ -392,7 +394,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                             ),
                                             const SizedBox(height: 2),
                                             Text(
-                                              'Uczestnicy: $groupMembers',
+                                              'Members: $groupMembers',
                                               style:
                                                   const TextStyle(fontSize: 16),
                                             ),

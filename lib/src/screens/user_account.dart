@@ -72,7 +72,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Profil',
+          'Profile',
           style: TextStyle(fontSize: 20),
         ),
         actions: [
@@ -81,20 +81,36 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
               onTap: () {
                 signOut();
               },
-              child: const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Text(
-                          'Wyloguj',
-                          style: TextStyle(fontSize: 16),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Color.fromARGB(255, 40, 122, 43),
+                    ),
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(20.0))),
+                child: const Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Text(
+                        'Log out',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(Icons.logout),
-                    ],
-                  )),
+                    ),
+                    Icon(
+                      Icons.logout,
+                      // color: Color.fromARGB(255, 40, 122, 43),
+                    ),
+                  ],
+                ),
+              ),
             )
         ],
       ),
@@ -131,13 +147,19 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                             ),
                             const SizedBox(height: 20),
                             const Text(
-                              'Niezalogowany',
+                              'Not logged in',
                               style: TextStyle(fontSize: 24),
                             ),
                             const SizedBox(height: 20),
                             const Text(
-                              'W tym trybie masz dostęp jedynie do niektórych funkcji. Zaloguj się, żeby móc w\u{00A0}pełni korzystać z\u{00A0}aplikacji.',
-                              style: TextStyle(fontSize: 18),
+                              'In this mode you only have access to certain functions. ',
+                              style: TextStyle(fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Log in to fully use the application.',
+                              style: TextStyle(fontSize: 20),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 20),
@@ -158,7 +180,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                                       const Color.fromARGB(255, 40, 122, 43),
                                 ),
                                 child: const Text(
-                                  "Zaloguj",
+                                  "Login",
                                   style: TextStyle(
                                       fontSize: 20, color: Colors.white),
                                 ),
@@ -166,63 +188,74 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                             ),
                             const SizedBox(height: 20),
                           ])
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 117, 117, 117),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50.0)),
-                                    // border: Border.all(
-                                    //   color: Colors.white,
-                                    //   width: 1,
-                                    // ),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Icon(
-                                      Icons.person_rounded,
-                                      size: 60,
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromARGB(255, 117, 117, 117),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(50.0)),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Icon(
+                                        Icons.person_rounded,
+                                        size: 60,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 20),
-                              ],
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                              user?.displayName != null
-                                  ? 'Nazwa użytkownika: ${user?.displayName}'
-                                  : 'Brak danych',
-                              style: const TextStyle(fontSize: 20)),
-                          const SizedBox(height: 20),
-                          Text(
-                              user?.email != null
-                                  ? 'Email: ${user?.email}'
-                                  : 'Brak danych',
-                              style: const TextStyle(fontSize: 20)),
-                          const SizedBox(height: 50),
-                          const Text(
-                            'Zmień nazwę użytkownika',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            'Zmień hasło',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            'Usuń konto',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
+                            const SizedBox(height: 20),
+                            Text('Username: ',
+                                style: const TextStyle(fontSize: 16)),
+                            Text(
+                                user?.displayName != null
+                                    ? '${user?.displayName}'
+                                    : 'No data',
+                                style: const TextStyle(fontSize: 24)),
+                            const SizedBox(height: 20),
+                            Text('Email: ',
+                                style: const TextStyle(fontSize: 16)),
+                            Text(
+                                user?.email != null
+                                    ? '${user?.email}'
+                                    : 'No data',
+                                style: const TextStyle(fontSize: 24)),
+                            // const SizedBox(height: 50),
+                            const Divider(
+                              height: 100,
+                              color: Color.fromARGB(255, 40, 122, 43),
+                              thickness: 1.5,
+                              // indent: 5,
+                              // endIndent: 5,
+                            ),
+                            const Text(
+                              'Change username',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Change password',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Delete profile',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
                       )
                 // :
               ],

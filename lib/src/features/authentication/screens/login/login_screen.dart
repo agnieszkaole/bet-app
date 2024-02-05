@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Nie masz jeszcze konta? "),
+                    const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -38,40 +38,41 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
                       },
                       child: const Text(
-                        "Zarejestruj się",
+                        'Sign up',
                         style:
                             TextStyle(color: Color.fromARGB(255, 58, 158, 61)),
                       ),
                     ),
                   ],
                 ),
-                const Center(child: Text("Lub")),
-                Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: const Color.fromARGB(255, 228, 228, 228),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 40, 122, 43),
-                    ),
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 18),
-                        Text(
-                          "Zaloguj się poprzez Google",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color.fromARGB(255, 40, 122, 43),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // const Center(child: Text("Lub")),
+                // Container(
+                //   height: 45,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(25),
+                //     color: const Color.fromARGB(255, 228, 228, 228),
+                //     border: Border.all(
+                //       color: const Color.fromARGB(255, 40, 122, 43),
+                //     ),
+                //   ),
+                //   child: TextButton(
+                //     onPressed: () {},
+                //     child: const Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         SizedBox(width: 18),
+                //         Text(
+                //           "Log in with Google",
+                //           style: TextStyle(
+                //             fontSize: 16,
+                //             color: Color.fromARGB(255, 40, 122, 43),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
                 const ContinueAsGuestScreen(),
               ],
             ),

@@ -14,27 +14,36 @@ class _GroupTableState extends State<GroupTable> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          decoration:
-              BoxDecoration(color: const Color.fromARGB(221, 129, 129, 129)),
-          child: _getBodyWidget()),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(221, 129, 129, 129)),
+                child: _getBodyWidget()),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _getBodyWidget() {
-    return SizedBox(
+    return Container(
       height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       child: HorizontalDataTable(
         leftHandSideColumnWidth: 100,
         rightHandSideColumnWidth: 400,
+        leftHandSideColBackgroundColor: Color.fromARGB(255, 27, 27, 27),
+        rightHandSideColBackgroundColor: Color.fromARGB(255, 27, 27, 27),
         isFixedHeader: true,
         headerWidgets: _getTitleWidget(),
         leftSideItemBuilder: _generateFirstColumnRow,
         rightSideItemBuilder: _generateRightHandSideColumnRow,
-        itemCount: 100,
+        itemCount: 4,
         rowSeparatorWidget: const Divider(
-          color: Colors.black54,
-          height: 1.0,
+          color: Color.fromARGB(255, 255, 255, 255),
+          height: 2.0,
           thickness: 0.0,
         ),
       ),
@@ -42,39 +51,61 @@ class _GroupTableState extends State<GroupTable> {
   }
 
   List<Widget> _getTitleWidget() {
-    return [
-      _getTitleItemWidget('Name', 100),
-      _getTitleItemWidget('Status', 100),
-      _getTitleItemWidget('Number', 100),
-      _getTitleItemWidget('Date', 100),
-      _getTitleItemWidget('Name', 100),
-    ];
+    List<Widget> titleWidgets = [];
+    titleWidgets.add(_getTitleItemWidget("", 300));
+    for (String user in users) {
+      titleWidgets.add(
+        _getTitleItemWidget(user, 100),
+      );
+    }
+
+    return titleWidgets;
   }
 
   Widget _getTitleItemWidget(String label, double width) {
     return Container(
-      child: Text(label,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 0.5,
+          color: Colors.white,
+        ),
+        color: Color.fromARGB(255, 1, 100, 6),
+      ),
       width: width,
       height: 56,
-      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+      alignment: Alignment.center,
+      child: Text(label,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          )),
     );
   }
 
   Widget _generateFirstColumnRow(BuildContext context, int index) {
-    String username = index < users.length ? users[index] : '';
+    List<String> matches = [
+      'Polska - Niemcy',
+      'Hiszpania - Anglia',
+      'Grecja - Dania',
+      'Portugalia - Czechy'
+    ];
 
     return Container(
-      width: 100,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 0.5,
+          color: Colors.white,
+        ),
+        color: Color.fromARGB(255, 46, 46, 46),
+      ),
+      width: 300,
       height: 52,
-      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+      alignment: Alignment.center,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(username,
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+          Text(matches[index], style: const TextStyle(fontSize: 16)),
         ],
       ),
     );
@@ -84,46 +115,57 @@ class _GroupTableState extends State<GroupTable> {
     return Row(
       children: <Widget>[
         Container(
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.notifications_active,
-                  color: index % 3 == 0 ? Colors.red : Colors.green),
-              Text(index % 3 == 0 ? 'Disabled' : 'Active',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black))
-            ],
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 0.5,
+              color: Colors.white,
+            ),
           ),
           width: 100,
           height: 52,
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
+          child: Text('1 : 1',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         ),
         Container(
-          child: Text('+001 9999 9999',
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 0.5,
+              color: Colors.white,
+            ),
+          ),
           width: 100,
           height: 52,
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
+          child: Text('2 : 2', style: TextStyle(fontSize: 16)),
         ),
         Container(
-          child: Text('2019-01-01',
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 0.5,
+              color: Colors.white,
+            ),
+          ),
           width: 100,
           height: 52,
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
+          child: Text('3 : 3', style: TextStyle(fontSize: 16)),
         ),
         Container(
-          child: Text('N/A',
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 0.5,
+              color: Colors.white,
+            ),
+          ),
           width: 100,
           height: 52,
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
+          child: Text('4 : 4', style: TextStyle(fontSize: 16)),
         ),
       ],
     );

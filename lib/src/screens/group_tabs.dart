@@ -1,11 +1,11 @@
-import "package:bet_app/src/screens/next_matches_screen.dart";
+import "package:bet_app/src/services/api_data.dart";
+import "package:bet_app/src/services/groups.dart";
 import "package:bet_app/src/widgets/group_details.dart";
 import "package:bet_app/src/widgets/group_match_list.dart";
 import "package:bet_app/src/widgets/group_table.dart";
-import "package:bet_app/src/widgets/next_match_list.dart";
 import "package:flutter/material.dart";
 
-class GroupTabs extends StatelessWidget {
+class GroupTabs extends StatefulWidget {
   const GroupTabs({
     super.key,
     this.groupId,
@@ -22,6 +22,38 @@ class GroupTabs extends StatelessWidget {
   final int? groupMembers;
 
   @override
+  State<GroupTabs> createState() => _GroupTabsState();
+}
+
+class _GroupTabsState extends State<GroupTabs> {
+  Groups groups = Groups();
+  String? selectedLeagueName = '';
+  int? selectedLeagueNumber;
+  Map<String, dynamic> selectedLeague = {};
+
+  @override
+  void initState() {
+    super.initState();
+    getLeagueInfo();
+  }
+
+  Future<void> getLeagueInfo() async {
+    try {
+      Map<String, dynamic>? result =
+          await groups.getDataAboutGroup(widget.groupId!);
+
+      setState(() {
+        selectedLeague = result['selectedLeague'];
+        selectedLeagueName = selectedLeague['leagueName'];
+        selectedLeagueNumber = selectedLeague['leagueNumber'];
+      });
+      ApiData(leagueNumber: selectedLeagueNumber);
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
@@ -31,11 +63,11 @@ class GroupTabs extends StatelessWidget {
           title: Row(
             children: [
               Text(
-                '${groupName} ',
+                '${widget.groupName} ',
                 style: const TextStyle(fontSize: 22),
               ),
               Text(
-                '( ${groupMembers} ',
+                '( ${widget.groupMembers} ',
                 style: const TextStyle(fontSize: 22),
               ),
               const Icon(Icons.person, size: 22),
@@ -64,7 +96,7 @@ class GroupTabs extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.info_outline_rounded, size: 25),
-                          SizedBox(width: 5),
+                          SizedBox(width: 3),
                           Text('Info'),
                         ],
                       ),
@@ -77,8 +109,8 @@ class GroupTabs extends StatelessWidget {
                           // Icon(Icons.emoji_events_rounded, size: 25),
                           Icon(Icons.scoreboard_outlined, size: 25),
                           // Icon(Icons.view_array_rounded, size: 25),
-                          SizedBox(width: 5),
-                          Text('Mecze'),
+                          SizedBox(width: 3),
+                          Text('Matches'),
                         ],
                       ),
                     ),
@@ -90,8 +122,8 @@ class GroupTabs extends StatelessWidget {
                           // Icon(Icons.emoji_events_rounded, size: 25),
                           Icon(Icons.sports_soccer_rounded, size: 25),
                           // Icon(Icons.view_array_rounded, size: 25),
-                          SizedBox(width: 5),
-                          Text('Tabela'),
+                          SizedBox(width: 3),
+                          Text('Table'),
                         ],
                       ),
                     ),
@@ -102,7 +134,7 @@ class GroupTabs extends StatelessWidget {
                         children: [
                           Icon(Icons.sort_rounded, size: 25),
                           // Icon(Icons.workspace_premium_rounded, size: 25),
-                          SizedBox(width: 5),
+                          SizedBox(width: 3),
                           Text('Ranking'),
                         ],
                       ),
@@ -117,15 +149,16 @@ class GroupTabs extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             GroupDetails(
-                groupId: groupId,
-                groupName: groupName,
-                groupMembers: groupMembers,
-                privacyType: privacyType,
-                creatorUsername: creatorUsername),
-            // const Text('yuiytuiyuiytuityuitu'),
+              groupId: widget.groupId,
+              groupName: widget.groupName,
+              groupMembers: widget.groupMembers,
+              privacyType: widget.privacyType,
+              creatorUsername: widget.creatorUsername,
+              selectedLeagueName: selectedLeagueName,
+            ),
             GroupMatchList(),
             const GroupTable(),
-            const Text('yuiytuiyuiytuityuitu'),
+            Center(child: const Text('Ranking')),
           ],
         ),
       ),

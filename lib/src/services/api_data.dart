@@ -1,9 +1,11 @@
 import "dart:core";
+import 'package:bet_app/src/screens/group_tabs.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
+import 'package:bet_app/src/widgets/group_match_list.dart';
 import 'package:bet_app/src/widgets/next_match_list.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
@@ -13,7 +15,7 @@ class ApiData extends StatefulWidget {
     super.key,
     this.leagueNumber,
   });
-  final String? leagueNumber;
+  final int? leagueNumber;
 
   @override
   State<ApiData> createState() => _ApiDataState();
@@ -21,10 +23,10 @@ class ApiData extends StatefulWidget {
 
 class _ApiDataState extends State<ApiData> {
   late Future dataFuture;
-  late Future leagueFuture;
+  // late Future leagueFuture;
   String? statusApi = 'ns-tbd';
   String? seasonApi;
-  String? leagueApi;
+  // int? leagueApi;
   String? liveApi = '';
 
   @override
@@ -83,13 +85,13 @@ class _ApiDataState extends State<ApiData> {
               );
             } else if (snapshot.hasData) {
               // if (statusApi == 'ns-tbd') {
-
-              return HomeScreen();
+              print(snapshot.data);
+              // return GroupMatchList();
               // return const SizedBox();
               // }
             }
           }
-          throw Exception('cos jest nie tak');
+          throw Exception('Błąd łączneniu z API');
         },
       ),
     );
