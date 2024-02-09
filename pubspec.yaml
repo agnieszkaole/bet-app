@@ -102,9 +102,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Lato
+    - family: Lato-Regular
       fonts:
-        - asset: fonts/Lato-Regular.ttf
+        - asset: assets/fonts/Lato-Regular.ttf
           style: italic
   #   - family: Trajan Pro
   #     fonts:

@@ -29,14 +29,20 @@ class League {
   int id;
   String name;
   String logo;
+  String round;
 
-  League({required this.id, required this.name, required this.logo});
+  League(
+      {required this.id,
+      required this.name,
+      required this.logo,
+      required this.round});
 
   factory League.fromJson(Map<String, dynamic> json) {
     return League(
       id: json['id'],
       name: json['name'],
       logo: json['logo'],
+      round: json['round'],
     );
   }
 }
@@ -54,30 +60,22 @@ class Fixture {
       status: Status.fromJson(json['status']),
     );
   }
-
-  String get formattedDate {
-    return formatter.format(DateTime.parse(date));
-  }
-
   int get matchId {
     return id;
   }
 
-  DateTime get dateTime {
-    return DateTime.parse(date);
+  // DateTime get dateTime {
+  //   return DateTime.parse(date);
+  // }
+
+  String get formattedDate {
+    DateTime dateTime = DateTime.parse(date);
+    return formatter.format(dateTime.toLocal());
   }
 
-  DateTime get dateTimePlusOneHour {
-    return dateTime.add(Duration(hours: 1));
-  }
-
-  String get formattedDateTime {
-    return formatter.format(dateTime);
-  }
-
-  String get formattedDateTimePlusOneHour {
-    return formatter.format(dateTimePlusOneHour);
-  }
+  // String get formattedDateTime {
+  //   return formatter.format(dateTime);
+  // }
 }
 
 class Status {

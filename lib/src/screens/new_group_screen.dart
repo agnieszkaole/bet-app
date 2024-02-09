@@ -1,7 +1,5 @@
 import 'package:bet_app/src/constants/league_names.dart';
-import 'package:bet_app/src/services/api_data.dart';
 import 'package:bet_app/src/services/groups.dart';
-import 'package:bet_app/src/widgets/next_match_list.dart';
 import 'package:flutter/material.dart';
 
 class NewGroupScreen extends StatefulWidget {
@@ -38,16 +36,36 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
           content: Text('You have created a new group: $_groupName'),
         ),
       );
+      // Navigator.of(context).push(MaterialPageRoute(
+      //   builder: (context) => GroupTabs(),
+      // ));
       Navigator.of(context).pop();
     }
     return _groupName;
   }
 
+  // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(12),
+  //             color: Color.fromARGB(255, 32, 80, 162),
+  // ),
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create a new group'),
+        // titleSpacing: 10,
+        leading: Container(
+          // margin: EdgeInsets.only(left: 5),
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.circular(12),
+          //   color: Color.fromARGB(255, 32, 80, 162),
+          // ),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -78,19 +96,20 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     decoration: InputDecoration(
                       errorStyle:
                           const TextStyle(color: Colors.red, fontSize: 14.0),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12)),
                       contentPadding: EdgeInsets.zero,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 40, 122, 43)),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(color: Colors.greenAccent),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 255, 52, 37)),
                       ),
@@ -125,17 +144,17 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                         child: InputDecorator(
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
                                   color: Color.fromARGB(255, 40, 122, 43)),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide:
                                   const BorderSide(color: Colors.greenAccent),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
                                   color: Color.fromARGB(255, 255, 52, 37)),
                             ),
@@ -147,6 +166,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                                 height: 0,
                               ),
                               value: selectedLeague,
+                              // itemHeight: kMinInteractiveDimension,
                               items: leagueNames.map((league) {
                                 return DropdownMenuItem<Map<String, dynamic>>(
                                   value: league,
@@ -201,11 +221,14 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                         foregroundColor: Colors.white,
                         backgroundColor: const Color.fromARGB(255, 40, 122, 43),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 5.0,
                       ),
-                      child: const Text('Create a group'),
+                      child: const Text(
+                        'Create a group',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ),
                 ],

@@ -27,12 +27,13 @@ class _GroupMatchItemState extends State<GroupMatchItem>
     var homeLogo = widget.match.home.logoUrl;
     var awayName = widget.match.away.name;
     var awayLogo = widget.match.away.logoUrl;
-    var matchTime = widget.match.fixture.formattedDateTimePlusOneHour;
+    var matchTime = widget.match.fixture.formattedDate;
     var leagueName = widget.match.league.name;
+    var leagueRound = widget.match.league.round;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         // color: Color.fromARGB(200, 40, 122, 43),
         border: Border.all(
@@ -48,17 +49,22 @@ class _GroupMatchItemState extends State<GroupMatchItem>
         children: [
           Text(
             matchTime.toString(),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
+          // Text(
+          //   leagueName,
+          //   style: const TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          SizedBox(height: 5),
           Text(
-            leagueName,
+            leagueRound.toString(),
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -122,8 +128,8 @@ class _GroupMatchItemState extends State<GroupMatchItem>
               ),
             ],
           ),
+          const SizedBox(height: 10),
           Container(
-            margin: const EdgeInsets.only(top: 15),
             child: (true)
                 ? ElevatedButton(
                     onPressed: () async {

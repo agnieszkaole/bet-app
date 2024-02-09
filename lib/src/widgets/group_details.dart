@@ -32,111 +32,146 @@ class _GroupDetailsState extends State<GroupDetails> {
           // mainAxisAlignment: MainAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            SizedBox(height: 20),
             Container(
-              width: 260,
+              width: 300,
+              // padding: const EdgeInsets.all(20),
+              // decoration: BoxDecoration(
+              //     border: Border.all(color: Colors.green, width: 1),
+              //     borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Group name',
-                          style: const TextStyle(fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          '${widget.groupName} ',
-                          style: const TextStyle(fontSize: 26),
-                        ),
-                        const Divider(
-                          height: 40,
-                          color: Color.fromARGB(255, 40, 122, 43),
-                          thickness: 1.2,
-                          indent: 20,
-                          endIndent: 20,
-                        ),
-                        Text(
-                          'Selected league',
-                          style: const TextStyle(fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          '${widget.selectedLeagueName}',
-                          style: const TextStyle(fontSize: 24),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Group name',
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.left,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                '${widget.groupName} ',
+                                style: const TextStyle(fontSize: 26),
+                              ),
+                            ],
+                          ),
+                          Icon(Icons.edit_sharp),
+                        ],
+                      ),
+                      const Divider(
+                        height: 40,
+                        color: Color.fromARGB(255, 40, 122, 43),
+                        thickness: 1.2,
+                        // indent: 20,
+                        // endIndent: 20,
+                      ),
+                      Text(
+                        'Selected league',
+                        style: const TextStyle(fontSize: 14),
+                        // textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 3),
+                      Text(
+                        '${widget.selectedLeagueName}',
+                        style: const TextStyle(fontSize: 24),
+                        // textAlign: TextAlign.center,
+                      ),
+                      const Divider(
+                        height: 40,
+                        color: Color.fromARGB(255, 40, 122, 43),
+                        thickness: 1.2,
+                        // indent: 20,
+                        // endIndent: 20,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Members: ',
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.left,
+                      ),
+                      GroupMembersList(
+                          groupId: widget.groupId!,
+                          creatorUsername: widget.creatorUsername!),
+                    ],
                   ),
                   const Divider(
                     height: 40,
                     color: Color.fromARGB(255, 40, 122, 43),
                     thickness: 1.2,
-                    indent: 20,
-                    endIndent: 20,
+                    // indent: 20,
+                    // endIndent: 20,
                   ),
-                  Container(
-                    // height: 180,
-                    width: 260,
-                    // decoration: BoxDecoration(
-                    //     color: const Color.fromARGB(221, 129, 129, 129)),
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // const SizedBox(height: 10),
-                        Text(
-                          'Members: ',
-                          style: TextStyle(fontSize: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Invite friends',
+                          style: const TextStyle(fontSize: 18)),
+                      GestureDetector(
+                        onTap: () {},
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.emoji_people_rounded,
+                              size: 30,
+                            ),
+                            SizedBox(width: 5),
+                          ],
                         ),
-
-                        GroupMembersList(
-                            groupId: widget.groupId!,
-                            creatorUsername: widget.creatorUsername!),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Delete member',
+                          style: const TextStyle(fontSize: 18)),
+                      GestureDetector(
+                        onTap: () {},
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.group_remove_rounded,
+                              size: 30,
+                            ),
+                            SizedBox(width: 5),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Delete group',
+                          style: const TextStyle(fontSize: 18)),
+                      GestureDetector(
+                        onTap: () {},
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.delete_forever_rounded,
+                              size: 30,
+                            ),
+                            SizedBox(width: 5),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: const Column(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  /// admin ///
-                  Text(
-                    'Invite friends',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Change group name',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Delete member',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Delete group',
-                    style: TextStyle(fontSize: 16),
-                  ),
-
-                  /// user ///
-                  // const Text(
-                  //   'Leave the group',
-                  //   style: TextStyle(fontSize: 16),
-                  // ),
-                ],
-              ),
-            )
           ],
         ),
       ),

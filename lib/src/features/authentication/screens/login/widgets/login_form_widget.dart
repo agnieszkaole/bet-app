@@ -37,7 +37,7 @@ class _LoginFormState extends State<LoginForm> {
         floatingLabelBehavior: FloatingLabelBehavior.never,
         labelText: title,
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none),
         fillColor: const Color.fromARGB(255, 48, 85, 50),
         filled: true,
@@ -141,7 +141,8 @@ class _LoginFormState extends State<LoginForm> {
               signInUser(context);
             },
             style: ElevatedButton.styleFrom(
-              shape: const StadiumBorder(),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               padding: const EdgeInsets.symmetric(vertical: 16),
               backgroundColor: const Color.fromARGB(255, 40, 122, 43),
             ),

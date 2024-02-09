@@ -34,8 +34,8 @@ class _PredictedItemLocalState extends State<PredictedItemLocal> {
               children: [
                 Column(
                   children: [
-                    Text(widget.predictedMatch['leagueName']),
                     Text(widget.predictedMatch['matchTime']),
+                    Text(widget.predictedMatch['leagueName']),
                   ],
                 ),
                 const SizedBox(height: 12),

@@ -1,25 +1,27 @@
-import "package:bet_app/src/services/api_data.dart";
+import "package:bet_app/src/models/soccermodel.dart";
 import "package:bet_app/src/services/groups.dart";
 import "package:bet_app/src/widgets/group_details.dart";
 import "package:bet_app/src/widgets/group_match_list.dart";
 import "package:bet_app/src/widgets/group_table.dart";
+import "package:bet_app/src/widgets/predicted_matches_firebase.dart";
 import "package:flutter/material.dart";
 
 class GroupTabs extends StatefulWidget {
-  const GroupTabs({
-    super.key,
-    this.groupId,
-    this.groupName,
-    this.groupMembers,
-    this.creatorUsername,
-    this.privacyType,
-  });
+  const GroupTabs(
+      {super.key,
+      this.groupId,
+      this.groupName,
+      this.groupMembers,
+      this.creatorUsername,
+      this.privacyType,
+      this.matches});
 
   final String? groupId;
   final String? groupName;
   final String? creatorUsername;
   final String? privacyType;
   final int? groupMembers;
+  final List<SoccerMatch>? matches;
 
   @override
   State<GroupTabs> createState() => _GroupTabsState();
@@ -47,7 +49,6 @@ class _GroupTabsState extends State<GroupTabs> {
         selectedLeagueName = selectedLeague['leagueName'];
         selectedLeagueNumber = selectedLeague['leagueNumber'];
       });
-      ApiData(leagueNumber: selectedLeagueNumber);
     } catch (e) {
       print("Error fetching data: $e");
     }
@@ -95,9 +96,12 @@ class _GroupTabsState extends State<GroupTabs> {
                       icon: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.info_outline_rounded, size: 25),
+                          Icon(Icons.info_outline_rounded, size: 20),
                           SizedBox(width: 3),
-                          Text('Info'),
+                          Text(
+                            'Info',
+                            style: TextStyle(fontSize: 14),
+                          ),
                         ],
                       ),
                     ),
@@ -107,10 +111,13 @@ class _GroupTabsState extends State<GroupTabs> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Icon(Icons.emoji_events_rounded, size: 25),
-                          Icon(Icons.scoreboard_outlined, size: 25),
+                          Icon(Icons.scoreboard_outlined, size: 20),
                           // Icon(Icons.view_array_rounded, size: 25),
                           SizedBox(width: 3),
-                          Text('Matches'),
+                          Text(
+                            'Matches',
+                            style: TextStyle(fontSize: 14),
+                          ),
                         ],
                       ),
                     ),
@@ -120,10 +127,13 @@ class _GroupTabsState extends State<GroupTabs> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Icon(Icons.emoji_events_rounded, size: 25),
-                          Icon(Icons.sports_soccer_rounded, size: 25),
+                          Icon(Icons.scoreboard_outlined, size: 20),
                           // Icon(Icons.view_array_rounded, size: 25),
                           SizedBox(width: 3),
-                          Text('Table'),
+                          Text(
+                            'Predictions',
+                            style: TextStyle(fontSize: 14),
+                          ),
                         ],
                       ),
                     ),
@@ -132,13 +142,29 @@ class _GroupTabsState extends State<GroupTabs> {
                       icon: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.sort_rounded, size: 25),
-                          // Icon(Icons.workspace_premium_rounded, size: 25),
+                          // Icon(Icons.emoji_events_rounded, size: 25),
+                          Icon(Icons.sports_soccer_rounded, size: 20),
+                          // Icon(Icons.view_array_rounded, size: 25),
                           SizedBox(width: 3),
-                          Text('Ranking'),
+                          Text(
+                            'Table',
+                            style: TextStyle(fontSize: 14),
+                          ),
                         ],
                       ),
                     ),
+                    // Tab(
+                    //   iconMargin: EdgeInsets.zero,
+                    //   icon: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Icon(Icons.sort_rounded, size: 25),
+                    //       // Icon(Icons.workspace_premium_rounded, size: 25),
+                    //       SizedBox(width: 3),
+                    //       Text('Ranking'),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
@@ -156,9 +182,17 @@ class _GroupTabsState extends State<GroupTabs> {
               creatorUsername: widget.creatorUsername,
               selectedLeagueName: selectedLeagueName,
             ),
-            GroupMatchList(),
+            GroupMatchList(
+              // leagueNumber: selectedLeagueNumber == '4'
+              //     ? '4'
+              //     : selectedLeagueNumber.toString(),
+              // leagueName: selectedLeagueName,
+              leagueNumber: selectedLeagueNumber.toString(),
+              leagueName: selectedLeagueName.toString(),
+            ),
+            const PredictedMatchesFirebase(),
             const GroupTable(),
-            Center(child: const Text('Ranking')),
+            // Center(child: const Text('Ranking')),
           ],
         ),
       ),

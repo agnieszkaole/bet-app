@@ -2,14 +2,17 @@ import 'package:bet_app/src/features/authentication/screens/login/login_screen.d
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
 import 'package:bet_app/src/screens/predicted_screen.dart';
+import 'package:bet_app/src/screens/ranking_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
-import 'package:bet_app/src/screens/user_account.dart';
+import 'package:bet_app/src/screens/user_profile.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+// enum SampleItem { itemOne, itemTwo, itemThree }
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({
@@ -21,30 +24,51 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // User? user = Auth().currentUser;
+  User? user = Auth().currentUser;
   bool isAnonymous = true;
-  String username = '';
+  String? username = '';
 
   @override
   void initState() {
     super.initState();
     _fetchUserData();
+    initUserDetails();
   }
 
   Future<void> _fetchUserData() async {
     User? user = Auth().currentUser;
-
     if (user != null) {
-      // Fetch username from Firebase
-
-      String? firebaseUsername = await UserData().getUsernameFromFirebase();
       setState(() {
         isAnonymous = user.isAnonymous;
-        username = firebaseUsername ?? '';
+        // username = firebaseUsername ?? '';
       });
     } else {
       print('No user is currently logged in');
     }
+  }
+
+  Future<void> initUserDetails() async {
+    setState(() {
+      User? user = Auth().currentUser;
+      if (user != null) {
+        isAnonymous = user.isAnonymous;
+      }
+    });
+    username = await UserData().getUsernameFromFirebase();
+    setState(() {});
+  }
+
+  void showLoginScreen() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const LoginScreen(),
+    ));
+  }
+
+  Future<void> signOut() async {
+    await Auth().signOutUserAccount();
+    print('User is logged out: ${user!.uid}');
+
+    showLoginScreen();
   }
 
   @override
@@ -53,16 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            Text(username),
-            IconButton(
-              onPressed: () {
-                print(username);
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (ctx) => const UserAccountScreen(),
-                  ),
-                );
-              },
+            PopupMenuButton(
+              constraints: const BoxConstraints.expand(width: 140, height: 60),
+              offset: const Offset(0, 60),
+              // elevation: 50,
               icon: isAnonymous
                   ? Icon(
                       Icons.account_circle,
@@ -72,9 +90,101 @@ class _HomeScreenState extends State<HomeScreen> {
                   : Icon(
                       Icons.account_circle,
                       size: 45,
-                      color: Color.fromARGB(255, 59, 182, 63),
+                      color: Color.fromARGB(255, 0, 90, 58),
                     ),
+              // initialValue: selectedMenu,
+              // onSelected: (SampleItem item) {
+              //   setState(() {
+              //     selectedMenu = item;
+              //   });
+              // },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                PopupMenuItem(
+                  value: 1,
+                  child: isAnonymous
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const LoginScreen()));
+                          },
+                          child: Container(
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.login,
+                                  // color: Color.fromARGB(255, 40, 122, 43),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            signOut();
+                          },
+                          child: Container(
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            // padding: const EdgeInsets.symmetric(
+                            //     horizontal: 25, vertical: 5),
+                            // decoration: BoxDecoration(
+                            //     border: Border.all(
+                            //       width: 1,
+                            // color: Color.fromARGB(255, 34, 104, 36),
+                            // ),
+                            // borderRadius:
+                            // const BorderRadius.all(Radius.circular(20.0))),
+
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    'Log out',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.logout,
+                                  // color: Color.fromARGB(255, 40, 122, 43),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                ),
+              ],
             ),
+
+            // isAnonymous
+            //     ? GestureDetector(
+            //       onTap: ,
+            //       child: Icon(
+            //           Icons.account_circle,
+            //           size: 45,
+            //           color: Color.fromARGB(255, 163, 163, 163),
+            //         ),
+            //     )
+            //     : Icon(
+            //         Icons.account_circle,
+            //         size: 45,
+            //         color: Color.fromARGB(255, 48, 143, 51),
+            //       ),
+            // ),
           ],
           title: const Text(
             'Betapp',
@@ -90,9 +200,9 @@ class _HomeScreenState extends State<HomeScreen> {
               index: provider.selectedIndex,
               children: const [
                 SelectCriteriaScreen(),
-                PredictedScreen(),
-                // RankingScreen(),
+                // PredictedScreen(),
                 GroupsScreen(),
+                RankingScreen(),
               ],
             );
           },
@@ -128,20 +238,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icon(Icons.home),
                 label: 'Home',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.scoreboard_outlined,
-                ),
-                label: 'Predictions',
-              ),
               // BottomNavigationBarItem(
-              //   icon: Icon(Icons.trending_up),
-              //   label: 'Ranking',
-              //   //
+              //   icon: Icon(
+              //     Icons.scoreboard_outlined,
+              //   ),
+              //   label: 'Predictions',
               // ),
+
               BottomNavigationBarItem(
                 icon: Icon(Icons.groups_rounded),
                 label: 'Groups',
+                //
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.trending_up),
+                label: 'Ranking',
                 //
               ),
             ],

@@ -1,20 +1,18 @@
-import 'package:bet_app/main.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
-import 'package:bet_app/src/provider/predicted_match_provider.dart';
+import 'package:bet_app/src/screens/user_profile_edith.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bet_app/src/services/auth.dart';
-import 'package:provider/provider.dart';
 
-class UserAccountScreen extends StatefulWidget {
-  const UserAccountScreen({super.key});
+class UserProfileScreen extends StatefulWidget {
+  const UserProfileScreen({super.key});
 
   @override
-  State<UserAccountScreen> createState() => _UserAccountScreenState();
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
-class _UserAccountScreenState extends State<UserAccountScreen> {
+class _UserProfileScreenState extends State<UserProfileScreen> {
   User? user = Auth().currentUser;
   bool isAnonymous = true;
   String? email = '';
@@ -29,6 +27,10 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   //   });
   // }
 
+  String errorMessage = '';
+
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -75,48 +77,10 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           'Profile',
           style: TextStyle(fontSize: 20),
         ),
-        actions: [
-          if (!isAnonymous)
-            GestureDetector(
-              onTap: () {
-                signOut();
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Color.fromARGB(255, 40, 122, 43),
-                    ),
-                    borderRadius:
-                        const BorderRadius.all(Radius.circular(20.0))),
-                child: const Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Text(
-                        'Log out',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      Icons.logout,
-                      // color: Color.fromARGB(255, 40, 122, 43),
-                    ),
-                  ],
-                ),
-              ),
-            )
-        ],
       ),
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
+        // height: double.infinity,
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
@@ -177,7 +141,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                                 style: ElevatedButton.styleFrom(
                                   shape: const StadiumBorder(),
                                   backgroundColor:
-                                      const Color.fromARGB(255, 40, 122, 43),
+                                      const Color.fromARGB(255, 34, 104, 36),
                                 ),
                                 child: const Text(
                                   "Login",
@@ -217,16 +181,53 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                               ),
                             ),
                             const SizedBox(height: 20),
+
                             Text('Username: ',
-                                style: const TextStyle(fontSize: 16)),
-                            Text(
-                                user?.displayName != null
-                                    ? '${user?.displayName}'
-                                    : 'No data',
-                                style: const TextStyle(fontSize: 24)),
-                            const SizedBox(height: 20),
+                                style: const TextStyle(fontSize: 14)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    user?.displayName != null
+                                        ? '${user?.displayName}'
+                                        : 'No data',
+                                    style: const TextStyle(fontSize: 24)),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Icon(
+                                        Icons.edit_sharp,
+                                        size: 30,
+                                        // color: Color.fromARGB(255, 40, 122, 43),
+                                      ),
+                                      SizedBox(width: 5),
+                                      // Padding(
+                                      //   padding: EdgeInsets.only(right: 10),
+                                      //   child: Text(
+                                      //     'Edith',
+                                      //     style: TextStyle(
+                                      //       fontSize: 14,
+                                      //       fontWeight: FontWeight.bold,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              height: 50,
+                              color: Color.fromARGB(255, 40, 122, 43),
+                              thickness: 1.5,
+                              // indent: 5,
+                              // endIndent: 5,
+                            ),
                             Text('Email: ',
-                                style: const TextStyle(fontSize: 16)),
+                                style: const TextStyle(fontSize: 14)),
                             Text(
                                 user?.email != null
                                     ? '${user?.email}'
@@ -234,30 +235,76 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                                 style: const TextStyle(fontSize: 24)),
                             // const SizedBox(height: 50),
                             const Divider(
-                              height: 100,
+                              height: 50,
                               color: Color.fromARGB(255, 40, 122, 43),
                               thickness: 1.5,
                               // indent: 5,
                               // endIndent: 5,
                             ),
-                            const Text(
-                              'Change username',
-                              style: TextStyle(fontSize: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Change password ',
+                                    style: const TextStyle(fontSize: 18)),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.password_rounded,
+                                        size: 30,
+                                        // color: Color.fromARGB(255, 40, 122, 43),
+                                      ),
+                                      SizedBox(width: 5),
+                                      // Padding(
+                                      //   padding: EdgeInsets.only(right: 10),
+                                      //   child: Text(
+                                      //     'Edith',
+                                      //     style: TextStyle(
+                                      //       fontSize: 14,
+                                      //       fontWeight: FontWeight.bold,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'Change password',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'Delete profile',
-                              style: TextStyle(fontSize: 16),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Delete profile',
+                                    style: const TextStyle(fontSize: 18)),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.delete_forever_rounded,
+                                        size: 30,
+                                        // color: Color.fromARGB(255, 40, 122, 43),
+                                      ),
+                                      SizedBox(width: 5),
+                                      // Padding(
+                                      //   padding: EdgeInsets.only(right: 10),
+                                      //   child: Text(
+                                      //     'Delete',
+                                      //     style: TextStyle(
+                                      //       fontSize: 14,
+                                      //       fontWeight: FontWeight.bold,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      )
-                // :
+                      ),
               ],
             ),
           ],

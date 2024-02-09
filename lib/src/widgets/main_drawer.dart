@@ -1,6 +1,6 @@
 import 'package:bet_app/src/screens/groups_screen.dart';
 import 'package:bet_app/src/screens/ranking_screen.dart';
-import 'package:bet_app/src/screens/user_account.dart';
+import 'package:bet_app/src/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -11,23 +11,19 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          DrawerHeader(
-            padding: const EdgeInsets.all(20),
-            decoration:
-                BoxDecoration(color: const Color.fromARGB(255, 40, 122, 43)),
-            child: Row(
-              children: [
-                // const SizedBox(
-                //   width: 18,
-                // ),
-                Text(
-                  'Bet',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Theme.of(context).colorScheme.primary),
-                ),
-              ],
+          SizedBox(
+            height: 100,
+            child: const DrawerHeader(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(color: Color.fromARGB(255, 0, 90, 58)),
+              child: Row(
+                children: [
+                  Text(
+                    'Betapp',
+                    style: TextStyle(color: Colors.white, fontSize: 26),
+                  ),
+                ],
+              ),
             ),
           ),
           ListTile(
@@ -36,13 +32,13 @@ class MainDrawer extends StatelessWidget {
               size: 26,
               color: Theme.of(context).colorScheme.onBackground,
             ),
-            title: Text('Twój profil'),
+            title: Text('Profile'),
             onTap: () {
               Navigator.of(context).pop();
 
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (ctx) => UserAccountScreen(),
+                  builder: (ctx) => UserProfileScreen(),
                 ),
               );
             },
@@ -53,7 +49,7 @@ class MainDrawer extends StatelessWidget {
               size: 26,
               color: Theme.of(context).colorScheme.onBackground,
             ),
-            title: Text('Ustawienia'),
+            title: Text('Settings'),
             onTap: () async {
               Navigator.of(context).pop();
 

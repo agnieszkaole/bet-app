@@ -15,16 +15,17 @@ class _UserGroupsState extends State<UserGroups> {
     Groups groups = Groups();
 
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: groups.getUserGroupsData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox(
-              width: 30, height: 30, child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(
-            child: const Column(
+        future: groups.getUserGroupsData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: SizedBox(
+                  width: 30, height: 30, child: CircularProgressIndicator()),
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Column(
               children: [
                 // Divider(
                 //   height: 80,
@@ -38,39 +39,25 @@ class _UserGroupsState extends State<UserGroups> {
                   style: TextStyle(fontSize: 18),
                 ),
               ],
-            ),
-          );
-        } else {
-          List<Map<String, dynamic>> userGroups = snapshot.data!;
-          return Container(
-            // constraints: const BoxConstraints(maxWidth: 350),
-            // width: 320,
-            // decoration: BoxDecoration(color: Colors.blue),
-            // width: double.infinity,
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.min,
-
+            );
+          } else {
+            List<Map<String, dynamic>> userGroups = snapshot.data!;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // const Divider(
-                //   height: 80,
-                //   color: Color.fromARGB(255, 40, 122, 43),
-                //   thickness: 1.5,
-                //   // indent: 20,
-                //   // endIndent: 20,
-                // ),
-                Center(
+                const Center(
                   child: Text(
-                    'You are a member of these groups:',
+                    'Your groups:',
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
-                  height: 100,
+                  // height: MediaQuery.of(context).size.height - 200,
+                  height: 300,
+                  width: 300,
                   child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
+                    // scrollDirection: Axis.horizontal,
                     itemCount: userGroups.length,
                     itemBuilder: (context, index) {
                       final groupData = userGroups[index];
@@ -91,57 +78,39 @@ class _UserGroupsState extends State<UserGroups> {
                           ));
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 10),
-                          height: 50,
+                              horizontal: 5, vertical: 5),
                           width: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Color.fromARGB(255, 90, 90, 90),
-                              width: 1,
-                            ),
-                            // color: const Color.fromARGB(255, 56, 56, 56)
-                            // decoration: BoxDecoration(color: Colors.blue),
+                            // border: Border.all(
+                            //   color: Color.fromARGB(255, 90, 90, 90),
+                            //   width: 1,
+                            // ),
+                            // color: Color.fromARGB(255, 43, 43, 43),
+                            color: Color.fromARGB(255, 0, 90, 58),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                              Column(
+                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(6.0),
-                                      child: CircleAvatar(
-                                        // backgroundImage: AssetImage(
-                                        //   'assets/images/image-from-rawpixel-id-6626581-original.png',
-                                        // ),
-                                        child: Icon(Icons.groups),
-                                        backgroundColor:
-                                            Color.fromARGB(255, 40, 122, 43),
-                                      ),
-                                    ),
-                                    Column(
-                                        // mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('$groupName',
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold)),
-                                          // const SizedBox(height: 2),
-                                          // Text('Uczestnicy: $groupMembers',
-                                          //     style: TextStyle(fontSize: 16)),
-                                        ]),
-                                    const SizedBox(width: 10),
-                                    const Icon(Icons.login_rounded),
-                                  ],
-                                ),
+                                    Text('$groupName',
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    // const SizedBox(height: 2),
+                                    Text('Members: $groupMembers',
+                                        style: TextStyle(fontSize: 16)),
+                                  ]),
+                              const SizedBox(width: 10),
+                              const Icon(
+                                Icons.login_rounded,
+                                size: 26,
                               ),
                             ],
                           ),
@@ -151,10 +120,8 @@ class _UserGroupsState extends State<UserGroups> {
                   ),
                 ),
               ],
-            ),
-          );
-        }
-      },
-    );
+            );
+          }
+        });
   }
 }

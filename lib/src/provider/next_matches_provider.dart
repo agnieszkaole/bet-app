@@ -9,6 +9,7 @@ class NextMatchesProvider extends ChangeNotifier {
 
   void saveMatches(List<SoccerMatch> matches) {
     _nextMatchesList = matches;
+
     notifyListeners();
   }
 

@@ -1,7 +1,7 @@
 import 'package:bet_app/src/screens/join_existing_group_screen.dart';
 import 'package:bet_app/src/screens/new_group_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
-import 'package:bet_app/src/services/api_data.dart';
+
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/next_match_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,18 +44,6 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     setState(() {});
   }
 
-  void updateLeagueNumber(int? newLeagueNumber) {
-    setState(() {
-      selectedLeagueNumber = newLeagueNumber;
-    });
-
-    ApiData getApiDataScreen = ApiData(leagueNumber: selectedLeagueNumber);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => getApiDataScreen),
-    );
-  }
-
   void navigateToNextMatchList(String leagueName, String leagueLogo) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) =>
@@ -71,7 +59,6 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           child: isAnonymous == true
               ? Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
@@ -107,7 +94,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                         league['name'].toString();
                                     String leagueLogo =
                                         league['logo'].toString();
-                                    updateLeagueNumber(leagueNumber);
+                                    // updateLeagueNumber(leagueNumber);
                                     navigateToNextMatchList(
                                         leagueName, leagueLogo);
                                   },
@@ -158,6 +145,8 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                     ),
                   ],
                 )
+
+              ////////////////  Loggin ////////////////////////
               : Column(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -167,8 +156,9 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hello ${user?.displayName},',
-                            style: const TextStyle(fontSize: 40),
+                            'Hello ${user?.displayName}',
+                            style: const TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.bold),
                           ),
                           const Text(
                             'Let\'s start betting with your friends. 🖐',
@@ -180,61 +170,67 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                     const SizedBox(height: 30),
                     // SvgPicture.asset(
                     //   'assets/images/undraw_team_re_0bfe.svg',
-                    //   width: 150,
                     // ),
                     // Image.asset(
                     //   'assets/images/pexels-pixabay-47730.jpg',
-                    //   width: 200,
                     // ),
-                    // const SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Color.fromARGB(180, 41, 41, 41),
+                        border: Border.all(width: 0.5),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(255, 37, 37, 37),
+                            blurRadius: 10.0,
+                            spreadRadius: 2.0,
+                            offset: Offset(5.0, 5.0),
+                          )
+                        ],
+                        gradient: const LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            // Color.fromARGB(255, 0, 32, 128),
+                            Color.fromARGB(255, 0, 90, 58),
+                            Color.fromARGB(255, 0, 128, 53),
+                          ],
+                        ),
                       ),
                       child: Column(
                         children: [
-                          // const Divider(
-                          //   height: 30,
-                          //   color: Color.fromARGB(150, 76, 175, 79),
-                          //   thickness: 2,
-                          //   endIndent: 50,
-                          //   indent: 50,
-                          // ),
                           const Text(
-                            "Which event are you interested in?",
-                            style: TextStyle(fontSize: 17, color: Colors.white),
+                            "We cover the best football leagues",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
-                          const Text(
-                            " Check out what we've got.",
-                            style: TextStyle(fontSize: 17, color: Colors.white),
-                            textAlign: TextAlign.center,
+                          const Divider(
+                            height: 20,
+                            color: Color.fromARGB(255, 40, 122, 43),
+                            thickness: 1.8,
+                            indent: 50,
+                            endIndent: 50,
                           ),
-                          const SizedBox(height: 10),
                           Container(
-                            height: 140,
+                            height: 135,
+                            padding: EdgeInsets.all(5),
                             width: double.infinity,
                             child: CarouselSlider(
                               options: CarouselOptions(
-                                viewportFraction: 0.35,
-                                initialPage: 2,
-                                enlargeFactor: 0.5,
-                                // reverse: false,
+                                viewportFraction: 0.28,
                                 // autoPlay: true,
-                                // autoPlayInterval: Duration(seconds: 3),
+                                // autoPlayInterval: Duration(seconds: 5),
                                 // autoPlayAnimationDuration:
                                 //     Duration(milliseconds: 800),
-                                autoPlayCurve: Curves.fastOutSlowIn,
-                                enlargeCenterPage: true,
+                                // autoPlayCurve: Curves.fastOutSlowIn,
+
                                 scrollDirection: Axis.horizontal,
                               ),
                               items: leagueNames.map((league) {
                                 return Builder(
                                   builder: (BuildContext context) {
                                     return Container(
-                                      width: 140,
                                       margin: const EdgeInsets.all(4),
                                       child: Column(
                                         mainAxisAlignment:
@@ -258,13 +254,15 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                           ),
                                           const SizedBox(height: 5),
                                           SizedBox(
-                                            height: 40,
+                                            height: 35,
                                             width: 120,
                                             child: Text(
                                               league["name"],
                                               style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                height: 1.2,
+                                              ),
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
@@ -279,127 +277,160 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         ],
                       ),
                     ),
-
-                    // const Divider(
-                    //   height: 30,
-                    //   color: Color.fromARGB(150, 76, 175, 79),
-                    //   thickness: 2,
-                    //   endIndent: 50,
-                    //   indent: 50,
+                    const SizedBox(height: 10),
+                    // const Text(
+                    //   "Create a new group and invite your friends or join an existing one.",
+                    //   style: TextStyle(fontSize: 18, color: Colors.white),
+                    //   textAlign: TextAlign.left,
                     // ),
                     const SizedBox(height: 20),
-                    const Text(
-                      "Create a group and invite your friends or join an existing one.",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 30),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 310,
-                          height: 50,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NewGroupScreen(),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // shape: const StadiumBorder(),
-                                // minimumSize: const Size(280, 50),
-                                backgroundColor:
-                                    const Color.fromARGB(255, 40, 122, 43),
-                              ),
-                              child: const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Create a new group",
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                  Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
-                                ],
-                              )),
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          width: 310,
-                          height: 50,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const GroupListScreen(),
-                                ),
-                              );
-                            },
-                            style: OutlinedButton.styleFrom(
-                              // shape: const StadiumBorder(),
-                              // minimumSize: const Size(300, 50),
-                              side: const BorderSide(
-                                width: 1.5,
-                                color: Color.fromARGB(255, 40, 122, 43),
-                              ),
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Join an existing group",
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                ),
-                                Icon(
-                                  Icons.group_add_rounded,
-                                  color: Colors.white,
-                                  size: 25,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    // const Divider(
-                    //   height: 30,
-                    //   color: Color.fromARGB(150, 76, 175, 79),
-                    //   thickness: 2,
-                    //   endIndent: 50,
-                    //   indent: 50,
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Container(
+                    //       width: 160,
+                    //       height: 110,
+                    //       child: ElevatedButton(
+                    //           onPressed: () {
+                    //             Navigator.of(context).push(
+                    //               MaterialPageRoute(
+                    //                 builder: (context) =>
+                    //                     const NewGroupScreen(),
+                    //               ),
+                    //             );
+                    //           },
+                    //           style: ButtonStyle(
+                    //               padding: MaterialStatePropertyAll(
+                    //                   EdgeInsets.all(10)),
+                    //               backgroundColor:
+                    //                   MaterialStateProperty.all<Color>(
+                    //                       Color.fromARGB(255, 0, 64, 128)),
+                    //               shape: const MaterialStatePropertyAll(
+                    //                   RoundedRectangleBorder(
+                    //                       borderRadius: BorderRadius.all(
+                    //                 Radius.circular(12),
+                    //               ))),
+                    //               side: const MaterialStatePropertyAll(
+                    //                 BorderSide(
+                    //                     color: Color.fromARGB(255, 30, 77, 60),
+                    //                     width: 1),
+                    //               )),
+                    //           child: const Column(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             crossAxisAlignment: CrossAxisAlignment.center,
+                    //             children: [
+                    //               Text(
+                    //                 "Create a new group",
+                    //                 style: TextStyle(
+                    //                     fontSize: 14, color: Colors.white),
+                    //                 textAlign: TextAlign.center,
+                    //               ),
+                    //               Icon(
+                    //                 Icons.format_list_bulleted_add,
+                    //                 color: Colors.white,
+                    //                 size: 35,
+                    //               ),
+                    //             ],
+                    //           )),
+                    //     ),
+                    //     const SizedBox(width: 20),
+
+                    //     // Icon(
+                    //     //   Icons.group_add_rounded,
+                    //     //   color: Colors.white,
+                    //     //   size: 35,
+                    //     // ),
+                    //     Container(
+                    //       width: 160,
+                    //       height: 110,
+                    //       child: OutlinedButton(
+                    //         onPressed: () {
+                    //           Navigator.of(context).push(
+                    //             MaterialPageRoute(
+                    //               builder: (context) => const GroupListScreen(),
+                    //             ),
+                    //           );
+                    //         },
+                    //         style: ButtonStyle(
+                    //             padding: MaterialStatePropertyAll(
+                    //                 EdgeInsets.all(10)),
+                    //             backgroundColor:
+                    //                 MaterialStateProperty.all<Color>(
+                    //                     Color.fromARGB(255, 0, 90, 58)),
+                    //             shape: const MaterialStatePropertyAll(
+                    //                 RoundedRectangleBorder(
+                    //                     borderRadius: BorderRadius.all(
+                    //               Radius.circular(12),
+                    //             ))),
+                    //             side: const MaterialStatePropertyAll(
+                    //               BorderSide(
+                    //                   color: Color.fromARGB(255, 30, 77, 60),
+                    //                   width: 1),
+                    //             )),
+                    //         child: const Column(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           crossAxisAlignment: CrossAxisAlignment.center,
+                    //           children: [
+                    //             Text(
+                    //               "Join an existing group",
+                    //               style: TextStyle(
+                    //                   fontSize: 14, color: Colors.white),
+                    //               textAlign: TextAlign.center,
+                    //             ),
+                    //             Icon(
+                    //               Icons.group_add_rounded,
+                    //               color: Colors.white,
+                    //               size: 35,
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
                     // ),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Color.fromARGB(180, 41, 41, 41),
-                      ),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Are you already a member of any group?',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Text(
-                            'Great! Check details in the Groups tab.',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    )
+                    const SizedBox(height: 20),
+                    // Container(
+                    //   width: double.infinity,
+                    //   padding: EdgeInsets.all(20),
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(8),
+                    //     border: Border.all(width: 0.5),
+                    //     boxShadow: const [
+                    //       BoxShadow(
+                    //         color: Color.fromARGB(255, 36, 36, 36),
+                    //         blurRadius: 10.0, // Soften the shaodw
+                    //         spreadRadius: 2.0,
+                    //         offset: Offset(5.0, 5.0),
+                    //       )
+                    //     ],
+                    //     // color: Color.fromARGB(180, 41, 41, 41),
+                    //     gradient: const LinearGradient(
+                    //       begin: Alignment.topRight,
+                    //       end: Alignment.bottomLeft,
+                    //       colors: [
+                    //         // Color.fromARGB(255, 0, 83, 32),
+                    //         // Color.fromARGB(255, 76, 128, 66),
+
+                    //         Color.fromARGB(255, 0, 128, 53),
+                    //         Color.fromARGB(255, 0, 90, 58),
+                    //       ],
+                    //     ),
+                    //   ),
+                    //   child: const Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       Text(
+                    //         'Are you already a member of any group?',
+                    //         style: TextStyle(fontSize: 17),
+                    //       ),
+                    //       SizedBox(height: 5),
+                    //       Text(
+                    //         'Great! Check details in the Groups tab.',
+                    //         style: TextStyle(fontSize: 17),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
         ),

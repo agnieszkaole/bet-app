@@ -37,32 +37,32 @@ class _NextMatchListState extends State<NextMatchList> {
   bool hasFetchedData = false;
   bool isNewMatch = true;
 
-  @override
-  void initState() {
-    super.initState();
-    fetchDataForNewLeague(widget.leagueNumber);
-    // fetchDataForNewLeague('960');
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchDataForNewLeague(widget.leagueNumber);
+  //   // fetchDataForNewLeague('960');
+  // }
 
-  Future fetchDataForNewLeague(int? leagueNumber) async {
-    try {
-      List<SoccerMatch> data =
-          await SoccerApi().getMatches(widget.leagueNumber);
-      setState(() {
-        isLoading = false;
-        hasFetchedData = true;
-        isNewMatch = false;
-      });
+  // Future fetchDataForNewLeague(int? leagueNumber) async {
+  //   try {
+  //     // List<SoccerMatch> data =
+  //     // await SoccerApi().getMatches(widget.leagueNumber);
+  //     setState(() {
+  //       isLoading = false;
+  //       hasFetchedData = true;
+  //       isNewMatch = false;
+  //     });
 
-      return data;
-    } catch (error) {
-      print('Error fetching data: $error');
-      setState(() {
-        isLoading = false;
-      });
-      return [];
-    }
-  }
+  //     // return data;
+  //   } catch (error) {
+  //     print('Error fetching data: $error');
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     return [];
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

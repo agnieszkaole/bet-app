@@ -27,7 +27,7 @@ class _NextMatchItemState extends State<NextMatchItem>
     var homeLogo = widget.match.home.logoUrl;
     var awayName = widget.match.away.name;
     var awayLogo = widget.match.away.logoUrl;
-    var matchTime = widget.match.fixture.formattedDateTimePlusOneHour;
+    var matchTime = widget.match.fixture.formattedDate;
     var leagueName = widget.match.league.name;
 
     return Container(

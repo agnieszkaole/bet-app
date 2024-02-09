@@ -1,6 +1,5 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/services/api_data.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/group_match_item.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +8,19 @@ import 'package:provider/provider.dart';
 class GroupMatchList extends StatefulWidget {
   GroupMatchList({
     super.key,
+    // this.matches,
     this.leagueName,
     this.leagueNumber,
     this.leagueLogo,
   });
 
+  // final List<SoccerMatch>? matches;
   final String? leagueName;
-  final int? leagueNumber;
+  final String? leagueNumber;
   final String? leagueLogo;
 
+  static final GlobalKey<_GroupMatchListState> nextMatchListKey =
+      GlobalKey<_GroupMatchListState>();
   @override
   State<GroupMatchList> createState() => _GroupMatchListState();
 }
@@ -25,58 +28,121 @@ class GroupMatchList extends StatefulWidget {
 class _GroupMatchListState extends State<GroupMatchList> {
   final ScrollController _scrollController = ScrollController();
   int displayedItems = 20;
-  bool isLoading = true;
-  bool hasFetchedData = false;
-  // late List<SoccerMatch> nextMatchesList;
-  // bool isNewMatch = true;
-  // int? selectedLeagueNumber;
+  // bool isLoading = true;
+  // bool hasFetchedData = false;
+
+  late Future dataFuture;
+  String? statusApi = 'ns-tbd';
+  String? timezoneApi = 'Europe/Warsaw';
 
   @override
   void initState() {
     super.initState();
-    fetchDataForNewLeague(widget.leagueNumber);
-    // fetchDataForNewLeague(960);
+    dataFuture = _getData();
   }
 
-  // Future fetchDataForNewLeague(int? leagueNumber) async {
-  //   try {
-  //     List<SoccerMatch> data = await SoccerApi().getMatches(leagueNumber);
-  //     setState(() {
-  //       isLoading = false;
-  //       hasFetchedData = true;
-  //       // isNewMatch = false;
-  //     });
-  //     ApiData(leagueNumber: leagueNumber);
-  //     return data;
-  //   } catch (error) {
-  //     print('Error fetching data: $error');
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //     return [];
+  Future<List<SoccerMatch>> _getData() async {
+    final season1Data = await SoccerApi().getMatches('',
+        league: widget.leagueNumber,
+        season: '2023',
+        status: statusApi,
+        timezone: timezoneApi);
+    final season2Data = await SoccerApi().getMatches('',
+        league: widget.leagueNumber,
+        season: '2024',
+        status: statusApi,
+        timezone: timezoneApi);
+
+    List<SoccerMatch> mergedData = [];
+
+    mergedData.addAll(season1Data);
+    mergedData.addAll(season2Data);
+
+    Provider.of<NextMatchesProvider>(context, listen: false)
+        .saveMatches(mergedData);
+    // setState(() {
+    // bool hasFetchedData = true;
+    // });
+    return mergedData;
+  }
+
+  // Future<List<SoccerMatch>> _getData() async {
+  //   String selectedLeagueNumber1 = widget.leagueNumber!;
+  //   String selectedLeagueNumber2 = '960';
+
+  //   final List<Future<List<SoccerMatch>>> matchesFutures;
+
+  //   if (selectedLeagueNumber1 == '4') {
+  //     matchesFutures = [
+  //       _getMatchesForSeason(selectedLeagueNumber1, '2023'),
+  //       _getMatchesForSeason(selectedLeagueNumber1, '2024'),
+  //       _getMatchesForSeason(selectedLeagueNumber2, '2023'),
+  //       _getMatchesForSeason(selectedLeagueNumber2, '2024'),
+  //     ];
+  //   } else {
+  //     matchesFutures = [
+  //       _getMatchesForSeason(selectedLeagueNumber1, '2023'),
+  //       _getMatchesForSeason(selectedLeagueNumber1, '2024'),
+  //     ];
   //   }
+
+  //   final List<List<SoccerMatch>> mergedMatches =
+  //       await Future.wait(matchesFutures);
+
+  //   // Flatten the list of lists into a single list
+  //   List<SoccerMatch> allMatches =
+  //       mergedMatches.expand((matches) => matches).toList();
+
+  //   Provider.of<NextMatchesProvider>(context, listen: false)
+  //       .saveMatches(allMatches);
+
+  //   return allMatches;
   // }
 
-  Future fetchDataForNewLeague(int? leagueNumberr) async {
-    setState(() {
-      // isLoading = false;
-      // hasFetchedData = true;
-      // isNewMatch = false;
-    });
-    ApiData(leagueNumber: leagueNumberr);
-  }
+  // Future<List<SoccerMatch>> _getMatchesForSeason(
+  //     String leagueNumber, String season) async {
+  //   final season1Data = await SoccerApi().getMatches(
+  //     '',
+  //     league: leagueNumber,
+  //     season: season,
+  //     status: statusApi,
+  //     timezone: timezoneApi,
+  //   );
+  //   return season1Data;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    List<SoccerMatch> nextMatchesList =
+    late List<SoccerMatch> nextMatchesList =
         context.watch<NextMatchesProvider>().nextMatchesList;
-    return isLoading
-        ? const Center(
-            child: CircularProgressIndicator(),
-          )
-        : hasFetchedData == true
-            ? Column(
+    return FutureBuilder(
+        future: dataFuture,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              final error = snapshot.error;
+              return Text('$error',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
+            } else if (snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text(
+                  'There are no matches to display in the selected league.',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            } else if (snapshot.hasData) {
+              return Column(
                 children: [
+                  SizedBox(height: 10),
+                  Text(widget.leagueName!, style: TextStyle(fontSize: 24)),
+                  SizedBox(height: 10),
                   Expanded(
                     child: RawScrollbar(
                       // thumbVisibility: true,
@@ -130,13 +196,18 @@ class _GroupMatchListState extends State<GroupMatchList> {
                       ),
                     ),
                 ],
-              )
-            : const Center(
-                child: Text(
-                  'Nie znaleziono żadnych meczów.\nZmień kryteria wyszukiwania.',
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                ),
               );
+            }
+          }
+          return const Center(
+            child: Text(
+              'Unexpected state encountered. Please try again later.',
+              style: TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+          );
+        });
   }
 }
+
+class $ {}

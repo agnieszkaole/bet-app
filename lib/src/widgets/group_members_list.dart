@@ -1,4 +1,3 @@
-import 'package:bet_app/main.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:flutter/material.dart';
 
@@ -34,9 +33,11 @@ class _GroupMembersListState extends State<GroupMembersList> {
             Map<String, dynamic> groupData = snapshot.data ?? {};
             List<Map<String, dynamic>> membersList = groupData['members'];
 
-            return SizedBox(
+            return Container(
+              // decoration: BoxDecoration(
+              //     border: Border.all(color: Colors.green, width: 1),
+              //     borderRadius: BorderRadius.circular(10)),
               height: 200,
-              width: 150,
               child: ListView.builder(
                   itemCount: membersList.length,
                   itemBuilder: (context, index) {
@@ -48,7 +49,10 @@ class _GroupMembersListState extends State<GroupMembersList> {
                         SizedBox(
                           height: 30,
                           child: ListTile(
-                            title: Text(memberUsername ?? ''),
+                            title: Text(
+                              memberUsername ?? '',
+                              style: TextStyle(fontSize: 18),
+                            ),
                             trailing: widget.creatorUsername == memberUsername
                                 ? const Icon(Icons.admin_panel_settings_rounded)
                                 : const SizedBox(),
