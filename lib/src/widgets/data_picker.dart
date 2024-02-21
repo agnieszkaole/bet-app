@@ -1,48 +1,81 @@
-import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/widgets/next_match_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:provider/provider.dart';
 import 'package:weekly_date_picker/weekly_date_picker.dart';
 
-var _selectedDate = DateTime.now();
+// var _selectedDate = DateTime.now();
+typedef DateSelectedCallback = void Function(DateTime selectedDate);
 
 class DataPicker extends StatefulWidget {
-  const DataPicker({super.key});
-
+  const DataPicker({
+    super.key,
+    this.onDateSelected,
+  });
+  final Function(DateTime)? onDateSelected;
   @override
   DataPickerState createState() => DataPickerState();
 }
 
 class DataPickerState extends State<DataPicker> {
-  // DateTime _selectedDate = DateTime.now();
+  late DateTime _selectedDate = DateTime.now();
+
+  void _handleDateChange(DateTime value) {
+    if (value.isAfter(DateTime.now().subtract(Duration(days: 1)))) {
+      setState(() {
+        _selectedDate = value;
+      });
+      widget.onDateSelected!(_selectedDate);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Invalid Date"),
+            content: Text("You cannot bet on previous matches. Please select today's date or later."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(_selectedDate);
-    initializeDateFormatting('pl_PL', null);
+    // print(_selectedDate);
+    // initializeDateFormatting('pl_PL', null);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       child: Column(
         children: [
-          Text(DateFormat('d MMMM yyyy', 'pl_PL').format(_selectedDate)),
+          Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
           WeeklyDatePicker(
             selectedDay: _selectedDate,
-            changeDay: (value) => setState(
-              () {
-                _selectedDate = value;
-              },
-            ),
+            // changeDay: (value) => setState(
+            //   () {
+            //     _selectedDate = value;
+            //   },
+            // ),
+            changeDay: (value) => _handleDateChange(value),
+            // changeDay: (value) {
+            //   setState(() {
+            //     _selectedDate = value;
+            //   });
+            //   widget.onDateSelected(_selectedDate);
+            // },
+
             enableWeeknumberText: false,
             weeknumberColor: const Color.fromARGB(255, 40, 122, 43),
             weeknumberTextColor: Colors.white,
-            backgroundColor: const Color(0xFF1A1A1A),
+            backgroundColor: Color.fromARGB(255, 26, 26, 26),
             weekdayTextColor: const Color(0xFF8A8A8A),
             digitsColor: Colors.white,
-            // selectedBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
-            weekdays: const ["Pn", "Wt", "Śr", "Cz", "Pt", "Sb", "Nd"],
+            selectedDigitBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
+            // weekdays: const ["Pn", "Wt", "Śr", "Cz", "Pt", "Sb", "Nd"],
             daysInWeek: 7,
           ),
         ],

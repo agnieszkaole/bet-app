@@ -1,4 +1,5 @@
 import 'package:bet_app/src/features/authentication/screens/login/widgets/forget_password.dart';
+import 'package:bet_app/src/features/authentication/screens/register/register_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
@@ -54,6 +55,7 @@ class _LoginFormState extends State<LoginForm> {
       style: const TextStyle(
         color: Colors.red,
       ),
+      textAlign: TextAlign.left,
     );
   }
 
@@ -120,7 +122,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
       // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         _entryField('Email', _controllerEmail, Icons.email, false),
@@ -133,7 +135,8 @@ class _LoginFormState extends State<LoginForm> {
           style: TextStyle(fontSize: 12),
         ),
         const SizedBox(height: 20),
-        ForgetPassword(),
+        // ForgetPassword(),
+        const SizedBox(height: 20),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -151,6 +154,24 @@ class _LoginFormState extends State<LoginForm> {
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Don't have an account?"),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const RegisterScreen(),
+                ));
+              },
+              child: const Text(
+                'Sign up',
+                style: TextStyle(color: Color.fromARGB(255, 58, 158, 61)),
+              ),
+            ),
+          ],
         ),
       ],
     );

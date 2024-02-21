@@ -3,6 +3,7 @@ import 'package:bet_app/src/features/authentication/screens/login/widgets/contin
 import 'package:bet_app/src/features/authentication/screens/register/successful_registration.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
+import 'package:bet_app/src/services/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerConfirmPassword =
-      TextEditingController();
+  final TextEditingController _controllerConfirmPassword = TextEditingController();
 
   void showSuccesfulScreen() {
     Navigator.of(context).push(MaterialPageRoute(
@@ -40,9 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller: controller,
       decoration: InputDecoration(
         labelText: title,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
         fillColor: const Color.fromARGB(255, 48, 85, 50),
         filled: true,
         prefixIcon: Icon(icon),
@@ -61,25 +59,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<bool> isDisplayNameAvailable(String displayName) async {
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .where('username',
-              isEqualTo:
-                  displayName) // Adjust 'username' to the actual field name in your Firestore collection
-          .get();
+  // Future<bool> isDisplayNameAvailable(String displayName) async {
+  //   try {
+  //     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('users').where('username', isEqualTo: displayName).get();
 
-      return querySnapshot.docs.isEmpty;
-    } catch (e) {
-      print('Error checking display name availability: $e');
-      // You may choose to return false or handle the error in a different way
-      return false;
-    }
-  }
+  //     return querySnapshot.docs.isEmpty;
+  //   } catch (e) {
+  //     print('Error checking display name availability: $e');
 
-  Future<String?> createUserAndCheckEmail(
-      String email, String password, displayName) async {
+  //     return false;
+  //   }
+  // }
+
+  Future<String?> createUserAndCheckEmail(String email, String password, displayName) async {
     await Future.delayed(Duration.zero);
     if (_controllerEmail.text.isEmpty ||
         _controllerPassword.text.isEmpty ||
@@ -99,11 +91,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     try {
-      bool isDisplayNameAvailableFirebase =
-          await isDisplayNameAvailable(displayName);
+      bool isDisplayNameAvailableFirebase = await UserData().isDisplayNameAvailable(displayName);
       if (isDisplayNameAvailableFirebase) {
-        UserCredential userCredential =
-            await Auth().createUserWithEmailAndPassword(
+        UserCredential userCredential = await Auth().createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -132,8 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           break;
         case "weak-password":
           // print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage =
-              "Weak password. The password should be at least 6 characters long.";
+          errorMessage = "Weak password. The password should be at least 6 characters long.";
           break;
         default:
           print('ze switch default: $e.code');
@@ -183,8 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     "Betapp",
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
-                  const Text("Create your account",
-                      style: TextStyle(fontSize: 16)),
+                  const Text("Create your account", style: TextStyle(fontSize: 16)),
                   const SizedBox(
                     height: 50,
                   ),
@@ -196,11 +184,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 20),
                   _entryField('Email', _controllerEmail, Icons.email, false),
                   const SizedBox(height: 20),
-                  _entryField(
-                      'Password', _controllerPassword, Icons.password, true),
+                  _entryField('Password', _controllerPassword, Icons.password, true),
                   const SizedBox(height: 20),
-                  _entryField('Confirm Password', _controllerConfirmPassword,
-                      Icons.password, true),
+                  _entryField('Confirm Password', _controllerConfirmPassword, Icons.password, true),
                   const SizedBox(height: 10),
                   _errorMessage(),
                   const SizedBox(height: 20),
@@ -233,8 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // );
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: const Color.fromARGB(255, 40, 122, 43),
                   ),
@@ -262,7 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       )),
                 ],
               ),
-              const ContinueAsGuestScreen(),
+              // const ContinueAsGuestScreen(),
             ],
           ),
         ),

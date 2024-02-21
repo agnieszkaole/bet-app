@@ -58,8 +58,8 @@ class _PredictedItemLocalState extends State<PredictedItemLocal> {
                       child: CachedNetworkImage(
                         imageUrl: widget.predictedMatch['teamHomeLogo'],
                         fadeInDuration: const Duration(milliseconds: 50),
-                        // placeholder: (context, url) =>
-                        //     const CircularProgressIndicator(),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         width: 30.0,
@@ -86,8 +86,8 @@ class _PredictedItemLocalState extends State<PredictedItemLocal> {
                       padding: const EdgeInsets.all(5.0),
                       child: CachedNetworkImage(
                         imageUrl: widget.predictedMatch['teamAwayLogo'],
-                        // placeholder: (context, url) =>
-                        //     const CircularProgressIndicator(),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         width: 30.0,

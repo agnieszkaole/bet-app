@@ -15,6 +15,6 @@ class NextMatchScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: const NextMatchList());
+        body: NextMatchList());
   }
 }

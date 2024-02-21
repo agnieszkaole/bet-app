@@ -21,30 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
             height: MediaQuery.of(context).size.height - 50,
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 20),
-                const LoginHeader(),
+                const LoginHeader(), const SizedBox(height: 50),
                 LoginForm(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an account?"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const RegisterScreen(),
-                        ));
-                      },
-                      child: const Text(
-                        'Sign up',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 58, 158, 61)),
-                      ),
-                    ),
-                  ],
-                ),
+
                 // const Center(child: Text("Lub")),
                 // Container(
                 //   height: 45,
@@ -73,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 //   ),
                 // ),
 
-                const ContinueAsGuestScreen(),
+                // const ContinueAsGuestScreen(),
               ],
             ),
           ),

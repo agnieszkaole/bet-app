@@ -1,6 +1,8 @@
+import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/widgets/predicted_result_edith.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PredictedItemFirebase extends StatefulWidget {
   PredictedItemFirebase({
@@ -25,7 +27,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
     String awayLogo = widget.data['awayLogo'] ?? '';
     int homeGoal = widget.data['homeGoal'] ?? 0;
     int awayGoal = widget.data['awayGoal'] ?? 0;
-    String leagueName = widget.data['leagueName'] ?? '';
+    // String leagueName = widget.data['leagueName'] ?? '';
     String matchTime = widget.data['matchTime'] ?? '';
     int matchId = widget.data['matchId'] ?? 0;
 
@@ -45,7 +47,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
               children: [
                 Column(
                   children: [
-                    Text(leagueName),
+                    // Text(leagueName),
                     Text(matchTime),
                   ],
                 ),
@@ -69,8 +71,8 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                       child: CachedNetworkImage(
                         imageUrl: homeLogo,
                         fadeInDuration: const Duration(milliseconds: 50),
-                        // placeholder: (context, url) =>
-                        //     const CircularProgressIndicator(),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         width: 30.0,
@@ -97,8 +99,8 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                       padding: const EdgeInsets.all(5.0),
                       child: CachedNetworkImage(
                         imageUrl: awayLogo,
-                        // placeholder: (context, url) =>
-                        //     const CircularProgressIndicator(),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         width: 30.0,

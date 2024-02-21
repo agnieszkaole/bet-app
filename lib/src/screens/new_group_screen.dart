@@ -1,6 +1,7 @@
 import 'package:bet_app/src/constants/league_names.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class NewGroupScreen extends StatefulWidget {
   const NewGroupScreen({super.key});
@@ -26,41 +27,37 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
     // selectedLeague = null;
   }
 
+  String generateUniqueId(int length) {
+    var uuid = const Uuid();
+    String uniqueIdKey = uuid.v4();
+    if (uniqueIdKey.length > length) {
+      uniqueIdKey = uniqueIdKey.substring(0, length);
+    }
+    return uniqueIdKey;
+  }
+
   Future<String?> createNewGroup() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      await groups.createGroup(
-          _groupName, _privacySettings, selectedLeague, members);
+      String uniqueIdKey = generateUniqueId(8);
+      await groups.createGroup(_groupName, _privacySettings, selectedLeague, members, uniqueIdKey);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('You have created a new group: $_groupName'),
         ),
       );
-      // Navigator.of(context).push(MaterialPageRoute(
-      //   builder: (context) => GroupTabs(),
-      // ));
-      Navigator.of(context).pop();
+
+      Navigator.of(context).pop(true);
     }
     return _groupName;
   }
 
-  // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(12),
-  //             color: Color.fromARGB(255, 32, 80, 162),
-  // ),
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create a new group'),
-        // titleSpacing: 10,
         leading: Container(
-          // margin: EdgeInsets.only(left: 5),
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(12),
-          //   color: Color.fromARGB(255, 32, 80, 162),
-          // ),
           child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
@@ -75,7 +72,6 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             child: SizedBox(
               width: 300,
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const SizedBox(height: 50),
                   Container(
@@ -83,8 +79,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     alignment: Alignment.centerLeft,
                     child: const Text(
                       'Enter the group name',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
                   TextFormField(
@@ -94,15 +89,12 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       fontSize: 20,
                     ),
                     decoration: InputDecoration(
-                      errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 14.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                      errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       contentPadding: EdgeInsets.zero,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 40, 122, 43)),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -110,8 +102,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 255, 52, 37)),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
                       ),
                     ),
                     initialValue: "",
@@ -131,8 +122,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     alignment: Alignment.centerLeft,
                     child: const Text(
                       'Select a league',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -145,18 +135,15 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 40, 122, 43)),
+                              borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide:
-                                  const BorderSide(color: Colors.greenAccent),
+                              borderSide: const BorderSide(color: Colors.greenAccent),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 255, 52, 37)),
+                              borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
                             ),
                           ),
                           child: SizedBox(
@@ -193,8 +180,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   RadioListTile(
                     value: 'public',
                     title: const Text("Public"),
-                    subtitle: const Text(
-                        "Anyone can join without additional verification."),
+                    subtitle: const Text("Any user can join without additional conditions."),
                     activeColor: const Color.fromARGB(255, 40, 122, 43),
                     groupValue: _privacySettings,
                     onChanged: (val) => setState(() {
@@ -204,7 +190,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   RadioListTile(
                     value: 'private',
                     title: const Text("Private"),
-                    subtitle: const Text("To join you need an access code."),
+                    subtitle: const Text("The user must enter an access code to join the group."),
                     activeColor: const Color.fromARGB(255, 40, 122, 43),
                     groupValue: _privacySettings,
                     onChanged: (val) => setState(() {

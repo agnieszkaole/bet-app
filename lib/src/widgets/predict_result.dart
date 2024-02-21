@@ -25,6 +25,7 @@ class PredictResult extends StatefulWidget {
     required this.matchId,
     required this.match,
     required this.leagueName,
+    required this.leagueNumber,
   });
 
   final String homeName;
@@ -35,6 +36,7 @@ class PredictResult extends StatefulWidget {
   final int matchId;
   final SoccerMatch match;
   final String leagueName;
+  final int? leagueNumber;
   @override
   State<PredictResult> createState() => _PredictResultState();
 }
@@ -63,6 +65,7 @@ class _PredictResultState extends State<PredictResult> {
     int? homeGoal,
     int? awayGoal,
     String leagueName,
+    int? leagueNumber,
     int matchId,
     String matchTime,
   ) async {
@@ -104,6 +107,7 @@ class _PredictResultState extends State<PredictResult> {
         'homeGoal': homeGoal,
         'awayGoal': awayGoal,
         'leagueName': leagueName,
+        'leagueNumber': leagueNumber,
         'matchId': matchId,
         'matchTime': matchTime,
       });
@@ -141,6 +145,7 @@ class _PredictResultState extends State<PredictResult> {
           _resultHome,
           _resultAway,
           widget.leagueName,
+          widget.leagueNumber,
           widget.matchId,
           widget.matchTime,
         );
@@ -165,7 +170,8 @@ class _PredictResultState extends State<PredictResult> {
             'teamAwayGoal': _resultAway,
             'matchTime': widget.matchTime,
             'matchId': widget.matchId,
-            'leagueName': widget.leagueName
+            'leagueName': widget.leagueName,
+            'leagueNumber': widget.leagueNumber
           },
         );
         ScaffoldMessenger.of(context).showSnackBar(
@@ -235,8 +241,8 @@ class _PredictResultState extends State<PredictResult> {
                                   child: CachedNetworkImage(
                                     imageUrl: widget.homeLogo,
                                     fadeInDuration: Duration(milliseconds: 50),
-                                    // placeholder: (context, url) =>
-                                    //     const CircularProgressIndicator(),
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
                                     width: 45.0,
@@ -398,8 +404,8 @@ class _PredictResultState extends State<PredictResult> {
                                       imageUrl: widget.awayLogo,
                                       fadeInDuration:
                                           Duration(milliseconds: 50),
-                                      // placeholder: (context, url) =>
-                                      //     const CircularProgressIndicator(),
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
                                           const Icon(Icons.error),
                                       width: 45.0,

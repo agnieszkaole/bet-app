@@ -30,6 +30,7 @@ class _GroupMatchItemState extends State<GroupMatchItem>
     var matchTime = widget.match.fixture.formattedDate;
     var leagueName = widget.match.league.name;
     var leagueRound = widget.match.league.round;
+    var leagueNumber = widget.match.league.id;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -45,18 +46,12 @@ class _GroupMatchItemState extends State<GroupMatchItem>
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             matchTime.toString(),
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          // Text(
-          //   leagueName,
-          //   style: const TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //   ),
-          // ),
           SizedBox(height: 5),
           Text(
             leagueRound.toString(),
@@ -67,7 +62,6 @@ class _GroupMatchItemState extends State<GroupMatchItem>
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Text(
@@ -75,7 +69,7 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14.0,
+                    fontSize: 16.0,
                   ),
                 ),
               ),
@@ -84,19 +78,15 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                 child: CachedNetworkImage(
                   imageUrl: homeLogo,
                   fadeInDuration: const Duration(milliseconds: 50),
-                  // placeholder: (context, url) =>
-                  //     const CircularProgressIndicator(),
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   width: 36.0,
                   height: 36.0,
                 ),
-                //  Image.network(
-                //   homeLogo,
-                //   width: 36.0,
-                // height: 36.0,
-                // ),
               ),
-              const Expanded(
+              Container(
+                width: 40,
                 child: Text(
                   "vs",
                   textAlign: TextAlign.center,
@@ -110,8 +100,8 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                 padding: const EdgeInsets.all(5.0),
                 child: CachedNetworkImage(
                   imageUrl: awayLogo,
-                  // placeholder: (context, url) =>
-                  //     const CircularProgressIndicator(),
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   width: 36.0,
                 ),
@@ -122,7 +112,7 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14.0,
+                    fontSize: 16.0,
                   ),
                 ),
               ),
@@ -130,6 +120,8 @@ class _GroupMatchItemState extends State<GroupMatchItem>
           ),
           const SizedBox(height: 10),
           Container(
+            height: 30,
+            width: 150,
             child: (true)
                 ? ElevatedButton(
                     onPressed: () async {
@@ -143,6 +135,7 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                           matchId: matchId,
                           match: widget.match,
                           leagueName: leagueName,
+                          leagueNumber: leagueNumber,
                         ),
                       ));
                     },

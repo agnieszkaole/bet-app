@@ -7,20 +7,17 @@ class UserData {
   User? get currentUser => _firebaseAuth.currentUser;
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
   User? user = Auth().currentUser;
-  String? username;
+  // String? username;
 
   Future<String?> getUsernameFromFirebase() async {
     try {
       if (user != null) {
-        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user!.uid)
-            .get();
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
 
         if (userSnapshot.exists) {
-          Map<String, dynamic> userData =
-              userSnapshot.data() as Map<String, dynamic>;
-          String username = userData['username'] ?? '';
+          Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+          String? username = userData['username'] ?? '';
+
           return username;
         } else {
           print('User data not found in Firestore');
@@ -32,6 +29,87 @@ class UserData {
       print('$e');
     }
 
-    return '';
+    return null;
+  }
+
+  Future<void> updateDisplayName(String newDisplayName) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.updateDisplayName(newDisplayName);
+        print('Display name updated successfully to: $newDisplayName');
+      } else {
+        print('User is not signed in');
+      }
+    } catch (e) {
+      print('Failed to update display name: $e');
+    }
+  }
+
+  Future<void> updateUsernameField(String userId, String newUsername) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({'username': newUsername});
+      print('Username field updated successfully to: $newUsername');
+    } catch (e) {
+      print('Failed to update username field: $e');
+    }
+  }
+
+  Future<bool> isDisplayNameAvailable(String displayName) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('users').where('username', isEqualTo: displayName).get();
+
+      return querySnapshot.docs.isEmpty;
+    } catch (e) {
+      print('Error checking display name availability: $e');
+
+      return false;
+    }
+  }
+
+  Future<bool> isUsernameNameAvailable(String newUsername) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('users').where('username', isEqualTo: newUsername).get();
+      return querySnapshot.docs.isEmpty;
+    } catch (e) {
+      // Handle any errors
+      print('Error checking username availability: $e');
+      return false;
+    }
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print('Password reset email sent successfully');
+    } catch (e) {
+      print('Failed to send password reset email: $e');
+    }
+  }
+
+  Future<void> deleteUserAndData(String userId, email, password) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        var credential = EmailAuthProvider.credential(email: email, password: password);
+        await user.reauthenticateWithCredential(credential);
+        await FirebaseFirestore.instance.collection('users').doc(userId).delete();
+        await FirebaseFirestore.instance.collection('groups').get().then((querySnapshot) {
+          for (var doc in querySnapshot.docs) {
+            doc.reference.delete();
+          }
+        });
+
+        await user.delete();
+
+        print('User authentication account and data deleted successfully');
+      } else {
+        print('User is not signed in');
+      }
+    } catch (e) {
+      print('Failed to delete user and data: $e');
+    }
   }
 }

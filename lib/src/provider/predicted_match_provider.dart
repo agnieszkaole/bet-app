@@ -5,31 +5,31 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PredictedMatchProvider extends ChangeNotifier {
   final List<Map<String, dynamic>> predictedMatchList = [];
-  static const String _predictedMatchesKey = 'predictedMatches';
+  // static const String _predictedMatchesKey = 'predictedMatches';
 
-  PredictedMatchProvider() {
-    _loadMatches();
-  }
+  // PredictedMatchProvider() {
+  //   _loadMatches();
+  // }
 
-  Future<void> _loadMatches() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String>? savedMatches =
-        prefs.getStringList(_predictedMatchesKey);
+  // Future<void> _loadMatches() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final List<String>? savedMatches =
+  //       prefs.getStringList(_predictedMatchesKey);
 
-    if (savedMatches != null) {
-      predictedMatchList.addAll(savedMatches.map((matchString) {
-        return Map<String, dynamic>.from(json.decode(matchString));
-      }));
-      notifyListeners();
-    }
-  }
+  //   if (savedMatches != null) {
+  //     predictedMatchList.addAll(savedMatches.map((matchString) {
+  //       return Map<String, dynamic>.from(json.decode(matchString));
+  //     }));
+  //     notifyListeners();
+  //   }
+  // }
 
-  Future<void> _saveMatches() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String> matchStrings =
-        predictedMatchList.map((match) => json.encode(match)).toList();
-    prefs.setStringList(_predictedMatchesKey, matchStrings);
-  }
+  // Future<void> _saveMatches() async {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // final List<String> matchStrings =
+  //     predictedMatchList.map((match) => json.encode(match)).toList();
+  // prefs.setStringList(_predictedMatchesKey, matchStrings);
+  // }
 
   void addMatch(Map<String, dynamic> match) {
     if (predictedMatchList.every(
@@ -38,7 +38,7 @@ class PredictedMatchProvider extends ChangeNotifier {
       // print(predictedMatchList);
       // print(match);
       notifyListeners();
-      _saveMatches();
+      // _saveMatches();
     }
   }
 
@@ -47,7 +47,13 @@ class PredictedMatchProvider extends ChangeNotifier {
     // print(predictedMatchList);
     // print(match);
     notifyListeners();
-    _saveMatches();
+    // _saveMatches();
+  }
+
+  List<Map<String, dynamic>> showMatchesByLeague(int? league) {
+    return predictedMatchList
+        .where((match) => match['leagueNumber'] == league)
+        .toList();
   }
 
   void updateMatchResult(int matchId, int teamHomeGoal, int teamAwayGoal) {
@@ -59,7 +65,7 @@ class PredictedMatchProvider extends ChangeNotifier {
       predictedMatchList[matchIndex]['teamAwayGoal'] = teamAwayGoal;
 
       notifyListeners();
-      _saveMatches();
+      // _saveMatches();
     }
   }
 

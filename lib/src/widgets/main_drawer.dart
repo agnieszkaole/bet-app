@@ -15,7 +15,7 @@ class MainDrawer extends StatelessWidget {
             height: 100,
             child: const DrawerHeader(
               padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(color: Color.fromARGB(255, 0, 90, 58)),
+              decoration: BoxDecoration(color: Color.fromARGB(255, 0, 155, 64)),
               child: Row(
                 children: [
                   Text(

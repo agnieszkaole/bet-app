@@ -8,9 +8,14 @@ import 'package:bet_app/src/widgets/group_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class GroupListScreen extends StatelessWidget {
+class GroupListScreen extends StatefulWidget {
   const GroupListScreen({super.key});
 
+  @override
+  State<GroupListScreen> createState() => _GroupListScreenState();
+}
+
+class _GroupListScreenState extends State<GroupListScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,24 +36,50 @@ class GroupListScreen extends StatelessWidget {
                   dividerColor: Color.fromARGB(38, 255, 255, 255),
                   tabs: [
                     Tab(
+                      height: 60,
                       iconMargin: EdgeInsets.zero,
                       icon: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.lock_open_outlined, size: 25),
-                          SizedBox(width: 5),
-                          Text('Public'),
+                          Icon(Icons.lock_open_outlined, size: 30),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Public',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                'Join without code',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
                     Tab(
+                      height: 60,
                       iconMargin: EdgeInsets.zero,
                       icon: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.lock_rounded, size: 25),
-                          SizedBox(width: 5),
-                          Text('Private'),
+                          Icon(Icons.lock_rounded, size: 30),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Private',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                'Access code require',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -76,18 +107,17 @@ class JoinExistingGroupScreen extends StatefulWidget {
   final String? privacyType;
 
   @override
-  State<JoinExistingGroupScreen> createState() =>
-      _JoinExistingGroupScreenState();
+  State<JoinExistingGroupScreen> createState() => _JoinExistingGroupScreenState();
 }
 
 class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
   final Groups groups = Groups();
-
+  final TextEditingController _controllerAccessCode = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   final TextEditingController _searchController = TextEditingController();
-  final StreamController<List<Map<String, dynamic>>> groupStreamController =
-      BehaviorSubject<List<Map<String, dynamic>>>();
+  StreamController<List<Map<String, dynamic>>> groupStreamController =
+      StreamController<List<Map<String, dynamic>>>.broadcast();
 
   @override
   void initState() {
@@ -105,47 +135,35 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
     super.dispose();
   }
 
-  // @override
-  // void dispose() {
-  //   groupStreamController.close();
-  //   _searchController.removeListener(_onSearchTextChanged);
-  //   _searchController.dispose();
-  //   super.dispose();
-  // }
-
-  // void _onSearchTextChanged() {
-  //   updateFilteredGroups(_searchController.text);
-  // }
-
-  Future<List<Map<String, dynamic>>> fetchFilteredGroups(
-      String searchText) async {
+  Future<List<Map<String, dynamic>>> fetchFilteredGroups(String searchText) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('groups')
-        .where('name', isGreaterThanOrEqualTo: searchText.toLowerCase())
-        .where('name', isLessThanOrEqualTo: '${searchText.toLowerCase()}\uf8ff')
-        // .where('privacyType', isEqualTo: widget.privacyType)
+        .where('groupName', isGreaterThanOrEqualTo: searchText.toLowerCase())
+        .where('groupName', isLessThanOrEqualTo: '${searchText.toLowerCase()}\uf8ff')
         .get();
 
-    List<Map<String, dynamic>> groups = querySnapshot.docs
-        .map((doc) => doc.data()..['groupId'] = doc.id)
-        .toList();
+    List<Map<String, dynamic>> groups = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data();
+      data['groupId'] = doc.id;
+      return data;
+    }).toList();
+
     print(groups.length);
     return groups;
   }
 
   Future<void> updateFilteredGroups(String searchText) async {
-    List<Map<String, dynamic>> filteredGroups =
-        await fetchFilteredGroups(searchText);
+    List<Map<String, dynamic>> filteredGroups = await fetchFilteredGroups(searchText);
     // print('Filtered Groups: $filteredGroups');
     await Future.delayed(const Duration(milliseconds: 300));
-    filteredGroups = filteredGroups
-        .where((group) => group['privacyType'] == widget.privacyType)
-        .toList();
-    groupStreamController.add(filteredGroups);
+    filteredGroups = filteredGroups.where((group) => group['privacyType'] == widget.privacyType).toList();
+    setState(() {
+      groupStreamController.add(filteredGroups);
+    });
   }
 
-  Future<String?> joinToExistingGroup(String? groupId, String? groupName,
-      String? privacyType, BuildContext context) async {
+  Future<String?> joinToExistingGroup(
+      String? groupId, String? groupName, String? privacyType, BuildContext context) async {
     try {
       await groups.joinGroup(groupId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -153,15 +171,22 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
         action: SnackBarAction(
           label: 'Groups',
           onPressed: () {
-            print('Navigating to GroupsScreen...');
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const GroupsScreen()),
-            );
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(builder: (context) => const GroupsScreen()),
+            // );
           },
         ),
       ));
-
-      Navigator.of(context).pop();
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(
+      //   builder: (context) => GroupsScreen(),
+      // ))
+      //     .then((value) {
+      //   if (value != null && value == true) {
+      //     setState(() {});
+      //   }
+      // });
+      Navigator.of(context).pop(true);
       return groupId;
     } catch (e) {
       print('Error joining group: $e');
@@ -172,7 +197,6 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-
       children: [
         Container(
           width: 300,
@@ -206,27 +230,27 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                     } else if (snapshot.data!.isEmpty) {
                       return const Center(
                         child: Text(
-                          'Group not found..',
+                          'Group not found.',
                           style: TextStyle(fontSize: 22),
                         ),
                       );
                     } else {
-                      List<Map<String, dynamic>> groupsFiltered =
-                          snapshot.data!;
+                      List<Map<String, dynamic>> groupsFiltered = snapshot.data!;
+                      final searchedText = _searchController.text.toLowerCase();
+                      groupsFiltered = groupsFiltered.where((group) {
+                        final groupName = group['groupName'].toString().toLowerCase();
+                        return groupName.contains(searchedText);
+                      }).toList();
 
                       return ListView.builder(
                           itemCount: groupsFiltered.length,
                           itemBuilder: (context, index) {
                             final groupData = groupsFiltered[index];
-                            String? groupName = groupData['name'] ?? '';
+                            String? groupName = groupData['groupName'] ?? '';
                             String? groupId = groupData['groupId'];
-                            String? creatorUsername =
-                                groupData['creatorUsername'];
+                            String? creatorUsername = groupData['creatorUsername'];
 
-                            int? groupMembers =
-                                (groupData['members'] as List<dynamic>?)
-                                        ?.length ??
-                                    0;
+                            int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -236,23 +260,20 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                   child: SizedBox(
                                     width: 300,
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Padding(
                                           padding: EdgeInsets.all(6.0),
                                           child: SizedBox(
                                             width: 50,
                                             child: CircleAvatar(
-                                              backgroundColor: Color.fromARGB(
-                                                  255, 40, 122, 43),
+                                              backgroundColor: Color.fromARGB(255, 40, 122, 43),
                                               child: Icon(Icons.groups),
                                             ),
                                           ),
                                         ),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '$groupName',
@@ -264,8 +285,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                             const SizedBox(height: 2),
                                             Text(
                                               'Members: $groupMembers',
-                                              style:
-                                                  const TextStyle(fontSize: 16),
+                                              style: const TextStyle(fontSize: 16),
                                             ),
                                           ],
                                         ),
@@ -275,15 +295,11 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                 onTap: () async {
                                                   if (groupId != null) {
                                                     await joinToExistingGroup(
-                                                        groupId,
-                                                        groupName,
-                                                        widget.privacyType,
-                                                        context);
+                                                        groupId, groupName, widget.privacyType, context);
                                                   }
                                                 },
                                                 child: const Icon(
-                                                  Icons
-                                                      .person_add_alt_1_rounded,
+                                                  Icons.person_add_alt_1_rounded,
                                                   size: 30,
                                                 ),
                                               )
@@ -315,10 +331,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
               )
             : Expanded(
                 child: StreamBuilder<List<Map<String, dynamic>>>(
-                  stream: _firestore
-                      .collection('groups')
-                      .snapshots()
-                      .map((querySnapshot) {
+                  stream: _firestore.collection('groups').snapshots().map((querySnapshot) {
                     // return querySnapshot.docs.map((doc) => doc.data()).toList();
                     return querySnapshot.docs.map((doc) {
                       Map<String, dynamic> data = doc.data();
@@ -341,24 +354,18 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                     } else {
                       List<Map<String, dynamic>> groups = snapshot.data!;
 
-                      List<Map<String, dynamic>> filteredGroups = groups
-                          .where((group) =>
-                              group['privacyType'] == widget.privacyType)
-                          .toList();
+                      List<Map<String, dynamic>> filteredGroups =
+                          groups.where((group) => group['privacyType'] == widget.privacyType).toList();
 
                       return ListView.builder(
                         itemCount: filteredGroups.length,
                         itemBuilder: (context, index) {
                           final groupData = filteredGroups[index];
-                          String? groupName = groupData['name'] ?? '';
+                          String? groupName = groupData['groupName'] ?? '';
                           String? groupId = groupData['groupId'] ?? '';
-                          String? creatorUsername =
-                              groupData['creatorUsername'];
+                          String? uniqueIdKey = groupData['uniqueIdKey'];
 
-                          int? groupMembers =
-                              (groupData['members'] as List<dynamic>?)
-                                      ?.length ??
-                                  0;
+                          int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -366,27 +373,22 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                   width: 300,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color.fromARGB(255, 46, 46, 46)),
+                                  // decoration: BoxDecoration(
+                                  //     borderRadius: BorderRadius.circular(10), color: Color.fromARGB(255, 46, 46, 46)),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Padding(
                                         padding: EdgeInsets.all(6.0),
                                         child: CircleAvatar(
-                                          backgroundColor:
-                                              Color.fromARGB(255, 40, 122, 43),
+                                          backgroundColor: Color.fromARGB(255, 40, 122, 43),
                                           child: Icon(Icons.groups),
                                         ),
                                       ),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             '$groupName',
@@ -398,8 +400,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                           const SizedBox(height: 2),
                                           Text(
                                             'Members: $groupMembers',
-                                            style:
-                                                const TextStyle(fontSize: 16),
+                                            style: const TextStyle(fontSize: 16),
                                           ),
                                         ],
                                       ),
@@ -409,10 +410,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                               onTap: () async {
                                                 if (groupId != null) {
                                                   await joinToExistingGroup(
-                                                      groupId,
-                                                      groupName,
-                                                      widget.privacyType,
-                                                      context);
+                                                      groupId, groupName, widget.privacyType, context);
                                                 }
                                               },
                                               child: const Icon(
@@ -421,14 +419,79 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                               ),
                                             )
                                           : GestureDetector(
-                                              onTap: () async {
-                                                // if (groupId != null) {
-                                                //   await joinToExistingGroup(
-                                                //       groupId,
-                                                //       groupName,
-                                                //       privacyType,
-                                                //       context);
-                                                // }
+                                              onTap: () {
+                                                if (groupId != null) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                          "Enter access code",
+                                                          style: TextStyle(fontSize: 16),
+                                                        ),
+                                                        // content: Text("Enter new username"),
+                                                        actions: [
+                                                          Form(
+                                                            key: _formKey,
+                                                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                            child: Column(
+                                                              children: [
+                                                                TextFormField(
+                                                                  controller: _controllerAccessCode,
+                                                                  autofocus: false,
+                                                                  style: const TextStyle(
+                                                                    color: Colors.white,
+                                                                    fontSize: 20,
+                                                                  ),
+                                                                  decoration: InputDecoration(
+                                                                    errorStyle: const TextStyle(
+                                                                        color: Colors.red, fontSize: 14.0),
+                                                                    border: UnderlineInputBorder(),
+                                                                    contentPadding: EdgeInsets.zero,
+                                                                    enabledBorder: UnderlineInputBorder(
+                                                                      borderSide: const BorderSide(
+                                                                          color: Color.fromARGB(255, 40, 122, 43)),
+                                                                    ),
+                                                                    focusedBorder: UnderlineInputBorder(
+                                                                      borderSide:
+                                                                          const BorderSide(color: Colors.greenAccent),
+                                                                    ),
+                                                                    errorBorder: UnderlineInputBorder(
+                                                                      borderSide: const BorderSide(
+                                                                          color: Color.fromARGB(255, 255, 52, 37)),
+                                                                    ),
+                                                                  ),
+                                                                  // initialValue:
+                                                                  //     "",
+
+                                                                  validator: (value) {
+                                                                    if (value == null || value.isEmpty) {
+                                                                      return 'Please enter a access code';
+                                                                    }
+
+                                                                    return null;
+                                                                  },
+                                                                  // onSaved: (value) async {
+                                                                  //   // newUsername = value;
+                                                                  // },
+                                                                ),
+                                                                ElevatedButton(
+                                                                  onPressed: () async {
+                                                                    if (_controllerAccessCode.text == uniqueIdKey) {
+                                                                      await joinToExistingGroup(groupId, groupName,
+                                                                          widget.privacyType, context);
+                                                                    }
+                                                                  },
+                                                                  child: Text('Confirm'),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                }
                                               },
                                               child: const Icon(
                                                 Icons.key_outlined,

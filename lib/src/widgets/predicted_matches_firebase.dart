@@ -1,12 +1,15 @@
 import "dart:async";
 
+import "package:bet_app/src/provider/predicted_match_provider.dart";
 import "package:bet_app/src/widgets/predicted_item_firebase.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class PredictedMatchesFirebase extends StatefulWidget {
-  const PredictedMatchesFirebase({super.key});
+  PredictedMatchesFirebase({super.key, required this.leagueNumber});
+  final int? leagueNumber;
 
   @override
   State<PredictedMatchesFirebase> createState() =>
@@ -30,9 +33,7 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
         .doc(user!.uid)
         .collection('matches')
         .snapshots()
-        .listen((snapshot) {
-      // Handle the snapshot
-    });
+        .listen((snapshot) {});
   }
 
   @override
@@ -51,7 +52,13 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: CircularProgressIndicator(),
+            ),
+          );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
@@ -61,11 +68,11 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
           return ListView.builder(
             itemCount: firestoreDocuments.length,
             itemBuilder: (context, index) {
-              Map<String, dynamic> data =
+              Map<String, dynamic> userPrediction =
                   firestoreDocuments[index].data() as Map<String, dynamic>;
-
-              return Dismissible(
-                  key: Key(data['matchId'].toString()),
+              if (userPrediction['leagueNumber'] == widget.leagueNumber) {
+                return Dismissible(
+                  key: Key(userPrediction['matchId'].toString()),
                   background: Container(
                     alignment: Alignment.centerRight,
                     child: const Icon(
@@ -88,7 +95,11 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
                           index, deletedData as DocumentSnapshot<Object?>);
                     });
                   },
-                  child: PredictedItemFirebase(data: data));
+                  child: PredictedItemFirebase(data: userPrediction),
+                );
+              } else {
+                return SizedBox();
+              }
             },
           );
         }

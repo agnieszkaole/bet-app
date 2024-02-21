@@ -1,12 +1,17 @@
-import 'package:bet_app/src/screens/user_profile.dart';
-import 'package:bet_app/src/widgets/group_details.dart';
-import 'package:bet_app/src/widgets/predict_result.dart';
-import 'package:bet_app/src/widgets/predicted_result_edith.dart';
+import 'package:bet_app/src/models/soccermodel.dart';
+import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/provider/prev_matches_provider.dart';
+import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class GroupTable extends StatefulWidget {
-  const GroupTable({super.key});
+  const GroupTable({super.key, this.leagueNumber, required this.createdAt});
+  final String? leagueNumber;
+  final Timestamp? createdAt;
 
   @override
   State<GroupTable> createState() => _GroupTableState();
@@ -15,31 +20,58 @@ class GroupTable extends StatefulWidget {
 class _GroupTableState extends State<GroupTable> {
   static const int sortName = 0;
   static const int sortStatus = 1;
+
   bool isAscending = true;
   int sortType = sortName;
   List users = ['Maciej', 'Staś', 'Grzesiek', 'Krzysiek', 'Piotrek'];
-  List<String> matches = [
-    'Polska - Niemcy',
-    'Hiszpania - Anglia',
-    'Grecja - Dania',
-    'Portugalia - Czechy',
-    'Polska - Niemcy',
-    'Hiszpania - Anglia',
-    'Grecja - Dania',
-    'Portugalia - Czechy',
-    'Polska - Niemcy',
-    'Hiszpania - Anglia',
-    'Grecja - Dania',
-    'Portugalia - Czechy',
-    'Polska - Niemcy',
-    'Hiszpania - Anglia',
-    'Grecja - Dania',
-    'Portugalia - Czechy',
-  ];
+  // String? statusApi = 'ns-tbd-ft-aet-pen';
+  String? statusApi = '';
+  String? timezoneApi = 'Europe/Warsaw';
+  late DateTime createdAtDate;
+  // DateTime dateTime = DateTime.parse(createdAtDate);
+  String? formattedCreatedAtDate;
+  String? formattedCreatedAtDateEnd;
+  late Future dataFuture;
 
   @override
   void initState() {
     super.initState();
+    createdAtDate = widget.createdAt!.toDate();
+    dataFuture = _getData();
+    _formatDate();
+  }
+
+  void _formatDate() {
+    createdAtDate = widget.createdAt!.toDate();
+    formattedCreatedAtDate = DateFormat('yyyy-MM-dd').format(createdAtDate);
+    DateTime newDate = createdAtDate.add(Duration(days: 365 * 2));
+    formattedCreatedAtDateEnd = DateFormat('yyyy-MM-dd').format(newDate);
+  }
+
+  Future<List<SoccerMatch>> _getData() async {
+    final season1Data = await SoccerApi().getMatches('',
+        league: widget.leagueNumber,
+        season: '2023',
+        from: formattedCreatedAtDate,
+        to: formattedCreatedAtDateEnd,
+        status: statusApi,
+        timezone: timezoneApi);
+    final season2Data = await SoccerApi().getMatches('',
+        league: widget.leagueNumber,
+        season: '2024',
+        from: formattedCreatedAtDate,
+        to: formattedCreatedAtDateEnd,
+        status: statusApi,
+        timezone: timezoneApi);
+
+    List<SoccerMatch> mergedData = [];
+
+    mergedData.addAll(season1Data);
+    mergedData.addAll(season2Data);
+
+    Provider.of<PrevMatchesProvider>(context, listen: false).saveMatches(mergedData);
+
+    return mergedData;
   }
 
   void initData(int size) {
@@ -49,27 +81,60 @@ class _GroupTableState extends State<GroupTable> {
   }
 
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Text('dfgdfgd'),
-          _getBodyWidget(),
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: dataFuture,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              final error = snapshot.error;
+              return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
+            } else if (snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text(
+                  'There are no data to display.',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            } else if (snapshot.hasData) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text('Scoreboard', style: TextStyle(fontSize: 22)),
+                    SizedBox(height: 10),
+                    _getBodyWidget(),
+                  ],
+                ),
+              );
+            }
+          }
+          return Container();
+        });
   }
 
   Widget _getBodyWidget() {
+    late List<SoccerMatch> prevMatchesList = context.watch<PrevMatchesProvider>().prevMatchesList;
+
     return Container(
       height: MediaQuery.of(context).size.height,
       child: HorizontalDataTable(
-        leftHandSideColumnWidth: 160,
+        leftHandSideColumnWidth: 180,
         rightHandSideColumnWidth: 600,
         isFixedHeader: true,
+        // isFixedFooter: true,
+        // footerWidgets: [
+        //   Text('hgjghjg'),
+        //   Text('hgjghjg'),
+        // ],
         headerWidgets: _getTitleWidget(),
         leftSideItemBuilder: _generateFirstColumnRow,
         rightSideItemBuilder: _generateRightHandSideColumnRow,
-        itemCount: matches.length,
+        itemCount: prevMatchesList.length,
         rowSeparatorWidget: const Divider(
           color: Colors.black54,
           height: 0.5,
@@ -86,7 +151,7 @@ class _GroupTableState extends State<GroupTable> {
     titleWidgets.add(_getTitleItemWidget('', 350, Colors.black45));
     for (String user in users) {
       titleWidgets.add(
-        _getTitleItemWidget(user, 80, const Color.fromARGB(255, 35, 88, 37)),
+        _getTitleItemWidget(user, 80, const Color.fromARGB(255, 0, 155, 64)),
       );
     }
 
@@ -99,8 +164,7 @@ class _GroupTableState extends State<GroupTable> {
       child: Center(
         child: Text(
           label,
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
         ),
       ),
       width: width,
@@ -111,24 +175,65 @@ class _GroupTableState extends State<GroupTable> {
   }
 
   Widget _generateFirstColumnRow(BuildContext context, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        // border: Border.all(
-        //   width: 0.5,
-        //   color: Colors.white,
-        // ),
-        color: Color.fromARGB(255, 46, 46, 46),
-      ),
-      // width: 250,
-      height: 52,
-      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(matches[index], style: const TextStyle(fontSize: 16)),
-        ],
-      ),
+    late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
+    if (nextMatchesList.isEmpty) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 46, 46, 46),
+        ),
+        height: 60,
+        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+        alignment: Alignment.center,
+        child: Text(
+          'No match found',
+          style: const TextStyle(fontSize: 16),
+        ),
+      );
+    }
+    // final nextMatchesListSorted =
+    //     NextMatchesProvider.sortMatchesByDate(nextMatchesList);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: nextMatchesList.map((nextMatch) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 46, 46, 46),
+          ),
+          height: 100,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    nextMatch.home.name,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  Text(
+                    ' vs ',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  Text(
+                    nextMatch.away.name,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              // Text(
+              //   '${nextMatch.goal.home} : ${nextMatch.goal.home}',
+              //   style: const TextStyle(fontSize: 16),
+              // ),
+              Text(
+                '? : ?',
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -143,55 +248,7 @@ class _GroupTableState extends State<GroupTable> {
             ),
           ),
           width: 80,
-          height: 52,
-          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
-        ),
-        Container(
-          child: Center(
-            child: Text(
-              'wynik',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          width: 80,
-          height: 52,
-          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
-        ),
-        Container(
-          child: Center(
-            child: Text(
-              'wynik',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          width: 80,
-          height: 52,
-          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
-        ),
-        Container(
-          child: Center(
-            child: Text(
-              'wynik',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          width: 80,
-          height: 52,
-          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
-        ),
-        Container(
-          child: Center(
-            child: Text(
-              'wynik',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          width: 80,
-          height: 52,
+          height: 100,
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.centerLeft,
         ),
@@ -199,222 +256,3 @@ class _GroupTableState extends State<GroupTable> {
     );
   }
 }
-
-// class StudentInfo {
-//   String name;
-//   bool status;
-//   String roll_no;
-//   String start_time;
-//   String end_time;
-
-//   StudentInfo(
-//       this.name, this.status, this.roll_no, this.start_time, this.end_time);
-// }
-
-// Student user = Student();
-
-// class Student {
-//   List<StudentInfo> _userInfo = [];
-
-//   void initData(int size) {
-//     for (int i = 0; i < size; i++) {
-//       _userInfo.add(StudentInfo(
-//           "Student_$i", i % 3 == 0, 'St_No $i', '10:00 AM', '12:30 PM'));
-//     }
-//   }
-
-//   List<StudentInfo> get userInfo => _userInfo;
-
-//   set userInfo(List<StudentInfo> value) {
-//     _userInfo = value;
-//   }
-
-//   ///
-//   /// Single sort, sort Name's id
-//   void sortName(bool isAscending) {
-//     _userInfo.sort((a, b) {
-//       int? aId = int.tryParse(a.name.replaceFirst('Student_', ''));
-//       int? bId = int.tryParse(b.name.replaceFirst('Student_', ''));
-//       return (aId! - bId!) * (isAscending ? 1 : -1);
-//     });
-//   }
-// }
-
-
-  // List users = ['Maciej', 'Staś', 'Grzesiek', 'Krzysiek', 'Piotrek'];
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SingleChildScrollView(
-  //       child: Column(
-  //         children: [
-  //           Container(
-  //               decoration: BoxDecoration(
-  //                   color: const Color.fromARGB(221, 129, 129, 129)),
-  //               child: _getBodyWidget()),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _getBodyWidget() {
-  //   return Container(
-  //     height: MediaQuery.of(context).size.height,
-  //     width: MediaQuery.of(context).size.width,
-  //     child: HorizontalDataTable(
-  //       leftHandSideColumnWidth: 120,
-  //       rightHandSideColumnWidth: 600,
-  //       isFixedHeader: true,
-  //       leftHandSideColBackgroundColor: Color.fromARGB(255, 27, 27, 27),
-  //       rightHandSideColBackgroundColor: Color.fromARGB(255, 27, 27, 27),
-  //       headerWidgets: _getTitleWidget(),
-  //       leftSideItemBuilder: _generateFirstColumnRow,
-  //       rightSideItemBuilder: _generateRightHandSideColumnRow,
-  //       itemCount: 4,
-  //       rowSeparatorWidget: const Divider(
-  //         color: Color.fromARGB(255, 255, 255, 255),
-  //         height: 1.0,
-  //         thickness: 0.0,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // List<Widget> _getTitleWidget() {
-  //   List<Widget> titleWidgets = [];
-  //   titleWidgets.add(_getTitleItemWidget("", 350));
-  //   for (String user in users) {
-  //     titleWidgets.add(
-  //       _getTitleItemWidget(user, 70),
-  //     );
-  //   }
-
-  //   return titleWidgets;
-  // }
-
-  // Widget _getTitleItemWidget(String label, double width) {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       border: Border.all(
-  //         width: 0.5,
-  //         color: Colors.white,
-  //       ),
-  //       color: Color.fromARGB(255, 1, 100, 6),
-  //     ),
-  //     width: width,
-  //     height: 56,
-  //     padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-  //     alignment: Alignment.center,
-  //     child: Text(
-  //       label,
-  //       style: const TextStyle(
-  //         fontWeight: FontWeight.bold,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _generateFirstColumnRow(BuildContext context, int index) {
-  //   List<String> matches = [
-  //     'Polska - Niemcy',
-  //     'Hiszpania - Anglia',
-  //     'Grecja - Dania',
-  //     'Portugalia - Czechy'
-  //   ];
-
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       border: Border.all(
-  //         width: 0.5,
-  //         color: Colors.white,
-  //       ),
-  //       color: Color.fromARGB(255, 46, 46, 46),
-  //     ),
-  //     width: 200,
-  //     height: 52,
-  //     padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-  //     alignment: Alignment.center,
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Text(matches[index], style: const TextStyle(fontSize: 16)),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _generateRightHandSideColumnRow(BuildContext context, int index) {
-  //   return Row(
-  //     children: <Widget>[
-  //       Container(
-  //         decoration: BoxDecoration(
-  //           border: Border.all(
-  //             width: 0.5,
-  //             color: Colors.white,
-  //           ),
-  //         ),
-  //         width: 70,
-  //         height: 52,
-  //         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-  //         alignment: Alignment.center,
-  //         child: Text('1 : 1',
-  //             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-  //       ),
-  //       Container(
-  //         decoration: BoxDecoration(
-  //           border: Border.all(
-  //             width: 0.5,
-  //             color: Colors.white,
-  //           ),
-  //         ),
-  //         width: 70,
-  //         height: 52,
-  //         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-  //         alignment: Alignment.center,
-  //         child: Text('2 : 2', style: TextStyle(fontSize: 16)),
-  //       ),
-  //       Container(
-  //         decoration: BoxDecoration(
-  //           border: Border.all(
-  //             width: 0.5,
-  //             color: Colors.white,
-  //           ),
-  //         ),
-  //         width: 70,
-  //         height: 52,
-  //         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-  //         alignment: Alignment.center,
-  //         child: Text('3 : 3', style: TextStyle(fontSize: 16)),
-  //       ),
-  //       Container(
-  //         decoration: BoxDecoration(
-  //           border: Border.all(
-  //             width: 0.5,
-  //             color: Colors.white,
-  //           ),
-  //         ),
-  //         width: 70,
-  //         height: 52,
-  //         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-  //         alignment: Alignment.center,
-  //         child: Text('4 : 4', style: TextStyle(fontSize: 16)),
-  //       ),
-  //       Container(
-  //         decoration: BoxDecoration(
-  //           border: Border.all(
-  //             width: 0.5,
-  //             color: Colors.white,
-  //           ),
-  //         ),
-  //         width: 70,
-  //         height: 52,
-  //         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-  //         alignment: Alignment.center,
-  //         child: Text('5 : 5', style: TextStyle(fontSize: 16)),
-  //       ),
-  //     ],
-  //   );
-  // }
-// }

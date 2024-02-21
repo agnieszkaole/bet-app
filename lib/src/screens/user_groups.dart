@@ -19,8 +19,7 @@ class _UserGroupsState extends State<UserGroups> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: SizedBox(
-                  width: 30, height: 30, child: CircularProgressIndicator()),
+              child: SizedBox(width: 30, height: 30, child: CircularProgressIndicator()),
             );
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -54,7 +53,7 @@ class _UserGroupsState extends State<UserGroups> {
                 const SizedBox(height: 10),
                 SizedBox(
                   // height: MediaQuery.of(context).size.height - 200,
-                  height: 300,
+                  height: 400,
                   width: 300,
                   child: ListView.builder(
                     // scrollDirection: Axis.horizontal,
@@ -78,10 +77,8 @@ class _UserGroupsState extends State<UserGroups> {
                           ));
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                           width: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -90,7 +87,7 @@ class _UserGroupsState extends State<UserGroups> {
                             //   width: 1,
                             // ),
                             // color: Color.fromARGB(255, 43, 43, 43),
-                            color: Color.fromARGB(255, 0, 90, 58),
+                            color: Color.fromARGB(255, 2, 143, 65),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,12 +97,9 @@ class _UserGroupsState extends State<UserGroups> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('$groupName',
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
+                                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                                     // const SizedBox(height: 2),
-                                    Text('Members: $groupMembers',
-                                        style: TextStyle(fontSize: 16)),
+                                    Text('Members: $groupMembers', style: TextStyle(fontSize: 16)),
                                   ]),
                               const SizedBox(width: 10),
                               const Icon(

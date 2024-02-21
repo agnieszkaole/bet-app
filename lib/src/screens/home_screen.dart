@@ -1,10 +1,9 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
-import 'package:bet_app/src/screens/predicted_screen.dart';
 import 'package:bet_app/src/screens/ranking_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
-import 'package:bet_app/src/screens/user_profile.dart';
+
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   : Icon(
                       Icons.account_circle,
                       size: 45,
-                      color: Color.fromARGB(255, 0, 90, 58),
+                      color: Color.fromARGB(255, 0, 155, 64),
                     ),
               // initialValue: selectedMenu,
               // onSelected: (SampleItem item) {
@@ -104,8 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: isAnonymous
                       ? GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const LoginScreen()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginScreen()));
                           },
                           child: Container(
                             child: const Row(
@@ -194,21 +192,28 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         drawer: const MainDrawer(),
-        body: Consumer<BottomNavigationProvider>(
-          builder: (context, provider, _) {
-            return IndexedStack(
-              index: provider.selectedIndex,
-              children: const [
-                SelectCriteriaScreen(),
-                // PredictedScreen(),
-                GroupsScreen(),
-                RankingScreen(),
-              ],
-            );
-          },
+        body: Container(
+          // decoration: BoxDecoration(
+          //   gradient: LinearGradient(
+          //       colors: [Colors.yellow, Colors.green],
+          //       begin: Alignment.bottomCenter,
+          //       end: Alignment.topCenter,
+          //       tileMode: TileMode.clamp),
+          // ),
+          child: Consumer<BottomNavigationProvider>(
+            builder: (context, provider, _) {
+              return IndexedStack(
+                index: provider.selectedIndex,
+                children: const [
+                  SelectCriteriaScreen(),
+                  GroupsScreen(),
+                  RankingScreen(),
+                ],
+              );
+            },
+          ),
         ),
-        bottomNavigationBar:
-            Consumer<BottomNavigationProvider>(builder: (context, provider, _) {
+        bottomNavigationBar: Consumer<BottomNavigationProvider>(builder: (context, provider, _) {
           return BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: provider.selectedIndex,

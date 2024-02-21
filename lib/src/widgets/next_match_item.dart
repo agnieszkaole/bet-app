@@ -1,7 +1,4 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-
-import 'package:bet_app/src/widgets/predict_result.dart';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +10,7 @@ class NextMatchItem extends StatefulWidget {
   State<NextMatchItem> createState() => _NextMatchItemState();
 }
 
-class _NextMatchItemState extends State<NextMatchItem>
-    with AutomaticKeepAliveClientMixin<NextMatchItem> {
+class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveClientMixin<NextMatchItem> {
   @override
   bool get wantKeepAlive => true;
 
@@ -29,136 +25,122 @@ class _NextMatchItemState extends State<NextMatchItem>
     var awayLogo = widget.match.away.logoUrl;
     var matchTime = widget.match.fixture.formattedDate;
     var leagueName = widget.match.league.name;
+    var leagueRound = widget.match.league.round;
+    var leagueNumber = widget.match.league.id;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+      width: 180,
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         // color: Color.fromARGB(200, 40, 122, 43),
         border: Border.all(
           width: 1,
-          color: Color.fromARGB(200, 40, 122, 43),
+          color: Color.fromARGB(148, 40, 122, 43),
         ),
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            matchTime.toString(),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+          Column(children: [
+            Text(
+              matchTime.toString(),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
-          ),
-          Text(
-            leagueName,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 20),
+            // Text(
+            //   leagueRound.toString(),
+            //   style: const TextStyle(fontSize: 12),
+            //   textAlign: TextAlign.center,
+            // ),
+          ]),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                child: Text(
-                  homeName,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                  ),
+              SizedBox(
+                height: 70,
+                width: 70,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        homeName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: CachedNetworkImage(
+                          imageUrl: homeLogo,
+                          fadeInDuration: const Duration(milliseconds: 50),
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          width: 25,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: CachedNetworkImage(
-                  imageUrl: homeLogo,
-                  fadeInDuration: const Duration(milliseconds: 50),
-                  // placeholder: (context, url) =>
-                  //     const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  width: 36.0,
-                  height: 36.0,
-                ),
-                //  Image.network(
-                //   homeLogo,
-                //   width: 36.0,
-                // height: 36.0,
-                // ),
-              ),
-              const Expanded(
+              Container(
+                width: 15,
+                margin: EdgeInsets.only(top: 20),
                 child: Text(
                   "vs",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22.0,
+                    fontSize: 14,
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: CachedNetworkImage(
-                  imageUrl: awayLogo,
-                  // placeholder: (context, url) =>
-                  //     const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  width: 36.0,
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  awayName,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                  ),
+              SizedBox(
+                height: 70,
+                width: 70,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        awayName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: CachedNetworkImage(
+                          imageUrl: awayLogo,
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          width: 25,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 15),
-            child: (true)
-                ? ElevatedButton(
-                    onPressed: () async {
-                      await Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PredictResult(
-                          homeName: homeName,
-                          awayName: awayName,
-                          homeLogo: homeLogo,
-                          awayLogo: awayLogo,
-                          matchTime: matchTime.toString(),
-                          matchId: matchId,
-                          match: widget.match,
-                          leagueName: leagueName,
-                        ),
-                      ));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromARGB(255, 40, 122, 43),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      elevation: 4.0,
-                    ),
-                    child: const Text('Wytypuj wynik'),
-                  )
-                : OutlinedButton(
-                    onPressed: null,
-                    style: ElevatedButton.styleFrom(
-                      disabledForegroundColor:
-                          Color.fromARGB(193, 206, 206, 206),
-                      elevation: 3.0,
-                    ),
-                    child: const Text('Dodano do zakładki Twoje Typy'),
-                  ),
           ),
         ],
       ),
