@@ -20,20 +20,41 @@ class _GroupsScreenState extends State<GroupsScreen> {
       body: SingleChildScrollView(
         child: Container(
           // width: MediaQuery.of(context).size.width - 20,
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(10),
           child: Center(
             child: Column(
               children: [
+                // Text(
+                //   'Create a new group.',
+                //   style: TextStyle(fontSize: 20),
+                // ),
+                // SizedBox(height: 10),
+
+                // Text(
+                //   'Join one of the existing groups.',
+                //   style: TextStyle(fontSize: 20),
+                // ),
+                // SizedBox(height: 10),
+
                 Container(
                   width: 300,
                   height: 60,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromARGB(255, 0, 116, 52),
+                        Color.fromARGB(255, 0, 92, 41),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                    border: Border.all(color: Color.fromARGB(255, 2, 47, 64), width: 1),
+                  ),
                   child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const NewGroupScreen(),
-                        //   ),
-                        // );
                         Navigator.of(context)
                             .push(MaterialPageRoute(
                           builder: (context) => NewGroupScreen(),
@@ -44,15 +65,13 @@ class _GroupsScreenState extends State<GroupsScreen> {
                           }
                         });
                       },
-                      style: ButtonStyle(
-                          padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 30)),
-                          backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 64, 128)),
-                          shape: const MaterialStatePropertyAll(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ))),
-                          side: const MaterialStatePropertyAll(
-                            BorderSide(color: Color.fromARGB(255, 30, 77, 60), width: 1),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
                           )),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,11 +90,27 @@ class _GroupsScreenState extends State<GroupsScreen> {
                         ],
                       )),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 20),
                 Container(
                   width: 300,
                   height: 60,
-                  child: OutlinedButton(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromARGB(255, 0, 116, 52),
+                        Color.fromARGB(255, 0, 92, 41),
+
+                        // Color.fromARGB(255, 0, 92, 41), Color.fromARGB(255, 0, 180, 81),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                    border: Border.all(color: Color.fromARGB(255, 30, 77, 60), width: 1),
+                  ),
+                  child: ElevatedButton(
                     onPressed: () {
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(
@@ -92,15 +127,13 @@ class _GroupsScreenState extends State<GroupsScreen> {
                         }
                       });
                     },
-                    style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 30)),
-                        backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 2, 143, 65)),
-                        shape: const MaterialStatePropertyAll(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                          Radius.circular(12),
-                        ))),
-                        side: const MaterialStatePropertyAll(
-                          BorderSide(color: Color.fromARGB(255, 30, 77, 60), width: 1),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
                         )),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +153,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 40),
                 UserGroups()
               ],
             ),

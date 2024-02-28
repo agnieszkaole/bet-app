@@ -1,5 +1,6 @@
+import 'package:bet_app/src/models/match_predictions_model.dart';
 import 'package:bet_app/src/models/match_ranking.dart';
-import 'package:bet_app/src/provider/standings_provider.dart';
+import 'package:bet_app/src/provider/predictions_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,14 +21,13 @@ class _MatchPredictionState extends State<MatchPrediction> {
   @override
   void initState() {
     super.initState();
-    dataFuture = _getData();
+    setState(() {
+      dataFuture = _getData();
+    });
   }
 
-  Future<String> _getData() async {
-    final predictionData = await SoccerApi().getPredictions('198772');
-    print(predictionData);
-    // Provider.of<StandingsProvider>(context, listen: false).saveStandings(predictionData);
-    return predictionData;
+  Future _getData() async {
+    return await SoccerApi().getPredictions('198772');
   }
 
   @override
@@ -44,18 +44,22 @@ class _MatchPredictionState extends State<MatchPrediction> {
             if (snapshot.hasError) {
               final error = snapshot.error;
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 66, 66), fontSize: 20));
-            } else if (snapshot.data!.isEmpty) {
-              return const Center(
-                child: Text(
-                  'There are no ranking to display.',
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              print(snapshot.data!);
+            } else {
+              final List<PredictionData> matchPrediction = snapshot.data as List<PredictionData>;
+              print(matchPrediction);
+              // if (prediction != null) {
+              //   print(prediction);
 
-              // return Text(rankings[0].standing.team.name);
+              //   return Container();
+              // } else {
+              //   return const Center(
+              //     child: Text(
+              //       'There are no predictions to display.',
+              //       style: TextStyle(fontSize: 20),
+              //       textAlign: TextAlign.center,
+              //     ),
+              //   );
+              // }
             }
           }
           return const Center(

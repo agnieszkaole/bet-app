@@ -1,17 +1,20 @@
-import 'package:bet_app/src/constants/league_names.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
-import 'package:bet_app/src/widgets/data_picker.dart';
 import 'package:bet_app/src/widgets/next_match_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class NextMatchList extends StatefulWidget {
   NextMatchList({
     super.key,
+    required this.leagueNumber,
+    required this.isSelectedLeague,
   });
+
+  final String? leagueNumber;
+  final bool isSelectedLeague;
 
   static final GlobalKey<_NextMatchListState> nextMatchListKey = GlobalKey<_NextMatchListState>();
   @override
@@ -20,28 +23,33 @@ class NextMatchList extends StatefulWidget {
 
 class _NextMatchListState extends State<NextMatchList> {
   final ScrollController _scrollController = ScrollController();
-  String? selectedLeagueNumber;
+
+  // String? leagueNumber;
   int displayedItems = 20;
   // DateTime _selectedDate = DateTime.now();
   String? formattedDate;
   late Future dataFuture;
   String? statusApi = 'ns-tbd';
   String? timezoneApi = 'Europe/Warsaw';
-  // String? league = '106';
 
   @override
   void initState() {
     super.initState();
-    selectedLeagueNumber = '106';
-    setState(() {
-      dataFuture = _getData();
-    });
+    dataFuture = _getData();
+  }
+
+  @override
+  void didUpdateWidget(NextMatchList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.leagueNumber != oldWidget.leagueNumber) {
+      _getData();
+    }
   }
 
   Future<List<SoccerMatch>> _getData() async {
     final season1Data = await SoccerApi().getMatches(
       '',
-      league: selectedLeagueNumber,
+      league: widget.leagueNumber,
       season: '2023',
       status: statusApi,
       next: '10',
@@ -49,7 +57,7 @@ class _NextMatchListState extends State<NextMatchList> {
     );
     final season2Data = await SoccerApi().getMatches(
       '',
-      league: selectedLeagueNumber,
+      league: widget.leagueNumber,
       season: '2024',
       status: statusApi,
       next: '10',
@@ -61,6 +69,12 @@ class _NextMatchListState extends State<NextMatchList> {
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
 
+    int availableMatches = mergedData.length;
+    int requestedMatches = 10;
+
+    if (availableMatches > requestedMatches) {
+      mergedData = mergedData.sublist(0, requestedMatches);
+    }
     Provider.of<NextMatchesProvider>(context, listen: false).saveMatches(mergedData);
 
     return mergedData;
@@ -68,6 +82,7 @@ class _NextMatchListState extends State<NextMatchList> {
 
   @override
   Widget build(BuildContext context) {
+    // print(widget.leagueNumber);
     return FutureBuilder(
         future: dataFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -91,64 +106,75 @@ class _NextMatchListState extends State<NextMatchList> {
             } else if (snapshot.hasData) {
               List<SoccerMatch> nextMatchesList = snapshot.data!;
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 15),
-                  SizedBox(
-                    height: 40,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        for (final league in leagueNames)
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                            margin: const EdgeInsets.symmetric(horizontal: 3),
-                            decoration: BoxDecoration(
-                              // color: Color.fromARGB(255, 53, 53, 53),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(width: 0.5),
-                              gradient: const LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [
-                                  Color.fromARGB(146, 0, 199, 90),
-                                  Color.fromARGB(108, 0, 92, 41),
-                                ],
-                              ),
-                            ),
-                            child: Center(
-                              child: GestureDetector(
-                                child: Text(league["name"]),
-                                onTap: () {
-                                  setState(() {
-                                    selectedLeagueNumber = league['number'].toString();
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                      ],
+                  const Text(
+                    'Upcoming matches',
+                    style: TextStyle(
+                      fontSize: 20,
+                      // fontWeight: FontWeight.bold,
                     ),
                   ),
+                  // const Text(
+                  //   'Decide which matches you want to bet on.',
+                  //   style: TextStyle(
+                  //     fontSize: 14,
+                  //     // fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                   SizedBox(height: 5),
                   Container(
                     height: 140,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      // itemCount: nextMatchesList.length,
-                      itemCount: displayedItems,
-                      itemBuilder: (context, index) {
-                        NextMatchesProvider.sortMatchesByDate(nextMatchesList);
-                        if (index < nextMatchesList.length) {
-                          return NextMatchItem(
-                            match: nextMatchesList[index],
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
-                    ),
-                  ),
+                    child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        controller: _scrollController,
+                        itemCount: provider.nextMatchesList.length,
+                        // itemCount: displayedItems,
+                        itemBuilder: (context, index) {
+                          NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
+                          if (index < nextMatchesList.length) {
+                            return NextMatchItem(
+                              match: provider.nextMatchesList[index],
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      );
+                    }),
+                  )
+
+                  // Container(
+                  //   height: 140,
+                  //   child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                  //     if (provider.nextMatchesList.isEmpty) {
+                  //       return CircularProgressIndicator(); // Display a loading indicator
+                  //     }
+
+                  //     // If nextMatchesList is not empty, display CarouselSlider
+                  //     return CarouselSlider.builder(
+                  //       itemCount: provider.nextMatchesList.length,
+                  //       itemBuilder: (context, index, _) {
+                  //         return NextMatchItem(match: provider.nextMatchesList[index]);
+                  //       },
+                  //       options: CarouselOptions(
+                  //         height: 380.0,
+
+                  //         // enlargeCenterPage: true,
+                  //         // autoPlay: true,
+                  //         aspectRatio: 16 / 9,
+
+                  //         // autoPlayCurve: Curves.fastOutSlowIn,
+                  //         enableInfiniteScroll: false,
+                  //         // autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  //         viewportFraction: 0.5,
+                  //       ),
+                  //     );
+                  //   }),
+                  // )
+
+//////////////////////////
                 ],
               );
             }

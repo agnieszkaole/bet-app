@@ -4,9 +4,8 @@ import 'package:bet_app/src/features/authentication/screens/login/login_screen.d
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
-import 'package:bet_app/src/provider/prev_matches_provider.dart';
-import 'package:bet_app/src/provider/standings_provider.dart';
-import 'package:bet_app/src/widgets/standings_list.dart';
+import 'package:bet_app/src/provider/scoreboard_provider.dart';
+import 'package:bet_app/src/provider/predictions_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,42 +34,38 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => PredictedMatchProvider()),
         ChangeNotifierProvider(create: (context) => NextMatchesProvider()),
-        ChangeNotifierProvider(create: (context) => PrevMatchesProvider()),
+        ChangeNotifierProvider(create: (context) => ScoreboardProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavigationProvider()),
-        ChangeNotifierProvider(create: (context) => StandingsProvider()),
+        // ChangeNotifierProvider(create: (context) => PredictionsProvider()),
       ],
       child: Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 600, minWidth: 300),
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Betapp',
-            // themeMode: ThemeMode.system,
-            theme: ThemeData(
-              useMaterial3: true,
-              brightness: Brightness.dark,
-              primaryColor: const Color.fromARGB(200, 40, 122, 43),
-              textTheme: Theme.of(context).textTheme.apply(
-                    bodyColor: const Color.fromARGB(255, 255, 255, 255),
-                    fontFamily: GoogleFonts.lato().fontFamily,
-                  ),
-            ),
-            home: StreamBuilder<User?>(
-                stream: firebaseAuth.authStateChanges(),
-                builder: (context, AsyncSnapshot<User?> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    // return HomeScreen();
-                    return const AuthScreens();
-                  } else {
-                    return const LoginScreen();
-                    // return const AuthScreens();
-                  }
-                }),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Betapp',
+          // themeMode: ThemeMode.system,
+          theme: ThemeData(
+            useMaterial3: true,
+            brightness: Brightness.dark,
+            primaryColor: const Color.fromARGB(200, 40, 122, 43),
+            textTheme: Theme.of(context).textTheme.apply(
+                  bodyColor: const Color.fromARGB(255, 255, 255, 255),
+                  fontFamily: GoogleFonts.lato().fontFamily,
+                ),
           ),
+          home: StreamBuilder<User?>(
+              stream: firebaseAuth.authStateChanges(),
+              builder: (context, AsyncSnapshot<User?> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  // return HomeScreen();
+                  return const AuthScreens();
+                } else {
+                  return const LoginScreen();
+                }
+              }),
         ),
       ),
     );

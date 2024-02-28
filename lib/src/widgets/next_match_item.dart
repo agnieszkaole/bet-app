@@ -18,26 +18,35 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
 
-    int matchId = widget.match.fixture.id;
+    // int matchId = widget.match.fixture.id;
     var homeName = widget.match.home.name;
     var homeLogo = widget.match.home.logoUrl;
     var awayName = widget.match.away.name;
     var awayLogo = widget.match.away.logoUrl;
     var matchTime = widget.match.fixture.formattedDate;
-    var leagueName = widget.match.league.name;
-    var leagueRound = widget.match.league.round;
-    var leagueNumber = widget.match.league.id;
+    // var leagueName = widget.match.league.name;
+    // var leagueNumber = widget.match.league.id;
 
     return Container(
       width: 180,
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        // color: Color.fromARGB(200, 40, 122, 43),
-        border: Border.all(
-          width: 1,
-          color: Color.fromARGB(148, 40, 122, 43),
+        // color: Color.fromARGB(255, 41, 41, 41),
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color.fromARGB(255, 13, 51, 133),
+            Color.fromARGB(255, 19, 29, 49),
+            // Color.fromARGB(255, 44, 44, 44),
+            // Color.fromARGB(255, 39, 39, 39),
+          ],
         ),
+        // border: Border.all(
+        //   width: 0.5,
+        //   color: Color.fromARGB(147, 167, 167, 167),
+        // ),
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),

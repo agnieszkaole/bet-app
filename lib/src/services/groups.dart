@@ -6,7 +6,7 @@ class Groups {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> createGroup(String? groupName, String? privacyType, Map<String, dynamic>? selectedLeague,
-      List<Map<String, dynamic>>? members, String? uniqueIdKey) async {
+      List<Map<String, dynamic>>? members, String? groupAccessCode) async {
     try {
       User? currentUser = _auth.currentUser;
 
@@ -26,7 +26,7 @@ class Groups {
           'selectedLeague': {'leagueName': selectedLeague?['name'], 'leagueNumber': selectedLeague?['number']},
           'privacyType': privacyType,
           'createdAt': currentTime,
-          'uniqueIdKey': uniqueIdKey
+          'groupAccessCode': groupAccessCode
         });
 
         await _firestore.collection('users').doc(currentUser.uid).update({
@@ -105,7 +105,7 @@ class Groups {
         String? privacyType;
         List<Map<String, dynamic>> members = [];
         Map<String, dynamic> selectedLeague = {};
-        String? uniqueIdKey;
+        String? groupAccessCode;
         Timestamp? createdAt;
 
         if (groupSnapshot.data()?['members'] != null) {
@@ -125,8 +125,8 @@ class Groups {
           selectedLeague = Map<String, dynamic>.from(groupSnapshot.data()?['selectedLeague']);
         }
 
-        if (groupSnapshot.data()?['uniqueIdKey'] != null) {
-          uniqueIdKey = groupSnapshot.data()?['uniqueIdKey'];
+        if (groupSnapshot.data()?['groupAccessCode'] != null) {
+          groupAccessCode = groupSnapshot.data()?['groupAccessCode'];
         }
         if (groupSnapshot.data()?['createdAt'] != null) {
           createdAt = groupSnapshot.data()?['createdAt'];
@@ -138,7 +138,7 @@ class Groups {
           'privacyType': privacyType,
           'members': members,
           'selectedLeague': selectedLeague,
-          'uniqueIdKey': uniqueIdKey,
+          'groupAccessCode': groupAccessCode,
           'createdAt': createdAt,
           // 'selected': members,
         };

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:bet_app/src/models/match_predictions_model.dart';
 import 'package:bet_app/src/models/match_ranking.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:http/http.dart';
@@ -44,20 +45,28 @@ class SoccerApi {
     throw Exception('wystąpił błąd połączenia');
   }
 
-  Future getPredictions(fixture) async {
-    String? fixtureUrl = fixture.isEmpty ? "" : "fixture=$fixture";
+  Future getPredictions(String fixture) async {
+    String fixtureUrl = fixture.isEmpty ? "" : "fixture=$fixture";
 
-    Response res = await get(Uri.parse('$_baseUrlFixture$fixtureUrl'), headers: headers);
+    Response res = await get(Uri.parse('$_baseUrlPredictions$fixtureUrl'), headers: headers);
 
-    print('$_baseUrlFixture$fixtureUrl');
+    print('$_baseUrlPredictions$fixtureUrl');
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
-      var predictionAdvice = data['response'][0]['advice'];
-      print(predictionAdvice);
+      var response = data['response'];
 
-      return predictionAdvice;
+      if (response.isNotEmpty) {
+        List<PredictionData> predictions = response.map<PredictionData>((item) {
+          return PredictionData.fromJson(item);
+        }).toList();
+
+        return predictions;
+      } else {
+        throw Exception('No predictions available');
+      }
+    } else {
+      throw Exception('Failed to fetch predictions. Status code: ${res.statusCode}');
     }
-    throw Exception('wystąpił błąd połączenia');
   }
 
   // Future getStandings({league, season}) async {

@@ -9,7 +9,6 @@ class NextMatchesProvider extends ChangeNotifier {
 
   void saveMatches(List<SoccerMatch> matches) {
     _nextMatchesList = matches;
-
     notifyListeners();
   }
 
@@ -19,8 +18,7 @@ class NextMatchesProvider extends ChangeNotifier {
   }
 
   static void sortMatchesByDate(List<SoccerMatch> matches) {
-    final sortedMatches =
-        matches.sort((a, b) => a.fixture.date.compareTo(b.fixture.date));
+    final sortedMatches = matches.sort((a, b) => a.fixture.date.compareTo(b.fixture.date));
     return sortedMatches;
   }
 

@@ -95,11 +95,7 @@ class _PredictResultState extends State<PredictResult> {
       //   return;
       // }
 
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('matches')
-          .add({
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('matches').add({
         'homeName': homeName,
         'awayName': awayName,
         'homeLogo': homeLogo,
@@ -241,10 +237,8 @@ class _PredictResultState extends State<PredictResult> {
                                   child: CachedNetworkImage(
                                     imageUrl: widget.homeLogo,
                                     fadeInDuration: Duration(milliseconds: 50),
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                     width: 45.0,
                                   ),
                                   // child: Image.network(
@@ -283,19 +277,15 @@ class _PredictResultState extends State<PredictResult> {
                                     contentPadding: EdgeInsets.zero,
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 40, 122, 43)),
+                                      borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                          color: Colors.greenAccent),
+                                      borderSide: const BorderSide(color: Colors.greenAccent),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide:
-                                          const BorderSide(color: Colors.red),
+                                      borderSide: const BorderSide(color: Colors.red),
                                     ),
                                   ),
                                   initialValue: "",
@@ -354,19 +344,15 @@ class _PredictResultState extends State<PredictResult> {
                                     contentPadding: EdgeInsets.zero,
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 40, 122, 43)),
+                                      borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                          color: Colors.greenAccent),
+                                      borderSide: const BorderSide(color: Colors.greenAccent),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide:
-                                          const BorderSide(color: Colors.red),
+                                      borderSide: const BorderSide(color: Colors.red),
                                     ),
                                   ),
                                   initialValue: "",
@@ -402,12 +388,9 @@ class _PredictResultState extends State<PredictResult> {
                                     padding: const EdgeInsets.all(5.0),
                                     child: CachedNetworkImage(
                                       imageUrl: widget.awayLogo,
-                                      fadeInDuration:
-                                          Duration(milliseconds: 50),
-                                      placeholder: (context, url) =>
-                                          const CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                      fadeInDuration: Duration(milliseconds: 50),
+                                      placeholder: (context, url) => const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) => const Icon(Icons.error),
                                       width: 45.0,
                                     ),
                                   ),
@@ -418,45 +401,44 @@ class _PredictResultState extends State<PredictResult> {
                     ],
                   ),
                 ),
-
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Zwycięstwo'),
-                //     ),
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Remis'),
-                //     ),
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Zwycięstwo'),
-                //     ),
-                //   ],
-                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Color.fromARGB(255, 56, 179, 60),
+                        elevation: 15.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Text('Zwycięstwo'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Color.fromARGB(255, 56, 179, 60),
+                        elevation: 15.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Text('Remis'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Color.fromARGB(255, 56, 179, 60),
+                        elevation: 15.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Text('Zwycięstwo'),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
@@ -464,10 +446,8 @@ class _PredictResultState extends State<PredictResult> {
                   child: ElevatedButton(
                     onPressed: _savePredictResult,
                     style: ElevatedButton.styleFrom(
-                      foregroundColor:
-                          Colors.white, //change background color of button
-                      backgroundColor: const Color.fromARGB(
-                          255, 40, 122, 43), //change text color of button
+                      foregroundColor: Colors.white, //change background color of button
+                      backgroundColor: const Color.fromARGB(255, 40, 122, 43), //change text color of button
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

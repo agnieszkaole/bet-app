@@ -7,6 +7,7 @@ import 'package:bet_app/src/services/groups.dart';
 import 'package:bet_app/src/widgets/group_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class GroupListScreen extends StatefulWidget {
   const GroupListScreen({super.key});
@@ -23,78 +24,85 @@ class _GroupListScreenState extends State<GroupListScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Join a group'),
-          bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(80),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(80),
             child: Column(
               children: [
-                SizedBox(height: 15),
-                TabBar(
-                  padding: EdgeInsets.only(bottom: 20),
-                  indicatorColor: Colors.green,
-                  indicatorWeight: 2.0,
-                  labelColor: Colors.white,
-                  dividerColor: Color.fromARGB(38, 255, 255, 255),
-                  tabs: [
-                    Tab(
-                      height: 60,
-                      iconMargin: EdgeInsets.zero,
-                      icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.lock_open_outlined, size: 30),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Public',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                'Join without code',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ],
-                          )
-                        ],
+                const SizedBox(height: 15),
+                Container(
+                  // constraints: BoxConstraints(maxWidth: kIsWeb ? 700.0 : MediaQuery.of(context).size.width),
+                  child: const TabBar(
+                    padding: EdgeInsets.only(bottom: 20),
+                    indicatorColor: Color.fromARGB(255, 30, 117, 33),
+                    indicatorWeight: 1.2,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelColor: Colors.white,
+                    dividerColor: Color.fromARGB(38, 255, 255, 255),
+                    tabs: [
+                      Tab(
+                        height: 60,
+                        iconMargin: EdgeInsets.zero,
+                        icon: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.lock_open_outlined, size: 30),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Public',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  'Join without code',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Tab(
-                      height: 60,
-                      iconMargin: EdgeInsets.zero,
-                      icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.lock_rounded, size: 30),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Private',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                'Access code require',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ],
-                          )
-                        ],
+                      Tab(
+                        height: 60,
+                        iconMargin: EdgeInsets.zero,
+                        icon: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.lock_rounded, size: 30),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Private',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  'Access code require',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
         ),
-        body: const TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            JoinExistingGroupScreen(privacyType: 'public'),
-            JoinExistingGroupScreen(privacyType: 'private'),
-          ],
+        body: Container(
+          // constraints: BoxConstraints(maxWidth: kIsWeb ? 700.0 : MediaQuery.of(context).size.width),
+          child: const TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              JoinExistingGroupScreen(privacyType: 'public'),
+              JoinExistingGroupScreen(privacyType: 'private'),
+            ],
+          ),
         ),
       ),
     );
@@ -168,14 +176,6 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
       await groups.joinGroup(groupId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('You have joined the group: $groupName'),
-        action: SnackBarAction(
-          label: 'Groups',
-          onPressed: () {
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(builder: (context) => const GroupsScreen()),
-            // );
-          },
-        ),
       ));
       // Navigator.of(context)
       //     .push(MaterialPageRoute(
@@ -200,17 +200,29 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
       children: [
         Container(
           width: 300,
-          height: 70,
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          height: 50,
           child: SearchBar(
             leading: const Icon(Icons.search),
-            hintText: 'Search',
+            hintText: 'Search group',
+            backgroundColor: MaterialStateProperty.all(Colors.transparent),
+            elevation: MaterialStateProperty.all(2),
+            // side: MaterialStateProperty.all(BorderSide(
+            //   color: Color.fromARGB(255, 40, 139, 9),
+            //   width: 0.5,
+            // )),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 20)),
             controller: _searchController,
             onChanged: (text) {
               updateFilteredGroups(text);
             },
           ),
         ),
+        SizedBox(height: 20),
         _searchController.text.isNotEmpty
             ? Expanded(
                 child: StreamBuilder<List<Map<String, dynamic>>>(
@@ -223,7 +235,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                     } else if (!snapshot.hasData) {
                       return const Center(
                         child: Text(
-                          'No group added.',
+                          'Unable to get data',
                           style: TextStyle(fontSize: 22),
                         ),
                       );
@@ -252,77 +264,95 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
 
                             int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: SizedBox(
-                                    width: 300,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Padding(
-                                          padding: EdgeInsets.all(6.0),
-                                          child: SizedBox(
-                                            width: 50,
-                                            child: CircleAvatar(
-                                              backgroundColor: Color.fromARGB(255, 40, 122, 43),
-                                              child: Icon(Icons.groups),
-                                            ),
+                            return Container(
+                              constraints: BoxConstraints(maxWidth: 400),
+                              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 0, 92, 41),
+                                  width: 0.5,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: SizedBox(
+                                      // width: 340,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // const Padding(
+                                          //   padding: EdgeInsets.all(6.0),
+                                          //   child: SizedBox(
+                                          //     width: 50,
+                                          //     child: CircleAvatar(
+                                          //       backgroundColor: Color.fromARGB(255, 40, 122, 43),
+                                          //       child: Icon(Icons.groups),
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '$groupName',
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color.fromARGB(255, 60, 165, 83)),
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Text(
+                                                'Members: $groupMembers',
+                                                style: const TextStyle(fontSize: 16),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '$groupName',
-                                              style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              'Members: $groupMembers',
-                                              style: const TextStyle(fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(width: 30),
-                                        widget.privacyType == 'public'
-                                            ? GestureDetector(
-                                                onTap: () async {
-                                                  if (groupId != null) {
-                                                    await joinToExistingGroup(
-                                                        groupId, groupName, widget.privacyType, context);
-                                                  }
-                                                },
-                                                child: const Icon(
-                                                  Icons.person_add_alt_1_rounded,
-                                                  size: 30,
+                                          // const SizedBox(width: 30),
+                                          widget.privacyType == 'public'
+                                              ? GestureDetector(
+                                                  onTap: () async {
+                                                    if (groupId != null) {
+                                                      await joinToExistingGroup(
+                                                          groupId, groupName, widget.privacyType, context);
+                                                    }
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.person_add_alt_1_rounded,
+                                                    size: 30,
+                                                  ),
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () async {
+                                                    // if (groupId != null) {
+                                                    //   await joinToExistingGroup(
+                                                    //       groupId,
+                                                    //       groupName,
+                                                    //       privacyType,
+                                                    //       context);
+                                                    // }
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.key_outlined,
+                                                    size: 30,
+                                                  ),
                                                 ),
-                                              )
-                                            : GestureDetector(
-                                                onTap: () async {
-                                                  // if (groupId != null) {
-                                                  //   await joinToExistingGroup(
-                                                  //       groupId,
-                                                  //       groupName,
-                                                  //       privacyType,
-                                                  //       context);
-                                                  // }
-                                                },
-                                                child: const Icon(
-                                                  Icons.key_outlined,
-                                                  size: 30,
-                                                ),
-                                              ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  // const Divider(
+                                  //   height: 5,
+                                  //   color: Color.fromARGB(255, 40, 122, 43),
+                                  //   thickness: 1,
+                                  //   indent: 50,
+                                  //   endIndent: 50,
+                                  // ),
+                                ],
+                              ),
                             );
                           });
                     }
@@ -363,39 +393,47 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                           final groupData = filteredGroups[index];
                           String? groupName = groupData['groupName'] ?? '';
                           String? groupId = groupData['groupId'] ?? '';
-                          String? uniqueIdKey = groupData['uniqueIdKey'];
+                          String? groupAccessCode = groupData['groupAccessCode'];
 
                           int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Container(
+                          return Container(
+                            constraints: BoxConstraints(maxWidth: 400),
+                            margin: EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromARGB(255, 0, 92, 41),
+                                width: 0.5,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  width: 300,
+                                  width: 320,
                                   // decoration: BoxDecoration(
                                   //     borderRadius: BorderRadius.circular(10), color: Color.fromARGB(255, 46, 46, 46)),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(6.0),
-                                        child: CircleAvatar(
-                                          backgroundColor: Color.fromARGB(255, 40, 122, 43),
-                                          child: Icon(Icons.groups),
-                                        ),
-                                      ),
+                                      // const Padding(
+                                      //   padding: EdgeInsets.all(6.0),
+                                      //   child: CircleAvatar(
+                                      //     backgroundColor: Color.fromARGB(255, 40, 122, 43),
+                                      //     child: Icon(Icons.groups),
+                                      //   ),
+                                      // ),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             '$groupName',
                                             style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(255, 60, 165, 83)),
                                           ),
                                           const SizedBox(height: 2),
                                           Text(
@@ -404,7 +442,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(width: 30),
+                                      // const SizedBox(width: 30),
                                       widget.privacyType == 'public'
                                           ? GestureDetector(
                                               onTap: () async {
@@ -477,7 +515,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                 ),
                                                                 ElevatedButton(
                                                                   onPressed: () async {
-                                                                    if (_controllerAccessCode.text == uniqueIdKey) {
+                                                                    if (_controllerAccessCode.text == groupAccessCode) {
                                                                       await joinToExistingGroup(groupId, groupName,
                                                                           widget.privacyType, context);
                                                                     }
@@ -501,8 +539,15 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                     ],
                                   ),
                                 ),
-                              ),
-                            ],
+                                // const Divider(
+                                //   height: 5,
+                                //   color: Color.fromARGB(255, 40, 122, 43),
+                                //   thickness: 1,
+                                //   indent: 50,
+                                //   endIndent: 50,
+                                // ),
+                              ],
+                            ),
                           );
                         },
                       );

@@ -32,55 +32,31 @@ class PredictedMatchProvider extends ChangeNotifier {
   // }
 
   void addMatch(Map<String, dynamic> match) {
-    if (predictedMatchList.every(
-        (predictedMatch) => predictedMatch['matchId'] != match['matchId'])) {
+    if (predictedMatchList.every((predictedMatch) => predictedMatch['matchId'] != match['matchId'])) {
       predictedMatchList.add(match);
-      // print(predictedMatchList);
-      // print(match);
+
       notifyListeners();
-      // _saveMatches();
     }
   }
 
   void removeMatch(Map<String, dynamic> match) {
     predictedMatchList.remove(match);
-    // print(predictedMatchList);
-    // print(match);
+
     notifyListeners();
-    // _saveMatches();
   }
 
   List<Map<String, dynamic>> showMatchesByLeague(int? league) {
-    return predictedMatchList
-        .where((match) => match['leagueNumber'] == league)
-        .toList();
+    return predictedMatchList.where((match) => match['leagueNumber'] == league).toList();
   }
 
   void updateMatchResult(int matchId, int teamHomeGoal, int teamAwayGoal) {
-    int matchIndex = predictedMatchList
-        .indexWhere((predictedMatch) => predictedMatch['matchId'] == matchId);
+    int matchIndex = predictedMatchList.indexWhere((predictedMatch) => predictedMatch['matchId'] == matchId);
 
     if (matchIndex != -1) {
       predictedMatchList[matchIndex]['teamHomeGoal'] = teamHomeGoal;
       predictedMatchList[matchIndex]['teamAwayGoal'] = teamAwayGoal;
 
       notifyListeners();
-      // _saveMatches();
     }
   }
-
-  // void addMatch(Map<String, dynamic> match) {
-  //   if (predictedMatchList.every(
-  //       (predictedMatch) => predictedMatch['matchId'] != match['matchId'])) {
-  //     predictedMatchList.add(match);
-  //     notifyListeners();
-  //     // print(predictedMatchList);
-  //   }
-  // }
-
-  // void removeMatch(Map<String, dynamic> match) {
-  //   predictedMatchList.remove(match);
-  //   notifyListeners();
-  // print(predictedMatchList.length);
-  // }
 }

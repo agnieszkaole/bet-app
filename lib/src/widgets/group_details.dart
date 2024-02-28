@@ -25,7 +25,7 @@ class GroupDetails extends StatefulWidget {
   final String? creatorUsername;
   final String? privacyType;
   final int? groupMembers;
-  final Timestamp? createdAt;
+  final String? createdAt;
   final String? selectedLeagueName;
 
   @override
@@ -35,31 +35,27 @@ class GroupDetails extends StatefulWidget {
 class _GroupDetailsState extends State<GroupDetails> {
   String? newGroupName;
   Groups groups = Groups();
-  String? uniqueIdKey;
-  late DateTime createdAtDate;
-  String? formattedCreatedAtDate;
+  String? groupAccessCode;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? currentUser;
+  String? privacyType;
 
   @override
   void initState() {
     super.initState();
-    getAccessCodeToGroup();
-    _formatDate();
+
+    // _formatDate();
+    _getGroupData();
     _getCurrentUserDisplayName();
   }
 
-  void _formatDate() {
-    createdAtDate = widget.createdAt!.toDate();
-    formattedCreatedAtDate = DateFormat('yyyy-MM-dd').format(createdAtDate);
-  }
-
-  Future<void> getAccessCodeToGroup() async {
+  Future<void> _getGroupData() async {
     try {
       Map<String, dynamic>? result = await groups.getDataAboutGroup(widget.groupId!);
-
       setState(() {
-        uniqueIdKey = result['uniqueIdKey'];
+        groupAccessCode = result['groupAccessCode'];
+        privacyType = result['privacyType'];
       });
     } catch (e) {
       print("Error fetching data: $e");
@@ -98,6 +94,7 @@ class _GroupDetailsState extends State<GroupDetails> {
 
   @override
   Widget build(BuildContext context) {
+    print('${widget.createdAt}');
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -138,7 +135,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                       const Divider(
                         height: 40,
                         color: Color.fromARGB(255, 40, 122, 43),
-                        thickness: 1.2,
+                        thickness: 0.8,
                         // indent: 20,
                         // endIndent: 20,
                       ),
@@ -156,7 +153,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                       const Divider(
                         height: 40,
                         color: Color.fromARGB(255, 40, 122, 43),
-                        thickness: 1.2,
+                        thickness: 0.8,
                         // indent: 20,
                         // endIndent: 20,
                       ),
@@ -170,10 +167,9 @@ class _GroupDetailsState extends State<GroupDetails> {
                         children: [
                           Column(
                             children: [
-                              Text(
-                                '$formattedCreatedAtDate',
-                                style: const TextStyle(fontSize: 22),
-                              ),
+                              widget.createdAt != null
+                                  ? Text(widget.createdAt!, style: const TextStyle(fontSize: 22))
+                                  : Text(' ', style: const TextStyle(fontSize: 22))
                             ],
                           ),
                         ],
@@ -181,7 +177,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                       const Divider(
                         height: 40,
                         color: Color.fromARGB(255, 40, 122, 43),
-                        thickness: 1.2,
+                        thickness: 0.8,
                         // indent: 20,
                         // endIndent: 20,
                       ),
@@ -190,9 +186,9 @@ class _GroupDetailsState extends State<GroupDetails> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Members: ',
-                        style: TextStyle(fontSize: 20),
+                      Text(
+                        'Members (${widget.groupMembers})',
+                        style: const TextStyle(fontSize: 20),
                         textAlign: TextAlign.left,
                       ),
                       GroupMembersList(groupId: widget.groupId!, creatorUsername: widget.creatorUsername!),
@@ -201,7 +197,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                   const Divider(
                     height: 40,
                     color: Color.fromARGB(255, 40, 122, 43),
-                    thickness: 1.2,
+                    thickness: 0.8,
                     // indent: 20,
                     // endIndent: 20,
                   ),
@@ -271,9 +267,12 @@ class _GroupDetailsState extends State<GroupDetails> {
                                 Text('Invite friends', style: const TextStyle(fontSize: 18)),
                                 GestureDetector(
                                   onTap: () {
-                                    Share.share(
-                                      'Are you ready to bet with your friends? Download Betapp and join a private group: "${widget.groupName}" - access code: ${uniqueIdKey} or other public group. Betapp Team',
-                                    );
+                                    privacyType == 'private'
+                                        ? Share.share(
+                                            'Are you ready to bet with your friends? Download Betapp and join a private group: "${widget.groupName}" - access code: ${groupAccessCode} or other public group. Betapp Team',
+                                          )
+                                        : Share.share(
+                                            'Are you ready to bet with your friends? Download Betapp and join a public group: "${widget.groupName}" or create a private group. Betapp Team');
                                   },
                                   child: const Row(
                                     children: [

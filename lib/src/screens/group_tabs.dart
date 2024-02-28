@@ -1,11 +1,12 @@
 import "package:bet_app/src/models/soccermodel.dart";
 import "package:bet_app/src/provider/next_matches_provider.dart";
-import "package:bet_app/src/provider/prev_matches_provider.dart";
+import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import "package:bet_app/src/services/groups.dart";
 import "package:bet_app/src/services/soccer_api.dart";
 import "package:bet_app/src/widgets/group_details.dart";
 import "package:bet_app/src/widgets/group_match_list.dart";
 import "package:bet_app/src/widgets/group_table.dart";
+import "package:bet_app/src/widgets/match_scheduled.dart";
 import "package:bet_app/src/widgets/predicted_matches_firebase.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
@@ -41,16 +42,22 @@ class _GroupTabsState extends State<GroupTabs> {
   int? selectedLeagueNumber;
   Map<String, dynamic> selectedLeague = {};
   Timestamp? createdAt;
-
+  DateTime? createdAtDate;
+  String? formattedCreatedAtDate;
   // int? uniqueId;
 
   @override
   void initState() {
     super.initState();
-    getLeagueInfo();
+    getGroupInfo();
   }
 
-  Future<void> getLeagueInfo() async {
+  // void _formatDate() {
+  // createdAtDate = createdAt!.toDate();
+  // formattedCreatedAtDate = DateFormat('yyyy-MM-dd').format(createdAtDate!);
+  // }
+
+  Future<void> getGroupInfo() async {
     try {
       Map<String, dynamic>? result = await groups.getDataAboutGroup(widget.groupId!);
 
@@ -59,7 +66,15 @@ class _GroupTabsState extends State<GroupTabs> {
         selectedLeagueName = selectedLeague['leagueName'];
         selectedLeagueNumber = selectedLeague['leagueNumber'];
         createdAt = result['createdAt'];
+        if (createdAt != null) {
+          createdAtDate = createdAt!.toDate();
+          formattedCreatedAtDate = DateFormat('yyyy-MM-dd').format(createdAtDate!);
+        }
       });
+
+      // _formatDate();
+
+      // _formatDate();
     } catch (e) {
       print("Error fetching data: $e");
     }
@@ -69,7 +84,7 @@ class _GroupTabsState extends State<GroupTabs> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Provider.of<PrevMatchesProvider>(context, listen: false).clearMatches();
+        Provider.of<ScoreboardProvider>(context, listen: false).clearMatches();
         return true;
       },
       child: DefaultTabController(
@@ -83,26 +98,27 @@ class _GroupTabsState extends State<GroupTabs> {
                   '${widget.groupName} ',
                   style: const TextStyle(fontSize: 22),
                 ),
-                Text(
-                  '( ${widget.groupMembers} ',
-                  style: const TextStyle(fontSize: 22),
-                ),
-                const Icon(Icons.person, size: 22),
-                Text(
-                  ' )',
-                  style: const TextStyle(fontSize: 20),
-                ),
+                // Text(
+                //   '( ${widget.groupMembers} ',
+                //   style: const TextStyle(fontSize: 22),
+                // ),
+                // const Icon(Icons.person, size: 22),
+                // Text(
+                //   ' )',
+                //   style: const TextStyle(fontSize: 20),
+                // ),
               ],
             ),
-            bottom: const PreferredSize(
+            bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60),
               child: Column(
                 children: [
-                  TabBar(
+                  const TabBar(
                     tabAlignment: TabAlignment.center,
                     padding: EdgeInsets.only(bottom: 10),
+                    indicatorSize: TabBarIndicatorSize.tab,
                     indicatorColor: Colors.green,
-                    indicatorWeight: 2.0,
+                    indicatorWeight: 1.2,
                     labelColor: Colors.white,
                     dividerColor: Color.fromARGB(38, 255, 255, 255),
                     tabs: [
@@ -125,7 +141,7 @@ class _GroupTabsState extends State<GroupTabs> {
                         icon: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.scoreboard_outlined, size: 20),
+                            Icon(Icons.sports_soccer_rounded, size: 20),
                             SizedBox(width: 3),
                             Text(
                               'Scheduled',
@@ -153,10 +169,10 @@ class _GroupTabsState extends State<GroupTabs> {
                         icon: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.sports_soccer_rounded, size: 20),
+                            Icon(Icons.handshake, size: 20),
                             SizedBox(width: 3),
                             Text(
-                              'Table',
+                              'Bets',
                               style: TextStyle(fontSize: 14),
                             ),
                           ],
@@ -168,32 +184,33 @@ class _GroupTabsState extends State<GroupTabs> {
               ),
             ),
           ),
-          body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              GroupDetails(
-                groupId: widget.groupId,
-                groupName: widget.groupName,
-                groupMembers: widget.groupMembers,
-
-                privacyType: widget.privacyType,
-                creatorUsername: widget.creatorUsername,
-                selectedLeagueName: selectedLeagueName,
-                createdAt: createdAt,
-                // uniqueId: uniqueIdg
-              ),
-              GroupMatchList(
-                leagueNumber: selectedLeagueNumber.toString(),
-                leagueName: selectedLeagueName.toString(),
-              ),
-              PredictedMatchesFirebase(
-                leagueNumber: selectedLeagueNumber,
-              ),
-              GroupTable(
-                createdAt: createdAt,
-                leagueNumber: selectedLeagueNumber.toString(),
-              ),
-            ],
+          body: Center(
+            child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                GroupDetails(
+                  groupId: widget.groupId,
+                  groupName: widget.groupName,
+                  groupMembers: widget.groupMembers,
+                  privacyType: widget.privacyType,
+                  creatorUsername: widget.creatorUsername,
+                  selectedLeagueName: selectedLeagueName,
+                  createdAt: formattedCreatedAtDate,
+                  // uniqueId: uniqueIdg
+                ),
+                MatchScheduled(
+                  leagueNumber: selectedLeagueNumber.toString(),
+                  leagueName: selectedLeagueName.toString(),
+                ),
+                PredictedMatchesFirebase(
+                  leagueNumber: selectedLeagueNumber,
+                ),
+                GroupTable(
+                  createdAt: createdAt,
+                  leagueNumber: selectedLeagueNumber.toString(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

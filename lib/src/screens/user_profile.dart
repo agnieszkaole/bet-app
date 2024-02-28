@@ -115,7 +115,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       ),
       body: Container(
         // height: double.infinity,
-        width: MediaQuery.of(context).size.width,
+        constraints: BoxConstraints(maxWidth: 400),
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [

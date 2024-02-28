@@ -48,37 +48,27 @@ class DataPickerState extends State<DataPicker> {
     // print(_selectedDate);
     // initializeDateFormatting('pl_PL', null);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      child: Column(
-        children: [
-          Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
-          WeeklyDatePicker(
-            selectedDay: _selectedDate,
-            // changeDay: (value) => setState(
-            //   () {
-            //     _selectedDate = value;
-            //   },
-            // ),
-            changeDay: (value) => _handleDateChange(value),
-            // changeDay: (value) {
-            //   setState(() {
-            //     _selectedDate = value;
-            //   });
-            //   widget.onDateSelected(_selectedDate);
-            // },
-
-            enableWeeknumberText: false,
-            weeknumberColor: const Color.fromARGB(255, 40, 122, 43),
-            weeknumberTextColor: Colors.white,
-            backgroundColor: Color.fromARGB(255, 26, 26, 26),
-            weekdayTextColor: const Color(0xFF8A8A8A),
-            digitsColor: Colors.white,
-            selectedDigitBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
-            // weekdays: const ["Pn", "Wt", "Śr", "Cz", "Pt", "Sb", "Nd"],
-            daysInWeek: 7,
-          ),
-        ],
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 400),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+        child: Column(
+          children: [
+            Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
+            WeeklyDatePicker(
+              selectedDay: _selectedDate,
+              changeDay: (value) => _handleDateChange(value),
+              enableWeeknumberText: false,
+              weeknumberColor: const Color.fromARGB(255, 40, 122, 43),
+              weeknumberTextColor: Colors.white,
+              backgroundColor: Colors.transparent,
+              weekdayTextColor: const Color(0xFF8A8A8A),
+              digitsColor: Colors.white,
+              selectedDigitBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
+              daysInWeek: 7,
+            ),
+          ],
+        ),
       ),
     );
   }

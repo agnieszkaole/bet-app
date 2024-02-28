@@ -157,98 +157,103 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return SafeArea(
         child: Scaffold(
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
-        height: MediaQuery.of(context).size.height - 50,
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Column(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        // height: MediaQuery.of(context).size.height - 50,
+        // width: double.infinity,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  const SizedBox(height: 60.0),
-                  Text(
-                    "Betapp",
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  Column(
+                    children: <Widget>[
+                      const SizedBox(height: 60.0),
+                      Text(
+                        "Betapp",
+                        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      ),
+                      const Text("Create your account", style: TextStyle(fontSize: 16)),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                    ],
                   ),
-                  const Text("Create your account", style: TextStyle(fontSize: 16)),
-                  const SizedBox(
-                    height: 50,
+                  Column(
+                    children: <Widget>[
+                      _entryField('Username', _controllerName, Icons.person, false),
+                      const SizedBox(height: 20),
+                      _entryField('Email', _controllerEmail, Icons.email, false),
+                      const SizedBox(height: 20),
+                      _entryField('Password', _controllerPassword, Icons.password, true),
+                      const SizedBox(height: 20),
+                      _entryField('Confirm Password', _controllerConfirmPassword, Icons.password, true),
+                      const SizedBox(height: 10),
+                      _errorMessage(),
+                      const SizedBox(height: 20),
+                    ],
                   ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  _entryField('Username', _controllerName, Icons.person, false),
-                  const SizedBox(height: 20),
-                  _entryField('Email', _controllerEmail, Icons.email, false),
-                  const SizedBox(height: 20),
-                  _entryField('Password', _controllerPassword, Icons.password, true),
-                  const SizedBox(height: 20),
-                  _entryField('Confirm Password', _controllerConfirmPassword, Icons.password, true),
-                  const SizedBox(height: 10),
-                  _errorMessage(),
-                  const SizedBox(height: 20),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 3, left: 3),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await createUserAndCheckEmail(
-                      _controllerEmail.text,
-                      _controllerPassword.text,
-                      _controllerName.text,
-                    );
-                    // await createUserAndCheckEmail(
-                    //   _controllerEmail.text,
-                    //   _controllerPassword.text,
-                    // );
-                    // await createUserAndCheckEmail(
-                    // email: _controllerEmail.text,
-                    // password: _controllerPassword.text,
-                    // confirmPassword: _controllerConfirmPassword.text,
-                    // displayName: _controllerName.text,
-                    // context: context,
-                    // errorCallback: (errorMessageAuth) {
-                    // setState(() {
-                    // errorMessage = errorMessageAuth;
-                    // });
-                    // },
-                    // );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: const Color.fromARGB(255, 40, 122, 43),
-                  ),
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text("Already have an account?"),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ));
+                  Container(
+                    padding: const EdgeInsets.only(top: 3, left: 3),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await createUserAndCheckEmail(
+                          _controllerEmail.text,
+                          _controllerPassword.text,
+                          _controllerName.text,
+                        );
+                        // await createUserAndCheckEmail(
+                        //   _controllerEmail.text,
+                        //   _controllerPassword.text,
+                        // );
+                        // await createUserAndCheckEmail(
+                        // email: _controllerEmail.text,
+                        // password: _controllerPassword.text,
+                        // confirmPassword: _controllerConfirmPassword.text,
+                        // displayName: _controllerName.text,
+                        // context: context,
+                        // errorCallback: (errorMessageAuth) {
+                        // setState(() {
+                        // errorMessage = errorMessageAuth;
+                        // });
+                        // },
+                        // );
                       },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+                      ),
                       child: const Text(
-                        "Log in",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 40, 122, 43),
-                        ),
-                      )),
+                        "Sign up",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Already have an account?"),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ));
+                          },
+                          child: const Text(
+                            "Log in",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 40, 122, 43),
+                            ),
+                          )),
+                    ],
+                  ),
+                  // const ContinueAsGuestScreen(),
                 ],
               ),
-              // const ContinueAsGuestScreen(),
-            ],
+            ),
           ),
         ),
       ),

@@ -1,7 +1,14 @@
 import 'dart:async';
+import 'package:bet_app/src/constants/league_names.dart';
+import 'package:bet_app/src/models/match_predictions_model.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
+import 'package:bet_app/src/widgets/match_prediction.dart';
+import 'package:bet_app/src/widgets/match_prediction_list.dart';
+
 import 'package:bet_app/src/widgets/next_match_list.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 
@@ -21,12 +28,15 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
   bool? isAnonymous = true;
   bool? isUsernameModify = false;
   String? username;
+  String? selectedLeagueNumber;
+  bool isSelectedLeague = false;
 
   @override
   void initState() {
     super.initState();
     initUserDetails();
-    // selectedLeagueNumber = '106';
+    selectedLeagueNumber = '106';
+    isSelectedLeague = true;
   }
 
   Future<void> initUserDetails() async {
@@ -55,148 +65,117 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
   Widget build(BuildContext context) {
     // late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
     // final ScrollController _scrollController = ScrollController();
-    // print(selectedLeagueNumber);
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(
-              width: double.infinity,
-              child: Column(
+        body: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hello ${username != null ? '$username' : ''}',
+                      style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                    ),
+                    const Text(
+                      'Let\'s start betting with your friends. 🖐',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                height: 40,
+                color: Color.fromARGB(255, 40, 122, 43),
+                thickness: 1.5,
+              ),
+              // Text(
+              //   'Select a league that interests you',
+              //   style: TextStyle(
+              //     fontSize: 18,
+              //     // fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // const SizedBox(height: 10),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Hello ${username != null ? '$username' : ''}',
-                    style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  SizedBox(
+                    height: 40,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              for (final league in leagueNames)
+                                Center(
+                                  child: GestureDetector(
+                                    child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border:
+                                                isSelectedLeague && selectedLeagueNumber == league['number'].toString()
+                                                    ? Border.all(width: 1.2, color: Color.fromARGB(255, 219, 219, 219))
+                                                    : Border.all(width: 0.5, color: Color.fromARGB(255, 14, 110, 14)),
+                                            gradient:
+                                                isSelectedLeague && selectedLeagueNumber == league['number'].toString()
+                                                    ? const LinearGradient(
+                                                        begin: Alignment.topRight,
+                                                        end: Alignment.bottomLeft,
+                                                        colors: [
+                                                          Color.fromARGB(169, 0, 199, 90),
+                                                          Color.fromARGB(209, 0, 138, 62),
+                                                        ],
+                                                      )
+                                                    : const LinearGradient(
+                                                        begin: Alignment.topRight,
+                                                        end: Alignment.bottomLeft,
+                                                        colors: [
+                                                          Color.fromARGB(146, 0, 199, 90),
+                                                          Color.fromARGB(162, 0, 138, 62),
+                                                        ],
+                                                      )),
+                                        child: Text(league["name"],
+                                            style: TextStyle(
+                                                fontWeight: isSelectedLeague &&
+                                                        selectedLeagueNumber == league['number'].toString()
+                                                    ? FontWeight.bold
+                                                    : FontWeight.normal))),
+                                    onTap: () {
+                                      setState(() {
+                                        selectedLeagueNumber = league['number'].toString();
+                                        isSelectedLeague = true;
+                                      });
+                                    },
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const Text(
-                    'Let\'s start betting with your friends. 🖐',
-                    style: TextStyle(fontSize: 18),
+                  const Divider(
+                    height: 40,
+                    color: Color.fromARGB(255, 40, 122, 43),
+                    thickness: 1.5,
                   ),
+                  NextMatchList(leagueNumber: selectedLeagueNumber, isSelectedLeague: isSelectedLeague),
+                  const SizedBox(height: 10),
+                  MatchPredictionList(leagueNumber: selectedLeagueNumber, matchId: '198772'),
+                  const SizedBox(height: 20),
                 ],
               ),
-            ),
-            const SizedBox(height: 25),
-            const Text(
-              'Upcoming matches',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              child: NextMatchList(),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Predictions',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-
-            // StandingsList(),
-            // SizedBox(
-            //   // width: 200,
-            //   child: Card(
-            //       elevation: 5,
-            //       child: Container(
-            //         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-            //         decoration: BoxDecoration(
-            //           // color: Color.fromARGB(255, 53, 53, 53),
-            //           borderRadius: BorderRadius.circular(8),
-            //           border: Border.all(width: 0.5),
-            //           gradient: const LinearGradient(
-            //             begin: Alignment.topRight,
-            //             end: Alignment.bottomLeft,
-            //             colors: [
-            //               Color.fromARGB(146, 0, 199, 90),
-            //               Color.fromARGB(108, 0, 92, 41),
-            //             ],
-            //           ),
-            //         ),
-            //         child: Column(
-            //           children: [
-            //             SizedBox(height: 10),
-            //             Text(
-            //               '9.02.2024  20:00',
-            //               style: const TextStyle(),
-            //             ),
-            //             Text(
-            //               'Puchar Polski',
-            //               style: const TextStyle(),
-            //             ),
-            //             Container(
-            //               // width: 150,
-            //               child: Row(
-            //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //                 children: [
-            //                   Row(
-            //                     mainAxisAlignment: MainAxisAlignment.center,
-            //                     children: [
-            //                       CachedNetworkImage(
-            //                         imageUrl: 'homeLogo',
-            //                         fadeInDuration: const Duration(milliseconds: 50),
-            //                         placeholder: (context, url) => const CircularProgressIndicator(),
-            //                         errorWidget: (context, url, error) => const Icon(Icons.error),
-            //                         width: 36.0,
-            //                         height: 36.0,
-            //                       ),
-            //                       Text(
-            //                         'Lech Poznań',
-            //                         textAlign: TextAlign.center,
-            //                         style: const TextStyle(
-            //                           color: Colors.white,
-            //                           fontSize: 14.0,
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                   Text(
-            //                     "vs",
-            //                     textAlign: TextAlign.center,
-            //                     style: TextStyle(
-            //                       color: Colors.white,
-            //                       fontSize: 16.0,
-            //                     ),
-            //                   ),
-            //                   Row(
-            //                     mainAxisAlignment: MainAxisAlignment.center,
-            //                     children: [
-            //                       CachedNetworkImage(
-            //                         imageUrl: 'homeLogo',
-            //                         fadeInDuration: const Duration(milliseconds: 50),
-            //                         placeholder: (context, url) => const CircularProgressIndicator(),
-            //                         errorWidget: (context, url, error) => const Icon(Icons.error),
-            //                         width: 36.0,
-            //                         height: 36.0,
-            //                       ),
-            //                       Text(
-            //                         'Piast Gliwice',
-            //                         style: const TextStyle(
-            //                           color: Colors.white,
-            //                           fontSize: 14.0,
-            //                         ),
-            //                         textAlign: TextAlign.center,
-            //                       ),
-            //                     ],
-            //                   )
-            //                 ],
-            //               ),
-            //             )
-            //           ],
-            //         ),
-            //       )),
-            // ),
-
-            SizedBox(width: 10),
-          ]),
-        ),
+            ]),
       ),
-    );
+    ));
   }
 }
