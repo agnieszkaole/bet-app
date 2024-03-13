@@ -45,7 +45,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                         icon: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.lock_open_outlined, size: 30),
+                            Icon(Icons.lock_open_outlined, size: 25),
                             SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +69,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                         icon: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.lock_rounded, size: 30),
+                            Icon(Icons.lock_rounded, size: 25),
                             SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,12 +261,13 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                             String? groupName = groupData['groupName'] ?? '';
                             String? groupId = groupData['groupId'];
                             String? creatorUsername = groupData['creatorUsername'];
+                            String? selectedLeague = groupData['selectedLeague']['leagueName'];
 
                             int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
                             return Container(
                               constraints: BoxConstraints(maxWidth: 400),
-                              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+                              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Color.fromARGB(255, 0, 92, 41),
@@ -277,24 +278,15 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(
+                                  Container(
                                     padding: const EdgeInsets.all(5.0),
-                                    child: SizedBox(
-                                      // width: 340,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          // const Padding(
-                                          //   padding: EdgeInsets.all(6.0),
-                                          //   child: SizedBox(
-                                          //     width: 50,
-                                          //     child: CircleAvatar(
-                                          //       backgroundColor: Color.fromARGB(255, 40, 122, 43),
-                                          //       child: Icon(Icons.groups),
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          Column(
+                                    // width: 340,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 180,
+                                          child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
@@ -302,7 +294,15 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                 style: const TextStyle(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(255, 60, 165, 83)),
+                                                    color: Color.fromARGB(255, 60, 165, 83),
+                                                    overflow: TextOverflow.ellipsis),
+                                              ),
+                                              Text(
+                                                'League: $selectedLeague',
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    overflow: TextOverflow.ellipsis),
                                               ),
                                               const SizedBox(height: 2),
                                               Text(
@@ -311,9 +311,12 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                               ),
                                             ],
                                           ),
-                                          // const SizedBox(width: 30),
-                                          widget.privacyType == 'public'
-                                              ? GestureDetector(
+                                        ),
+                                        // const SizedBox(width: 30),
+                                        widget.privacyType == 'public'
+                                            ? Container(
+                                                width: 20,
+                                                child: GestureDetector(
                                                   onTap: () async {
                                                     if (groupId != null) {
                                                       await joinToExistingGroup(
@@ -324,8 +327,11 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                     Icons.person_add_alt_1_rounded,
                                                     size: 30,
                                                   ),
-                                                )
-                                              : GestureDetector(
+                                                ),
+                                              )
+                                            : Container(
+                                                width: 20,
+                                                child: GestureDetector(
                                                   onTap: () async {
                                                     // if (groupId != null) {
                                                     //   await joinToExistingGroup(
@@ -340,8 +346,8 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                     size: 30,
                                                   ),
                                                 ),
-                                        ],
-                                      ),
+                                              ),
+                                      ],
                                     ),
                                   ),
                                   // const Divider(
@@ -394,12 +400,12 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                           String? groupName = groupData['groupName'] ?? '';
                           String? groupId = groupData['groupId'] ?? '';
                           String? groupAccessCode = groupData['groupAccessCode'];
-
+                          String? selectedLeague = groupData['selectedLeague']['leagueName'];
                           int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
                           return Container(
                             constraints: BoxConstraints(maxWidth: 400),
-                            margin: EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+                            margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Color.fromARGB(255, 0, 92, 41),
@@ -425,127 +431,137 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                       //     child: Icon(Icons.groups),
                                       //   ),
                                       // ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '$groupName',
-                                            style: const TextStyle(
-                                                fontSize: 18,
+                                      Container(
+                                        width: 220,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('$groupName',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color.fromARGB(255, 60, 165, 83))),
+                                            Text(
+                                              'League: $selectedLeague',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: Color.fromARGB(255, 60, 165, 83)),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          Text(
-                                            'Members: $groupMembers',
-                                            style: const TextStyle(fontSize: 16),
-                                          ),
-                                        ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              'Members: $groupMembers',
+                                              style: const TextStyle(fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       // const SizedBox(width: 30),
                                       widget.privacyType == 'public'
-                                          ? GestureDetector(
-                                              onTap: () async {
-                                                if (groupId != null) {
-                                                  await joinToExistingGroup(
-                                                      groupId, groupName, widget.privacyType, context);
-                                                }
-                                              },
-                                              child: const Icon(
-                                                Icons.person_add_alt_1_rounded,
-                                                size: 30,
+                                          ? Container(
+                                              width: 20,
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  if (groupId != null) {
+                                                    await joinToExistingGroup(
+                                                        groupId, groupName, widget.privacyType, context);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.person_add_alt_1_rounded,
+                                                  size: 30,
+                                                ),
                                               ),
                                             )
-                                          : GestureDetector(
-                                              onTap: () {
-                                                if (groupId != null) {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                          "Enter access code",
-                                                          style: TextStyle(fontSize: 16),
-                                                        ),
-                                                        // content: Text("Enter new username"),
-                                                        actions: [
-                                                          Form(
-                                                            key: _formKey,
-                                                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                                                            child: Column(
-                                                              children: [
-                                                                TextFormField(
-                                                                  controller: _controllerAccessCode,
-                                                                  autofocus: false,
-                                                                  style: const TextStyle(
-                                                                    color: Colors.white,
-                                                                    fontSize: 20,
-                                                                  ),
-                                                                  decoration: InputDecoration(
-                                                                    errorStyle: const TextStyle(
-                                                                        color: Colors.red, fontSize: 14.0),
-                                                                    border: UnderlineInputBorder(),
-                                                                    contentPadding: EdgeInsets.zero,
-                                                                    enabledBorder: UnderlineInputBorder(
-                                                                      borderSide: const BorderSide(
-                                                                          color: Color.fromARGB(255, 40, 122, 43)),
-                                                                    ),
-                                                                    focusedBorder: UnderlineInputBorder(
-                                                                      borderSide:
-                                                                          const BorderSide(color: Colors.greenAccent),
-                                                                    ),
-                                                                    errorBorder: UnderlineInputBorder(
-                                                                      borderSide: const BorderSide(
-                                                                          color: Color.fromARGB(255, 255, 52, 37)),
-                                                                    ),
-                                                                  ),
-                                                                  // initialValue:
-                                                                  //     "",
-
-                                                                  validator: (value) {
-                                                                    if (value == null || value.isEmpty) {
-                                                                      return 'Please enter a access code';
-                                                                    }
-
-                                                                    return null;
-                                                                  },
-                                                                  // onSaved: (value) async {
-                                                                  //   // newUsername = value;
-                                                                  // },
-                                                                ),
-                                                                ElevatedButton(
-                                                                  onPressed: () async {
-                                                                    if (_controllerAccessCode.text == groupAccessCode) {
-                                                                      await joinToExistingGroup(groupId, groupName,
-                                                                          widget.privacyType, context);
-                                                                    }
-                                                                  },
-                                                                  child: Text('Confirm'),
-                                                                ),
-                                                              ],
-                                                            ),
+                                          : Container(
+                                              width: 20,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  if (groupId != null) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                            "Enter access code",
+                                                            style: TextStyle(fontSize: 16),
                                                           ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                }
-                                              },
-                                              child: const Icon(
-                                                Icons.key_outlined,
-                                                size: 30,
+                                                          // content: Text("Enter new username"),
+                                                          actions: [
+                                                            Form(
+                                                              key: _formKey,
+                                                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                              child: Column(
+                                                                children: [
+                                                                  TextFormField(
+                                                                    controller: _controllerAccessCode,
+                                                                    autofocus: false,
+                                                                    style: const TextStyle(
+                                                                      color: Colors.white,
+                                                                      fontSize: 20,
+                                                                    ),
+                                                                    decoration: InputDecoration(
+                                                                      errorStyle: const TextStyle(
+                                                                          color: Colors.red, fontSize: 14.0),
+                                                                      border: UnderlineInputBorder(),
+                                                                      contentPadding: EdgeInsets.zero,
+                                                                      enabledBorder: UnderlineInputBorder(
+                                                                        borderSide: const BorderSide(
+                                                                            color: Color.fromARGB(255, 40, 122, 43)),
+                                                                      ),
+                                                                      focusedBorder: UnderlineInputBorder(
+                                                                        borderSide:
+                                                                            const BorderSide(color: Colors.greenAccent),
+                                                                      ),
+                                                                      errorBorder: UnderlineInputBorder(
+                                                                        borderSide: const BorderSide(
+                                                                            color: Color.fromARGB(255, 255, 52, 37)),
+                                                                      ),
+                                                                    ),
+                                                                    // initialValue:
+                                                                    //     "",
+
+                                                                    validator: (value) {
+                                                                      if (value == null || value.isEmpty) {
+                                                                        return 'Please enter a access code';
+                                                                      }
+
+                                                                      return null;
+                                                                    },
+                                                                    // onSaved: (value) async {
+                                                                    //   // newUsername = value;
+                                                                    // },
+                                                                  ),
+                                                                  ElevatedButton(
+                                                                    onPressed: () async {
+                                                                      if (_controllerAccessCode.text ==
+                                                                          groupAccessCode) {
+                                                                        await joinToExistingGroup(groupId, groupName,
+                                                                            widget.privacyType, context);
+                                                                      }
+                                                                    },
+                                                                    child: Text('Confirm'),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.key_outlined,
+                                                  size: 30,
+                                                ),
                                               ),
                                             ),
                                     ],
                                   ),
                                 ),
-                                // const Divider(
-                                //   height: 5,
-                                //   color: Color.fromARGB(255, 40, 122, 43),
-                                //   thickness: 1,
-                                //   indent: 50,
-                                //   endIndent: 50,
-                                // ),
                               ],
                             ),
                           );
@@ -554,7 +570,8 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                     }
                   },
                 ),
-              )
+              ),
+        SizedBox(height: 20),
       ],
     );
   }

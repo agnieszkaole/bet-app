@@ -1,5 +1,6 @@
 import 'package:bet_app/src/models/match_predictions_model.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
+import 'package:bet_app/src/provider/match_id_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/match_prediction_item.dart';
@@ -8,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MatchPredictionList extends StatefulWidget {
-  MatchPredictionList({
+  const MatchPredictionList({
     super.key,
     required this.leagueNumber,
-    required this.matchId,
   });
   final String? leagueNumber;
-  final String matchId;
+
+  static final GlobalKey<_MatchPredictionListState> nextMatchListKey = GlobalKey<_MatchPredictionListState>();
 
   @override
   State<MatchPredictionList> createState() => _MatchPredictionListState();
@@ -23,23 +24,36 @@ class MatchPredictionList extends StatefulWidget {
 class _MatchPredictionListState extends State<MatchPredictionList> {
   final ScrollController _scrollController = ScrollController();
   late Future dataFuture;
+  late String matchId;
 
   @override
   void initState() {
     super.initState();
+    matchId = '1036013';
     dataFuture = _getData();
   }
 
   @override
   void didUpdateWidget(MatchPredictionList oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    late final selectedMatchId = context.watch<MatchIdProvider>().selectedMatchId;
+
+    // print('Old Match ID: $matchId');
+    // print('New Match ID: $selectedMatchId');
     if (widget.leagueNumber != oldWidget.leagueNumber) {
-      _getData();
+      // final updatedMatchId = matchIdProvider.selectedMatchId ?? '';
+      // print(updatedMatchId);
+      setState(() {
+        // matchId = selectedMatchId;
+        dataFuture = _getData();
+      });
     }
+    // matchIdProvider.clearSelectedMatchId();
   }
 
   Future<List<PredictionData>> _getData() async {
-    final data = await SoccerApi().getPredictions(widget.matchId);
+    final data = await SoccerApi().getPredictions(matchId);
     return data;
   }
 
@@ -59,7 +73,6 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
           } else {
             late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
             final List<PredictionData> predictionsResponse = snapshot.data;
-
             final predictions = predictionsResponse[0].predictions;
             final teams = predictionsResponse[0].teams;
             final comparison = predictionsResponse[0].comparison;
@@ -67,13 +80,6 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Predictions',
-                  style: TextStyle(
-                    fontSize: 20,
-                    // fontWeight: FontWeight.bold,
-                  ),
-                ),
                 // const Text(
                 //   'Check out the latest football predictions.',
                 //   style: TextStyle(
@@ -82,26 +88,32 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
                 //   ),
                 // ),
                 Container(
-                  height: 300,
+                  // height: 240,
                   child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: provider.nextMatchesList.length,
-                      // itemCount: displayedItems,
-                      itemBuilder: (context, index) {
-                        NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
-                        if (index < nextMatchesList.length) {
-                          return MatchPredictionItem(
-                            predictions: predictions,
-                            teams: teams,
-                            comparison: comparison,
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
+                    return MatchPredictionItem(
+                      predictions: predictions,
+                      teams: teams,
+                      comparison: comparison,
                     );
+
+                    // return ListView.builder(
+                    //   scrollDirection: Axis.horizontal,
+                    //   controller: _scrollController,
+                    //   itemCount: provider.nextMatchesList.length,
+                    //   // itemCount: displayedItems,
+                    //   itemBuilder: (context, index) {
+                    //     NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
+                    //     if (index < nextMatchesList.length) {
+                    //       return MatchPredictionItem(
+                    //         predictions: predictions,
+                    //         teams: teams,
+                    //         comparison: comparison,
+                    //       );
+                    //     } else {
+                    //       return const SizedBox();
+                    //     }
+                    //   },
+                    // );
                   }),
                 ),
               ],

@@ -95,7 +95,7 @@ class _PredictResultState extends State<PredictResult> {
       //   return;
       // }
 
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('matches').add({
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('predictions').add({
         'homeName': homeName,
         'awayName': awayName,
         'homeLogo': homeLogo,
@@ -203,7 +203,7 @@ class _PredictResultState extends State<PredictResult> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  'Podaj wynik',
+                  'Enter your predicted result',
                   style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.center,
                 ),
@@ -232,7 +232,7 @@ class _PredictResultState extends State<PredictResult> {
                                   textAlign: TextAlign.center,
                                 ),
                                 SizedBox(height: 10),
-                                Padding(
+                                Container(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
                                     imageUrl: widget.homeLogo,
@@ -384,7 +384,7 @@ class _PredictResultState extends State<PredictResult> {
                                     textAlign: TextAlign.center,
                                   ),
                                   SizedBox(height: 10),
-                                  Padding(
+                                  Container(
                                     padding: const EdgeInsets.all(5.0),
                                     child: CachedNetworkImage(
                                       imageUrl: widget.awayLogo,
@@ -401,44 +401,44 @@ class _PredictResultState extends State<PredictResult> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                        elevation: 15.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      child: const Text('Zwycięstwo'),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                        elevation: 15.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      child: const Text('Remis'),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                        elevation: 15.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      child: const Text('Zwycięstwo'),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     OutlinedButton(
+                //       onPressed: () {},
+                //       style: OutlinedButton.styleFrom(
+                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
+                //         elevation: 15.0,
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(5),
+                //         ),
+                //       ),
+                //       child: const Text('Zwycięstwo'),
+                //     ),
+                //     OutlinedButton(
+                //       onPressed: () {},
+                //       style: OutlinedButton.styleFrom(
+                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
+                //         elevation: 15.0,
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(5),
+                //         ),
+                //       ),
+                //       child: const Text('Remis'),
+                //     ),
+                //     OutlinedButton(
+                //       onPressed: () {},
+                //       style: OutlinedButton.styleFrom(
+                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
+                //         elevation: 15.0,
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(5),
+                //         ),
+                //       ),
+                //       child: const Text('Zwycięstwo'),
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
@@ -453,7 +453,7 @@ class _PredictResultState extends State<PredictResult> {
                       ),
                       elevation: 5.0,
                     ),
-                    child: const Text('Zapisz'),
+                    child: const Text('Save'),
                   ),
                 ),
               ],

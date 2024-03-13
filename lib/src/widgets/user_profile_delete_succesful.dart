@@ -17,7 +17,7 @@ class _SuccessfulDeleteState extends State<SuccessfulDelete> {
     return SafeArea(
       child: Scaffold(
         body: Center(
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.all(25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -61,23 +61,23 @@ class MainDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            leading: Icon(
-              Icons.settings,
-              size: 26,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            title: Text('Settings'),
-            onTap: () async {
-              Navigator.of(context).pop();
+          // ListTile(
+          //   leading: Icon(
+          //     Icons.settings,
+          //     size: 26,
+          //     color: Theme.of(context).colorScheme.onBackground,
+          //   ),
+          //   title: Text('Settings'),
+          //   onTap: () async {
+          //     Navigator.of(context).pop();
 
-              // await Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (ctx) => const GroupsScreen(),
-              //   ),
-              // );
-            },
-          ),
+          //     // await Navigator.of(context).push(
+          //     //   MaterialPageRoute(
+          //     //     builder: (ctx) => const GroupsScreen(),
+          //     //   ),
+          //     // );
+          //   },
+          // ),
           ListTile(
             leading: Icon(
               Icons.logout_rounded,

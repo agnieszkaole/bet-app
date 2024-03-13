@@ -6,7 +6,7 @@ class Groups {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> createGroup(String? groupName, String? privacyType, Map<String, dynamic>? selectedLeague,
-      List<Map<String, dynamic>>? members, String? groupAccessCode) async {
+      List<Map<String, dynamic>>? members, String? groupAccessCode, String? groupRules) async {
     try {
       User? currentUser = _auth.currentUser;
 
@@ -26,7 +26,8 @@ class Groups {
           'selectedLeague': {'leagueName': selectedLeague?['name'], 'leagueNumber': selectedLeague?['number']},
           'privacyType': privacyType,
           'createdAt': currentTime,
-          'groupAccessCode': groupAccessCode
+          'groupAccessCode': groupAccessCode,
+          'groupRules': groupRules
         });
 
         await _firestore.collection('users').doc(currentUser.uid).update({
@@ -103,6 +104,7 @@ class Groups {
         int? numberOfUsers;
         String? creatorUsername;
         String? privacyType;
+        String? groupRules;
         List<Map<String, dynamic>> members = [];
         Map<String, dynamic> selectedLeague = {};
         String? groupAccessCode;
@@ -132,6 +134,10 @@ class Groups {
           createdAt = groupSnapshot.data()?['createdAt'];
         }
 
+        if (groupSnapshot.data()?['groupRules'] != null) {
+          groupRules = groupSnapshot.data()?['groupRules'];
+        }
+
         return {
           'numberOfUsers': numberOfUsers,
           'creatorUsername': creatorUsername,
@@ -140,6 +146,7 @@ class Groups {
           'selectedLeague': selectedLeague,
           'groupAccessCode': groupAccessCode,
           'createdAt': createdAt,
+          'groupRules': groupRules,
           // 'selected': members,
         };
       }

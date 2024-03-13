@@ -101,37 +101,39 @@ class _GroupMatchListState extends State<GroupMatchList> {
                 ),
               );
             } else if (snapshot.hasData) {
-              return SizedBox(
-                // height: MediaQuery.of(context).size.height,
-                height: 500,
-                child: Column(children: [
-                  Expanded(
-                    child: RawScrollbar(
-                      // thumbVisibility: true,
-                      trackVisibility: true,
-                      trackColor: const Color.fromARGB(43, 40, 122, 43),
-                      thumbColor: const Color.fromARGB(255, 40, 122, 43),
-                      controller: _scrollController,
-                      radius: const Radius.circular(10),
-                      crossAxisMargin: 2,
-                      child: ListView.builder(
+              return SingleChildScrollView(
+                child: SizedBox(
+                  // height: MediaQuery.of(context).size.height,
+                  height: 500,
+                  child: Column(children: [
+                    Expanded(
+                      child: RawScrollbar(
+                        // thumbVisibility: true,
+                        trackVisibility: true,
+                        trackColor: const Color.fromARGB(43, 40, 122, 43),
+                        thumbColor: const Color.fromARGB(255, 40, 122, 43),
                         controller: _scrollController,
-                        itemCount: nextMatchesList.length,
-                        itemBuilder: (context, index) {
-                          NextMatchesProvider.sortMatchesByDate(nextMatchesList);
-                          if (index < nextMatchesList.length) {
-                            return GroupMatchItem(
-                              match: nextMatchesList[index],
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
+                        radius: const Radius.circular(10),
+                        crossAxisMargin: 2,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: nextMatchesList.length,
+                          itemBuilder: (context, index) {
+                            NextMatchesProvider.sortMatchesByDate(nextMatchesList);
+                            if (index < nextMatchesList.length) {
+                              return GroupMatchItem(
+                                match: nextMatchesList[index],
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                ]),
+                    // const SizedBox(height: 15),
+                  ]),
+                ),
               );
             }
           }

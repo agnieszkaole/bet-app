@@ -1,10 +1,10 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:bet_app/src/widgets/match_prediction_list.dart';
 import 'package:bet_app/src/widgets/next_match_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class NextMatchList extends StatefulWidget {
   NextMatchList({
@@ -108,13 +108,6 @@ class _NextMatchListState extends State<NextMatchList> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Upcoming matches',
-                    style: TextStyle(
-                      fontSize: 20,
-                      // fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   // const Text(
                   //   'Decide which matches you want to bet on.',
                   //   style: TextStyle(

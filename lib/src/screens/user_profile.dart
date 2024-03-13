@@ -40,7 +40,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       }
     });
 
-    username = await UserData().getUsernameFromFirebase();
+    username = await UserData().getUserDataFromFirebase();
     setState(() {});
   }
 
@@ -135,7 +135,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 //   width: 1,
                                 // ),
                               ),
-                              child: const Padding(
+                              child: Container(
                                 padding: EdgeInsets.all(10),
                                 child: Icon(
                                   Icons.person_rounded,
@@ -184,7 +184,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ),
                             const SizedBox(height: 20),
                           ])
-                    : Padding(
+                    : Container(
                         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -198,7 +198,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       color: Color.fromARGB(255, 117, 117, 117),
                                       borderRadius: BorderRadius.all(Radius.circular(50.0)),
                                     ),
-                                    child: const Padding(
+                                    child: Container(
                                       padding: EdgeInsets.all(10),
                                       child: Icon(
                                         Icons.person_rounded,

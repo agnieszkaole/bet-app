@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         isAnonymous = user.isAnonymous;
       }
     });
-    username = await UserData().getUsernameFromFirebase();
+    username = await UserData().getUserDataFromFirebase();
     setState(() {});
   }
 

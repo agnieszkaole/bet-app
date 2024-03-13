@@ -25,6 +25,7 @@ class GroupTabs extends StatefulWidget {
 
   final String? groupId;
   final String? groupName;
+
   final String? creatorUsername;
   final String? privacyType;
   final int? groupMembers;
@@ -44,6 +45,7 @@ class _GroupTabsState extends State<GroupTabs> {
   Timestamp? createdAt;
   DateTime? createdAtDate;
   String? formattedCreatedAtDate;
+
   // int? uniqueId;
 
   @override
@@ -66,6 +68,7 @@ class _GroupTabsState extends State<GroupTabs> {
         selectedLeagueName = selectedLeague['leagueName'];
         selectedLeagueNumber = selectedLeague['leagueNumber'];
         createdAt = result['createdAt'];
+
         if (createdAt != null) {
           createdAtDate = createdAt!.toDate();
           formattedCreatedAtDate = DateFormat('yyyy-MM-dd').format(createdAtDate!);
@@ -94,9 +97,13 @@ class _GroupTabsState extends State<GroupTabs> {
             // title: Text('Grupa:  $groupName'),
             title: Row(
               children: [
-                Text(
-                  '${widget.groupName} ',
-                  style: const TextStyle(fontSize: 22),
+                Container(
+                  width: 280,
+                  child: Text(
+                    '${widget.groupName} ',
+                    style: const TextStyle(fontSize: 22),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 // Text(
                 //   '( ${widget.groupMembers} ',
@@ -192,10 +199,12 @@ class _GroupTabsState extends State<GroupTabs> {
                   groupId: widget.groupId,
                   groupName: widget.groupName,
                   groupMembers: widget.groupMembers,
+
                   privacyType: widget.privacyType,
                   creatorUsername: widget.creatorUsername,
                   selectedLeagueName: selectedLeagueName,
                   createdAt: formattedCreatedAtDate,
+
                   // uniqueId: uniqueIdg
                 ),
                 MatchScheduled(
@@ -208,6 +217,7 @@ class _GroupTabsState extends State<GroupTabs> {
                 GroupTable(
                   createdAt: createdAt,
                   leagueNumber: selectedLeagueNumber.toString(),
+                  groupId: widget.groupId,
                 ),
               ],
             ),

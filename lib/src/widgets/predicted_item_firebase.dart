@@ -1,5 +1,5 @@
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
-import 'package:bet_app/src/widgets/predicted_result_edith.dart';
+import 'package:bet_app/src/widgets/predicted_result_edit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -142,7 +142,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                       // onPressed: () {},
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PredictedResultEdith(
+                          builder: (context) => PredictedResultEdit(
                             teamHomeName: homeName,
                             teamAwayName: awayName,
                             teamHomeLogo: homeLogo,

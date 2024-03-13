@@ -46,7 +46,7 @@ class _MatchPredictionState extends State<MatchPrediction> {
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 66, 66), fontSize: 20));
             } else {
               final List<PredictionData> matchPrediction = snapshot.data as List<PredictionData>;
-              print(matchPrediction);
+              // print(matchPrediction);
               // if (prediction != null) {
               //   print(prediction);
 

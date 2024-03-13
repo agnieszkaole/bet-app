@@ -12,8 +12,7 @@ class PredictedMatchesFirebase extends StatefulWidget {
   final int? leagueNumber;
 
   @override
-  State<PredictedMatchesFirebase> createState() =>
-      _PredictedMatchesFirebaseState();
+  State<PredictedMatchesFirebase> createState() => _PredictedMatchesFirebaseState();
 }
 
 class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
@@ -45,11 +44,7 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('users')
-          .doc(user!.uid)
-          .collection('matches')
-          .snapshots(),
+      stream: FirebaseFirestore.instance.collection('users').doc(user!.uid).collection('predictions').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -68,8 +63,7 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
           return ListView.builder(
             itemCount: firestoreDocuments.length,
             itemBuilder: (context, index) {
-              Map<String, dynamic> userPrediction =
-                  firestoreDocuments[index].data() as Map<String, dynamic>;
+              Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
               if (userPrediction['leagueNumber'] == widget.leagueNumber) {
                 return Dismissible(
                   key: Key(userPrediction['matchId'].toString()),
@@ -81,18 +75,16 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
                     ),
                   ),
                   onDismissed: (direction) {
-                    Map<String, dynamic> deletedData = firestoreDocuments[index]
-                        .data() as Map<String, dynamic>;
+                    Map<String, dynamic> deletedData = firestoreDocuments[index].data() as Map<String, dynamic>;
                     String documentId = firestoreDocuments[index].id;
                     FirebaseFirestore.instance
                         .collection('users')
                         .doc(user!.uid)
-                        .collection('matches')
+                        .collection('predictions')
                         .doc(documentId)
                         .delete();
                     setState(() {
-                      firestoreDocuments.insert(
-                          index, deletedData as DocumentSnapshot<Object?>);
+                      firestoreDocuments.insert(index, deletedData as DocumentSnapshot<Object?>);
                     });
                   },
                   child: PredictedItemFirebase(data: userPrediction),

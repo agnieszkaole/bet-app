@@ -33,22 +33,19 @@ class _GroupMembersListState extends State<GroupMembersList> {
             List<Map<String, dynamic>> membersList = groupData['members'] ?? [];
 
             return Container(
-              // decoration: BoxDecoration(
-              //     border: Border.all(color: Colors.green, width: 1),
-              //     borderRadius: BorderRadius.circular(10)),
-              height: 200,
+              height: 100,
               child: ListView.builder(
                   itemCount: membersList.length,
                   itemBuilder: (context, index) {
                     final member = membersList[index];
                     String? memberUsername = member['memberUsername'];
-
                     return Column(
                       children: [
                         SizedBox(
-                          height: 30,
+                          height: 25,
                           child: ListTile(
                             title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   memberUsername ?? '',
@@ -60,68 +57,7 @@ class _GroupMembersListState extends State<GroupMembersList> {
                                     : const SizedBox(),
                               ],
                             ),
-                            // trailing: widget.creatorUsername == memberUsername
-                            //     ? const SizedBox()
-                            //     : GestureDetector(
-                            //         onTap: () {
-                            //           showDialog(
-                            //             context: context,
-                            //             builder: (BuildContext context) {
-                            //               return AlertDialog(
-                            //                 title: Text(
-                            //                   "Delete member",
-                            //                   style: TextStyle(fontSize: 16),
-                            //                 ),
-                            //                 content:
-                            //                     Text('Are you sure you want to remove this user from the group?'),
-                            //                 actions: [
-                            //                   Column(
-                            //                     children: [
-                            //                       Row(
-                            //                         mainAxisAlignment: MainAxisAlignment.end,
-                            //                         children: [
-                            //                           TextButton(
-                            //                             onPressed: () {
-                            //                               Navigator.of(context).pop();
-                            //                             },
-                            //                             child: const Text(
-                            //                               'No',
-                            //                               style: TextStyle(
-                            //                                 color: Colors.white,
-                            //                                 fontWeight: FontWeight.bold,
-                            //                               ),
-                            //                             ),
-                            //                           ),
-                            //                           TextButton(
-                            //                             onPressed: () async {
-                            //                               // groups.deleteMemberFromGroup(
-                            //                                   // widget.groupId, memberUsername);
-
-                            //                               Navigator.of(context).pop();
-                            //                             },
-                            //                             child: const Text(
-                            //                               'Yes',
-                            //                               style: TextStyle(
-                            //                                 color: Colors.red,
-                            //                                 fontWeight: FontWeight.bold,
-                            //                               ),
-                            //                             ),
-                            //                           ),
-                            //                         ],
-                            //                       )
-                            //                     ],
-                            //           ),
-                            //         ],
-                            //       );
-                            //     },
-                            //   );
-                            // },
-                            // child: Icon(
-                            //   Icons.group_remove_rounded,
-                            //   size: 30,
-                            // ),
                           ),
-                          // ),
                         ),
                       ],
                     );

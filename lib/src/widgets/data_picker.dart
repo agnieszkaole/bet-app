@@ -50,25 +50,23 @@ class DataPickerState extends State<DataPicker> {
 
     return Container(
       constraints: const BoxConstraints(maxWidth: 400),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-        child: Column(
-          children: [
-            Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
-            WeeklyDatePicker(
-              selectedDay: _selectedDate,
-              changeDay: (value) => _handleDateChange(value),
-              enableWeeknumberText: false,
-              weeknumberColor: const Color.fromARGB(255, 40, 122, 43),
-              weeknumberTextColor: Colors.white,
-              backgroundColor: Colors.transparent,
-              weekdayTextColor: const Color(0xFF8A8A8A),
-              digitsColor: Colors.white,
-              selectedDigitBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
-              daysInWeek: 7,
-            ),
-          ],
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+      child: Column(
+        children: [
+          Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
+          WeeklyDatePicker(
+            selectedDay: _selectedDate,
+            changeDay: (value) => _handleDateChange(value),
+            enableWeeknumberText: false,
+            weeknumberColor: const Color.fromARGB(255, 40, 122, 43),
+            weeknumberTextColor: Colors.white,
+            backgroundColor: Colors.transparent,
+            weekdayTextColor: const Color(0xFF8A8A8A),
+            digitsColor: Colors.white,
+            selectedDigitBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
+            daysInWeek: 7,
+          ),
+        ],
       ),
     );
   }

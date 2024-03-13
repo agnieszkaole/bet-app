@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 final formatter = DateFormat.yMd();
 
-class PredictedResultEdith extends StatefulWidget {
-  const PredictedResultEdith({
+class PredictedResultEdit extends StatefulWidget {
+  const PredictedResultEdit({
     super.key,
     required this.teamHomeName,
     required this.teamHomeLogo,
@@ -28,10 +28,10 @@ class PredictedResultEdith extends StatefulWidget {
   final int matchId;
 
   @override
-  State<PredictedResultEdith> createState() => _PredictedResultEdithState();
+  State<PredictedResultEdit> createState() => _PredictedResultEdithState();
 }
 
-class _PredictedResultEdithState extends State<PredictedResultEdith> {
+class _PredictedResultEdithState extends State<PredictedResultEdit> {
   // final _titleController = TextEditingController();
   late int _resultHome;
   late int _resultAway;
@@ -58,7 +58,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .collection('matches')
+          .collection('predictions')
           .where('matchId', isEqualTo: widget.matchId)
           .get();
 
@@ -121,7 +121,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
             child: Column(
               children: [
                 const Text(
-                  'Edytuj wynik',
+                  'Edit predicted result',
                   style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.center,
                 ),
@@ -146,15 +146,13 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                                   maxLines: 3,
                                   textAlign: TextAlign.center,
                                 ),
-                                Padding(
+                                Container(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
                                     imageUrl: widget.teamHomeLogo,
                                     fadeInDuration: Duration(milliseconds: 50),
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                     width: 45.0,
                                   ),
                                   // child: Image.network(
@@ -188,19 +186,15 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                                   contentPadding: EdgeInsets.zero,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 40, 122, 43)),
+                                    borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: Colors.greenAccent),
+                                    borderSide: const BorderSide(color: Colors.greenAccent),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
+                                    borderSide: const BorderSide(color: Colors.red),
                                   ),
                                 ),
                                 initialValue: "",
@@ -219,7 +213,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                         ),
                       ],
                     ),
-                    const Padding(
+                    Container(
                       padding: EdgeInsets.all(5.0),
                       child: Text(
                         "-",
@@ -307,15 +301,13 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                                   maxLines: 3,
                                   textAlign: TextAlign.center,
                                 ),
-                                Padding(
+                                Container(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
                                     imageUrl: widget.teamAwayLogo,
                                     fadeInDuration: Duration(milliseconds: 50),
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                     width: 45.0,
                                   ),
                                 ),
@@ -339,16 +331,14 @@ class _PredictedResultEdithState extends State<PredictedResultEdith> {
                     // print();
                     // },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor:
-                          Colors.white, //change background color of button
-                      backgroundColor: const Color.fromARGB(
-                          255, 40, 122, 43), //change text color of button
+                      foregroundColor: Colors.white, //change background color of button
+                      backgroundColor: const Color.fromARGB(255, 40, 122, 43), //change text color of button
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
                       elevation: 5.0,
                     ),
-                    child: const Text('Zapisz'),
+                    child: const Text('Save'),
                   ),
                 ),
               ],

@@ -35,29 +35,27 @@ class _MatchScheduledState extends State<MatchScheduled> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          SizedBox(height: 10),
-          Text(widget.leagueName!, style: TextStyle(fontSize: 20)),
-          DataPicker(
-            onDateSelected: (selectedDate) {
-              _selectedDate = selectedDate;
-              setState(() {
-                formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
-              });
+    return Column(
+      children: [
+        SizedBox(height: 10),
+        Text(widget.leagueName!, style: TextStyle(fontSize: 20)),
+        DataPicker(
+          onDateSelected: (selectedDate) {
+            _selectedDate = selectedDate;
+            setState(() {
+              formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
+            });
 
-              // print(selectedDate);
-              print(formattedDate);
-            },
-          ),
-          GroupMatchList(
-            selectedDate: formattedDate,
-            leagueNumber: widget.leagueNumber,
-          ),
-          SizedBox(height: 10)
-        ],
-      ),
+            // print(selectedDate);
+            print(formattedDate);
+          },
+        ),
+        GroupMatchList(
+          selectedDate: formattedDate,
+          leagueNumber: widget.leagueNumber,
+        ),
+        // SizedBox(height: 10)
+      ],
     );
   }
 }

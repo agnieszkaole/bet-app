@@ -9,7 +9,96 @@ class UserData {
   User? user = Auth().currentUser;
   // String? username;
 
-  Future<String?> getUsernameFromFirebase() async {
+  Future<String?> getUserDataFromFirebase() async {
+    try {
+      if (user != null) {
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+
+        if (userSnapshot.exists) {
+          Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+          String? username = userData['username'] ?? '';
+          List<dynamic>? groups = userData['groups'];
+
+          if (groups != null) {
+            groups.forEach((group) {
+              print('${group["groupName"]} ,${group['groupId']} ');
+            });
+          }
+
+          return username;
+        } else {
+          print('User data not found in Firestore');
+        }
+      } else {
+        print('User is not authenticated');
+      }
+    } catch (e) {
+      print('$e');
+    }
+
+    return null;
+  }
+
+  Future<List<Map<String, dynamic>>?> getMatchesResultsForUser(String userUid, int leagueNumber) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> userQuerySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userUid)
+          .collection('predictions')
+          .where('leagueNumber', isEqualTo: leagueNumber)
+          .get();
+
+      if (userQuerySnapshot.docs.isNotEmpty) {
+        List<Map<String, dynamic>> matchesData = [];
+
+        for (var documentSnapshot in userQuerySnapshot.docs) {
+          matchesData.add(documentSnapshot.data());
+        }
+        // print(matchesData);
+        return matchesData;
+      }
+    } catch (e) {
+      print('Error fetching matches results for user: $e');
+    }
+
+    return null;
+  }
+
+  // Future<List<Map<String, dynamic>>?> getMatchesResultsFromFirebase(int leagueNumber) async {
+  //   try {
+  //     if (user != null) {
+  //       // QuerySnapshot<Map<String, dynamic>> userQuerySnapshot = await FirebaseFirestore.instance
+  //       //     .collection('users')
+  //       //     .doc(user!.uid)
+  //       //     .collection('matches')
+  //       //     .where('leagueNumber', isEqualTo: leagueNumber)
+  //       //     .get();
+
+  //       QuerySnapshot<Map<String, dynamic>> userQuerySnapshot = await FirebaseFirestore.instance
+  //           .collectionGroup('predictions')
+  //           .where('leagueNumber', isEqualTo: leagueNumber)
+  //           .get();
+
+  //       if (userQuerySnapshot.docs.isNotEmpty) {
+  //         List<Map<String, dynamic>> matchesData = [];
+
+  //         for (var documentSnapshot in userQuerySnapshot.docs) {
+  //           matchesData.add(documentSnapshot.data());
+  //         }
+  //         // print(matchesData);
+  //         return matchesData;
+  //       }
+  //     } else {
+  //       print('User is not authenticated');
+  //     }
+  //   } catch (e) {
+  //     print('$e');
+  //   }
+
+  //   return null;
+  // }
+
+  Future<String?> getInfoAboutUserGroups() async {
     try {
       if (user != null) {
         DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();

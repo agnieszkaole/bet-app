@@ -13,8 +13,7 @@ class GroupMatchItem extends StatefulWidget {
   State<GroupMatchItem> createState() => _GroupMatchItemState();
 }
 
-class _GroupMatchItemState extends State<GroupMatchItem>
-    with AutomaticKeepAliveClientMixin<GroupMatchItem> {
+class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAliveClientMixin<GroupMatchItem> {
   @override
   bool get wantKeepAlive => true;
 
@@ -73,13 +72,12 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                   ),
                 ),
               ),
-              Padding(
+              Container(
                 padding: const EdgeInsets.all(5.0),
                 child: CachedNetworkImage(
                   imageUrl: homeLogo,
                   fadeInDuration: const Duration(milliseconds: 50),
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
+                  placeholder: (context, url) => const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   width: 36.0,
                   height: 36.0,
@@ -92,16 +90,15 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22.0,
+                    fontSize: 18.0,
                   ),
                 ),
               ),
-              Padding(
+              Container(
                 padding: const EdgeInsets.all(5.0),
                 child: CachedNetworkImage(
                   imageUrl: awayLogo,
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
+                  placeholder: (context, url) => const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   width: 36.0,
                 ),
@@ -121,7 +118,7 @@ class _GroupMatchItemState extends State<GroupMatchItem>
           const SizedBox(height: 10),
           Container(
             height: 30,
-            width: 150,
+            width: 160,
             child: (true)
                 ? ElevatedButton(
                     onPressed: () async {
@@ -147,13 +144,12 @@ class _GroupMatchItemState extends State<GroupMatchItem>
                       ),
                       elevation: 4.0,
                     ),
-                    child: const Text('Wytypuj wynik'),
+                    child: const Text('Predict the result'),
                   )
                 : OutlinedButton(
                     onPressed: null,
                     style: ElevatedButton.styleFrom(
-                      disabledForegroundColor:
-                          Color.fromARGB(193, 206, 206, 206),
+                      disabledForegroundColor: Color.fromARGB(193, 206, 206, 206),
                       elevation: 3.0,
                     ),
                     child: const Text('Dodano do zakładki Twoje Typy'),

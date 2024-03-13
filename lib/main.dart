@@ -2,6 +2,7 @@ import 'package:bet_app/firebase_options.dart';
 import 'package:bet_app/src/features/authentication/screens/auth/auth_screens.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
+import 'package:bet_app/src/provider/match_id_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => NextMatchesProvider()),
         ChangeNotifierProvider(create: (context) => ScoreboardProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavigationProvider()),
+        ChangeNotifierProvider(create: (context) => MatchIdProvider()),
         // ChangeNotifierProvider(create: (context) => PredictionsProvider()),
       ],
       child: Center(

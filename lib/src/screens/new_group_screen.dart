@@ -16,6 +16,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   Groups groups = Groups();
   List<Map<String, dynamic>> members = [];
   String? _groupName;
+  String? _groupRules;
   // String? _groupId;
   String? _privacySettings = 'public';
 
@@ -41,7 +42,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       String groupAccessCode = generateGroupAccessCode(8);
-      await groups.createGroup(_groupName, _privacySettings, selectedLeague, members, groupAccessCode);
+      await groups.createGroup(_groupName, _privacySettings, selectedLeague, members, groupAccessCode, _groupRules);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('You have created a new group: $_groupName'),
@@ -94,7 +95,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       decoration: InputDecoration(
                         errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                        contentPadding: EdgeInsets.zero,
+                        contentPadding: EdgeInsets.all(10.0),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
@@ -119,7 +120,52 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                         _groupName = value;
                       },
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.only(bottom: 10),
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        'Enter the group rules',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 3,
+                      autofocus: false,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        contentPadding: EdgeInsets.all(10.0),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Colors.greenAccent),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
+                        ),
+                      ),
+                      initialValue: "",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter the group name';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _groupRules = value;
+                      },
+                    ),
+                    const SizedBox(height: 20),
                     Container(
                       padding: EdgeInsets.only(bottom: 10),
                       alignment: Alignment.centerLeft,

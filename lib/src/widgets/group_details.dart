@@ -20,6 +20,7 @@ class GroupDetails extends StatefulWidget {
     required this.createdAt,
     this.selectedLeagueName,
   });
+
   final String? groupId;
   final String? groupName;
   final String? creatorUsername;
@@ -36,6 +37,7 @@ class _GroupDetailsState extends State<GroupDetails> {
   String? newGroupName;
   Groups groups = Groups();
   String? groupAccessCode;
+  String? groupRules;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? currentUser;
@@ -55,7 +57,8 @@ class _GroupDetailsState extends State<GroupDetails> {
       Map<String, dynamic>? result = await groups.getDataAboutGroup(widget.groupId!);
       setState(() {
         groupAccessCode = result['groupAccessCode'];
-        privacyType = result['privacyType'];
+        groupRules = result['groupRules'];
+        print(groupRules);
       });
     } catch (e) {
       print("Error fetching data: $e");
@@ -94,259 +97,295 @@ class _GroupDetailsState extends State<GroupDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.createdAt}');
+    // print('${widget.groupRules}');
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(height: 20),
-            Container(
-              width: 300,
-              // padding: const EdgeInsets.all(20),
-              // decoration: BoxDecoration(
-              //     border: Border.all(color: Colors.green, width: 1),
-              //     borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Group name',
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.left,
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(height: 20),
+          Container(
+            padding: EdgeInsets.all(20),
+            // width: 300,
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Card(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Group name',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 60, 165, 83),
+                              ),
+                            ),
+                            Text(
+                              '${widget.groupName}',
+                              // overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 20),
+                              // textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    Card(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Group rules',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 60, 165, 83),
+                              ),
+                            ),
+                            Container(
+                              width: 280,
+                              height: 100,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    groupRules == null
+                                        ? Text(
+                                            'No rules given ',
+                                            style: const TextStyle(fontSize: 20),
+                                          )
+                                        : Text(
+                                            '${groupRules} ',
+                                            style: const TextStyle(fontSize: 18),
+                                          )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Selected league',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 60, 165, 83),
+                              ),
+                            ),
+                            SizedBox(height: 3),
+                            SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                '${widget.selectedLeagueName}',
+                                style: const TextStyle(fontSize: 20),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Creation date',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 60, 165, 83),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                widget.createdAt != null
+                                    ? Text(widget.createdAt!, style: const TextStyle(fontSize: 20))
+                                    : Text(' ', style: const TextStyle(fontSize: 20))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        width: double.infinity,
+                        // height: 160,
+                        child: Column(
+                          children: [
+                            Text(
+                              'Members (${widget.groupMembers})',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 60, 165, 83),
+                              ),
+                            ),
+                            GroupMembersList(groupId: widget.groupId!, creatorUsername: widget.creatorUsername!),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                widget.creatorUsername != currentUser
+                    ? Column(
                         children: [
-                          Column(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                '${widget.groupName} ',
-                                style: const TextStyle(fontSize: 22),
+                              Text('Leave group', style: const TextStyle(fontSize: 18)),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            title: Text('Delete group'),
+                                            content: Text('Are you sure you want to leave this group? '),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text(
+                                                  'No',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  deleteMemberFromFirebase();
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ]);
+                                      });
+                                },
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete_forever_rounded,
+                                      size: 30,
+                                    ),
+                                    SizedBox(width: 5),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ],
-                      ),
-                      const Divider(
-                        height: 40,
-                        color: Color.fromARGB(255, 40, 122, 43),
-                        thickness: 0.8,
-                        // indent: 20,
-                        // endIndent: 20,
-                      ),
-                      Text(
-                        'Selected league',
-                        style: const TextStyle(fontSize: 14),
-                        // textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        '${widget.selectedLeagueName}',
-                        style: const TextStyle(fontSize: 22),
-                        // textAlign: TextAlign.center,
-                      ),
-                      const Divider(
-                        height: 40,
-                        color: Color.fromARGB(255, 40, 122, 43),
-                        thickness: 0.8,
-                        // indent: 20,
-                        // endIndent: 20,
-                      ),
-                      const Text(
-                        'Creation date',
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.left,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      )
+                    : Column(
                         children: [
-                          Column(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              widget.createdAt != null
-                                  ? Text(widget.createdAt!, style: const TextStyle(fontSize: 22))
-                                  : Text(' ', style: const TextStyle(fontSize: 22))
+                              Text('Invite friends', style: const TextStyle(fontSize: 18)),
+                              GestureDetector(
+                                onTap: () {
+                                  privacyType == 'private'
+                                      ? Share.share(
+                                          'Are you ready to bet with your friends? Download Betapp and join a private group: "${widget.groupName}" - access code: ${groupAccessCode} or other public group. Betapp Team',
+                                        )
+                                      : Share.share(
+                                          'Are you ready to bet with your friends? Download Betapp and join a public group: "${widget.groupName}" or create a private group. Betapp Team');
+                                },
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.emoji_people_rounded,
+                                      size: 30,
+                                    ),
+                                    SizedBox(width: 5),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Delete group', style: const TextStyle(fontSize: 18)),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            title: Text('Delete group'),
+                                            content: Text(
+                                                'Are you sure you want to delete this group? Once deleted it cannot be recovered.'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  deleteGroupFromFirebase();
+                                                },
+                                                child: const Text(
+                                                  'Yes, delete',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ]);
+                                      });
+                                },
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete_forever_rounded,
+                                      size: 30,
+                                    ),
+                                    SizedBox(width: 5),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ],
-                      ),
-                      const Divider(
-                        height: 40,
-                        color: Color.fromARGB(255, 40, 122, 43),
-                        thickness: 0.8,
-                        // indent: 20,
-                        // endIndent: 20,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Members (${widget.groupMembers})',
-                        style: const TextStyle(fontSize: 20),
-                        textAlign: TextAlign.left,
-                      ),
-                      GroupMembersList(groupId: widget.groupId!, creatorUsername: widget.creatorUsername!),
-                    ],
-                  ),
-                  const Divider(
-                    height: 40,
-                    color: Color.fromARGB(255, 40, 122, 43),
-                    thickness: 0.8,
-                    // indent: 20,
-                    // endIndent: 20,
-                  ),
-                  widget.creatorUsername != currentUser
-                      ? Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Leave group', style: const TextStyle(fontSize: 18)),
-                                GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                              title: Text('Delete group'),
-                                              content: Text('Are you sure you want to leave this group? '),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text(
-                                                    'No',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    deleteMemberFromFirebase();
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text(
-                                                    'Yes',
-                                                    style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]);
-                                        });
-                                  },
-                                  child: const Row(
-                                    children: [
-                                      Icon(
-                                        Icons.delete_forever_rounded,
-                                        size: 30,
-                                      ),
-                                      SizedBox(width: 5),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Invite friends', style: const TextStyle(fontSize: 18)),
-                                GestureDetector(
-                                  onTap: () {
-                                    privacyType == 'private'
-                                        ? Share.share(
-                                            'Are you ready to bet with your friends? Download Betapp and join a private group: "${widget.groupName}" - access code: ${groupAccessCode} or other public group. Betapp Team',
-                                          )
-                                        : Share.share(
-                                            'Are you ready to bet with your friends? Download Betapp and join a public group: "${widget.groupName}" or create a private group. Betapp Team');
-                                  },
-                                  child: const Row(
-                                    children: [
-                                      Icon(
-                                        Icons.emoji_people_rounded,
-                                        size: 30,
-                                      ),
-                                      SizedBox(width: 5),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Delete group', style: const TextStyle(fontSize: 18)),
-                                GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                              title: Text('Delete group'),
-                                              content: Text(
-                                                  'Are you sure you want to delete this group? Once deleted it cannot be recovered.'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text(
-                                                    'Cancel',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    deleteGroupFromFirebase();
-                                                  },
-                                                  child: const Text(
-                                                    'Yes, delete',
-                                                    style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]);
-                                        });
-                                  },
-                                  child: const Row(
-                                    children: [
-                                      Icon(
-                                        Icons.delete_forever_rounded,
-                                        size: 30,
-                                      ),
-                                      SizedBox(width: 5),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                ],
-              ),
+                      )
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
