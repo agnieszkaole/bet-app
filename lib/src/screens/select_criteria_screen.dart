@@ -7,6 +7,7 @@ import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/match_prediction.dart';
 import 'package:bet_app/src/widgets/match_prediction_list.dart';
+import 'package:bet_app/src/widgets/match_scheduled.dart';
 
 import 'package:bet_app/src/widgets/next_match_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -95,14 +96,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
             color: Color.fromARGB(255, 99, 99, 99),
             thickness: 1,
           ),
-          // Text(
-          //   'Select a league that interests you',
-          //   style: TextStyle(
-          //     fontSize: 18,
-          //     // fontWeight: FontWeight.bold,
-          //   ),
-          // ),
-          // const SizedBox(height: 10),
+
           SizedBox(
             height: 60,
             child: CarouselSlider.builder(
@@ -188,6 +182,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
             leagueNumber: selectedLeagueNumber,
             isSelectedLeague: isSelectedLeague,
           ),
+
           const SizedBox(height: 10),
 
           // MatchPredictionList(leagueNumber: selectedLeagueNumber, matchId: '1036013'),

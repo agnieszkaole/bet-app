@@ -3,7 +3,7 @@ import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/custem_data_table.dart';
-import 'package:bet_app/src/widgets/selectable_page.dart';
+// import 'package:bet_app/src/widgets/selectable_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';

@@ -1,13 +1,13 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/provider/next_matches_scheduled_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
-import 'package:bet_app/src/widgets/match_prediction_list.dart';
-import 'package:bet_app/src/widgets/next_match_item.dart';
+import 'package:bet_app/src/widgets/next_match_scheduled_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NextMatchList extends StatefulWidget {
-  NextMatchList({
+class NextMatchScheduledList extends StatefulWidget {
+  NextMatchScheduledList({
     super.key,
     required this.leagueNumber,
     this.isSelectedLeague,
@@ -16,12 +16,13 @@ class NextMatchList extends StatefulWidget {
   final String? leagueNumber;
   final bool? isSelectedLeague;
 
-  static final GlobalKey<_NextMatchListState> nextMatchListKey = GlobalKey<_NextMatchListState>();
+  static final GlobalKey<_NextMatchScheduledListState> nextMatchScheduleListKey =
+      GlobalKey<_NextMatchScheduledListState>();
   @override
-  State<NextMatchList> createState() => _NextMatchListState();
+  State<NextMatchScheduledList> createState() => _NextMatchScheduledListState();
 }
 
-class _NextMatchListState extends State<NextMatchList> {
+class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
   final ScrollController _scrollController = ScrollController();
 
   // String? leagueNumber;
@@ -39,7 +40,7 @@ class _NextMatchListState extends State<NextMatchList> {
   }
 
   @override
-  void didUpdateWidget(NextMatchList oldWidget) {
+  void didUpdateWidget(NextMatchScheduledList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.leagueNumber != oldWidget.leagueNumber) {
       _getData();
@@ -75,7 +76,7 @@ class _NextMatchListState extends State<NextMatchList> {
     if (availableMatches > requestedMatches) {
       mergedData = mergedData.sublist(0, requestedMatches);
     }
-    Provider.of<NextMatchesProvider>(context, listen: false).saveMatches(mergedData);
+    Provider.of<NextMatchesScheduledProvider>(context, listen: false).saveMatches(mergedData);
 
     return mergedData;
   }
@@ -104,7 +105,7 @@ class _NextMatchListState extends State<NextMatchList> {
                 ),
               );
             } else if (snapshot.hasData) {
-              // List<SoccerMatch> nextMatchesList = snapshot.data!;
+              List<SoccerMatch> nextMatchesScheduledList = snapshot.data!;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -117,18 +118,18 @@ class _NextMatchListState extends State<NextMatchList> {
                   // ),
                   SizedBox(height: 5),
                   Container(
-                    height: 140,
-                    child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                    height: 60,
+                    child: Consumer<NextMatchesScheduledProvider>(builder: (context, provider, _) {
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         controller: _scrollController,
-                        itemCount: provider.nextMatchesList.length,
+                        itemCount: provider.nextMatchesScheduledList.length,
                         // itemCount: displayedItems,
                         itemBuilder: (context, index) {
-                          NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
-                          if (index < provider.nextMatchesList.length) {
-                            return NextMatchItem(
-                              match: provider.nextMatchesList[index],
+                          NextMatchesProvider.sortMatchesByDate(provider.nextMatchesScheduledList);
+                          if (index < nextMatchesScheduledList.length) {
+                            return NextMatchScheduledItem(
+                              match: provider.nextMatchesScheduledList[index],
                             );
                           } else {
                             return const SizedBox();
@@ -136,7 +137,8 @@ class _NextMatchListState extends State<NextMatchList> {
                         },
                       );
                     }),
-                  )
+                  ),
+                  SizedBox(height: 10)
                 ],
               );
             }

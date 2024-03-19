@@ -43,7 +43,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
         margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 41, 41, 41),
+          // color: Color.fromARGB(255, 41, 41, 41),
           // gradient: const LinearGradient(
           //   begin: Alignment.topRight,
           //   end: Alignment.bottomLeft,

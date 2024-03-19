@@ -1,4 +1,5 @@
 import 'package:bet_app/src/models/soccermodel.dart';
+import 'package:bet_app/src/provider/next_group_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/data_picker.dart';
@@ -24,6 +25,7 @@ class GroupMatchList extends StatefulWidget {
 class _GroupMatchListState extends State<GroupMatchList> {
   late Future dataFuture;
   String? statusApi = 'ns-tbd';
+
   String? timezoneApi = 'Europe/Warsaw';
   // List<SoccerMatch>? mergedData;
   // final ScrollController _scrollController = ScrollController();
@@ -71,14 +73,14 @@ class _GroupMatchListState extends State<GroupMatchList> {
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
 
-    Provider.of<NextMatchesProvider>(context, listen: false).saveMatches(mergedData);
+    Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
 
     return mergedData;
   }
 
   @override
   Widget build(BuildContext context) {
-    late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
+    late List<SoccerMatch> nextGroupMatchesList = context.watch<NextGroupMatchesProvider>().nextMatchesList;
 
     return FutureBuilder(
         future: dataFuture,
@@ -103,8 +105,8 @@ class _GroupMatchListState extends State<GroupMatchList> {
             } else if (snapshot.hasData) {
               return SingleChildScrollView(
                 child: SizedBox(
-                  // height: MediaQuery.of(context).size.height,
-                  height: 500,
+                  height: MediaQuery.of(context).size.height,
+                  // height: 500,
                   child: Column(children: [
                     Expanded(
                       child: RawScrollbar(
@@ -117,12 +119,12 @@ class _GroupMatchListState extends State<GroupMatchList> {
                         crossAxisMargin: 2,
                         child: ListView.builder(
                           controller: _scrollController,
-                          itemCount: nextMatchesList.length,
+                          itemCount: nextGroupMatchesList.length,
                           itemBuilder: (context, index) {
-                            NextMatchesProvider.sortMatchesByDate(nextMatchesList);
-                            if (index < nextMatchesList.length) {
+                            NextGroupMatchesProvider.sortMatchesByDate(nextGroupMatchesList);
+                            if (index < nextGroupMatchesList.length) {
                               return GroupMatchItem(
-                                match: nextMatchesList[index],
+                                match: nextGroupMatchesList[index],
                               );
                             } else {
                               return const SizedBox();

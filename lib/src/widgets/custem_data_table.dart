@@ -2,8 +2,10 @@ import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/services/groups.dart';
+import 'package:bet_app/src/services/leaderboard.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -125,8 +127,10 @@ class _DataTablePageState extends State<DataTablePage> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return SizedBox(
-            height: 500,
+          return Container(
+            // constraints: BoxConstraints(maxHeight: double.infinity),
+            padding: EdgeInsets.all(15),
+            height: MediaQuery.of(context).size.height - 250,
             child: CustomDataTable(
               fixedCornerCell: '',
               rowsCells: _rowsCells,
@@ -162,8 +166,8 @@ class CustomDataTable<T> extends StatefulWidget {
     required this.fixedRowCells,
     required this.rowsCells,
     this.fixedColWidth = 160.0,
-    this.cellHeight = 110.0,
-    this.cellWidth = 110.0,
+    this.cellHeight = 80.0,
+    this.cellWidth = 90.0,
     this.cellMargin = 0.0,
     this.cellSpacing = 0.0,
     required this.memberUsernames,
@@ -199,7 +203,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       children: scoreboardMatchesList.map((match) {
         final homeName = match.home.name;
         final awayName = match.away.name;
-        final matchId = match.fixture.id;
+        // final matchId = match.fixture.id;
         final formattedDate = match.fixture.formattedDate;
         final homeScore = match.goal.home != null ? match.goal.home.toString() : '?';
         final awayScore = match.goal.away != null ? match.goal.away.toString() : '?';
@@ -209,10 +213,12 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
           height: widget.cellHeight,
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           decoration: BoxDecoration(
-              border: Border(
-            right: BorderSide(color: Colors.white),
-            bottom: BorderSide(color: Colors.white),
-          )),
+            color: Color.fromARGB(255, 48, 48, 48),
+            border: Border(
+              right: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+              bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -221,16 +227,16 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                 style: const TextStyle(fontSize: 14),
               ),
               SizedBox(height: 5),
-              Text(
-                matchId.toString(),
-                style: const TextStyle(fontSize: 14),
-              ),
-              SizedBox(height: 5),
+              // Text(
+              //   matchId.toString(),
+              //   style: const TextStyle(fontSize: 14),
+              // ),
+              // SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: widget.cellWidth,
+                    width: 120,
                     child: Text(
                       homeName,
                       style: const TextStyle(fontSize: 13),
@@ -248,7 +254,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: widget.cellWidth,
+                    width: 120,
                     child: Text(
                       awayName,
                       style: const TextStyle(fontSize: 13),
@@ -271,23 +277,28 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
 
   Widget _buildFixedRow() {
     if (widget.fixedRowCells.isNotEmpty) {
-      return DataTable(
-        border: TableBorder(
-          verticalInside: BorderSide(color: Colors.white),
-          bottom: BorderSide(color: Colors.white),
+      return Container(
+        // color: Color.fromARGB(255, 37, 37, 37),
+        color: Color.fromARGB(255, 6, 102, 18),
+        child: DataTable(
+          border: TableBorder(
+            verticalInside: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+            bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+          ),
+          horizontalMargin: widget.cellMargin,
+          columnSpacing: widget.cellSpacing,
+          // headingRowHeight: widget.cellHeight,
+          headingRowHeight: 50,
+          dataRowHeight: widget.cellHeight,
+          columns: widget.fixedRowCells
+              .map(
+                (memberInfo) => DataColumn(
+                  label: _buildChild(widget.cellWidth, memberInfo['memberUsername'] as T),
+                ),
+              )
+              .toList(),
+          rows: const [],
         ),
-        horizontalMargin: widget.cellMargin,
-        columnSpacing: widget.cellSpacing,
-        headingRowHeight: widget.cellHeight,
-        dataRowHeight: widget.cellHeight,
-        columns: widget.fixedRowCells
-            .map(
-              (memberInfo) => DataColumn(
-                label: _buildChild(widget.cellWidth, memberInfo['memberUsername'] as T),
-              ),
-            )
-            .toList(),
-        rows: const [],
       );
     } else {
       return SizedBox();
@@ -297,6 +308,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
   Widget _buildColumns() {
     final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
     final memberCount = widget.fixedRowCells.length;
+    final userId = FirebaseAuth.instance.currentUser?.uid ?? 'Unknown';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,14 +320,14 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                 Container(
                   width: widget.cellWidth,
                   height: widget.cellHeight,
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   decoration: BoxDecoration(
                     border: Border(
-                      right: BorderSide(color: Colors.white),
-                      bottom: BorderSide(color: Colors.white),
+                      right: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+                      bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
                     ),
                   ),
-                  child: _getPrediction(match.fixture.id, widget.fixedRowCells[i]['memberUid']),
+                  child: _getPrediction(match.fixture.id, widget.fixedRowCells[i]['memberUid'], userId),
                 ),
             ],
           ),
@@ -323,8 +335,9 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     );
   }
 
-  Widget _getPrediction(int matchId, String? memberUid) {
-    var prediction = 'empty';
+  Widget _getPrediction(int matchId, String? memberUid, String userId) {
+    final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
+    var prediction = '---';
     var memberPredict = widget.rowsCells.firstWhere(
       (prediction) => prediction['memberUid'] == memberUid && prediction['matchId'] == matchId,
       orElse: () => null,
@@ -334,59 +347,102 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       prediction = memberPredict['prediction'];
     }
 
-    return Text(
-      '$matchId $prediction',
-      style: const TextStyle(fontSize: 14),
+    print('Current user ID: $userId');
+
+    final match = scoreboardMatchesList.firstWhere((match) => match.fixture.id == matchId);
+
+    Color backgroundColor = const Color.fromARGB(255, 136, 136, 136);
+    int score = 0;
+    final leaderboard = Leaderboard();
+    if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
+      backgroundColor = const Color.fromARGB(255, 102, 102, 102);
+    } else if (prediction == '---' && match.goal.home != null && match.goal.away != null) {
+      backgroundColor = Color.fromARGB(255, 56, 56, 56);
+    } else {
+      if (match.goal.home != null && match.goal.home != null) {
+        if (prediction == '${match.goal.home} : ${match.goal.away}') {
+          backgroundColor = Color.fromARGB(162, 22, 124, 36);
+          score = 3;
+          leaderboard.addScores(userId, score);
+        } else {
+          List<String> predictedScores = prediction.split(':');
+          if (predictedScores.length == 2) {
+            int predictedHomeScore = int.tryParse(predictedScores[0]) ?? 0;
+            int predictedAwayScore = int.tryParse(predictedScores[1]) ?? 0;
+            int actualHomeScore = match.goal.home ?? 0;
+            int actualAwayScore = match.goal.away ?? 0;
+
+            if ((predictedHomeScore > predictedAwayScore && actualHomeScore > actualAwayScore) ||
+                (predictedHomeScore < predictedAwayScore && actualHomeScore < actualAwayScore) ||
+                (predictedHomeScore == predictedAwayScore && actualHomeScore == actualAwayScore)) {
+              score = 1;
+              leaderboard.addScores(userId, score);
+              backgroundColor = Color.fromARGB(181, 214, 211, 0);
+            } else {
+              backgroundColor = Color.fromARGB(133, 241, 0, 0);
+              score = 0;
+              leaderboard.addScores(userId, score);
+            }
+          }
+        }
+      } else {
+        backgroundColor = Color.fromARGB(255, 77, 77, 77);
+      }
+    }
+
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      alignment: Alignment.center,
+      color: backgroundColor,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              '$prediction',
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(2),
+              color: Color.fromARGB(104, 112, 112, 112),
+              child: Text(
+                '+${score}',
+                style: const TextStyle(fontSize: 13, color: Colors.white),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  // Widget _buildColumns() {
-  //   return Column(
-  //     children: widget.rowsCells.map((rowCell) {
-  //       final memberPredictions = rowCell['prediction'];
-
-  //       return Container(
-  //         width: widget.cellWidth,
-  //         height: widget.cellHeight,
-  //         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-  //         decoration: BoxDecoration(
-  //           border: Border(
-  //             right: BorderSide(color: Colors.white),
-  //             bottom: BorderSide(color: Colors.white),
-  //           ),
-  //         ),
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: memberPredictions.map<Widget>((predictionEntry) {
-  //             final matchId = predictionEntry['matchId'] ?? '';
-  //             final prediction = predictionEntry['prediction'] ?? '';
-  //             return Text(
-  //               '$prediction',
-  //               style: const TextStyle(fontSize: 14),
-  //             );
-  //           }).toList(),
-  //         ),
-  //       );
-  //     }).toList(),
-  //   );
-  // }
-
-  Widget _buildCornerCell() => DataTable(
-        border: TableBorder(right: BorderSide(color: Colors.white), bottom: BorderSide(color: Colors.white)),
-        // border: _buildBorder(bottom: true, right: true),
-        horizontalMargin: widget.cellMargin,
-        columnSpacing: widget.cellSpacing,
-        headingRowHeight: widget.cellHeight,
-        dataRowHeight: widget.cellHeight,
-        columns: [
-          DataColumn(
-            label: _buildChild(
-              widget.fixedColWidth,
-              widget.fixedCornerCell,
-            ),
-          )
-        ],
-        rows: const [],
+  Widget _buildCornerCell() => Container(
+        color: Color.fromARGB(255, 37, 37, 37),
+        child: DataTable(
+          border: TableBorder(
+            right: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+            bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+          ),
+          // border: _buildBorder(bottom: true, right: true),
+          horizontalMargin: widget.cellMargin,
+          columnSpacing: widget.cellSpacing,
+          headingRowHeight: 50,
+          dataRowHeight: widget.cellHeight,
+          columns: [
+            DataColumn(
+              label: _buildChild(
+                widget.fixedColWidth,
+                widget.fixedCornerCell,
+              ),
+            )
+          ],
+          rows: const [],
+        ),
       );
 
   @override
@@ -405,7 +461,9 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     return Container(
       width: widget.fixedColWidth + (widget.cellWidth * widget.memberUsernames!.length),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
+        border: Border.all(
+          color: Color.fromARGB(255, 177, 177, 177),
+        ),
       ),
       child: Column(
         children: [

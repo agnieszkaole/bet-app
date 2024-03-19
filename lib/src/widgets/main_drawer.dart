@@ -1,6 +1,6 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
-import 'package:bet_app/src/screens/ranking_screen.dart';
+import 'package:bet_app/src/screens/leaderboard_screen.dart';
 import 'package:bet_app/src/screens/user_profile.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -114,7 +114,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     Card(
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
                             const Text(
@@ -137,7 +137,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     Card(
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
                             const Text(
@@ -173,7 +173,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     Card(
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
                             Text(
@@ -190,6 +190,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                 '${widget.selectedLeagueName}',
                                 style: const TextStyle(fontSize: 20),
                                 overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ],
@@ -199,7 +200,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     Card(
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
                             const Text(
@@ -222,7 +223,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     ),
                     Card(
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         width: double.infinity,
                         // height: 160,
                         child: Column(

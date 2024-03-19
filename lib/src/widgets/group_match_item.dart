@@ -49,13 +49,13 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
         children: [
           Text(
             matchTime.toString(),
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
           SizedBox(height: 5),
           Text(
             leagueRound.toString(),
             style: const TextStyle(
-              fontWeight: FontWeight.bold,
+              fontSize: 13,
             ),
           ),
           const SizedBox(height: 10),
@@ -68,7 +68,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -84,13 +84,13 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                 ),
               ),
               Container(
-                width: 40,
+                width: 30,
                 child: Text(
                   "vs",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -109,7 +109,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),

@@ -1,7 +1,7 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
-import 'package:bet_app/src/screens/ranking_screen.dart';
+import 'package:bet_app/src/screens/leaderboard_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
                 ],
                 title: const Text(
-                  'Betapp',
+                  '',
                   style: TextStyle(
                     fontSize: 25,
                   ),
@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: const [
                         SelectCriteriaScreen(),
                         GroupsScreen(),
-                        RankingScreen(),
+                        LeaderboardScreen(),
                       ],
                     ),
                   );
