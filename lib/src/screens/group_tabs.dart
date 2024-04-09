@@ -191,36 +191,34 @@ class _GroupTabsState extends State<GroupTabs> {
               ),
             ),
           ),
-          body: Center(
-            child: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                GroupDetails(
-                  groupId: widget.groupId,
-                  groupName: widget.groupName,
-                  groupMembers: widget.groupMembers,
+          body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              GroupDetails(
+                groupId: widget.groupId,
+                groupName: widget.groupName,
+                groupMembers: widget.groupMembers,
 
-                  privacyType: widget.privacyType,
-                  creatorUsername: widget.creatorUsername,
-                  selectedLeagueName: selectedLeagueName,
-                  createdAt: formattedCreatedAtDate,
+                privacyType: widget.privacyType,
+                creatorUsername: widget.creatorUsername,
+                selectedLeagueName: selectedLeagueName,
+                createdAt: formattedCreatedAtDate,
 
-                  // uniqueId: uniqueIdg
-                ),
-                MatchScheduled(
-                  leagueNumber: selectedLeagueNumber.toString(),
-                  leagueName: selectedLeagueName.toString(),
-                ),
-                PredictedMatchesFirebase(
-                  leagueNumber: selectedLeagueNumber,
-                ),
-                GroupTable(
-                  createdAt: createdAt,
-                  leagueNumber: selectedLeagueNumber.toString(),
-                  groupId: widget.groupId,
-                ),
-              ],
-            ),
+                // uniqueId: uniqueIdg
+              ),
+              MatchScheduled(
+                leagueNumber: selectedLeagueNumber.toString(),
+                leagueName: selectedLeagueName.toString(),
+              ),
+              PredictedMatchesFirebase(
+                leagueNumber: selectedLeagueNumber,
+              ),
+              GroupTable(
+                createdAt: createdAt,
+                leagueNumber: selectedLeagueNumber.toString(),
+                groupId: widget.groupId,
+              ),
+            ],
           ),
         ),
       ),

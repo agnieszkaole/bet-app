@@ -121,7 +121,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
             child: Column(
               children: [
                 const Text(
-                  'Edit predicted result',
+                  'Edit result',
                   style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.center,
                 ),

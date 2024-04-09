@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bet_app/main.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
+import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bet_app/src/services/groups.dart';
@@ -17,6 +18,7 @@ class GroupListScreen extends StatefulWidget {
 }
 
 class _GroupListScreenState extends State<GroupListScreen> {
+  // final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -124,6 +126,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
   final _formKey = GlobalKey<FormState>();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _searchController = TextEditingController();
+  String? accessCodeError;
   StreamController<List<Map<String, dynamic>>> groupStreamController =
       StreamController<List<Map<String, dynamic>>>.broadcast();
 
@@ -201,25 +204,34 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
         Container(
           width: 300,
           height: 50,
-          child: SearchBar(
-            leading: const Icon(Icons.search),
-            hintText: 'Search group',
-            backgroundColor: MaterialStateProperty.all(Colors.transparent),
-            elevation: MaterialStateProperty.all(2),
-            // side: MaterialStateProperty.all(BorderSide(
-            //   color: Color.fromARGB(255, 40, 139, 9),
-            //   width: 0.5,
-            // )),
-            shape: MaterialStateProperty.all<OutlinedBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 39, 39, 39),
+            borderRadius: BorderRadius.circular(25),
+            // border: Border.all(
+            //   color: Color.fromARGB(255, 224, 224, 224),
+            //   width: 0.3,
+            // ),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.search),
+              SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search group',
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.white),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                  controller: _searchController,
+                  onChanged: (text) {
+                    updateFilteredGroups(text);
+                  },
+                ),
               ),
-            ),
-            padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 20)),
-            controller: _searchController,
-            onChanged: (text) {
-              updateFilteredGroups(text);
-            },
+            ],
           ),
         ),
         SizedBox(height: 20),
@@ -266,21 +278,22 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                             int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
                             return Container(
-                              constraints: BoxConstraints(maxWidth: 400),
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                               margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Color.fromARGB(255, 0, 92, 41),
-                                  width: 0.5,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromARGB(255, 39, 39, 39),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.all(5.0),
-                                    // width: 340,
+                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    width: 320,
+                                    // decoration: BoxDecoration(
+                                    //     borderRadius: BorderRadius.circular(10), color: Color.fromARGB(255, 46, 46, 46)),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -300,14 +313,18 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                               Text(
                                                 'League: $selectedLeague',
                                                 style: const TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.bold,
                                                     overflow: TextOverflow.ellipsis),
+                                              ),
+                                              Text(
+                                                'Admin: $creatorUsername',
+                                                style: const TextStyle(fontSize: 14),
                                               ),
                                               const SizedBox(height: 2),
                                               Text(
                                                 'Members: $groupMembers',
-                                                style: const TextStyle(fontSize: 16),
+                                                style: const TextStyle(fontSize: 14),
                                               ),
                                             ],
                                           ),
@@ -402,16 +419,17 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                           String? groupAccessCode = groupData['groupAccessCode'];
                           String? selectedLeague = groupData['selectedLeague']['leagueName'];
                           int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
+                          String? creatorUsername = groupData['creatorUsername'];
 
                           return Container(
                             constraints: BoxConstraints(maxWidth: 400),
                             margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color.fromARGB(255, 0, 92, 41),
-                                width: 0.5,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
                               ),
-                              borderRadius: BorderRadius.circular(10),
+                              color: Color.fromARGB(255, 39, 39, 39),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -452,6 +470,11 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                             ),
                                             const SizedBox(height: 2),
                                             Text(
+                                              'Admin: $creatorUsername',
+                                              style: const TextStyle(fontSize: 14),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
                                               'Members: $groupMembers',
                                               style: const TextStyle(fontSize: 14),
                                             ),
@@ -479,13 +502,20 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                               width: 20,
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    accessCodeError = null;
+                                                  });
+
+                                                  _controllerAccessCode.clear();
+
                                                   if (groupId != null) {
                                                     showDialog(
+                                                      barrierDismissible: true,
                                                       context: context,
                                                       builder: (BuildContext context) {
                                                         return AlertDialog(
                                                           title: Text(
-                                                            "Enter access code",
+                                                            'Enter code to group: "$groupName"',
                                                             style: TextStyle(fontSize: 16),
                                                           ),
                                                           // content: Text("Enter new username"),
@@ -505,23 +535,22 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                     decoration: InputDecoration(
                                                                       errorStyle: const TextStyle(
                                                                           color: Colors.red, fontSize: 14.0),
-                                                                      border: UnderlineInputBorder(),
+                                                                      border: const UnderlineInputBorder(),
                                                                       contentPadding: EdgeInsets.zero,
-                                                                      enabledBorder: UnderlineInputBorder(
-                                                                        borderSide: const BorderSide(
+                                                                      enabledBorder: const UnderlineInputBorder(
+                                                                        borderSide: BorderSide(
                                                                             color: Color.fromARGB(255, 40, 122, 43)),
                                                                       ),
-                                                                      focusedBorder: UnderlineInputBorder(
+                                                                      focusedBorder: const UnderlineInputBorder(
                                                                         borderSide:
-                                                                            const BorderSide(color: Colors.greenAccent),
+                                                                            BorderSide(color: Colors.greenAccent),
                                                                       ),
-                                                                      errorBorder: UnderlineInputBorder(
-                                                                        borderSide: const BorderSide(
+                                                                      errorBorder: const UnderlineInputBorder(
+                                                                        borderSide: BorderSide(
                                                                             color: Color.fromARGB(255, 255, 52, 37)),
                                                                       ),
+                                                                      errorText: accessCodeError,
                                                                     ),
-                                                                    // initialValue:
-                                                                    //     "",
 
                                                                     validator: (value) {
                                                                       if (value == null || value.isEmpty) {
@@ -534,12 +563,31 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                     //   // newUsername = value;
                                                                     // },
                                                                   ),
+                                                                  const SizedBox(height: 30),
                                                                   ElevatedButton(
                                                                     onPressed: () async {
-                                                                      if (_controllerAccessCode.text ==
-                                                                          groupAccessCode) {
-                                                                        await joinToExistingGroup(groupId, groupName,
-                                                                            widget.privacyType, context);
+                                                                      if (_formKey.currentState!.validate()) {
+                                                                        if (_controllerAccessCode.text ==
+                                                                            groupAccessCode) {
+                                                                          await joinToExistingGroup(groupId, groupName,
+                                                                              widget.privacyType, context);
+
+                                                                          Navigator.of(context)
+                                                                              .push(MaterialPageRoute(
+                                                                            builder: (context) => HomeScreen(),
+                                                                          ))
+                                                                              .then((value) {
+                                                                            if (value != null && value == true) {
+                                                                              setState(() {});
+                                                                            }
+                                                                          });
+                                                                          _controllerAccessCode.clear();
+                                                                        } else {
+                                                                          print('fdhgdfghd');
+                                                                          setState(() {
+                                                                            accessCodeError = 'Incorrect access code';
+                                                                          });
+                                                                        }
                                                                       }
                                                                     },
                                                                     child: Text('Confirm'),

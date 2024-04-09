@@ -8,7 +8,7 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
 class PredictedMatchesFirebase extends StatefulWidget {
-  PredictedMatchesFirebase({super.key, required this.leagueNumber});
+  const PredictedMatchesFirebase({super.key, required this.leagueNumber});
   final int? leagueNumber;
 
   @override
@@ -59,11 +59,17 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
         } else {
           List<DocumentSnapshot> firestoreDocuments = snapshot.data!.docs;
           print('Document Count: ${firestoreDocuments.length}');
+          firestoreDocuments.sort((a, b) {
+            DateTime aTime = _parseDate(a['matchTime'] as String);
+            DateTime bTime = _parseDate(b['matchTime'] as String);
+            return aTime.compareTo(bTime);
+          });
 
           return ListView.builder(
             itemCount: firestoreDocuments.length,
             itemBuilder: (context, index) {
               Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
+
               if (userPrediction['leagueNumber'] == widget.leagueNumber) {
                 return Dismissible(
                   key: Key(userPrediction['matchId'].toString()),
@@ -97,5 +103,21 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
         }
       },
     );
+  }
+
+  DateTime _parseDate(String date) {
+    final parts = date.split(' - ');
+    final datePart = parts[0];
+    final timePart = parts[1];
+    final dateParts = datePart.split('.');
+    final timeParts = timePart.split(':');
+
+    final day = int.parse(dateParts[0]);
+    final month = int.parse(dateParts[1]);
+    final year = int.parse(dateParts[2]);
+    final hour = int.parse(timeParts[0]);
+    final minute = int.parse(timeParts[1]);
+
+    return DateTime(year, month, day, hour, minute);
   }
 }

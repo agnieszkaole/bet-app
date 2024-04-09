@@ -21,18 +21,4 @@ class NextGroupMatchesProvider extends ChangeNotifier {
     final sortedMatches = matches.sort((a, b) => a.fixture.date.compareTo(b.fixture.date));
     return sortedMatches;
   }
-
-  // void showMatchesByDate(selectedDate) {
-  //   List<SoccerMatch> filterMatchesByDate() {
-  //     return _nextMatchesList.where((match) {
-  //       DateTime matchDate = DateTime.parse(match.fixture.date);
-  //       return matchDate.isAtSameMomentAs(selectedDate);
-  //     }).toList();
-  //   }
-  // }
-
-  // void updateSelectedDate(DateTime newDate) {
-  //   _selectedDate = newDate;
-  //   notifyListeners();
-  // }
 }

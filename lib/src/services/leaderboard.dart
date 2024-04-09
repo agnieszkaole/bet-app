@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Leaderboard {
-  Future<void> addScores(String userId, int score) async {
+  Future<void> addScores(String memberUid, int score) async {
     try {
-      if (userId.isEmpty) {
+      if (memberUid.isEmpty) {
         throw ArgumentError('User ID cannot be null or empty');
       }
 
-      final userDocRef = FirebaseFirestore.instance.collection('users').doc(userId);
+      final userDocRef = FirebaseFirestore.instance.collection('users').doc(memberUid);
 
       final scoringCollectionRef = userDocRef.collection('scoring');
-      final scoringDocRef = scoringCollectionRef.doc('userScores');
+      final scoringDocRef = scoringCollectionRef.doc('score');
 
       final scoringSnapshot = await scoringDocRef.get();
       if (!scoringSnapshot.exists) {
         await scoringDocRef.set({'score': 0});
-        print('Initial score set to 0 for userId: $userId');
+        print('Initial score set to 0 for memberUid: $memberUid');
       }
       await scoringDocRef.update({'score': FieldValue.increment(score)});
 
-      print('Score added successfully for userId: $userId');
+      print('Score added successfully for userId: $memberUid');
     } catch (e) {
       print('Error: $e');
       throw e;

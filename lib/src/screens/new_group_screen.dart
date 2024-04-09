@@ -2,7 +2,7 @@ import 'package:bet_app/src/constants/league_names.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+// import 'package:flutter/foundation.dart' show kIsWeb;
 
 class NewGroupScreen extends StatefulWidget {
   const NewGroupScreen({super.key});
@@ -157,7 +157,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       initialValue: "",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter the group name';
+                          return 'Enter the group rules';
                         }
                         return null;
                       },

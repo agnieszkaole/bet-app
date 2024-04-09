@@ -24,9 +24,9 @@ class _NextMatchItemState extends State<NextMatchScheduledItem>
   Widget build(BuildContext context) {
     super.build(context);
 
-    int matchId = widget.match.fixture.id;
-    var homeName = widget.match.home.name;
-    var awayName = widget.match.away.name;
+    // int matchId = widget.match.fixture.id;
+    // var homeName = widget.match.home.name;
+    // var awayName = widget.match.away.name;
     var matchTime = widget.match.fixture.formattedDate;
 
     return Container(
@@ -39,8 +39,8 @@ class _NextMatchItemState extends State<NextMatchScheduledItem>
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            Color.fromARGB(255, 0, 71, 33),
-            Color.fromARGB(255, 1, 53, 26),
+            Color.fromARGB(255, 0, 179, 80),
+            Color.fromARGB(255, 0, 80, 36),
           ],
         ),
         border: Border.all(
@@ -52,7 +52,7 @@ class _NextMatchItemState extends State<NextMatchScheduledItem>
         //   color: Color.fromARGB(255, 82, 82, 82),
         // ),
         borderRadius: BorderRadius.all(
-          Radius.circular(10),
+          Radius.circular(25),
         ),
       ),
       child: Column(

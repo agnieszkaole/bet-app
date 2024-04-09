@@ -98,7 +98,7 @@ class _GroupMatchListState extends State<GroupMatchList> {
               return const Center(
                 child: Text(
                   'There are no matches on selected date',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
               );

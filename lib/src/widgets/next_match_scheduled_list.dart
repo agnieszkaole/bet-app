@@ -99,8 +99,8 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
             } else if (snapshot.data!.isEmpty) {
               return const Center(
                 child: Text(
-                  'There are no matches to display in the selected league.',
-                  style: TextStyle(fontSize: 20),
+                  'Unexpected error occured. Cannot get next matches dates.',
+                  style: TextStyle(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
               );

@@ -129,7 +129,8 @@ class _DataTablePageState extends State<DataTablePage> {
         } else {
           return Container(
             // constraints: BoxConstraints(maxHeight: double.infinity),
-            padding: EdgeInsets.all(15),
+            // padding: EdgeInsets.all(10),
+
             height: MediaQuery.of(context).size.height - 250,
             child: CustomDataTable(
               fixedCornerCell: '',
@@ -165,8 +166,8 @@ class CustomDataTable<T> extends StatefulWidget {
     // required this.fixedColCells,
     required this.fixedRowCells,
     required this.rowsCells,
-    this.fixedColWidth = 160.0,
-    this.cellHeight = 80.0,
+    this.fixedColWidth = 200.0,
+    this.cellHeight = 100.0,
     this.cellWidth = 90.0,
     this.cellMargin = 0.0,
     this.cellSpacing = 0.0,
@@ -215,17 +216,27 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 48, 48, 48),
             border: Border(
-              right: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
-              bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+              right: BorderSide(
+                color: Color.fromARGB(255, 73, 73, 73),
+              ),
+              bottom: BorderSide(
+                color: Color.fromARGB(255, 73, 73, 73),
+              ),
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 formattedDate,
                 style: const TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
               ),
+              Text(
+                '${match.fixture.status.long} (${match.fixture.status.short})',
+                style: const TextStyle(fontSize: 14),
+              ),
+
               SizedBox(height: 5),
               // Text(
               //   matchId.toString(),
@@ -233,41 +244,97 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
               // ),
               // SizedBox(height: 5),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    width: 120,
+                    width: 80,
                     child: Text(
                       homeName,
                       style: const TextStyle(fontSize: 13),
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  Text(
-                    homeScore,
-                    style: const TextStyle(fontSize: 13),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
                   SizedBox(
-                    width: 120,
+                    width: 20,
+                    child: Text(
+                      'vs',
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 80,
                     child: Text(
                       awayName,
                       style: const TextStyle(fontSize: 13),
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                     ),
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
                   Text(
-                    awayScore,
+                    match.score.penalty.home != null
+                        ? '$homeScore (${match.score.penalty.home})'
+                        : match.score.extratime.home != null
+                            ? '$homeScore (${match.score.extratime.home})'
+                            : homeScore,
+                    style: const TextStyle(fontSize: 13),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    match.score.penalty.away != null
+                        ? '$awayScore (${match.score.penalty.away})'
+                        : match.score.extratime.away != null
+                            ? '$awayScore (${match.score.extratime.away})'
+                            : awayScore,
                     style: const TextStyle(fontSize: 13),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
+              if ((match.score.extratime.home != null && match.score.extratime.home != 0) &&
+                  (match.score.extratime.away != null && match.score.extratime.away != 0))
+                Column(
+                  children: [
+                    Text('Extratime'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          '${match.score.extratime.home}',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          '${match.score.extratime.away}',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              // if (match.score.penalty.home != null && match.score.penalty.away != null)
+              //   Column(
+              //     children: [
+              //       Text('Penaulty'),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //         children: [
+              //           Text(
+              //             '${match.score.penalty.home}',
+              //             style: const TextStyle(fontSize: 14),
+              //           ),
+              //           Text(
+              //             '${match.score.penalty.away}',
+              //             style: const TextStyle(fontSize: 14),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
             ],
           ),
         );
@@ -282,8 +349,12 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         color: Color.fromARGB(255, 6, 102, 18),
         child: DataTable(
           border: TableBorder(
-            verticalInside: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
-            bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+            verticalInside: BorderSide(
+              color: Color.fromARGB(255, 73, 73, 73),
+            ),
+            bottom: BorderSide(
+              color: Color.fromARGB(255, 73, 73, 73),
+            ),
           ),
           horizontalMargin: widget.cellMargin,
           columnSpacing: widget.cellSpacing,
@@ -323,11 +394,15 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                   // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   decoration: BoxDecoration(
                     border: Border(
-                      right: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
-                      bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+                      right: BorderSide(
+                        color: Color.fromARGB(255, 73, 73, 73),
+                      ),
+                      bottom: BorderSide(
+                        color: Color.fromARGB(255, 73, 73, 73),
+                      ),
                     ),
                   ),
-                  child: _getPrediction(match.fixture.id, widget.fixedRowCells[i]['memberUid'], userId),
+                  child: _getPrediction(match.fixture.id, widget.fixedRowCells[i]['memberUid']!),
                 ),
             ],
           ),
@@ -335,7 +410,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     );
   }
 
-  Widget _getPrediction(int matchId, String? memberUid, String userId) {
+  Widget _getPrediction(int matchId, String memberUid) {
     final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
     var prediction = '---';
     var memberPredict = widget.rowsCells.firstWhere(
@@ -347,7 +422,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       prediction = memberPredict['prediction'];
     }
 
-    print('Current user ID: $userId');
+    // print('Current user ID: $userId');
 
     final match = scoreboardMatchesList.firstWhere((match) => match.fixture.id == matchId);
 
@@ -356,14 +431,17 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     final leaderboard = Leaderboard();
     if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
       backgroundColor = const Color.fromARGB(255, 102, 102, 102);
-    } else if (prediction == '---' && match.goal.home != null && match.goal.away != null) {
+    } else if (prediction == '---' &&
+        match.goal.home != null &&
+        match.goal.away != null &&
+        match.fixture.status.long == 'Match Finished') {
       backgroundColor = Color.fromARGB(255, 56, 56, 56);
     } else {
-      if (match.goal.home != null && match.goal.home != null) {
+      if (match.goal.home != null && match.goal.home != null && match.fixture.status.long == 'Match Finished') {
         if (prediction == '${match.goal.home} : ${match.goal.away}') {
           backgroundColor = Color.fromARGB(162, 22, 124, 36);
           score = 3;
-          leaderboard.addScores(userId, score);
+          leaderboard.addScores(memberUid, score);
         } else {
           List<String> predictedScores = prediction.split(':');
           if (predictedScores.length == 2) {
@@ -376,12 +454,12 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                 (predictedHomeScore < predictedAwayScore && actualHomeScore < actualAwayScore) ||
                 (predictedHomeScore == predictedAwayScore && actualHomeScore == actualAwayScore)) {
               score = 1;
-              leaderboard.addScores(userId, score);
+              leaderboard.addScores(memberUid, score);
               backgroundColor = Color.fromARGB(181, 214, 211, 0);
             } else {
               backgroundColor = Color.fromARGB(133, 241, 0, 0);
               score = 0;
-              leaderboard.addScores(userId, score);
+              leaderboard.addScores(memberUid, score);
             }
           }
         }
@@ -425,8 +503,12 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         color: Color.fromARGB(255, 37, 37, 37),
         child: DataTable(
           border: TableBorder(
-            right: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
-            bottom: BorderSide(color: Color.fromARGB(255, 131, 131, 131)),
+            right: BorderSide(
+              color: Color.fromARGB(255, 73, 73, 73),
+            ),
+            bottom: BorderSide(
+              color: Color.fromARGB(255, 73, 73, 73),
+            ),
           ),
           // border: _buildBorder(bottom: true, right: true),
           horizontalMargin: widget.cellMargin,
@@ -462,7 +544,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       width: widget.fixedColWidth + (widget.cellWidth * widget.memberUsernames!.length),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color.fromARGB(255, 177, 177, 177),
+          color: Color.fromARGB(255, 73, 73, 73),
         ),
       ),
       child: Column(

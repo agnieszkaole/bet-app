@@ -203,7 +203,7 @@ class _PredictResultState extends State<PredictResult> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  'Enter your predicted result',
+                  'Predict the result',
                   style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.center,
                 ),

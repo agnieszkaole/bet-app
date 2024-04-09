@@ -43,21 +43,22 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
         margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          // color: Color.fromARGB(255, 41, 41, 41),
+          color: Color.fromARGB(255, 41, 41, 41),
           // gradient: const LinearGradient(
           //   begin: Alignment.topRight,
           //   end: Alignment.bottomLeft,
           //   colors: [
-          //     Color.fromARGB(255, 0, 71, 33),
-          //     Color.fromARGB(255, 1, 53, 26),
+          //     Color.fromARGB(200, 0, 179, 80),
+          //     Color.fromARGB(200, 0, 80, 36),
           //   ],
           // ),
-          border: Border.all(
-            width: 1,
-            color: Color.fromARGB(255, 0, 71, 32),
-          ),
+          // border: Border.all(
+          //   width: 1,
+          //   color: Color.fromARGB(255, 0, 71, 32),
+          // ),
+          // image: DecorationImage(image: AssetImage('./assets/images/lawn-5007569_1920.jpg'), fit: BoxFit.cover),
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(25),
           ),
         ),
         child: Column(

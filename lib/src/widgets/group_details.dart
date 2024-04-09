@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class GroupDetails extends StatefulWidget {
@@ -82,17 +83,11 @@ class _GroupDetailsState extends State<GroupDetails> {
     );
   }
 
-  void deleteMemberFromFirebase() async {
+  deleteMemberFromFirebase() async {
     await groups.deleteMemberFromGroup(widget.groupId, currentUser);
-    print(widget.groupId);
-    print(currentUser);
-
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('You left this group'),
+      content: Text('You left group: ${widget.groupName}'),
     ));
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(builder: (context) => HomeScreen()),
-    // );
   }
 
   @override
@@ -103,9 +98,9 @@ class _GroupDetailsState extends State<GroupDetails> {
         // mainAxisAlignment: MainAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(10),
             // width: 300,
             child: Column(
               children: [
@@ -248,7 +243,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Leave group', style: const TextStyle(fontSize: 18)),
+                              Text('Leave', style: const TextStyle(fontSize: 18)),
                               GestureDetector(
                                 onTap: () {
                                   showDialog(
@@ -271,9 +266,17 @@ class _GroupDetailsState extends State<GroupDetails> {
                                                 ),
                                               ),
                                               TextButton(
-                                                onPressed: () {
-                                                  deleteMemberFromFirebase();
-                                                  Navigator.of(context).pop();
+                                                onPressed: () async {
+                                                  await deleteMemberFromFirebase();
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(
+                                                    builder: (context) => HomeScreen(),
+                                                  ))
+                                                      .then((value) {
+                                                    if (value != null && value == true) {
+                                                      setState(() {});
+                                                    }
+                                                  });
                                                 },
                                                 child: const Text(
                                                   'Yes',
@@ -289,7 +292,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                 child: const Row(
                                   children: [
                                     Icon(
-                                      Icons.delete_forever_rounded,
+                                      Icons.person_remove_alt_1_rounded,
                                       size: 30,
                                     ),
                                     SizedBox(width: 5),

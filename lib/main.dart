@@ -8,7 +8,7 @@ import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_scheduled_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
-import 'package:bet_app/src/provider/predictions_provider.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,23 +42,26 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ScoreboardProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavigationProvider()),
         ChangeNotifierProvider(create: (context) => MatchIdProvider()),
+
         // ChangeNotifierProvider(create: (context) => PredictionsProvider()),
       ],
-      child: Center(
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Betapp',
-          // themeMode: ThemeMode.system,
-          theme: ThemeData(
-            useMaterial3: true,
-            brightness: Brightness.dark,
-            primaryColor: const Color.fromARGB(200, 40, 122, 43),
-            textTheme: Theme.of(context).textTheme.apply(
-                  bodyColor: const Color.fromARGB(255, 255, 255, 255),
-                  fontFamily: GoogleFonts.lato().fontFamily,
-                ),
-          ),
-          home: StreamBuilder<User?>(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 600),
+        child: Center(
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Betapp',
+            // themeMode: ThemeMode.system,
+            theme: ThemeData(
+              useMaterial3: true,
+              brightness: Brightness.dark,
+              primaryColor: const Color.fromARGB(200, 40, 122, 43),
+              textTheme: Theme.of(context).textTheme.apply(
+                    bodyColor: const Color.fromARGB(255, 255, 255, 255),
+                    fontFamily: GoogleFonts.lato().fontFamily,
+                  ),
+            ),
+            home: StreamBuilder<User?>(
               stream: firebaseAuth.authStateChanges(),
               builder: (context, AsyncSnapshot<User?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -71,7 +74,9 @@ class MyApp extends StatelessWidget {
                 } else {
                   return const LoginScreen();
                 }
-              }),
+              },
+            ),
+          ),
         ),
       ),
     );

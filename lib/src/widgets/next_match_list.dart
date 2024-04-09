@@ -94,58 +94,67 @@ class _NextMatchListState extends State<NextMatchList> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
               final error = snapshot.error;
+
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             } else if (snapshot.data!.isEmpty) {
-              return const Center(
-                child: Text(
-                  'There are no matches to display in the selected league.',
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
+              return SizedBox(
+                height: 140,
+                child: const Center(
+                  child: Text(
+                    'Unexpected error occured. Cannot get next matches.',
+                    style: TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               );
             } else if (snapshot.hasData) {
-              // List<SoccerMatch> nextMatchesList = snapshot.data!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // const Text(
-                  //   'Decide which matches you want to bet on.',
-                  //   style: TextStyle(
-                  //     fontSize: 14,
-                  //     // fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  SizedBox(height: 5),
-                  Container(
-                    height: 140,
-                    child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        controller: _scrollController,
-                        itemCount: provider.nextMatchesList.length,
-                        // itemCount: displayedItems,
-                        itemBuilder: (context, index) {
-                          NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
-                          if (index < provider.nextMatchesList.length) {
-                            return NextMatchItem(
-                              match: provider.nextMatchesList[index],
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      );
-                    }),
-                  )
-                ],
-              );
+              if (snapshot.data != []) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 5),
+                    SizedBox(
+                      height: 140,
+                      child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: provider.nextMatchesList.length,
+                          itemBuilder: (context, index) {
+                            NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
+                            if (index < provider.nextMatchesList.length) {
+                              return NextMatchItem(
+                                match: provider.nextMatchesList[index],
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        );
+                      }),
+                    )
+                  ],
+                );
+              } else {
+                return const Center(
+                  child: Text(
+                    'There are no matches to display.',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              }
             }
           }
-          return const Center(
-            child: Text(
-              'Unexpected state encountered. Please try again later.',
-              style: TextStyle(fontSize: 20),
-              textAlign: TextAlign.center,
+
+          return SizedBox(
+            height: 140,
+            child: const Center(
+              child: Text(
+                'Unexpected state encountered. Please try again later.',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
             ),
           );
         });

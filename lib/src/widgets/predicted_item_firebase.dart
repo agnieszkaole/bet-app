@@ -32,12 +32,13 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
     int matchId = widget.data['matchId'] ?? 0;
 
     return Container(
+      constraints: BoxConstraints(maxWidth: 400),
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
           // color: Color.fromARGB(82, 40, 122, 43),
-          border: Border.all(width: 1, color: Color.fromARGB(162, 145, 145, 145)),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
+          border: Border.all(width: 1, color: Color.fromARGB(255, 70, 70, 70)),
+          borderRadius: const BorderRadius.all(Radius.circular(25))),
       child: Stack(
         children: [
           Column(
@@ -89,7 +90,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 22.0,
+                        fontSize: 18.0,
                       ),
                     ),
                   ),
@@ -121,8 +122,8 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
             right: 0.0,
             top: 0.0,
             child: SizedBox(
-              width: 40,
-              height: 40,
+              width: 35,
+              height: 35,
               child: (DateTime.now().hour > 24)
                   // true
                   ? null
@@ -155,7 +156,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                         alignment: Alignment.center,
                         child: Icon(
                           Icons.edit_note_rounded,
-                          size: 26,
+                          size: 24,
                         ),
                       ),
                     ),

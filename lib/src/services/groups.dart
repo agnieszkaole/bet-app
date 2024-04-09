@@ -1,3 +1,4 @@
+import 'package:bet_app/src/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -226,18 +227,37 @@ class Groups {
   Future<Map<String, dynamic>> deleteMemberFromGroup(String? groupId, String? member) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> groupSnapshot = await _firestore.collection('groups').doc(groupId).get();
-      if (groupSnapshot.exists) {
-        List<Map<String, dynamic>> members = [];
-        if (groupSnapshot.data()?['members'] != null) {
-          members = List<Map<String, dynamic>>.from(groupSnapshot.data()?['members']);
-          members.removeWhere((element) => element['memberUsername'] == member);
-          await _firestore.collection('groups').doc(groupId).update({'members': members});
-        }
+      if (!groupSnapshot.exists) {
+        return {'error': 'Group not found'};
       }
-      await _firestore.collection('users').doc(member).update({
-        'groups': FieldValue.arrayRemove([groupId]),
-      });
-      return {'error': 'Group not found or member list is empty'};
+
+      List<Map<String, dynamic>> members = [];
+      if (groupSnapshot.data()?['members'] != null) {
+        members = List<Map<String, dynamic>>.from(groupSnapshot.data()?['members']);
+        if (members.isEmpty) {
+          return {'error': 'Member list is empty'};
+        }
+      } else {
+        return {'error': 'Member list is empty'};
+      }
+
+      // Remove the member from the group's members list
+      members.removeWhere((element) => element['memberUsername'] == member);
+      await _firestore.collection('groups').doc(groupId).update({'members': members});
+      User? user = Auth().currentUser;
+
+      DocumentReference userDocRef = _firestore.collection('users').doc(user?.uid);
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await userDocRef.get() as DocumentSnapshot<Map<String, dynamic>>;
+
+      if (userSnapshot.exists) {
+        List<Map<String, dynamic>> userGroups = List<Map<String, dynamic>>.from(userSnapshot.data()?['groups'] ?? []);
+        userGroups.removeWhere((group) => group['groupId'] == groupId);
+        await userDocRef.update({'groups': userGroups});
+      }
+
+      // Return success message
+      return {'success': 'Member successfully removed from the group'};
     } catch (e) {
       print('Error deleting member from group: $e');
       return {'error': 'Error deleting member from group'};

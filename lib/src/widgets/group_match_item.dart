@@ -41,7 +41,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
           color: Color.fromARGB(200, 40, 122, 43),
         ),
         borderRadius: BorderRadius.all(
-          Radius.circular(10),
+          Radius.circular(25),
         ),
       ),
       child: Column(

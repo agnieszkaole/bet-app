@@ -59,8 +59,8 @@ class DataPickerState extends State<DataPicker> {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
       child: Column(
         children: [
-          Text('${widget.leagueName} - next matches', style: TextStyle(fontSize: 16)),
-          SizedBox(height: 5),
+          Text('${widget.leagueName} - next matches', style: TextStyle(fontSize: 18)),
+          SizedBox(height: 10),
           NextMatchScheduledList(leagueNumber: widget.leagueNumber),
           SizedBox(height: 15),
           Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
