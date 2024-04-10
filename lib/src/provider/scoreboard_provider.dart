@@ -19,4 +19,8 @@ class ScoreboardProvider extends ChangeNotifier {
   void sortMatchesByDate(List<SoccerMatch> matches) {
     matches.sort((a, b) => a.fixture.date.compareTo(b.fixture.date));
   }
+
+  void updateScores() {
+    notifyListeners();
+  }
 }

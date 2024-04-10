@@ -19,7 +19,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +29,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 children: [
                   const Text(
                     'Let\'s bet with friends',
-                    style: TextStyle(fontSize: 24),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const Text(
                     '   🤝',
@@ -42,9 +42,9 @@ class _GroupsScreenState extends State<GroupsScreen> {
               //   style: TextStyle(fontSize: 18),
               // ),
               // UserGroups(),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
@@ -108,7 +108,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
 
               SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(25),
@@ -138,8 +138,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
                             begin: Alignment.topRight,
                             end: Alignment.bottomLeft,
                             colors: [
-                              Color.fromARGB(255, 0, 62, 197),
-                              Color.fromARGB(255, 0, 37, 116),
+                              Color.fromARGB(200, 247, 191, 35),
+                              Color.fromARGB(200, 167, 77, 4),
+                              // Color.fromARGB(100, 0, 179, 80),
+                              // Color.fromARGB(100, 0, 80, 36),
                             ],
                           ),
                           borderRadius: BorderRadius.all(
@@ -181,20 +183,68 @@ class _GroupsScreenState extends State<GroupsScreen> {
               UserGroups(),
               SizedBox(height: 15),
               Text(
-                'Betting rules',
+                'Scoring rules',
                 style: TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 15),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
                   ),
                   color: Color.fromARGB(255, 39, 39, 39),
                 ),
-                child: Text('fghfgh'),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Image.asset(
+                        './assets/images/football-157931_1280.png',
+                        width: 35,
+                      ),
+                      trailing: Text(
+                        '3 pts',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      title: Text(
+                        'Exact result',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      subtitle: Text('Correctly predicted the exact result.'),
+                    ),
+                    ListTile(
+                      leading: Image.asset(
+                        './assets/images/football-157931_1280.png',
+                        width: 35,
+                      ),
+                      trailing: Text(
+                        '1 pt',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      title: Text(
+                        'Trend of result',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      subtitle: Text('Correctly predicted the trend of result (win, draw, lose).'),
+                    ),
+                    ListTile(
+                      leading: Image.asset(
+                        './assets/images/football-157931_1280.png',
+                        width: 35,
+                      ),
+                      trailing: Text(
+                        '0 pt',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      title: Text(
+                        'Wrong result',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      subtitle: Text('Inorrectly predicted the result.'),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

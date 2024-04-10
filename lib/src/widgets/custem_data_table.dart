@@ -2,7 +2,7 @@ import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/services/groups.dart';
-import 'package:bet_app/src/services/leaderboard.dart';
+import 'package:bet_app/src/services/scoreboard.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -413,6 +413,23 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
   Widget _getPrediction(int matchId, String memberUid) {
     final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
     var prediction = '---';
+    final match = scoreboardMatchesList.firstWhere((match) => match.fixture.id == matchId);
+    Color backgroundColor = const Color.fromARGB(255, 136, 136, 136);
+    int score = 0;
+    final scoreboard = Scoreboard();
+    bool isNewPrediction = true;
+
+    void someFunction() {
+      scoreboard.isPredictionNew(prediction, memberUid, matchId).then((isNewPrediction) {
+        if (isNewPrediction) {
+          Scoreboard().addScores(memberUid, score);
+          isNewPrediction == !isNewPrediction;
+        } else {
+          print('Prediction already exists, skipping score addition');
+        }
+      });
+    }
+
     var memberPredict = widget.rowsCells.firstWhere(
       (prediction) => prediction['memberUid'] == memberUid && prediction['matchId'] == matchId,
       orElse: () => null,
@@ -422,13 +439,6 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       prediction = memberPredict['prediction'];
     }
 
-    // print('Current user ID: $userId');
-
-    final match = scoreboardMatchesList.firstWhere((match) => match.fixture.id == matchId);
-
-    Color backgroundColor = const Color.fromARGB(255, 136, 136, 136);
-    int score = 0;
-    final leaderboard = Leaderboard();
     if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
       backgroundColor = const Color.fromARGB(255, 102, 102, 102);
     } else if (prediction == '---' &&
@@ -441,7 +451,10 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         if (prediction == '${match.goal.home} : ${match.goal.away}') {
           backgroundColor = Color.fromARGB(162, 22, 124, 36);
           score = 3;
-          leaderboard.addScores(memberUid, score);
+
+          if (isNewPrediction) {
+            Scoreboard().addScores(memberUid, score);
+          }
         } else {
           List<String> predictedScores = prediction.split(':');
           if (predictedScores.length == 2) {
@@ -453,13 +466,15 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
             if ((predictedHomeScore > predictedAwayScore && actualHomeScore > actualAwayScore) ||
                 (predictedHomeScore < predictedAwayScore && actualHomeScore < actualAwayScore) ||
                 (predictedHomeScore == predictedAwayScore && actualHomeScore == actualAwayScore)) {
-              score = 1;
-              leaderboard.addScores(memberUid, score);
               backgroundColor = Color.fromARGB(181, 214, 211, 0);
+              score = 1;
+
+              Scoreboard().addScores(memberUid, score);
             } else {
               backgroundColor = Color.fromARGB(133, 241, 0, 0);
               score = 0;
-              leaderboard.addScores(memberUid, score);
+
+              Scoreboard().addScores(memberUid, score);
             }
           }
         }
@@ -467,7 +482,6 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         backgroundColor = Color.fromARGB(255, 77, 77, 77);
       }
     }
-
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -482,18 +496,19 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
               style: const TextStyle(fontSize: 16),
             ),
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(2),
-              color: Color.fromARGB(104, 112, 112, 112),
-              child: Text(
-                '+${score}',
-                style: const TextStyle(fontSize: 13, color: Colors.white),
+          if (match.fixture.status.long == 'Match Finished')
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(2),
+                color: Color.fromARGB(104, 112, 112, 112),
+                child: Text(
+                  '+${score}',
+                  style: const TextStyle(fontSize: 13, color: Colors.white),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

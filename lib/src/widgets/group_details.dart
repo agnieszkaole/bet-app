@@ -101,14 +101,21 @@ class _GroupDetailsState extends State<GroupDetails> {
           SizedBox(height: 10),
           Container(
             padding: EdgeInsets.all(10),
-            // width: 300,
+            // decoration: BoxDecoration(
+            //   image: const DecorationImage(
+            //     image: AssetImage("./assets/images/artificial-turf-1711556_1920.jpg"),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
+            height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
-                Column(
-                  children: [
-                    Card(
-                      child: Container(
-                        width: double.infinity,
+                Container(
+                  // color: Color.fromARGB(255, 48, 48, 48),
+                  child: Column(
+                    children: [
+                      Container(
+                        // width: double.infinity,
                         padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
@@ -116,7 +123,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                               'Group name',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Color.fromARGB(255, 60, 165, 83),
+                                color: Color.fromARGB(255, 39, 190, 72),
                               ),
                             ),
                             Text(
@@ -128,10 +135,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                           ],
                         ),
                       ),
-                    ),
-                    Card(
-                      child: Container(
-                        width: double.infinity,
+                      Container(
+                        // width: double.infinity,
                         padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
@@ -164,10 +169,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                           ],
                         ),
                       ),
-                    ),
-                    Card(
-                      child: Container(
-                        width: double.infinity,
+                      Container(
+                        // width: double.infinity,
                         padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
@@ -191,10 +194,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                           ],
                         ),
                       ),
-                    ),
-                    Card(
-                      child: Container(
-                        width: double.infinity,
+                      Container(
+                        // width: double.infinity,
                         padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
@@ -215,11 +216,9 @@ class _GroupDetailsState extends State<GroupDetails> {
                           ],
                         ),
                       ),
-                    ),
-                    Card(
-                      child: Container(
+                      Container(
                         padding: EdgeInsets.all(10),
-                        width: double.infinity,
+                        // width: double.infinity,
                         // height: 160,
                         child: Column(
                           children: [
@@ -234,8 +233,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 widget.creatorUsername != currentUser
                     ? Column(

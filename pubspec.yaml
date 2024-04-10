@@ -90,7 +90,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/images/artificial-turf-1711556_1920.jpg
+    # - assets/images/artificial-turf-1711556_19201.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

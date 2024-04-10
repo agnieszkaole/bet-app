@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Leaderboard {
+class Scoreboard {
   Future<void> addScores(String memberUid, int score) async {
     try {
       if (memberUid.isEmpty) {
@@ -23,6 +23,19 @@ class Leaderboard {
     } catch (e) {
       print('Error: $e');
       throw e;
+    }
+  }
+
+  Future<bool> isPredictionNew(String prediction, String memberUid, int matchId) async {
+    try {
+      final CollectionReference scoresRef = FirebaseFirestore.instance.collection('scores');
+      final QuerySnapshot querySnapshot =
+          await scoresRef.where('memberUid', isEqualTo: memberUid).where('matchId', isEqualTo: matchId).get();
+
+      return querySnapshot.docs.isEmpty;
+    } catch (e) {
+      print('Error checking prediction: $e');
+      return true;
     }
   }
 }

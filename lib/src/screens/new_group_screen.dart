@@ -66,209 +66,230 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
           ),
         ),
       ),
-      body: Container(
-        // constraints: BoxConstraints(maxWidth: kIsWeb ? 700.0 : MediaQuery.of(context).size.width),
+      body: Center(
         child: SingleChildScrollView(
-          child: Center(
+          child: Container(
+            padding: EdgeInsets.all(25),
+            // decoration: BoxDecoration(
+            //   borderRadius: BorderRadius.all(
+            //     Radius.circular(25),
+            //   ),
+            //   color: Color.fromARGB(255, 39, 39, 39),
+            // ),
+            width: MediaQuery.of(context).size.width - 50,
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: SizedBox(
-                width: 310,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 50),
-                    Container(
-                      padding: EdgeInsets.only(bottom: 10),
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Enter the group name',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              child: Column(
+                children: [
+                  // const SizedBox(height: 50),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Enter the group name',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  TextFormField(
+                    autofocus: false,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                    decoration: InputDecoration(
+                      errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                      contentPadding: EdgeInsets.all(10.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Colors.greenAccent),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
                       ),
                     ),
-                    TextFormField(
-                      autofocus: false,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                        contentPadding: EdgeInsets.all(10.0),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.greenAccent),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
-                        ),
-                      ),
-                      initialValue: "",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Enter the group name';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _groupName = value;
-                      },
+                    initialValue: "",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter the group name';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _groupName = value;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Enter the group rules',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: EdgeInsets.only(bottom: 10),
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Enter the group rules',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 3,
+                    autofocus: false,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
                     ),
-                    TextFormField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 3,
-                      autofocus: false,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
+                    decoration: InputDecoration(
+                      errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                      contentPadding: EdgeInsets.all(10.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                       ),
-                      decoration: InputDecoration(
-                        errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                        contentPadding: EdgeInsets.all(10.0),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.greenAccent),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
-                        ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Colors.greenAccent),
                       ),
-                      initialValue: "",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Enter the group rules';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _groupRules = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: EdgeInsets.only(bottom: 10),
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Select a league',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.left,
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
                       ),
                     ),
-                    Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // const SizedBox(height: 10),
-                        SingleChildScrollView(
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.greenAccent),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
-                              ),
+                    initialValue: "",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter the group rules';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _groupRules = value;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Select a league',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // const SizedBox(height: 10),
+                      SingleChildScrollView(
+                        child: InputDecorator(
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                             ),
-                            child: SizedBox(
-                              height: 20,
-                              child: DropdownButton<Map<String, dynamic>>(
-                                underline: Container(
-                                  height: 0,
-                                ),
-                                value: selectedLeague,
-                                // itemHeight: kMinInteractiveDimension,
-                                items: leagueNames.map((league) {
-                                  return DropdownMenuItem<Map<String, dynamic>>(
-                                    value: league,
-                                    child: Center(
-                                      child: Text(
-                                        league['name'],
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedLeague = value!;
-                                  });
-                                },
-                              ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: const BorderSide(color: Colors.greenAccent),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
                             ),
                           ),
-                        )
+                          child: SizedBox(
+                            height: 20,
+                            child: DropdownButton<Map<String, dynamic>>(
+                              underline: Container(
+                                height: 0,
+                              ),
+                              value: selectedLeague,
+                              // itemHeight: kMinInteractiveDimension,
+                              items: leagueNames.map((league) {
+                                return DropdownMenuItem<Map<String, dynamic>>(
+                                  value: league,
+                                  child: Center(
+                                    child: Text(
+                                      league['name'],
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedLeague = value!;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  RadioListTile(
+                    value: 'public',
+                    title: Row(
+                      children: [
+                        const Text("Public"),
+                        Text(
+                          '  🔓',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    RadioListTile(
-                      value: 'public',
-                      title: const Text("Public"),
-                      subtitle: const Text("Any user can join without additional conditions."),
-                      activeColor: const Color.fromARGB(255, 40, 122, 43),
-                      groupValue: _privacySettings,
-                      onChanged: (val) => setState(() {
-                        _privacySettings = val!;
-                      }),
-                    ),
-                    RadioListTile(
-                      value: 'private',
-                      title: const Text("Private"),
-                      subtitle: const Text("The user have to enter an access code to join the group."),
-                      activeColor: const Color.fromARGB(255, 40, 122, 43),
-                      groupValue: _privacySettings,
-                      onChanged: (val) => setState(() {
-                        _privacySettings = val!;
-                      }),
-                    ),
-                    const SizedBox(height: 50),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: createNewGroup,
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color.fromARGB(255, 40, 122, 43),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 5.0,
+                    subtitle: const Text("Any user can join without additional conditions."),
+                    activeColor: const Color.fromARGB(255, 40, 122, 43),
+                    groupValue: _privacySettings,
+                    onChanged: (val) => setState(() {
+                      _privacySettings = val!;
+                    }),
+                  ),
+                  RadioListTile(
+                    value: 'private',
+                    title: Row(
+                      children: [
+                        const Text("Pivate"),
+                        Text(
+                          '  🔐',
+                          style: TextStyle(fontSize: 20),
                         ),
-                        child: const Text(
-                          'Create a group',
-                          style: TextStyle(fontSize: 18),
+                      ],
+                    ),
+                    subtitle: const Text("The user have to enter an access code to join the group."),
+                    activeColor: const Color.fromARGB(255, 40, 122, 43),
+                    groupValue: _privacySettings,
+                    onChanged: (val) => setState(() {
+                      _privacySettings = val!;
+                    }),
+                  ),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: createNewGroup,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
                         ),
+                        // elevation: 4.0,
+                      ),
+                      child: const Text(
+                        'Create a group',
+                        style: TextStyle(fontSize: 18),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
           ),

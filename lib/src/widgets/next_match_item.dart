@@ -44,14 +44,14 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 41, 41, 41),
-          // gradient: const LinearGradient(
-          //   begin: Alignment.topRight,
-          //   end: Alignment.bottomLeft,
-          //   colors: [
-          //     Color.fromARGB(200, 0, 179, 80),
-          //     Color.fromARGB(200, 0, 80, 36),
-          //   ],
-          // ),
+          gradient: const LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Color.fromARGB(200, 0, 179, 80),
+              Color.fromARGB(200, 0, 80, 36),
+            ],
+          ),
           // border: Border.all(
           //   width: 1,
           //   color: Color.fromARGB(255, 0, 71, 32),
