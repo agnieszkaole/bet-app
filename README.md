@@ -4,9 +4,9 @@ In-progress
 An application for friends to predict match results.
 
 #
-Default email: mobile@gmail.com
+Default email: mobile@gmail.com ||  Password: 111111
 
-Password: 111111
+
 ![Screenshot 2024-04-19 084226](https://github.com/agnieszkaole/bet-app/assets/78696014/446c61cc-3b5d-4f77-96ff-4fcbf984dc76)
 ![Screenshot 2024-04-19 084256](https://github.com/agnieszkaole/bet-app/assets/78696014/3ed34ef6-0708-47ea-87d3-0c21cbf9d987)
 ![Screenshot 2024-04-19 084311](https://github.com/agnieszkaole/bet-app/assets/78696014/7195a7ac-7714-445a-908b-f1e55ede134e)
