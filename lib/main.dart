@@ -8,6 +8,7 @@ import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_scheduled_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
+import 'package:bet_app/src/provider/standings_provider.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,11 +43,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ScoreboardProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavigationProvider()),
         ChangeNotifierProvider(create: (context) => MatchIdProvider()),
+        ChangeNotifierProvider(create: (context) => StandingsProvider()),
 
         // ChangeNotifierProvider(create: (context) => PredictionsProvider()),
       ],
       child: Container(
         constraints: BoxConstraints(maxWidth: 600),
+        // decoration: BoxDecoration(
+        //   image: const DecorationImage(
+        //     image: AssetImage("./assets/images/artificial-turf-1711556_1920.jpg"),
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         child: Center(
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

@@ -24,88 +24,28 @@ class _NextMatchItemState extends State<NextMatchScheduledItem>
   Widget build(BuildContext context) {
     super.build(context);
 
-    // int matchId = widget.match.fixture.id;
-    // var homeName = widget.match.home.name;
-    // var awayName = widget.match.away.name;
     var matchTime = widget.match.fixture.formattedDate;
 
     return Container(
-      width: 140,
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 41, 41, 41),
-        gradient: const LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Color.fromARGB(255, 0, 179, 80),
-            Color.fromARGB(255, 0, 80, 36),
-          ],
-        ),
-        border: Border.all(
-          width: 1,
-          color: Color.fromARGB(255, 0, 71, 32),
-        ),
-        // border: Border.all(
-        //   width: 1,
-        //   color: Color.fromARGB(255, 82, 82, 82),
-        // ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(25),
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      // width: 140,
+      margin: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(5),
+      // decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(25),
+      //     color: Color.fromARGB(169, 41, 41, 41),
+      //     border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Image.asset(
+            "./assets/images/football-157931_1280.png",
+            width: 22,
+          ),
+          SizedBox(width: 5),
           Text(
             matchTime.toString(),
             style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
-          // Column(
-          //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   // crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: [
-          //     Column(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: [
-          //         Text(
-          //           homeName,
-          //           textAlign: TextAlign.center,
-          //           style: const TextStyle(
-          //             color: Colors.white,
-          //             fontSize: 12.0,
-          //           ),
-          //           overflow: TextOverflow.ellipsis,
-          //           maxLines: 2,
-          //         ),
-          //       ],
-          //     ),
-          //     Text(
-          //       "vs",
-          //       textAlign: TextAlign.center,
-          //       style: TextStyle(
-          //         color: Colors.white,
-          //         fontSize: 14,
-          //       ),
-          //     ),
-          //     Column(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: [
-          //         Text(
-          //           awayName,
-          //           textAlign: TextAlign.center,
-          //           style: const TextStyle(
-          //             color: Colors.white,
-          //             fontSize: 12,
-          //           ),
-          //           overflow: TextOverflow.ellipsis,
-          //           maxLines: 2,
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );

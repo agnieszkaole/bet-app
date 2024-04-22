@@ -6,12 +6,25 @@ class Groups {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> createGroup(String? groupName, String? privacyType, Map<String, dynamic>? selectedLeague,
-      List<Map<String, dynamic>>? members, String? groupAccessCode, String? groupRules) async {
+  Future<bool> createGroup(
+    String? groupName,
+    String? privacyType,
+    Map<String, dynamic>? selectedLeague,
+    List<Map<String, dynamic>>? members,
+    String? groupAccessCode,
+  ) async {
     try {
       User? currentUser = _auth.currentUser;
 
       if (currentUser != null) {
+        // Check if the group name already exists
+        QuerySnapshot groupNameQuery =
+            await _firestore.collection('groups').where('groupName', isEqualTo: groupName).get();
+
+        if (groupNameQuery.docs.isNotEmpty) {
+          return false; // Group name already exists
+        }
+
         members?.add({
           'memberUid': currentUser.uid,
           'memberUsername': currentUser.displayName,
@@ -28,7 +41,7 @@ class Groups {
           'privacyType': privacyType,
           'createdAt': currentTime,
           'groupAccessCode': groupAccessCode,
-          'groupRules': groupRules
+          // 'groupRules': groupRules
         });
 
         await _firestore.collection('users').doc(currentUser.uid).update({
@@ -43,11 +56,14 @@ class Groups {
         });
 
         print('Group created successfully!');
+        return true;
       } else {
         print('User is not authenticated');
+        return false;
       }
     } catch (e) {
       print('Error creating group: $e');
+      return false;
     }
   }
 

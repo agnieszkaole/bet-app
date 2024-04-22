@@ -28,8 +28,8 @@ class MainDrawer extends StatelessWidget {
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   colors: [
-                    Color.fromARGB(255, 0, 180, 81),
-                    Color.fromARGB(255, 0, 92, 41),
+                    Color.fromARGB(255, 62, 155, 19),
+                    Color.fromARGB(255, 31, 77, 10),
                   ],
                 ),
                 border: Border.all(color: Color.fromARGB(255, 2, 47, 64), width: 1),

@@ -53,7 +53,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
       league: widget.leagueNumber,
       season: '2023',
       status: statusApi,
-      next: '10',
+      next: '15',
       timezone: timezoneApi,
     );
     final season2Data = await SoccerApi().getMatches(
@@ -61,17 +61,33 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
       league: widget.leagueNumber,
       season: '2024',
       status: statusApi,
-      next: '10',
+      next: '15',
       timezone: timezoneApi,
     );
+    // final season3Data = await SoccerApi().getMatches(
+    //   '',
+    //   league: widget.leagueNumber,
+    //   season: '2023',
+    //   status: statusApi,
+    //   timezone: timezoneApi,
+    // );
+    // final season4Data = await SoccerApi().getMatches(
+    //   '',
+    //   league: widget.leagueNumber,
+    //   season: '2024',
+    //   status: statusApi,
+    //   timezone: timezoneApi,
+    // );
 
     List<SoccerMatch> mergedData = [];
 
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
+    // mergedData.addAll(season3Data);
+    // mergedData.addAll(season4Data);
 
     int availableMatches = mergedData.length;
-    int requestedMatches = 10;
+    int requestedMatches = 15;
 
     if (availableMatches > requestedMatches) {
       mergedData = mergedData.sublist(0, requestedMatches);
@@ -99,7 +115,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
             } else if (snapshot.data!.isEmpty) {
               return const Center(
                 child: Text(
-                  'Unexpected error occured. Cannot get next matches dates.',
+                  'Cannot get next matches dates.',
                   style: TextStyle(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
@@ -118,7 +134,12 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
                   // ),
                   SizedBox(height: 5),
                   Container(
-                    height: 60,
+                    height: 40,
+
+                    // decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(20),
+                    //     color: Color.fromARGB(207, 32, 32, 32),
+                    //     border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
                     child: Consumer<NextMatchesScheduledProvider>(builder: (context, provider, _) {
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -138,7 +159,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
                       );
                     }),
                   ),
-                  SizedBox(height: 10)
+                  // SizedBox(height: 10),
                 ],
               );
             }

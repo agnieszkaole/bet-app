@@ -59,22 +59,53 @@ class DataPickerState extends State<DataPicker> {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
       child: Column(
         children: [
-          Text('${widget.leagueName} - next matches', style: TextStyle(fontSize: 18)),
-          SizedBox(height: 10),
-          NextMatchScheduledList(leagueNumber: widget.leagueNumber),
-          SizedBox(height: 15),
-          Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
-          WeeklyDatePicker(
-            selectedDay: _selectedDate,
-            changeDay: (value) => _handleDateChange(value),
-            enableWeeknumberText: false,
-            weeknumberColor: const Color.fromARGB(255, 40, 122, 43),
-            weeknumberTextColor: Colors.white,
-            backgroundColor: Colors.transparent,
-            weekdayTextColor: const Color(0xFF8A8A8A),
-            digitsColor: Colors.white,
-            selectedDigitBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
-            daysInWeek: 7,
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Color.fromARGB(235, 34, 34, 34),
+                border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+            child: Column(
+              children: [
+                Text('${widget.leagueName}',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 32, 168, 62),
+                    )),
+                SizedBox(height: 5),
+                NextMatchScheduledList(leagueNumber: widget.leagueNumber),
+                // Text(
+                //   '↪',
+                //   textAlign: TextAlign.end,
+                //   style: TextStyle(
+                //     fontSize: 24,
+                //     color: Color.fromARGB(255, 255, 255, 255),
+                //   ),
+                // ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  child: Column(
+                    children: [
+                      // SizedBox(height: 15),
+                      Text(DateFormat('d MMMM yyyy').format(_selectedDate)),
+                      WeeklyDatePicker(
+                        selectedDay: _selectedDate,
+                        changeDay: (value) => _handleDateChange(value),
+                        enableWeeknumberText: false,
+                        weeknumberColor: Color.fromARGB(255, 36, 165, 41),
+                        weeknumberTextColor: Colors.white,
+                        backgroundColor: Colors.transparent,
+                        weekdayTextColor: const Color(0xFF8A8A8A),
+                        digitsColor: Colors.white,
+                        selectedDigitBackgroundColor: const Color.fromARGB(255, 40, 122, 43),
+                        daysInWeek: 7,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

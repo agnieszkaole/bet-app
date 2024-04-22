@@ -205,9 +205,9 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
         Container(
           width: 300,
           // height: 50,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 39, 39, 39),
+            color: Color.fromARGB(255, 46, 46, 46),
             borderRadius: BorderRadius.circular(25),
             // border: Border.all(
             //   color: Color.fromARGB(255, 224, 224, 224),
@@ -284,14 +284,20 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                                    margin: const EdgeInsets.only(bottom: 18),
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
                                           width: 1.2,
                                           color: Color.fromARGB(255, 26, 112, 0),
                                         ),
+                                        top: BorderSide(
+                                          width: 1.2,
+                                          color: Color.fromARGB(255, 26, 112, 0),
+                                        ),
                                       ),
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
                                     width: 320,
                                     // decoration: BoxDecoration(
@@ -334,7 +340,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                         // const SizedBox(width: 30),
                                         widget.privacyType == 'public'
                                             ? Container(
-                                                width: 20,
+                                                // width: 20,
                                                 child: GestureDetector(
                                                   onTap: () async {
                                                     if (groupId != null) {
@@ -422,14 +428,20 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                                  margin: const EdgeInsets.only(bottom: 18),
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
                                         width: 1.2,
                                         color: Color.fromARGB(255, 26, 112, 0),
                                       ),
+                                      top: BorderSide(
+                                        width: 1.2,
+                                        color: Color.fromARGB(255, 26, 112, 0),
+                                      ),
                                     ),
+                                    borderRadius: BorderRadius.circular(25),
                                   ),
                                   width: 320,
                                   child: Row(
@@ -470,7 +482,8 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                       // const SizedBox(width: 30),
                                       widget.privacyType == 'public'
                                           ? Container(
-                                              width: 20,
+                                              width: 50,
+                                              height: 50,
                                               child: GestureDetector(
                                                 onTap: () async {
                                                   if (groupId != null) {
@@ -485,7 +498,8 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                               ),
                                             )
                                           : Container(
-                                              width: 20,
+                                              width: 50,
+                                              height: 50,
                                               child: GestureDetector(
                                                 onTap: () {
                                                   setState(() {
@@ -501,7 +515,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                       builder: (BuildContext context) {
                                                         return AlertDialog(
                                                           title: Text(
-                                                            'Enter code to group: "$groupName"',
+                                                            'Enter access code:',
                                                             style: TextStyle(fontSize: 16),
                                                           ),
                                                           // content: Text("Enter new username"),
@@ -519,24 +533,27 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                       fontSize: 20,
                                                                     ),
                                                                     decoration: InputDecoration(
-                                                                      errorStyle: const TextStyle(
-                                                                          color: Colors.red, fontSize: 14.0),
-                                                                      border: const UnderlineInputBorder(),
-                                                                      contentPadding: EdgeInsets.zero,
-                                                                      enabledBorder: const UnderlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            color: Color.fromARGB(255, 40, 122, 43)),
-                                                                      ),
-                                                                      focusedBorder: const UnderlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(color: Colors.greenAccent),
-                                                                      ),
-                                                                      errorBorder: const UnderlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            color: Color.fromARGB(255, 255, 52, 37)),
-                                                                      ),
-                                                                      errorText: accessCodeError,
-                                                                    ),
+                                                                        errorStyle: const TextStyle(
+                                                                            color: Colors.red, fontSize: 14.0),
+                                                                        border: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.circular(25)),
+                                                                        contentPadding: EdgeInsets.all(10.0),
+                                                                        enabledBorder: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.circular(25),
+                                                                          borderSide: const BorderSide(
+                                                                              color: Color.fromARGB(255, 40, 122, 43)),
+                                                                        ),
+                                                                        focusedBorder: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.circular(25),
+                                                                          borderSide: const BorderSide(
+                                                                              color: Colors.greenAccent),
+                                                                        ),
+                                                                        errorBorder: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.circular(25),
+                                                                          borderSide: const BorderSide(
+                                                                              color: Color.fromARGB(255, 255, 52, 37)),
+                                                                        ),
+                                                                        errorText: accessCodeError),
 
                                                                     validator: (value) {
                                                                       if (value == null || value.isEmpty) {
@@ -576,6 +593,14 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                         }
                                                                       }
                                                                     },
+                                                                    style: ElevatedButton.styleFrom(
+                                                                      foregroundColor: Colors.white,
+                                                                      backgroundColor: Color.fromARGB(255, 44, 107, 15),
+                                                                      shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.circular(25),
+                                                                      ),
+                                                                      // elevation: 4.0,
+                                                                    ),
                                                                     child: Text('Confirm'),
                                                                   ),
                                                                 ],

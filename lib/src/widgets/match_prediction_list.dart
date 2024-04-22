@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 class MatchPredictionList extends StatefulWidget {
   const MatchPredictionList({
     super.key,
-    required this.leagueNumber,
+    // required this.leagueNumber,
   });
-  final String? leagueNumber;
+  // final String? leagueNumber;
 
   static final GlobalKey<_MatchPredictionListState> nextMatchListKey = GlobalKey<_MatchPredictionListState>();
 
@@ -24,35 +24,26 @@ class MatchPredictionList extends StatefulWidget {
 class _MatchPredictionListState extends State<MatchPredictionList> {
   final ScrollController _scrollController = ScrollController();
   late Future dataFuture;
-  late String matchId;
 
   @override
   void initState() {
     super.initState();
-    matchId = '1036013';
     dataFuture = _getData();
   }
 
   @override
   void didUpdateWidget(MatchPredictionList oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     late final selectedMatchId = context.watch<MatchIdProvider>().selectedMatchId;
-
-    // print('Old Match ID: $matchId');
-    // print('New Match ID: $selectedMatchId');
-    if (widget.leagueNumber != oldWidget.leagueNumber) {
-      // final updatedMatchId = matchIdProvider.selectedMatchId ?? '';
-      // print(updatedMatchId);
-      setState(() {
-        // matchId = selectedMatchId;
-        dataFuture = _getData();
-      });
-    }
-    // matchIdProvider.clearSelectedMatchId();
+    // if (widget.leagueNumber != oldWidget.leagueNumber) {
+    setState(() {
+      dataFuture = _getData();
+    });
+    // }
   }
 
   Future<List<PredictionData>> _getData() async {
+    final matchId = context.read<MatchIdProvider>().selectedMatchId;
     final data = await SoccerApi().getPredictions(matchId);
     return data;
   }
@@ -66,68 +57,67 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (snapshot.connectionState == ConnectionState.done) {
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
             final error = snapshot.error;
-            return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 66, 66), fontSize: 20));
-          } else {
-            late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
-            final List<PredictionData> predictionsResponse = snapshot.data;
-            final predictions = predictionsResponse[0].predictions;
-            final teams = predictionsResponse[0].teams;
-            final comparison = predictionsResponse[0].comparison;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // const Text(
-                //   'Check out the latest football predictions.',
-                //   style: TextStyle(
-                //     fontSize: 14,
-                //     // fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                Container(
-                  // height: 240,
-                  child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
-                    return MatchPredictionItem(
-                      predictions: predictions,
-                      teams: teams,
-                      comparison: comparison,
-                    );
-
-                    // return ListView.builder(
-                    //   scrollDirection: Axis.horizontal,
-                    //   controller: _scrollController,
-                    //   itemCount: provider.nextMatchesList.length,
-                    //   // itemCount: displayedItems,
-                    //   itemBuilder: (context, index) {
-                    //     NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
-                    //     if (index < nextMatchesList.length) {
-                    //       return MatchPredictionItem(
-                    //         predictions: predictions,
-                    //         teams: teams,
-                    //         comparison: comparison,
-                    //       );
-                    //     } else {
-                    //       return const SizedBox();
-                    //     }
-                    //   },
-                    // );
-                  }),
+            return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
+          } else if (snapshot.data!.isEmpty) {
+            return SizedBox(
+              height: 140,
+              child: const Center(
+                child: Text(
+                  'Cannot get next predictions.',
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.center,
                 ),
-              ],
+              ),
+            );
+          } else if (snapshot.hasData) {
+            if (snapshot.data != null && snapshot.data.isNotEmpty) {
+              late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
+              final List<PredictionData> predictionsResponse = snapshot.data;
+              final predictions = predictionsResponse[0].predictions;
+              final teams = predictionsResponse[0].teams;
+              final comparison = predictionsResponse[0].comparison;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    // height: 240,
+                    child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                      return MatchPredictionItem(
+                        prediction: predictions,
+                        teams: teams,
+                        comparison: comparison,
+                      );
+                    }),
+                  ),
+                ],
+              );
+            }
+          } else {
+            return const Center(
+              child: Text(
+                'Unexpected state encountered. Please try again later.',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
             );
           }
-        } else {
-          return const Center(
+        }
+        return SizedBox(
+          height: 140,
+          child: const Center(
             child: Text(
               'Unexpected state encountered. Please try again later.',
               style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
-          );
-        }
+          ),
+        );
       },
     );
   }

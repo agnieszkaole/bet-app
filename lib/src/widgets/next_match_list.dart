@@ -64,6 +64,13 @@ class _NextMatchListState extends State<NextMatchList> {
       timezone: timezoneApi,
     );
 
+    // final standings = await SoccerApi().getStandings(
+    //   widget.leagueNumber,
+    //   '2023',
+    // );
+
+    // print(standings);
+
     List<SoccerMatch> mergedData = [];
 
     mergedData.addAll(season1Data);
@@ -98,12 +105,22 @@ class _NextMatchListState extends State<NextMatchList> {
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             } else if (snapshot.data!.isEmpty) {
               return SizedBox(
-                height: 140,
-                child: const Center(
-                  child: Text(
-                    'Unexpected error occured. Cannot get next matches.',
-                    style: TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
+                height: 160,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Cannot get next matches.',
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        'An unexpected error occurred',
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -138,7 +155,7 @@ class _NextMatchListState extends State<NextMatchList> {
               } else {
                 return const Center(
                   child: Text(
-                    'There are no matches to display.',
+                    'There are no matches to display or an unexpected error occurred.',
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),

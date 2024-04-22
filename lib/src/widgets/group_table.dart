@@ -118,13 +118,16 @@ class _GroupTableState extends State<GroupTable> {
                 ],
               );
             } else if (snapshot.hasData) {
-              return Column(
-                children: [
-                  Text('Scoreboard', style: TextStyle(fontSize: 22)),
-                  SizedBox(height: 10),
-                  DataTablePage(groupId: widget.groupId),
-                  SizedBox(height: 20),
-                ],
+              return Container(
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    // Text('Scoreboard', style: TextStyle(fontSize: 22)),
+                    SizedBox(height: 10),
+                    DataTablePage(groupId: widget.groupId),
+                    SizedBox(height: 20),
+                  ],
+                ),
               );
             }
           }

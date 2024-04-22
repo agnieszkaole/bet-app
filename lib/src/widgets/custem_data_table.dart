@@ -214,7 +214,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
           height: widget.cellHeight,
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 48, 48, 48),
+            color: Color.fromARGB(206, 48, 48, 48),
             border: Border(
               right: BorderSide(
                 color: Color.fromARGB(255, 73, 73, 73),
@@ -346,7 +346,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     if (widget.fixedRowCells.isNotEmpty) {
       return Container(
         // color: Color.fromARGB(255, 37, 37, 37),
-        color: Color.fromARGB(255, 6, 102, 18),
+        color: Color.fromARGB(200, 41, 41, 41),
         child: DataTable(
           border: TableBorder(
             verticalInside: BorderSide(
@@ -440,16 +440,16 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     }
 
     if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
-      backgroundColor = const Color.fromARGB(255, 102, 102, 102);
+      backgroundColor = Color.fromARGB(197, 102, 102, 102);
     } else if (prediction == '---' &&
         match.goal.home != null &&
         match.goal.away != null &&
         match.fixture.status.long == 'Match Finished') {
-      backgroundColor = Color.fromARGB(255, 56, 56, 56);
+      backgroundColor = Color.fromARGB(179, 56, 56, 56);
     } else {
       if (match.goal.home != null && match.goal.home != null && match.fixture.status.long == 'Match Finished') {
         if (prediction == '${match.goal.home} : ${match.goal.away}') {
-          backgroundColor = Color.fromARGB(162, 22, 124, 36);
+          backgroundColor = Color.fromARGB(192, 22, 124, 36);
           score = 3;
 
           if (isNewPrediction) {
@@ -515,7 +515,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
   }
 
   Widget _buildCornerCell() => Container(
-        color: Color.fromARGB(255, 37, 37, 37),
+        color: Color.fromARGB(204, 37, 37, 37),
         child: DataTable(
           border: TableBorder(
             right: BorderSide(

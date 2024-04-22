@@ -17,35 +17,36 @@ class PredictedMatchesFirebase extends StatefulWidget {
 
 class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
   User? user = FirebaseAuth.instance.currentUser;
-  bool isAnonymous = true;
+  // bool isAnonymous = true;
 
-  StreamSubscription<QuerySnapshot>? _streamSubscription;
+  // StreamSubscription<QuerySnapshot>? _streamSubscription;
 
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      isAnonymous = user!.isAnonymous;
-    });
-    _streamSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .collection('matches')
-        .snapshots()
-        .listen((snapshot) {});
-  }
+  // @override
+  // void initState() {
+  // super.initState();
+  // setState(() {
+  //   isAnonymous = user!.isAnonymous;
+  // });
+  // _streamSubscription = FirebaseFirestore.instance
+  //     .collection('users')
+  //     .doc(user!.uid)
+  //     .collection('matches')
+  //     .snapshots()
+  //     .listen((snapshot) {});
+  // }
 
-  @override
-  void dispose() {
-    _streamSubscription?.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // _streamSubscription?.cancel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('users').doc(user!.uid).collection('predictions').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        print(snapshot.connectionState);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: SizedBox(
@@ -54,53 +55,74 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
               child: CircularProgressIndicator(),
             ),
           );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          List<DocumentSnapshot> firestoreDocuments = snapshot.data!.docs;
-          print('Document Count: ${firestoreDocuments.length}');
-          firestoreDocuments.sort((a, b) {
-            DateTime aTime = _parseDate(a['matchTime'] as String);
-            DateTime bTime = _parseDate(b['matchTime'] as String);
-            return aTime.compareTo(bTime);
-          });
+        }
 
-          return ListView.builder(
-            itemCount: firestoreDocuments.length,
-            itemBuilder: (context, index) {
-              Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
+        if (snapshot.hasError) {
+          final error = snapshot.error;
 
-              if (userPrediction['leagueNumber'] == widget.leagueNumber) {
-                return Dismissible(
-                  key: Key(userPrediction['matchId'].toString()),
-                  background: Container(
-                    alignment: Alignment.centerRight,
-                    child: const Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    ),
+          return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
+        }
+        if (snapshot.data!.docs.isEmpty) {
+          return SizedBox(
+            height: 140,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'You haven\'t added any predictions',
+                    style: TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
                   ),
-                  onDismissed: (direction) {
-                    Map<String, dynamic> deletedData = firestoreDocuments[index].data() as Map<String, dynamic>;
-                    String documentId = firestoreDocuments[index].id;
-                    FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(user!.uid)
-                        .collection('predictions')
-                        .doc(documentId)
-                        .delete();
-                    setState(() {
-                      firestoreDocuments.insert(index, deletedData as DocumentSnapshot<Object?>);
-                    });
-                  },
-                  child: PredictedItemFirebase(data: userPrediction),
-                );
-              } else {
-                return SizedBox();
-              }
-            },
+                  Text(
+                    'or unexpected state encountered. ',
+                    style: TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Please try again later.',
+                    style: TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
           );
         }
+        if (snapshot.hasData) {
+          if (snapshot.data != []) {
+            List<DocumentSnapshot> firestoreDocuments = snapshot.data!.docs;
+            print('Document Count: ${firestoreDocuments.length}');
+            firestoreDocuments.sort((a, b) {
+              DateTime aTime = _parseDate(a['matchTime'] as String);
+              DateTime bTime = _parseDate(b['matchTime'] as String);
+              return aTime.compareTo(bTime);
+            });
+            return ListView.builder(
+              itemCount: firestoreDocuments.length,
+              itemBuilder: (context, index) {
+                Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
+
+                if (userPrediction['leagueNumber'] == widget.leagueNumber) {
+                  String documentId = firestoreDocuments[index].id;
+                  return PredictedItemFirebase(data: userPrediction, docId: documentId);
+                }
+                return Container();
+              },
+            );
+          }
+        }
+
+        return SizedBox(
+          height: 140,
+          child: const Center(
+            child: Text(
+              'Unexpected state encountered. Please try again later.',
+              style: TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
       },
     );
   }

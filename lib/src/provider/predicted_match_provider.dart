@@ -30,6 +30,9 @@ class PredictedMatchProvider extends ChangeNotifier {
   //     predictedMatchList.map((match) => json.encode(match)).toList();
   // prefs.setStringList(_predictedMatchesKey, matchStrings);
   // }
+  List<Map<String, dynamic>> getPredictedMatches() {
+    return List<Map<String, dynamic>>.from(predictedMatchList);
+  }
 
   void addMatch(Map<String, dynamic> match) {
     if (predictedMatchList.every((predictedMatch) => predictedMatch['matchId'] != match['matchId'])) {
@@ -37,6 +40,10 @@ class PredictedMatchProvider extends ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  bool isMatchAdded(int matchId) {
+    return predictedMatchList.any((predictedMatch) => predictedMatch['matchId'] == matchId);
   }
 
   void removeMatch(Map<String, dynamic> match) {

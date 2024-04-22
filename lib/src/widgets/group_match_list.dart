@@ -1,16 +1,27 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_group_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/provider/predicted_match_provider.dart';
+import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/data_picker.dart';
 import 'package:bet_app/src/widgets/group_match_item.dart';
 import 'package:bet_app/src/widgets/match_scheduled.dart';
+import 'package:bet_app/src/widgets/predict_result.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class GroupMatchList extends StatefulWidget {
-  GroupMatchList({super.key, this.leagueName, this.leagueNumber, this.leagueLogo, this.selectedDate});
+  GroupMatchList({
+    super.key,
+    this.leagueName,
+    this.leagueNumber,
+    this.leagueLogo,
+    this.selectedDate,
+  });
 
   final String? leagueName;
   final String? leagueNumber;
@@ -18,6 +29,7 @@ class GroupMatchList extends StatefulWidget {
   final String? selectedDate;
 
   static final GlobalKey<_GroupMatchListState> nextMatchListKey = GlobalKey<_GroupMatchListState>();
+
   @override
   State<GroupMatchList> createState() => _GroupMatchListState();
 }
@@ -25,7 +37,7 @@ class GroupMatchList extends StatefulWidget {
 class _GroupMatchListState extends State<GroupMatchList> {
   late Future dataFuture;
   String? statusApi = 'ns-tbd';
-
+  User? user = Auth().currentUser;
   String? timezoneApi = 'Europe/Warsaw';
   // List<SoccerMatch>? mergedData;
   // final ScrollController _scrollController = ScrollController();
@@ -97,7 +109,7 @@ class _GroupMatchListState extends State<GroupMatchList> {
             } else if (snapshot.data!.isEmpty) {
               return const Center(
                 child: Text(
-                  'There are no matches on selected date',
+                  'There are no matches on selected date or an unexpected error occurred.',
                   style: TextStyle(fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -105,13 +117,13 @@ class _GroupMatchListState extends State<GroupMatchList> {
             } else if (snapshot.hasData) {
               return SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  // height: 500,
+                  // height: MediaQuery.of(context).size.height,
+                  height: 400,
                   child: Column(children: [
                     Expanded(
                       child: RawScrollbar(
                         // thumbVisibility: true,
-                        trackVisibility: true,
+                        // trackVisibility: true,
                         trackColor: const Color.fromARGB(43, 40, 122, 43),
                         thumbColor: const Color.fromARGB(255, 40, 122, 43),
                         controller: _scrollController,
@@ -121,14 +133,32 @@ class _GroupMatchListState extends State<GroupMatchList> {
                           controller: _scrollController,
                           itemCount: nextGroupMatchesList.length,
                           itemBuilder: (context, index) {
-                            NextGroupMatchesProvider.sortMatchesByDate(nextGroupMatchesList);
-                            if (index < nextGroupMatchesList.length) {
-                              return GroupMatchItem(
-                                match: nextGroupMatchesList[index],
-                              );
-                            } else {
-                              return const SizedBox();
+                            Future<bool> getIsMatchAdded() async {
+                              final querySnapshot = await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user?.uid)
+                                  .collection('predictions')
+                                  .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
+                                  .limit(1)
+                                  .get();
+                              setState(() {});
+                              return querySnapshot.docs.isNotEmpty;
                             }
+
+                            return FutureBuilder<bool>(
+                              future: getIsMatchAdded(),
+                              builder: (context, snapshot) {
+                                final isMatchAdded = snapshot.data ?? false;
+                                if (index < nextGroupMatchesList.length) {
+                                  return GroupMatchItem(
+                                    match: nextGroupMatchesList[index],
+                                    isMatchAdded: isMatchAdded,
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              },
+                            );
                           },
                         ),
                       ),

@@ -85,8 +85,8 @@ class _GroupsScreenState extends State<GroupsScreen> {
                               begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
                               colors: [
-                                Color.fromARGB(255, 0, 179, 80),
-                                Color.fromARGB(255, 0, 80, 36),
+                                Color.fromARGB(255, 62, 155, 19),
+                                Color.fromARGB(255, 31, 77, 10),
                               ],
                             ),
                             borderRadius: BorderRadius.all(
@@ -106,7 +106,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
@@ -182,70 +182,6 @@ class _GroupsScreenState extends State<GroupsScreen> {
               SizedBox(height: 15),
               UserGroups(),
               SizedBox(height: 15),
-              Text(
-                'Scoring rules',
-                style: TextStyle(fontSize: 18),
-              ),
-              const SizedBox(height: 15),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                  color: Color.fromARGB(255, 39, 39, 39),
-                ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: Image.asset(
-                        './assets/images/football-157931_1280.png',
-                        width: 35,
-                      ),
-                      trailing: Text(
-                        '3 pts',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      title: Text(
-                        'Exact result',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      subtitle: Text('Correctly predicted the exact result.'),
-                    ),
-                    ListTile(
-                      leading: Image.asset(
-                        './assets/images/football-157931_1280.png',
-                        width: 35,
-                      ),
-                      trailing: Text(
-                        '1 pt',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      title: Text(
-                        'Trend of result',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      subtitle: Text('Correctly predicted the trend of result (win, draw, lose).'),
-                    ),
-                    ListTile(
-                      leading: Image.asset(
-                        './assets/images/football-157931_1280.png',
-                        width: 35,
-                      ),
-                      trailing: Text(
-                        '0 pt',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      title: Text(
-                        'Wrong result',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      subtitle: Text('Inorrectly predicted the result.'),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),

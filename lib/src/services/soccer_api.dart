@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bet_app/src/models/match_predictions_model.dart';
-import 'package:bet_app/src/models/match_ranking.dart';
+import 'package:bet_app/src/models/league_standings.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:http/http.dart';
 // import 'package:envied/envied.dart';
@@ -45,7 +45,7 @@ class SoccerApi {
     throw Exception('wystąpił błąd połączenia');
   }
 
-  Future getPredictions(String fixture) async {
+  Future<List<PredictionData>> getPredictions(String fixture) async {
     String fixtureUrl = fixture.isEmpty ? "" : "fixture=$fixture";
 
     Response res = await get(Uri.parse('$_baseUrlPredictions$fixtureUrl'), headers: headers);
@@ -55,45 +55,60 @@ class SoccerApi {
       var data = jsonDecode(res.body);
       var response = data['response'];
 
-      if (response.isNotEmpty) {
-        List<PredictionData> predictions = response.map<PredictionData>((item) {
-          return PredictionData.fromJson(item);
-        }).toList();
+      List<PredictionData> predictions = response.map<PredictionData>((item) {
+        return PredictionData.fromJson(item);
+      }).toList();
 
-        return predictions;
-      } else {
-        throw Exception('No predictions available');
-      }
+      return predictions;
     } else {
+      print(res.statusCode);
       throw Exception('Failed to fetch predictions. Status code: ${res.statusCode}');
     }
   }
 
-  // Future getStandings({league, season}) async {
-  //   String leagueUrl = league?.isEmpty ?? true ? "" : 'league=$league';
-  //   String seasonUrl = season?.isEmpty ?? true ? "" : '&season=$season';
+  Future<List<LeagueStandings>> getStandings(String? league, String? season) async {
+    try {
+      final String leagueUrl = league != null ? 'league=$league' : '';
+      final String seasonUrl = season != null ? '&season=$season' : '';
 
-  //   Response res = await get(Uri.parse('$_baseUrlStandings$leagueUrl$seasonUrl'), headers: headers);
+      Response res = await get(Uri.parse('$_baseUrlStandings$leagueUrl$seasonUrl'), headers: headers);
 
-  //   print('$_baseUrlStandings$leagueUrl$seasonUrl');
-  //   if (res.statusCode == 200) {
-  //     var data = jsonDecode(res.body);
-  //     List<dynamic> rankingRes = data['response'];
-  //     List rankings = [];
-  //     for (var leagueData in rankingRes) {
-  //       var standings = leagueData['league']['standings'];
-  //       print(standings);
-  //       if (standings != null && standings.isNotEmpty) {
-  //         List<dynamic> rankingList = standings[0];
-  //         rankings.addAll(rankingList.map((dynamic item) => MatchRanking.fromJson(item)));
+      if (res.statusCode == 200) {
+        // Parse the response body
+        final dynamic data = jsonDecode(res.body);
 
-  //         print(rankings.length);
-  //       }
-  //     }
-  //     return rankings;
-  //   } else {
-  //     print('Received non-200 status code: ${res.statusCode}');
-  //     throw Exception('wystąpił błąd połączenia');
-  //   }
-  // }
+        // Check if the response contains the expected data structure
+        if (data is Map<String, dynamic> && data.containsKey('response')) {
+          final List<dynamic> rankingRes = data['response'];
+          final List<LeagueStandings> standings = [];
+          print(rankingRes);
+
+          // Iterate over the ranking results
+          for (var leagueData in rankingRes) {
+            // Check if 'league' data is available
+            if (leagueData != null && leagueData['league'] != null && leagueData['league']['standings'] != null) {
+              final dynamic leagueStandings = leagueData['league']['standings'];
+
+              // Check if standings data is available and is a list
+              if (leagueStandings is List && leagueStandings.isNotEmpty) {
+                final List<dynamic> standingsList = leagueStandings[0];
+                standings.addAll(standingsList.map((dynamic item) => LeagueStandings.fromJson(item)));
+              } else {
+                print('Standings data is missing or empty for this league.');
+              }
+            } else {
+              print('League data is missing or invalid.');
+            }
+          }
+          return standings;
+        } else {
+          throw Exception('Invalid JSON format: Missing or invalid response structure');
+        }
+      } else {
+        throw Exception('Received non-200 status code: ${res.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching standings: $e');
+    }
+  }
 }

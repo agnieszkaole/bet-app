@@ -1,8 +1,10 @@
 // import 'dart:convert';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
+import 'package:bet_app/src/screens/group_tabs.dart';
 // import 'package:bet_app/src/screens/predicted_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
+import 'package:bet_app/src/widgets/match_scheduled.dart';
 // import 'package:bet_app/src/widgets/predicted_item_local.dart';
 // import 'package:bet_app/src/widgets/predicted_result_edith.dart';
 
@@ -17,26 +19,27 @@ import 'package:provider/provider.dart';
 class PredictResult extends StatefulWidget {
   const PredictResult({
     super.key,
-    required this.homeName,
-    required this.awayName,
-    required this.homeLogo,
-    required this.awayLogo,
-    required this.matchTime,
-    required this.matchId,
-    required this.match,
-    required this.leagueName,
-    required this.leagueNumber,
+    this.homeName,
+    this.awayName,
+    this.homeLogo,
+    this.awayLogo,
+    this.matchTime,
+    this.matchId,
+    this.match,
+    this.leagueName,
+    this.leagueNumber,
   });
 
-  final String homeName;
-  final String awayName;
-  final String homeLogo;
-  final String awayLogo;
-  final String matchTime;
-  final int matchId;
-  final SoccerMatch match;
-  final String leagueName;
+  final String? homeName;
+  final String? awayName;
+  final String? homeLogo;
+  final String? awayLogo;
+  final String? matchTime;
+  final int? matchId;
+  final SoccerMatch? match;
+  final String? leagueName;
   final int? leagueNumber;
+
   @override
   State<PredictResult> createState() => _PredictResultState();
 }
@@ -44,7 +47,7 @@ class PredictResult extends StatefulWidget {
 class _PredictResultState extends State<PredictResult> {
   int? _resultHome;
   int? _resultAway;
-
+  // String? _goalNumberError;
   final _formKey = GlobalKey<FormState>();
   User? user = Auth().currentUser;
   bool isAnonymous = true;
@@ -57,18 +60,8 @@ class _PredictResultState extends State<PredictResult> {
     });
   }
 
-  Future<void> addPredictedMatch(
-    String homeName,
-    String awayName,
-    String homeLogo,
-    String awayLogo,
-    int? homeGoal,
-    int? awayGoal,
-    String leagueName,
-    int? leagueNumber,
-    int matchId,
-    String matchTime,
-  ) async {
+  Future<void> addPredictedMatch(String? homeName, String? awayName, String? homeLogo, String? awayLogo, int? homeGoal,
+      int? awayGoal, String? leagueName, int? leagueNumber, int? matchId, String? matchTime) async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
@@ -76,24 +69,22 @@ class _PredictResultState extends State<PredictResult> {
         return;
       }
 
-      // QuerySnapshot<Map<String, dynamic>> existingMatches =
-      //     await FirebaseFirestore.instance
-      //         .collection('users')
-      //         .doc(user.uid)
-      //         .collection('matches')
-      //         .where('matchId', isEqualTo: matchId)
-      //         .get();
+      final existingPrediction = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('predictions')
+          .where('matchId', isEqualTo: matchId)
+          .get();
 
-      // if (existingMatches.docs.isNotEmpty) {
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     const SnackBar(
-      //       content: Text('Ten mecz jest już dodany!'),
-      //       duration: Duration(milliseconds: 1500),
-      //     ),
-      //   );
+      if (existingPrediction.docs.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Prediction for this match already exists.'),
+          ),
+        );
 
-      //   return;
-      // }
+        return;
+      }
 
       await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('predictions').add({
         'homeName': homeName,
@@ -133,18 +124,8 @@ class _PredictResultState extends State<PredictResult> {
       // });
 
       if (!isAnonymous) {
-        addPredictedMatch(
-          widget.homeName,
-          widget.awayName,
-          widget.homeLogo,
-          widget.awayLogo,
-          _resultHome,
-          _resultAway,
-          widget.leagueName,
-          widget.leagueNumber,
-          widget.matchId,
-          widget.matchTime,
-        );
+        addPredictedMatch(widget.homeName, widget.awayName, widget.homeLogo, widget.awayLogo, _resultHome, _resultAway,
+            widget.leagueName, widget.leagueNumber, widget.matchId, widget.matchTime);
       } else {
         // if (predictedMatchId == widget.matchId) {
         //   print('dfgdfg $predictedMatchId');
@@ -156,6 +137,7 @@ class _PredictResultState extends State<PredictResult> {
         //   Navigator.of(context).pop();
         //   return;
         // }
+
         Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
           {
             'teamHomeName': widget.homeName,
@@ -173,19 +155,12 @@ class _PredictResultState extends State<PredictResult> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Mecz został dodany!'),
-            // action: SnackBarAction(
-            //     label: 'Zobacz',
-            //     onPressed: () {
-            //       Navigator.of(context).push(MaterialPageRoute(
-            //         builder: (context) => PredictedScreen(),
-            //       ));
-            //     }),
           ),
         );
       }
 
-      // Navigator.of(context).pop(isNewMatch);
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      Navigator.pop(context, true);
     }
   }
 
@@ -225,7 +200,7 @@ class _PredictResultState extends State<PredictResult> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  widget.homeName,
+                                  widget.homeName!,
                                   style: const TextStyle(fontSize: 17),
                                   softWrap: true,
                                   maxLines: 3,
@@ -235,7 +210,7 @@ class _PredictResultState extends State<PredictResult> {
                                 Container(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
-                                    imageUrl: widget.homeLogo,
+                                    imageUrl: widget.homeLogo!,
                                     fadeInDuration: Duration(milliseconds: 50),
                                     placeholder: (context, url) => const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -260,6 +235,7 @@ class _PredictResultState extends State<PredictResult> {
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     LengthLimitingTextInputFormatter(2),
+                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                   ],
                                   autofocus: false,
                                   style: const TextStyle(
@@ -272,8 +248,9 @@ class _PredictResultState extends State<PredictResult> {
                                     errorStyle: const TextStyle(
                                       color: Colors.red,
                                       fontSize: 14.0,
+                                      height: 0,
                                     ),
-                                    border: const OutlineInputBorder(),
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                                     contentPadding: EdgeInsets.zero,
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -291,7 +268,7 @@ class _PredictResultState extends State<PredictResult> {
                                   initialValue: "",
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Wpisz poprawną liczbę';
+                                      return '';
                                     }
                                     return null;
                                   },
@@ -327,6 +304,7 @@ class _PredictResultState extends State<PredictResult> {
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     LengthLimitingTextInputFormatter(2),
+                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                   ],
                                   autofocus: false,
                                   style: const TextStyle(
@@ -339,8 +317,9 @@ class _PredictResultState extends State<PredictResult> {
                                     errorStyle: const TextStyle(
                                       color: Colors.red,
                                       fontSize: 14.0,
+                                      height: 0,
                                     ),
-                                    border: const OutlineInputBorder(),
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                                     contentPadding: EdgeInsets.zero,
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -358,7 +337,8 @@ class _PredictResultState extends State<PredictResult> {
                                   initialValue: "",
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Wpisz poprawn liczbę';
+                                      // return 'Wpisz poprawn liczbę';
+                                      return '';
                                     }
                                     return null;
                                   },
@@ -377,7 +357,7 @@ class _PredictResultState extends State<PredictResult> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    widget.awayName,
+                                    widget.awayName!,
                                     style: const TextStyle(fontSize: 17),
                                     softWrap: true,
                                     maxLines: 3,
@@ -387,7 +367,7 @@ class _PredictResultState extends State<PredictResult> {
                                   Container(
                                     padding: const EdgeInsets.all(5.0),
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.awayLogo,
+                                      imageUrl: widget.awayLogo!,
                                       fadeInDuration: Duration(milliseconds: 50),
                                       placeholder: (context, url) => const CircularProgressIndicator(),
                                       errorWidget: (context, url, error) => const Icon(Icons.error),

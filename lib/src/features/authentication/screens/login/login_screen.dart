@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        // backgroundColor: Colors.transparent,
         body: Center(
           child: SingleChildScrollView(
             clipBehavior: Clip.none,

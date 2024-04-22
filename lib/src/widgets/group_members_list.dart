@@ -13,6 +13,7 @@ class GroupMembersList extends StatefulWidget {
 
 class _GroupMembersListState extends State<GroupMembersList> {
   Groups groups = Groups();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,35 +34,50 @@ class _GroupMembersListState extends State<GroupMembersList> {
             List<Map<String, dynamic>> membersList = groupData['members'] ?? [];
 
             return Container(
-              height: 100,
-              child: ListView.builder(
-                  itemCount: membersList.length,
-                  itemBuilder: (context, index) {
-                    final member = membersList[index];
-                    String? memberUsername = member['memberUsername'];
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: 25,
-                          child: ListTile(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  memberUsername ?? '',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                SizedBox(width: 10),
-                                widget.creatorUsername == memberUsername
-                                    ? const Icon(Icons.admin_panel_settings_rounded)
-                                    : const SizedBox(),
-                              ],
+              height: 180,
+              child: Scrollbar(
+                controller: _scrollController,
+                trackVisibility: true,
+                thumbVisibility: true,
+                radius: Radius.circular(10),
+                thickness: 1,
+                child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: membersList.length,
+                    itemBuilder: (context, index) {
+                      final member = membersList[index];
+                      String? memberUsername = member['memberUsername'];
+                      return Column(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 25,
+                            margin: EdgeInsets.only(bottom: 5),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.all(0),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    memberUsername ?? '',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  SizedBox(width: 10),
+                                  widget.creatorUsername == memberUsername
+                                      // ? const Icon(Icons.admin_panel_settings_rounded)
+                                      ? Text(
+                                          '⭐',
+                                          style: TextStyle(fontSize: 16),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
+                        ],
+                      );
+                    }),
+              ),
             );
           }
         });

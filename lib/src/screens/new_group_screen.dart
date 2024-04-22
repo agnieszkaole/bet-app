@@ -16,9 +16,9 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   Groups groups = Groups();
   List<Map<String, dynamic>> members = [];
   String? _groupName;
-  String? _groupRules;
   // String? _groupId;
   String? _privacySettings = 'public';
+  String? _groupNameError;
 
   late Map<String, dynamic>? selectedLeague;
 
@@ -26,7 +26,6 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   void initState() {
     super.initState();
     selectedLeague = leagueNames[0];
-    // selectedLeague = null;
   }
 
   String generateGroupAccessCode(int length) {
@@ -38,20 +37,26 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
     return groupAccessCode;
   }
 
-  Future<String?> createNewGroup() async {
+  Future<void> createNewGroup(BuildContext context) async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       String groupAccessCode = generateGroupAccessCode(8);
-      await groups.createGroup(_groupName, _privacySettings, selectedLeague, members, groupAccessCode, _groupRules);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('You have created a new group: $_groupName'),
-        ),
-      );
+      bool groupCreated =
+          await groups.createGroup(_groupName, _privacySettings, selectedLeague, members, groupAccessCode);
 
-      Navigator.of(context).pop(true);
+      if (groupCreated) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('You have created a new group: $_groupName'),
+          ),
+        );
+        Navigator.of(context).pop(true);
+      } else {
+        setState(() {
+          _groupNameError = 'Group name "$_groupName" already exists.';
+        });
+      }
     }
-    return _groupName;
   }
 
   @override
@@ -98,22 +103,24 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       fontSize: 18,
                     ),
                     decoration: InputDecoration(
-                      errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-                      contentPadding: EdgeInsets.all(10.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(color: Colors.greenAccent),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
-                      ),
-                    ),
+                        errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                        contentPadding: EdgeInsets.all(10.0),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 31, 77, 10),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: const BorderSide(color: Colors.greenAccent),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
+                        ),
+                        errorText: _groupNameError),
                     initialValue: "",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -126,51 +133,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 5),
-                    alignment: Alignment.centerLeft,
-                    child: const Text(
-                      'Enter the group rules',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 3,
-                    autofocus: false,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                    decoration: InputDecoration(
-                      errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-                      contentPadding: EdgeInsets.all(10.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(color: Colors.greenAccent),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
-                      ),
-                    ),
-                    initialValue: "",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter the group rules';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _groupRules = value;
-                    },
-                  ),
-                  const SizedBox(height: 20),
+
                   Container(
                     padding: EdgeInsets.only(bottom: 5),
                     alignment: Alignment.centerLeft,
@@ -189,7 +152,9 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
-                              borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 31, 77, 10),
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
@@ -201,7 +166,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                             ),
                           ),
                           child: SizedBox(
-                            height: 20,
+                            height: 22,
                             child: DropdownButton<Map<String, dynamic>>(
                               underline: Container(
                                 height: 0,
@@ -254,7 +219,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     value: 'private',
                     title: Row(
                       children: [
-                        const Text("Pivate"),
+                        const Text("Private"),
                         Text(
                           '  🔐',
                           style: TextStyle(fontSize: 20),
@@ -273,14 +238,15 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: createNewGroup,
+                      onPressed: () {
+                        createNewGroup(context);
+                      },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+                        backgroundColor: const Color.fromARGB(255, 31, 77, 10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        // elevation: 4.0,
                       ),
                       child: const Text(
                         'Create a group',

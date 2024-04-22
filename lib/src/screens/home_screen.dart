@@ -72,147 +72,39 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            Container(
+        appBar: AppBar(
+          flexibleSpace: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                'Betapp',
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+          ),
+          centerTitle: true,
+          // actions: [
+          //   Icon(
+          //     Icons.account_circle,
+          //     size: 45,
+          //     color: Color.fromARGB(255, 0, 155, 64),
+          //   ),
+          // ],
+        ),
+        body: Consumer<BottomNavigationProvider>(
+          builder: (context, provider, _) {
+            return Container(
               // constraints: BoxConstraints(maxWidth: kIsWeb ? 700.0 : MediaQuery.of(context).size.width),
-              child: AppBar(
-                actions: [
-                  // PopupMenuButton(
-                  // constraints: const BoxConstraints.expand(width: 140, height: 60),
-                  // offset: const Offset(0, 60),
-                  // elevation: 50,
-                  // icon: isAnonymous
-                  //     ? Icon(
-                  //         Icons.account_circle,
-                  //         size: 45,
-                  //         color: Color.fromARGB(255, 163, 163, 163),
-                  //       )
-                  //     : Icon(
-                  //         Icons.account_circle,
-                  //         size: 45,
-                  //         color: Color.fromARGB(255, 0, 155, 64),
-                  //       ),
-                  // initialValue: selectedMenu,
-                  // onSelected: (SampleItem item) {
-                  //   setState(() {
-                  //     selectedMenu = item;
-                  //   });
-                  // },
-                  // itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  // PopupMenuItem(
-                  // value: 1,
-                  // child: isAnonymous
-                  // ? GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.of(context)
-                  //           .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
-                  //     },
-                  //     child: Container(
-                  //       child: const Row(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: [
-                  //           Padding(
-                  //             padding: EdgeInsets.symmetric(horizontal: 10),
-                  //             child: Text(
-                  //               'Login',
-                  //               style: TextStyle(
-                  //                 fontSize: 18,
-                  //                 fontWeight: FontWeight.bold,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           Icon(
-                  //             Icons.login,
-                  //             // color: Color.fromARGB(255, 40, 122, 43),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   )
-                  //           : GestureDetector(
-                  //               onTap: () {
-                  //                 signOut();
-                  //               },
-                  //               child: Container(
-                  //                 // margin: EdgeInsets.symmetric(horizontal: 10),
-                  //                 // padding: const EdgeInsets.symmetric(
-                  //                 //     horizontal: 25, vertical: 5),
-                  //                 // decoration: BoxDecoration(
-                  //                 //     border: Border.all(
-                  //                 //       width: 1,
-                  //                 // color: Color.fromARGB(255, 34, 104, 36),
-                  //                 // ),
-                  //                 // borderRadius:
-                  //                 // const BorderRadius.all(Radius.circular(20.0))),
-
-                  //                 child: const Row(
-                  //                   mainAxisAlignment: MainAxisAlignment.center,
-                  //                   children: [
-                  //                     Padding(
-                  //                       padding: EdgeInsets.symmetric(horizontal: 10),
-                  //                       child: Text(
-                  //                         'Log out',
-                  //                         style: TextStyle(
-                  //                           fontSize: 18,
-                  //                           fontWeight: FontWeight.bold,
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                     Icon(
-                  //                       Icons.logout,
-                  //                       // color: Color.fromARGB(255, 40, 122, 43),
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //     ),
-                  //   ],
-                  // ),
-
-                  // isAnonymous
-                  //     ? GestureDetector(
-                  //       onTap: ,
-                  //       child: Icon(
-                  //           Icons.account_circle,
-                  //           size: 45,
-                  //           color: Color.fromARGB(255, 163, 163, 163),
-                  //         ),
-                  //     )
-                  //     : Icon(
-                  //         Icons.account_circle,
-                  //         size: 45,
-                  //         color: Color.fromARGB(255, 48, 143, 51),
-                  //       ),
-                  // ),
+              child: IndexedStack(
+                index: provider.selectedIndex,
+                children: const [
+                  SelectCriteriaScreen(),
+                  GroupsScreen(),
+                  LeaderboardScreen(),
                 ],
-                title: const Text(
-                  '',
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
               ),
-            ),
-            Expanded(
-              child: Consumer<BottomNavigationProvider>(
-                builder: (context, provider, _) {
-                  return Container(
-                    // constraints: BoxConstraints(maxWidth: kIsWeb ? 700.0 : MediaQuery.of(context).size.width),
-                    child: IndexedStack(
-                      index: provider.selectedIndex,
-                      children: const [
-                        SelectCriteriaScreen(),
-                        GroupsScreen(),
-                        LeaderboardScreen(),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+            );
+          },
         ),
         drawer: const MainDrawer(),
         bottomNavigationBar: Consumer<BottomNavigationProvider>(builder: (context, provider, _) {

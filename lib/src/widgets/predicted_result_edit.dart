@@ -129,7 +129,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Row(
                       children: [
@@ -173,6 +173,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                 ],
                                 autofocus: false,
                                 style: const TextStyle(
@@ -182,7 +183,12 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                   hintText: '?',
-                                  border: const OutlineInputBorder(),
+                                  errorStyle: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14.0,
+                                    height: 0,
+                                  ),
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                                   contentPadding: EdgeInsets.zero,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -200,7 +206,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                                 initialValue: "",
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Wpisz poprawną liczbę';
+                                    return '';
                                   }
                                   return null;
                                 },
@@ -235,6 +241,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                 ],
                                 autofocus: false,
                                 style: const TextStyle(
@@ -243,41 +250,31 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                                 ),
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.zero,
                                   hintText: '?',
+                                  errorStyle: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14.0,
+                                    height: 0,
+                                  ),
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                                  contentPadding: EdgeInsets.zero,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 40, 122, 43),
-                                    ),
+                                    borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.greenAccent,
-                                      width: 2,
-                                    ),
+                                    borderSide: const BorderSide(color: Colors.greenAccent),
                                   ),
-                                  // focusedErrorBorder: OutlineInputBorder(
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  //   borderSide: const BorderSide(
-                                  //     color: Colors.red,
-                                  //     width: 2,
-                                  //   ),
-                                  // ),
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.red,
-                                      width: 2,
-                                    ),
+                                    borderSide: const BorderSide(color: Colors.red),
                                   ),
                                 ),
                                 initialValue: "",
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Wpisz poprawn liczbę';
+                                    return '';
                                   }
                                   return null;
                                 },
