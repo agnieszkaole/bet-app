@@ -75,13 +75,13 @@ class _DataTablePageState extends State<DataTablePage> {
       if (memberUids != null) {
         for (var memberUid in memberUids!) {
           List<Map<String, dynamic>>? memberPredictions =
-              await userData.getMatchesResultsForUser(memberUid, selectedLeague);
+              await userData.getMatchesResultsForUser(memberUid, selectedLeague, widget.groupId);
 
           if (memberPredictions != null) {
             for (var match in memberPredictions) {
               int matchId = match['matchId'];
               String prediction = "${match['homeGoal']} : ${match['awayGoal']}";
-
+              // String groupId = match['groupId'];
               try {
                 var scoreboardMatch = scoreboardMatchesList.where(
                   (scoreboardMatch) => scoreboardMatch.fixture.id == matchId,
@@ -93,13 +93,6 @@ class _DataTablePageState extends State<DataTablePage> {
                     'matchId': matchId,
                     'prediction': prediction,
                   });
-
-                  // Add prediction to the map organized by memberUid
-                  // predictionsByMember.putIfAbsent(memberUid, () => []);
-                  // predictionsByMember[memberUid]!.add({
-                  //   'matchId': matchId,
-                  //   'prediction': prediction,
-                  // });
                 }
               } catch (e) {
                 print('No match found for matchId $matchId');
@@ -133,11 +126,11 @@ class _DataTablePageState extends State<DataTablePage> {
 
             height: MediaQuery.of(context).size.height - 250,
             child: CustomDataTable(
-              fixedCornerCell: '',
-              rowsCells: _rowsCells,
-              fixedRowCells: _fixedRowCells,
-              memberUsernames: memberUsernames,
-            ),
+                fixedCornerCell: '',
+                rowsCells: _rowsCells,
+                fixedRowCells: _fixedRowCells,
+                memberUsernames: memberUsernames,
+                groupId: widget.groupId),
           );
         }
       },
@@ -159,6 +152,7 @@ class CustomDataTable<T> extends StatefulWidget {
   final double cellMargin;
   final double cellSpacing;
   final List<String>? memberUsernames;
+  final String? groupId;
 
   const CustomDataTable({
     super.key,
@@ -172,6 +166,7 @@ class CustomDataTable<T> extends StatefulWidget {
     this.cellMargin = 0.0,
     this.cellSpacing = 0.0,
     required this.memberUsernames,
+    required this.groupId,
   });
 
   @override
@@ -379,7 +374,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
   Widget _buildColumns() {
     final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
     final memberCount = widget.fixedRowCells.length;
-    final userId = FirebaseAuth.instance.currentUser?.uid ?? 'Unknown';
+    // final userId = FirebaseAuth.instance.currentUser?.uid ?? 'Unknown';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,21 +409,11 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
     var prediction = '---';
     final match = scoreboardMatchesList.firstWhere((match) => match.fixture.id == matchId);
+
     Color backgroundColor = const Color.fromARGB(255, 136, 136, 136);
     int score = 0;
-    final scoreboard = Scoreboard();
+    // final scoreboard = Scoreboard();
     bool isNewPrediction = true;
-
-    void someFunction() {
-      scoreboard.isPredictionNew(prediction, memberUid, matchId).then((isNewPrediction) {
-        if (isNewPrediction) {
-          Scoreboard().addScores(memberUid, score);
-          isNewPrediction == !isNewPrediction;
-        } else {
-          print('Prediction already exists, skipping score addition');
-        }
-      });
-    }
 
     var memberPredict = widget.rowsCells.firstWhere(
       (prediction) => prediction['memberUid'] == memberUid && prediction['matchId'] == matchId,
@@ -438,6 +423,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     if (memberPredict != null) {
       prediction = memberPredict['prediction'];
     }
+    print('MemberPredict: $memberPredict, MemberUid: $memberUid, MatchId: $matchId');
 
     if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
       backgroundColor = Color.fromARGB(197, 102, 102, 102);

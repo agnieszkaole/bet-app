@@ -21,12 +21,14 @@ class GroupMatchList extends StatefulWidget {
     this.leagueNumber,
     this.leagueLogo,
     this.selectedDate,
+    this.groupId,
   });
 
   final String? leagueName;
   final String? leagueNumber;
   final String? leagueLogo;
   final String? selectedDate;
+  final String? groupId;
 
   static final GlobalKey<_GroupMatchListState> nextMatchListKey = GlobalKey<_GroupMatchListState>();
 
@@ -139,6 +141,7 @@ class _GroupMatchListState extends State<GroupMatchList> {
                                   .doc(user?.uid)
                                   .collection('predictions')
                                   .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
+                                  .where('groupId', isEqualTo: widget.groupId)
                                   .limit(1)
                                   .get();
                               setState(() {});
@@ -151,9 +154,9 @@ class _GroupMatchListState extends State<GroupMatchList> {
                                 final isMatchAdded = snapshot.data ?? false;
                                 if (index < nextGroupMatchesList.length) {
                                   return GroupMatchItem(
-                                    match: nextGroupMatchesList[index],
-                                    isMatchAdded: isMatchAdded,
-                                  );
+                                      match: nextGroupMatchesList[index],
+                                      isMatchAdded: isMatchAdded,
+                                      groupId: widget.groupId);
                                 } else {
                                   return SizedBox();
                                 }

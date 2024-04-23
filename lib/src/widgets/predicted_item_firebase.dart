@@ -34,7 +34,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
     // String leagueName = widget.data['leagueName'] ?? '';
     String matchTime = widget.data['matchTime'] ?? '';
     int matchId = widget.data['matchId'] ?? 0;
-    print(matchTime);
+    // print(matchTime);
     return Center(
       child: Container(
         constraints: BoxConstraints(maxWidth: 400),

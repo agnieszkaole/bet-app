@@ -13,9 +13,11 @@ class GroupMatchItem extends StatefulWidget {
     required this.match,
     super.key,
     required this.isMatchAdded,
+    required this.groupId,
   });
   final SoccerMatch match;
   final bool isMatchAdded;
+  final String? groupId;
   @override
   State<GroupMatchItem> createState() => _GroupMatchItemState();
 }
@@ -181,16 +183,16 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                       onPressed: () async {
                         await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => PredictResult(
-                            homeName: homeName,
-                            awayName: awayName,
-                            homeLogo: homeLogo,
-                            awayLogo: awayLogo,
-                            matchTime: matchTime.toString(),
-                            matchId: matchId,
-                            match: widget.match,
-                            leagueName: leagueName,
-                            leagueNumber: leagueNumber,
-                          ),
+                              homeName: homeName,
+                              awayName: awayName,
+                              homeLogo: homeLogo,
+                              awayLogo: awayLogo,
+                              matchTime: matchTime.toString(),
+                              matchId: matchId,
+                              match: widget.match,
+                              leagueName: leagueName,
+                              leagueNumber: leagueNumber,
+                              groupId: widget.groupId),
                         ));
                       },
                       style: ElevatedButton.styleFrom(

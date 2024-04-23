@@ -28,6 +28,7 @@ class PredictResult extends StatefulWidget {
     this.match,
     this.leagueName,
     this.leagueNumber,
+    this.groupId,
   });
 
   final String? homeName;
@@ -39,6 +40,7 @@ class PredictResult extends StatefulWidget {
   final SoccerMatch? match;
   final String? leagueName;
   final int? leagueNumber;
+  final String? groupId;
 
   @override
   State<PredictResult> createState() => _PredictResultState();
@@ -74,6 +76,7 @@ class _PredictResultState extends State<PredictResult> {
           .doc(user.uid)
           .collection('predictions')
           .where('matchId', isEqualTo: matchId)
+          .where('groupId', isEqualTo: widget.groupId)
           .get();
 
       if (existingPrediction.docs.isNotEmpty) {
@@ -97,6 +100,7 @@ class _PredictResultState extends State<PredictResult> {
         'leagueNumber': leagueNumber,
         'matchId': matchId,
         'matchTime': matchTime,
+        'groupId': widget.groupId
       });
 
       print('Predicted match added to Firestore for the user');
@@ -149,7 +153,8 @@ class _PredictResultState extends State<PredictResult> {
             'matchTime': widget.matchTime,
             'matchId': widget.matchId,
             'leagueName': widget.leagueName,
-            'leagueNumber': widget.leagueNumber
+            'leagueNumber': widget.leagueNumber,
+            'groupId': widget.groupId
           },
         );
         ScaffoldMessenger.of(context).showSnackBar(

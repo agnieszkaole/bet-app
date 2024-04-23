@@ -224,9 +224,11 @@ class _GroupTabsState extends State<GroupTabs> {
                 MatchScheduled(
                   leagueNumber: selectedLeagueNumber.toString(),
                   leagueName: selectedLeagueName.toString(),
+                    groupId: widget.groupId,
                 ),
                 PredictedMatchesFirebase(
                   leagueNumber: selectedLeagueNumber,
+                  groupId: widget.groupId,
                 ),
                 GroupTable(
                   createdAt: createdAt,

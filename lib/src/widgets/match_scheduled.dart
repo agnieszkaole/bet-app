@@ -19,10 +19,12 @@ class MatchScheduled extends StatefulWidget {
     this.leagueName,
     this.leagueNumber,
     this.leagueLogo,
+    this.groupId,
   });
   final String? leagueName;
   final String? leagueNumber;
   final String? leagueLogo;
+  final String? groupId;
 
   @override
   State<MatchScheduled> createState() => _MatchScheduledState();
@@ -65,6 +67,7 @@ class _MatchScheduledState extends State<MatchScheduled> {
             child: GroupMatchList(
               selectedDate: formattedDate,
               leagueNumber: widget.leagueNumber,
+              groupId: widget.groupId,
             ),
           ),
 

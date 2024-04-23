@@ -8,9 +8,13 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
 class PredictedMatchesFirebase extends StatefulWidget {
-  const PredictedMatchesFirebase({super.key, required this.leagueNumber});
+  const PredictedMatchesFirebase({
+    super.key,
+    required this.leagueNumber,
+    this.groupId,
+  });
   final int? leagueNumber;
-
+  final String? groupId;
   @override
   State<PredictedMatchesFirebase> createState() => _PredictedMatchesFirebaseState();
 }
@@ -43,12 +47,18 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.groupId);
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('users').doc(user!.uid).collection('predictions').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .collection('predictions')
+          .where('leagueNumber', isEqualTo: widget.leagueNumber)
+          .where('groupId', isEqualTo: widget.groupId)
+          .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        print(snapshot.connectionState);
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: SizedBox(
               width: 40,
               height: 40,
@@ -59,11 +69,10 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
 
         if (snapshot.hasError) {
           final error = snapshot.error;
-
           return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
         }
         if (snapshot.data!.docs.isEmpty) {
-          return SizedBox(
+          return const SizedBox(
             height: 140,
             child: Center(
               child: Column(
@@ -90,27 +99,26 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
           );
         }
         if (snapshot.hasData) {
-          if (snapshot.data != []) {
-            List<DocumentSnapshot> firestoreDocuments = snapshot.data!.docs;
-            print('Document Count: ${firestoreDocuments.length}');
-            firestoreDocuments.sort((a, b) {
-              DateTime aTime = _parseDate(a['matchTime'] as String);
-              DateTime bTime = _parseDate(b['matchTime'] as String);
-              return aTime.compareTo(bTime);
-            });
-            return ListView.builder(
-              itemCount: firestoreDocuments.length,
-              itemBuilder: (context, index) {
-                Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
+          // if (snapshot.data != []) {
+          List<DocumentSnapshot> firestoreDocuments = snapshot.data!.docs;
+          print('Document Count: ${firestoreDocuments.length}');
+          firestoreDocuments.sort((a, b) {
+            DateTime aTime = _parseDate(a['matchTime'] as String);
+            DateTime bTime = _parseDate(b['matchTime'] as String);
+            return aTime.compareTo(bTime);
+          });
+          return ListView.builder(
+            itemCount: firestoreDocuments.length,
+            itemBuilder: (context, index) {
+              Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
 
-                if (userPrediction['leagueNumber'] == widget.leagueNumber) {
-                  String documentId = firestoreDocuments[index].id;
-                  return PredictedItemFirebase(data: userPrediction, docId: documentId);
-                }
-                return Container();
-              },
-            );
-          }
+              if (userPrediction['leagueNumber'] == widget.leagueNumber) {
+                String documentId = firestoreDocuments[index].id;
+                return PredictedItemFirebase(data: userPrediction, docId: documentId);
+              }
+              return Container();
+            },
+          );
         }
 
         return SizedBox(

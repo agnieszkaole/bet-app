@@ -125,6 +125,7 @@ class Groups {
         List<Map<String, dynamic>> members = [];
         Map<String, dynamic> selectedLeague = {};
         String? groupAccessCode;
+        String? groupId;
         Timestamp? createdAt;
 
         if (groupSnapshot.data()?['members'] != null) {
@@ -154,6 +155,9 @@ class Groups {
         if (groupSnapshot.data()?['groupRules'] != null) {
           groupRules = groupSnapshot.data()?['groupRules'];
         }
+        if (groupSnapshot.data()?['groupIds'] != null) {
+          groupRules = groupSnapshot.data()?['groupId'];
+        }
 
         return {
           'numberOfUsers': numberOfUsers,
@@ -164,6 +168,7 @@ class Groups {
           'groupAccessCode': groupAccessCode,
           'createdAt': createdAt,
           'groupRules': groupRules,
+          'groupId': groupId,
           // 'selected': members,
         };
       }

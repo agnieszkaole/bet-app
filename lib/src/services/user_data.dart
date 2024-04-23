@@ -39,13 +39,15 @@ class UserData {
     return null;
   }
 
-  Future<List<Map<String, dynamic>>?> getMatchesResultsForUser(String userUid, int leagueNumber) async {
+  Future<List<Map<String, dynamic>>?> getMatchesResultsForUser(
+      String userUid, int leagueNumber, String? groupId) async {
     try {
       QuerySnapshot<Map<String, dynamic>> userQuerySnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(userUid)
           .collection('predictions')
           .where('leagueNumber', isEqualTo: leagueNumber)
+          .where('groupId', isEqualTo: groupId)
           .get();
 
       if (userQuerySnapshot.docs.isNotEmpty) {
