@@ -42,7 +42,7 @@ class _GroupDetailsState extends State<GroupDetails> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? currentUser;
-  // String? privacyType;
+  String? groupPrivacyType;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _GroupDetailsState extends State<GroupDetails> {
       setState(() {
         groupAccessCode = result['groupAccessCode'];
         groupRules = result['groupRules'];
-        print(groupRules);
+        groupPrivacyType = result['privacyType'];
       });
     } catch (e) {
       print("Error fetching data: $e");
@@ -99,12 +99,12 @@ class _GroupDetailsState extends State<GroupDetails> {
           SizedBox(height: 30),
           Container(
             // height: 500,
-            width: MediaQuery.of(context).size.width - 50,
+            width: MediaQuery.of(context).size.width - 50, constraints: const BoxConstraints(maxWidth: 400),
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color: Color.fromARGB(207, 32, 32, 32),
-                border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+                border: Border.all(color: Color.fromARGB(255, 32, 168, 62), width: 0.4)),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -120,11 +120,22 @@ class _GroupDetailsState extends State<GroupDetails> {
                           color: Color.fromARGB(255, 39, 190, 72),
                         ),
                       ),
-                      Text(
-                        '${widget.groupName}',
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 20),
-                        // textAlign: TextAlign.left,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${widget.groupName}  ',
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 20),
+                            // textAlign: TextAlign.left,
+                          ),
+                          Text(
+                            '${widget.privacyType == "private" ? " 🔐" : " 🔓"}',
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 22),
+                            // textAlign: TextAlign.left,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -207,9 +218,17 @@ class _GroupDetailsState extends State<GroupDetails> {
           widget.creatorUsername != currentUser
               ? Container(
                   width: MediaQuery.of(context).size.width - 50,
+                  constraints: const BoxConstraints(maxWidth: 400),
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(104, 21, 138, 6),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color.fromARGB(150, 62, 155, 19),
+                          Color.fromARGB(150, 31, 77, 10),
+                        ],
+                      ),
                       borderRadius: BorderRadius.circular(25),
                       border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
                   child: Column(
@@ -228,24 +247,14 @@ class _GroupDetailsState extends State<GroupDetails> {
                                         content: Text('Are you sure you want to leave this group? '),
                                         actions: [
                                           TextButton(
-                                            style: TextButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                                foregroundColor: Color.fromARGB(255, 255, 255, 255)),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text(
-                                              'No',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
+                                            style: ElevatedButton.styleFrom(
+                                              foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(25),
+                                                side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
                                               ),
+                                              // elevation: 4.0,
                                             ),
-                                          ),
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(255, 224, 196, 196),
-                                                foregroundColor: Color.fromARGB(255, 146, 0, 0)),
                                             onPressed: () async {
                                               await deleteMemberFromFirebase();
                                               Navigator.of(context)
@@ -262,6 +271,21 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               'Yes',
                                               style: TextStyle(
                                                 color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                                backgroundColor: Color.fromARGB(255, 2, 126, 6),
+                                                foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              'No',
+                                              style: TextStyle(
+                                                color: Colors.white,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -286,9 +310,17 @@ class _GroupDetailsState extends State<GroupDetails> {
                 )
               : Container(
                   width: MediaQuery.of(context).size.width - 50,
+                  constraints: const BoxConstraints(maxWidth: 400),
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(104, 21, 138, 6),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color.fromARGB(150, 62, 155, 19),
+                          Color.fromARGB(150, 31, 77, 10),
+                        ],
+                      ),
                       borderRadius: BorderRadius.circular(25),
                       border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
                   child: Column(
@@ -315,10 +347,10 @@ class _GroupDetailsState extends State<GroupDetails> {
                             onTap: () {
                               widget.privacyType == 'private'
                                   ? Share.share(
-                                      'Are you ready to bet with your friends? Download Betapp and join a private group: "${widget.groupName}" - access code: ${groupAccessCode} or other public group. Betapp Team',
+                                      'Are you ready to bet with your friends? Download GreatBet and join a private group: "${widget.groupName}" - access code: ${groupAccessCode} or other public group. GreatBet Team',
                                     )
                                   : Share.share(
-                                      'Are you ready to bet with your friends? Download Betapp and join a public group: "${widget.groupName}" or create a private group. Betapp Team');
+                                      'Are you ready to bet with your friends? Download GreatBet and join a public group: "${widget.groupName}" or create a private group. GreatBet Team');
                             },
                             child: const Row(
                               children: [
@@ -348,6 +380,26 @@ class _GroupDetailsState extends State<GroupDetails> {
                                             'Are you sure you want to delete this group? Once deleted it cannot be recovered.'),
                                         actions: [
                                           TextButton(
+                                            style: ElevatedButton.styleFrom(
+                                              foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(25),
+                                                side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                              ),
+                                              // elevation: 4.0,
+                                            ),
+                                            onPressed: () {
+                                              deleteGroupFromFirebase();
+                                            },
+                                            child: const Text(
+                                              'Yes, delete',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
                                             style: TextButton.styleFrom(
                                                 backgroundColor: Color.fromARGB(255, 2, 126, 6),
                                                 foregroundColor: Color.fromARGB(255, 255, 255, 255)),
@@ -358,21 +410,6 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               'Cancel',
                                               style: TextStyle(
                                                 color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(255, 224, 196, 196),
-                                                foregroundColor: Color.fromARGB(255, 146, 0, 0)),
-                                            onPressed: () {
-                                              deleteGroupFromFirebase();
-                                            },
-                                            child: const Text(
-                                              'Yes, delete',
-                                              style: TextStyle(
-                                                color: Colors.red,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),

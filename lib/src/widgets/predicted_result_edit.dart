@@ -318,7 +318,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                   height: 20,
                 ),
                 SizedBox(
-                  width: double.infinity,
+                  width: 280,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {

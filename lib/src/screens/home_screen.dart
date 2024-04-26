@@ -72,12 +72,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        // extendBodyBehindAppBar: true,
         appBar: AppBar(
+          // backgroundColor: Color.fromARGB(100, 0, 0, 0),
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
           flexibleSpace: Center(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Betapp',
+                'GreatBet',
                 style: TextStyle(fontSize: 24),
               ),
             ),
@@ -113,6 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
             //   maxWidth: kIsWeb ? 400.0 : MediaQuery.of(context).size.width,
             // ),
             child: BottomNavigationBar(
+              backgroundColor: Color.fromARGB(100, 0, 0, 0),
+              selectedItemColor: Color.fromARGB(255, 62, 155, 19),
               type: BottomNavigationBarType.fixed,
               currentIndex: provider.selectedIndex,
               onTap: (index) {

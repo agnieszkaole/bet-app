@@ -79,18 +79,18 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'You haven\'t added any predictions',
-                    style: TextStyle(fontSize: 14),
+                    'You have not added any predictions',
+                    style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     'or unexpected state encountered. ',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     'Please try again later.',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -107,17 +107,25 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
             DateTime bTime = _parseDate(b['matchTime'] as String);
             return aTime.compareTo(bTime);
           });
-          return ListView.builder(
-            itemCount: firestoreDocuments.length,
-            itemBuilder: (context, index) {
-              Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
+          return Column(
+            children: [
+              Text("The prediction can only be edited until the match starts.",
+                  textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: firestoreDocuments.length,
+                  itemBuilder: (context, index) {
+                    Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
 
-              if (userPrediction['leagueNumber'] == widget.leagueNumber) {
-                String documentId = firestoreDocuments[index].id;
-                return PredictedItemFirebase(data: userPrediction, docId: documentId);
-              }
-              return Container();
-            },
+                    if (userPrediction['leagueNumber'] == widget.leagueNumber) {
+                      String documentId = firestoreDocuments[index].id;
+                      return PredictedItemFirebase(data: userPrediction, docId: documentId);
+                    }
+                    return Container();
+                  },
+                ),
+              ),
+            ],
           );
         }
 

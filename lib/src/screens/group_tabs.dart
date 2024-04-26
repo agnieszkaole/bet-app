@@ -93,23 +93,25 @@ class _GroupTabsState extends State<GroupTabs> {
             // title: Text('Grupa:  $groupName'),
             title: Row(
               children: [
-                Container(
-                  width: 280,
-                  child: Row(
-                    children: [
-                      Text(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 280,
+                      child: Text(
                         '${widget.groupName}',
                         style: const TextStyle(fontSize: 22),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
-                        widget.privacyType == "private" ? "  🔐" : "  🔓",
-                        style: const TextStyle(fontSize: 22),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
+                    ),
+                    // Text(
+                    //   widget.privacyType == "private" ? "  🔐" : "  🔓",
+                    //   style: const TextStyle(fontSize: 22),
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
+                  ],
                 ),
+
                 // Text(
                 //   '( ${widget.groupMembers} ',
                 //   style: const TextStyle(fontSize: 22),
@@ -123,8 +125,10 @@ class _GroupTabsState extends State<GroupTabs> {
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60),
-              child: SizedBox(
-                width: double.infinity,
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width - 20,
+                constraints: BoxConstraints(maxWidth: 600),
                 child: TabBar(
                   onTap: (index) async {
                     if (index == 1) {
@@ -148,7 +152,7 @@ class _GroupTabsState extends State<GroupTabs> {
                           SizedBox(width: 3),
                           Text(
                             'Info',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 13),
                           ),
                         ],
                       ),
@@ -162,7 +166,7 @@ class _GroupTabsState extends State<GroupTabs> {
                           SizedBox(width: 3),
                           Text(
                             'Scheduled',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 13),
                           ),
                         ],
                       ),
@@ -176,7 +180,7 @@ class _GroupTabsState extends State<GroupTabs> {
                           SizedBox(width: 3),
                           Text(
                             'Predicted',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 13),
                           ),
                         ],
                       ),
@@ -190,7 +194,7 @@ class _GroupTabsState extends State<GroupTabs> {
                           SizedBox(width: 3),
                           Text(
                             'Bets',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 13),
                           ),
                         ],
                       ),
@@ -224,7 +228,7 @@ class _GroupTabsState extends State<GroupTabs> {
                 MatchScheduled(
                   leagueNumber: selectedLeagueNumber.toString(),
                   leagueName: selectedLeagueName.toString(),
-                    groupId: widget.groupId,
+                  groupId: widget.groupId,
                 ),
                 PredictedMatchesFirebase(
                   leagueNumber: selectedLeagueNumber,

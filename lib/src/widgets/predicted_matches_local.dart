@@ -15,29 +15,34 @@ class _PredictedMatchesLocalState extends State<PredictedMatchesLocal> {
 
   @override
   Widget build(BuildContext context) {
-    final predictedMatchList =
-        context.watch<PredictedMatchProvider>().predictedMatchList;
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: predictedMatchList.length,
-      itemBuilder: (context, index) {
-        return Dismissible(
-          key: Key(predictedMatchList[index]['matchId'].toString()),
-          background: Container(
-            alignment: Alignment.centerRight,
-            child: const Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
+    final predictedMatchList = context.watch<PredictedMatchProvider>().predictedMatchList;
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: predictedMatchList.length,
+            itemBuilder: (context, index) {
+              return Dismissible(
+                key: Key(predictedMatchList[index]['matchId'].toString()),
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                ),
+                onDismissed: (direction) {
+                  setState(() {
+                    predictedMatchList.removeAt(index);
+                  });
+                },
+                child: PredictedItemLocal(predictedMatch: predictedMatchList[index]),
+              );
+            },
           ),
-          onDismissed: (direction) {
-            setState(() {
-              predictedMatchList.removeAt(index);
-            });
-          },
-          child: PredictedItemLocal(predictedMatch: predictedMatchList[index]),
-        );
-      },
+        ),
+      ],
     );
   }
 }

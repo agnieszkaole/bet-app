@@ -1,13 +1,15 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/provider/prev_matches_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/match_prediction_list.dart';
 import 'package:bet_app/src/widgets/next_match_item.dart';
+import 'package:bet_app/src/widgets/prev_match_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NextMatchList extends StatefulWidget {
-  NextMatchList({
+class PrevMatchList extends StatefulWidget {
+  PrevMatchList({
     super.key,
     required this.leagueNumber,
     this.isSelectedLeague,
@@ -16,12 +18,12 @@ class NextMatchList extends StatefulWidget {
   final String? leagueNumber;
   final bool? isSelectedLeague;
 
-  static final GlobalKey<_NextMatchListState> nextMatchListKey = GlobalKey<_NextMatchListState>();
+  static final GlobalKey<_PrevMatchListState> prevMatchListKey = GlobalKey<_PrevMatchListState>();
   @override
-  State<NextMatchList> createState() => _NextMatchListState();
+  State<PrevMatchList> createState() => _PrevMatchListState();
 }
 
-class _NextMatchListState extends State<NextMatchList> {
+class _PrevMatchListState extends State<PrevMatchList> {
   final ScrollController _scrollController = ScrollController();
 
   // String? leagueNumber;
@@ -29,7 +31,7 @@ class _NextMatchListState extends State<NextMatchList> {
   // DateTime _selectedDate = DateTime.now();
   String? formattedDate;
   late Future dataFuture;
-  String? statusApi = 'ns-tbd';
+  String? statusApi = 'FT-AET-PEN';
   String? timezoneApi = 'Europe/Warsaw';
 
   @override
@@ -39,7 +41,7 @@ class _NextMatchListState extends State<NextMatchList> {
   }
 
   @override
-  void didUpdateWidget(NextMatchList oldWidget) {
+  void didUpdateWidget(PrevMatchList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.leagueNumber != oldWidget.leagueNumber) {
       _getData();
@@ -52,7 +54,7 @@ class _NextMatchListState extends State<NextMatchList> {
       league: widget.leagueNumber,
       season: '2023',
       status: statusApi,
-      next: '10',
+      last: '10',
       timezone: timezoneApi,
     );
     final season2Data = await SoccerApi().getMatches(
@@ -60,7 +62,7 @@ class _NextMatchListState extends State<NextMatchList> {
       league: widget.leagueNumber,
       season: '2024',
       status: statusApi,
-      next: '10',
+      last: '10',
       timezone: timezoneApi,
     );
 
@@ -82,7 +84,7 @@ class _NextMatchListState extends State<NextMatchList> {
     if (availableMatches > requestedMatches) {
       mergedData = mergedData.sublist(0, requestedMatches);
     }
-    Provider.of<NextMatchesProvider>(context, listen: false).saveMatches(mergedData);
+    Provider.of<PrevMatchesProvider>(context, listen: false).saveMatches(mergedData);
 
     return mergedData;
   }
@@ -105,7 +107,7 @@ class _NextMatchListState extends State<NextMatchList> {
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             } else if (snapshot.data!.isEmpty) {
               return SizedBox(
-                height: 160,
+                height: 150,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -129,19 +131,18 @@ class _NextMatchListState extends State<NextMatchList> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // SizedBox(height: 5),
                     SizedBox(
                       height: 160,
-                      child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                      child: Consumer<PrevMatchesProvider>(builder: (context, provider, _) {
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           controller: _scrollController,
-                          itemCount: provider.nextMatchesList.length,
+                          itemCount: provider.prevMatchesList.length,
                           itemBuilder: (context, index) {
-                            NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
-                            if (index < provider.nextMatchesList.length) {
-                              return NextMatchItem(
-                                match: provider.nextMatchesList[index],
+                            PrevMatchesProvider.sortMatchesByDate(provider.prevMatchesList);
+                            if (index < provider.prevMatchesList.length) {
+                              return PrevMatchItem(
+                                match: provider.prevMatchesList[index],
                               );
                             } else {
                               return const SizedBox();

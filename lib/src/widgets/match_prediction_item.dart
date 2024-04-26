@@ -17,21 +17,16 @@ class MatchPredictionItem extends StatefulWidget {
 class _MatchPredictionItemState extends State<MatchPredictionItem> {
   @override
   Widget build(BuildContext context) {
-    print(widget.prediction.percent.home);
-    print(widget.prediction.percent.draw);
-    print(widget.prediction.percent.away);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          // constraints: BoxConstraints(maxWidth: 300),
-          // height: 150, // width: MediaQuery.of(context).size.width / 2,
-
+          constraints: BoxConstraints(maxWidth: 400),
           margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
           decoration: BoxDecoration(
-            image: const DecorationImage(
-              image: AssetImage("./assets/images/little-1506570_192011.png"),
+            image: DecorationImage(
+              image: AssetImage("./assets/images/lawn-5007569_19201.jpg"),
               fit: BoxFit.cover,
             ),
             border: Border.all(
@@ -46,97 +41,11 @@ class _MatchPredictionItemState extends State<MatchPredictionItem> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 70,
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.teams.home.name,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: Container(
-                              padding: const EdgeInsets.all(10.0),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.teams.home.logo,
-                                fadeInDuration: const Duration(milliseconds: 50),
-                                placeholder: (context, url) => const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                                width: 50,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 20,
-                    margin: EdgeInsets.only(top: 60),
-                    child: Text(
-                      "vs",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 70,
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.teams.away.name,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: Container(
-                              padding: const EdgeInsets.all(10.0),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.teams.away.logo,
-                                placeholder: (context, url) => const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                                width: 50,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              Text(
+                'GreateBet advice',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 5),
-
               SizedBox(height: 5),
               Text(
                 widget.prediction.advice,

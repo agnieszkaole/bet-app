@@ -64,15 +64,22 @@ class DataPickerState extends State<DataPicker> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color: Color.fromARGB(235, 34, 34, 34),
-                border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+                border: Border.all(color: Color.fromARGB(255, 32, 168, 62), width: 0.7)),
             child: Column(
               children: [
-                Text('${widget.leagueName}',
+                SizedBox(
+                  width: 280,
+                  child: Text(
+                    '${widget.leagueName}',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 32, 168, 62),
-                    )),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 SizedBox(height: 5),
                 NextMatchScheduledList(leagueNumber: widget.leagueNumber),
                 // Text(

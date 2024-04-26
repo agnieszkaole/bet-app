@@ -29,7 +29,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
     var awayName = widget.match.away.name;
     var awayLogo = widget.match.away.logoUrl;
     var matchTime = widget.match.fixture.formattedDate;
-
+    var leagueRound = widget.match.league.round;
     // var leagueName = widget.match.league.name;
     // var leagueNumber = widget.match.league.id;
 
@@ -42,22 +42,22 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
       },
       child: Container(
         width: 200,
-        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+        margin: const EdgeInsets.only(right: 10, top: 8, bottom: 8),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 41, 41, 41),
+          color: Color.fromARGB(134, 41, 41, 41),
           gradient: const LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Color.fromARGB(255, 62, 155, 19),
-              Color.fromARGB(255, 31, 77, 10),
+              Color.fromARGB(100, 62, 155, 19),
+              Color.fromARGB(100, 31, 77, 10),
             ],
           ),
-          // border: Border.all(
-          //   width: 1,
-          //   color: Color.fromARGB(255, 0, 71, 32),
-          // ),
+          border: Border.all(
+            width: .6,
+            color: Color.fromARGB(255, 0, 168, 76),
+          ),
           // image: DecorationImage(image: AssetImage('./assets/images/lawn-5007569_1920.jpg'), fit: BoxFit.cover),
           borderRadius: BorderRadius.all(
             Radius.circular(25),
@@ -70,6 +70,10 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
               Text(
                 matchTime.toString(),
                 style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                leagueRound,
+                style: const TextStyle(fontSize: 12),
               ),
             ]),
             const SizedBox(height: 5),

@@ -172,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: <Widget>[
                       const SizedBox(height: 60.0),
                       Text(
-                        "Betapp",
+                        "GreatBet",
                         style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                       ),
                       const Text("Create your account", style: TextStyle(fontSize: 16)),

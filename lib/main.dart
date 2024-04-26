@@ -7,6 +7,7 @@ import 'package:bet_app/src/provider/next_group_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_scheduled_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
+import 'package:bet_app/src/provider/prev_matches_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/provider/standings_provider.dart';
 
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => PredictedMatchProvider()),
         ChangeNotifierProvider(create: (context) => NextMatchesProvider()),
+        ChangeNotifierProvider(create: (context) => PrevMatchesProvider()),
         ChangeNotifierProvider(create: (context) => NextMatchesScheduledProvider()),
         ChangeNotifierProvider(create: (context) => NextGroupMatchesProvider()),
         ChangeNotifierProvider(create: (context) => ScoreboardProvider()),
@@ -49,41 +51,55 @@ class MyApp extends StatelessWidget {
       ],
       child: Container(
         constraints: BoxConstraints(maxWidth: 600),
-        // decoration: BoxDecoration(
-        //   image: const DecorationImage(
-        //     image: AssetImage("./assets/images/artificial-turf-1711556_1920.jpg"),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         child: Center(
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Betapp',
-            // themeMode: ThemeMode.system,
-            theme: ThemeData(
-              useMaterial3: true,
-              brightness: Brightness.dark,
-              primaryColor: const Color.fromARGB(200, 40, 122, 43),
-              textTheme: Theme.of(context).textTheme.apply(
-                    bodyColor: const Color.fromARGB(255, 255, 255, 255),
-                    fontFamily: GoogleFonts.lato().fontFamily,
-                  ),
-            ),
-            home: StreamBuilder<User?>(
-              stream: firebaseAuth.authStateChanges(),
-              builder: (context, AsyncSnapshot<User?> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  // return HomeScreen();
-                  return const AuthScreens();
-                } else {
-                  return const LoginScreen();
-                }
-              },
-            ),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Stack(children: [
+              Container(
+                decoration: BoxDecoration(
+                    // image: DecorationImage(
+                    //   image: AssetImage('./assets/images/little-1506570_19201.png'),
+                    //   fit: BoxFit.cover,
+                    // ),
+                    gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromARGB(255, 26, 26, 26),
+                    Color.fromARGB(255, 25, 61, 9),
+                  ],
+                )),
+              ),
+              MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'GreatBet',
+                // themeMode: ThemeMode.system,
+                theme: ThemeData(
+                    useMaterial3: true,
+                    brightness: Brightness.dark,
+                    primaryColor: const Color.fromARGB(200, 40, 122, 43),
+                    textTheme: Theme.of(context).textTheme.apply(
+                          bodyColor: const Color.fromARGB(255, 255, 255, 255),
+                          fontFamily: GoogleFonts.lato().fontFamily,
+                        ),
+                    scaffoldBackgroundColor: Colors.transparent),
+                home: StreamBuilder<User?>(
+                  stream: firebaseAuth.authStateChanges(),
+                  builder: (context, AsyncSnapshot<User?> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      // return HomeScreen();
+                      return const AuthScreens();
+                    } else {
+                      return const LoginScreen();
+                    }
+                  },
+                ),
+              ),
+            ]),
           ),
         ),
       ),

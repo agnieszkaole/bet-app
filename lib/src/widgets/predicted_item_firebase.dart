@@ -32,9 +32,29 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
     int homeGoal = widget.data['homeGoal'] ?? 0;
     int awayGoal = widget.data['awayGoal'] ?? 0;
     // String leagueName = widget.data['leagueName'] ?? '';
-    String matchTime = widget.data['matchTime'] ?? '';
     int matchId = widget.data['matchId'] ?? 0;
-    // print(matchTime);
+    String matchTime = widget.data['matchTime'] ?? '';
+
+    DateTime parseDate(String date) {
+      final parts = date.split(' - ');
+      final datePart = parts[0];
+      final timePart = parts[1];
+      final dateParts = datePart.split('.');
+      final timeParts = timePart.split(':');
+
+      final day = int.parse(dateParts[0]);
+      final month = int.parse(dateParts[1]);
+      final year = int.parse(dateParts[2]);
+      final hour = int.parse(timeParts[0]);
+      final minute = int.parse(timeParts[1]);
+
+      return DateTime(year, month, day, hour, minute);
+    }
+
+    DateTime matchDateTime = parseDate(matchTime);
+    Duration timeDifference = matchDateTime.difference(DateTime.now()); // Calculate time difference correctly
+    bool isWithinXHours = timeDifference.inMinutes <= 0;
+
     return Center(
       child: Container(
         constraints: BoxConstraints(maxWidth: 400),
@@ -124,46 +144,47 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                 ),
               ],
             ),
-            Positioned(
-              right: 0.0,
-              top: 0.0,
-              child: SizedBox(
-                width: 35,
-                height: 35,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.all(0),
-                    shape: const StadiumBorder(),
-                    side: const BorderSide(
-                      width: 1,
-                      color: Color.fromARGB(90, 66, 201, 70),
-                    ),
-                    // side: BorderSide.none,
-                    foregroundColor:
-                        // const Color.fromARGB(255, 176, 206, 177),
-                        Color.fromARGB(255, 66, 201, 70),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PredictedResultEdit(
-                        teamHomeName: homeName,
-                        teamAwayName: awayName,
-                        teamHomeLogo: homeLogo,
-                        teamAwayLogo: awayLogo,
-                        matchId: matchId,
+            if (isWithinXHours == false)
+              Positioned(
+                right: 0.0,
+                top: 0.0,
+                child: SizedBox(
+                  width: 35,
+                  height: 35,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.all(0),
+                      shape: const StadiumBorder(),
+                      side: const BorderSide(
+                        width: 1,
+                        color: Color.fromARGB(90, 66, 201, 70),
                       ),
-                    ));
-                  },
-                  child: const Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.edit_note_rounded,
-                      size: 24,
+                      // side: BorderSide.none,
+                      foregroundColor:
+                          // const Color.fromARGB(255, 176, 206, 177),
+                          Color.fromARGB(255, 66, 201, 70),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PredictedResultEdit(
+                          teamHomeName: homeName,
+                          teamAwayName: awayName,
+                          teamHomeLogo: homeLogo,
+                          teamAwayLogo: awayLogo,
+                          matchId: matchId,
+                        ),
+                      ));
+                    },
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.edit_note_rounded,
+                        size: 24,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
             Positioned(
               left: 0.0,
               top: 0.0,
@@ -195,24 +216,13 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                               content: Text('Are you sure you want to delete this prediction? '),
                               actions: [
                                 TextButton(
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                      foregroundColor: Color.fromARGB(255, 255, 255, 255)),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    'No',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                      side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
                                     ),
                                   ),
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: Color.fromARGB(255, 224, 196, 196),
-                                      foregroundColor: Color.fromARGB(255, 146, 0, 0)),
                                   onPressed: () {
                                     FirebaseFirestore.instance
                                         .collection('users')
@@ -238,6 +248,21 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                                     ),
                                   ),
                                 ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: Color.fromARGB(255, 2, 126, 6),
+                                      foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(
+                                    'No',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ]);
                         });
                   },
@@ -258,3 +283,19 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
     );
   }
 }
+
+// DateTime _parseDate(String date) {
+//   final parts = date.split(' - ');
+//   final datePart = parts[0];
+//   final timePart = parts[1];
+//   final dateParts = datePart.split('.');
+//   final timeParts = timePart.split(':');
+
+//   final day = int.parse(dateParts[0]);
+//   final month = int.parse(dateParts[1]);
+//   final year = int.parse(dateParts[2]);
+//   final hour = int.parse(timeParts[0]);
+//   final minute = int.parse(timeParts[1]);
+
+//   return DateTime(year, month, day, hour, minute);
+// }

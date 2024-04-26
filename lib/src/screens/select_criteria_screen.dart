@@ -11,6 +11,7 @@ import 'package:bet_app/src/widgets/match_prediction_list.dart';
 import 'package:bet_app/src/widgets/match_scheduled.dart';
 
 import 'package:bet_app/src/widgets/next_match_list.dart';
+import 'package:bet_app/src/widgets/prev_match_list.dart';
 import 'package:bet_app/src/widgets/standings_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -76,202 +77,213 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     // });
 
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Column(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Text(
-                    'Hello ${username != null ? '$username' : ''}',
-                    style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '   👋',
-                    style: const TextStyle(
-                      fontSize: 25,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(width: 0.5, color: Color.fromARGB(255, 0, 168, 76)),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromARGB(100, 39, 39, 39),
+                        Color.fromARGB(100, 39, 39, 39),
+                      ],
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Hello ${username != null ? '$username' : ''}',
+                          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '   👋',
+                          style: const TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    const Text(
+                      'Let\'s bet with friends!',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
               ),
+
+              SizedBox(height: 20),
+
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromARGB(100, 39, 39, 39),
+                        Color.fromARGB(100, 39, 39, 39),
+                      ],
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Top leagues',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      height: 40,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: leagueNames.length,
+                        itemBuilder: (context, index) {
+                          var league = leagueNames[index];
+                          return GestureDetector(
+                            // key: Key(league["number"].toString()),
+                            child: Container(
+                                // width: 220,
+                                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                                margin: const EdgeInsets.only(right: 5),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    border: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
+                                        ? Border.all(width: 0.2, color: Color.fromARGB(255, 0, 168, 76))
+                                        : Border.all(width: 0.8, color: Color.fromARGB(255, 0, 100, 45)),
+                                    gradient: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
+                                        ? const LinearGradient(
+                                            begin: Alignment.topRight,
+                                            end: Alignment.bottomLeft,
+                                            colors: [
+                                              Color.fromARGB(255, 62, 155, 19),
+                                              Color.fromARGB(255, 31, 77, 10),
+                                            ],
+                                          )
+                                        : const LinearGradient(
+                                            begin: Alignment.topRight,
+                                            end: Alignment.bottomLeft,
+                                            colors: [
+                                              Color.fromARGB(255, 39, 39, 39),
+                                              Color.fromARGB(255, 39, 39, 39),
+                                            ],
+                                          )),
+                                child: Center(
+                                  child: Text(
+                                    league["name"],
+                                    style: TextStyle(
+                                        color: const Color.fromARGB(255, 255, 255, 255),
+                                        fontWeight:
+                                            isSelectedLeague && selectedLeagueNumber == league['number'].toString()
+                                                ? FontWeight.bold
+                                                : FontWeight.normal),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )),
+                            onTap: () {
+                              setState(() {
+                                selectedLeagueNumber = league['number'].toString();
+                                isSelectedLeague = true;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // const Divider(
+              //   height: 40,
+              //   color: Color.fromARGB(255, 99, 99, 99),
+              //   thickness: 1,
+              // ),
+              SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromARGB(100, 39, 39, 39),
+                        Color.fromARGB(100, 39, 39, 39),
+                      ],
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text(
+                    //   'League overview',
+                    //   // 'Quick overview | Next matches',
+                    //   style: TextStyle(
+                    //     fontSize: 18,
+                    //     // fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+
+                    // SizedBox(height: 10),
+                    const Text(
+                      'Upcoming matches',
+                      // ' | Next matches',
+                      style: TextStyle(
+                        fontSize: 16,
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    // SizedBox(height: 10),
+                    NextMatchList(
+                      leagueNumber: selectedLeagueNumber,
+                      isSelectedLeague: isSelectedLeague,
+                    ),
+                    // const SizedBox(height: 10),
+                    const Text(
+                      'Latest Scores',
+                      style: TextStyle(
+                        fontSize: 16,
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    PrevMatchList(
+                      leagueNumber: selectedLeagueNumber,
+                      isSelectedLeague: isSelectedLeague,
+                    ),
+                    // const Text(
+                    //   'Standings',
+                    //   style: TextStyle(
+                    //     fontSize: 18,
+                    //     // fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // StandingsList(
+                    //   leagueNumber: selectedLeagueNumber,
+                    // ),
+                    // SizedBox(height: 10),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
             ],
           ),
-
-          SizedBox(height: 20),
-          const Text(
-            'Top leagues',
-            style: TextStyle(
-              fontSize: 22,
-            ),
-          ),
-          SizedBox(height: 15),
-          SizedBox(
-            height: 40,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: leagueNames.length,
-              itemBuilder: (context, index) {
-                var league = leagueNames[index];
-                return GestureDetector(
-                  // key: Key(league["number"].toString()),
-                  child: Container(
-                      // width: 220,
-                      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          // border: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
-                          //     ? Border.all(width: 1.5, color: Color.fromARGB(255, 0, 168, 76))
-                          //     : Border.all(width: 0.8, color: Color.fromARGB(255, 0, 100, 45)),
-                          gradient: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
-                              ? const LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Color.fromARGB(255, 62, 155, 19),
-                                    Color.fromARGB(255, 31, 77, 10),
-                                  ],
-                                )
-                              : const LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Color.fromARGB(255, 39, 39, 39),
-                                    Color.fromARGB(255, 39, 39, 39),
-                                  ],
-                                )),
-                      child: Center(
-                        child: Text(
-                          league["name"],
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              fontWeight: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
-                                  ? FontWeight.bold
-                                  : FontWeight.normal),
-                          textAlign: TextAlign.center,
-                        ),
-                      )),
-                  onTap: () {
-                    setState(() {
-                      selectedLeagueNumber = league['number'].toString();
-                      isSelectedLeague = true;
-                    });
-                  },
-                );
-              },
-            ),
-          ),
-
-          // const Divider(
-          //   height: 40,
-          //   color: Color.fromARGB(255, 99, 99, 99),
-          //   thickness: 1,
-          // ),
-          SizedBox(height: 20),
-          const Text(
-            'Upcoming matches',
-            style: TextStyle(
-              fontSize: 18,
-              // fontWeight: FontWeight.bold,
-            ),
-          ),
-          // SizedBox(height: 10),
-          NextMatchList(
-            leagueNumber: selectedLeagueNumber,
-            isSelectedLeague: isSelectedLeague,
-          ),
-          const SizedBox(height: 10),
-          // const Text(
-          //   'Predictions',
-          //   style: TextStyle(
-          //     fontSize: 18,
-          //   ),
-          // ),
-          // // MatchPredictionList(leagueNumber: selectedLeagueNumber, matchId: '1036013'),
-          // MatchPredictionList(
-          //     // leagueNumber: selectedLeagueNumber,
-          //     ),
-          const SizedBox(height: 20),
-          Text(
-            'Scoring rules',
-            style: TextStyle(fontSize: 18),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-              color: Color.fromARGB(255, 39, 39, 39),
-            ),
-            child: Column(
-              children: [
-                ListTile(
-                  leading: Image.asset(
-                    './assets/images/football-157931_1280.png',
-                    width: 30,
-                  ),
-                  trailing: Text(
-                    '3 pts',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  title: Text(
-                    'Exact result',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text('Correctly predicted the exact result.'),
-                ),
-                ListTile(
-                  leading: Image.asset(
-                    './assets/images/football-157931_1280.png',
-                    width: 30,
-                  ),
-                  trailing: Text(
-                    '1 pt',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  title: Text(
-                    'Trend of result',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text('Correctly predicted the trend of result (win, draw, lose).'),
-                ),
-                ListTile(
-                  leading: Image.asset(
-                    './assets/images/football-157931_1280.png',
-                    width: 30,
-                  ),
-                  trailing: Text(
-                    '0 pt',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  title: Text(
-                    'Wrong result',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text('Inorrectly predicted the result.'),
-                ),
-              ],
-            ),
-          )
-          // const Text(
-          //   'Standings',
-          //   style: TextStyle(
-          //     fontSize: 18,
-          //     // fontWeight: FontWeight.bold,
-          //   ),
-          // ),
-          // StandingsList(
-          //   leagueNumber: selectedLeagueNumber,
-          // ),
-          // SizedBox(height: 10),
-        ]),
+        ),
       ),
-    ));
+    );
   }
 }

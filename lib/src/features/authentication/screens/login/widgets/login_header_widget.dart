@@ -10,7 +10,7 @@ class LoginHeader extends StatelessWidget {
       child: const Column(
         children: [
           Text(
-            "Betapp",
+            "GreatBet",
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
           ),
           // Text(

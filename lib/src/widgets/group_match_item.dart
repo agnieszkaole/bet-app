@@ -14,10 +14,12 @@ class GroupMatchItem extends StatefulWidget {
     super.key,
     required this.isMatchAdded,
     required this.groupId,
+    required this.selectedLeagueNumber,
   });
   final SoccerMatch match;
   final bool isMatchAdded;
   final String? groupId;
+  final String? selectedLeagueNumber;
   @override
   State<GroupMatchItem> createState() => _GroupMatchItemState();
 }
@@ -40,6 +42,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
     var leagueNumber = widget.match.league.id;
     var matchTime = widget.match.fixture.formattedDate;
     var matchTimeDate = widget.match.fixture.date;
+
     DateTime matchDateTime = DateTime.parse(matchTimeDate);
     // String formattedMatchTime = DateFormat("yyyy-MM-dd HH:mm:ss").format(matchDateTime);
     // String currentFormattedTime = DateFormat("dd.MM.yyyy - HH:mm").format(DateTime.now());
@@ -192,12 +195,13 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                               match: widget.match,
                               leagueName: leagueName,
                               leagueNumber: leagueNumber,
-                              groupId: widget.groupId),
+                              groupId: widget.groupId,
+                              selectedLeagueNumber: widget.selectedLeagueNumber),
                         ));
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+                        backgroundColor: Color.fromARGB(255, 15, 105, 35),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),

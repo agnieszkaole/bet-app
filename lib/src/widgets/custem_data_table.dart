@@ -121,10 +121,15 @@ class _DataTablePageState extends State<DataTablePage> {
           return Text('Error: ${snapshot.error}');
         } else {
           return Container(
-            // constraints: BoxConstraints(maxHeight: double.infinity),
-            // padding: EdgeInsets.all(10),
-
+            // constraints: BoxConstraints(maxHeight: 400),
+            padding: EdgeInsets.all(12),
+            // decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(25),
+            // color: Color.fromARGB(235, 34, 34, 34),
+            // border: Border.all(color: Color.fromARGB(255, 32, 168, 62), width: 1)),
             height: MediaQuery.of(context).size.height - 250,
+            // height: 500,
+
             child: CustomDataTable(
                 fixedCornerCell: '',
                 rowsCells: _rowsCells,
@@ -185,6 +190,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         width: width,
         child: Text(
           '$data',
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
         ),
@@ -209,15 +215,24 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
           height: widget.cellHeight,
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(206, 48, 48, 48),
+            color: Color.fromARGB(207, 41, 41, 41),
             border: Border(
               right: BorderSide(
                 color: Color.fromARGB(255, 73, 73, 73),
               ),
               bottom: BorderSide(
-                color: Color.fromARGB(255, 73, 73, 73),
+                color: Color.fromARGB(255, 119, 119, 119),
               ),
             ),
+            // gradient: const LinearGradient(
+            //   begin: Alignment.topRight,
+            //   end: Alignment.bottomLeft,
+            //   colors: [
+            //     Color.fromARGB(50, 32, 168, 61),
+            //     Color.fromARGB(50, 19, 114, 40),
+            //     Color.fromARGB(50, 32, 168, 62),
+            //   ],
+            // )
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -340,15 +355,25 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
   Widget _buildFixedRow() {
     if (widget.fixedRowCells.isNotEmpty) {
       return Container(
-        // color: Color.fromARGB(255, 37, 37, 37),
-        color: Color.fromARGB(200, 41, 41, 41),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(200, 41, 41, 41),
+            gradient: const LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color.fromARGB(255, 62, 155, 19),
+                Color.fromARGB(255, 31, 77, 10),
+                Color.fromARGB(255, 62, 155, 19),
+              ],
+            )),
         child: DataTable(
           border: TableBorder(
+            borderRadius: BorderRadius.circular(25),
             verticalInside: BorderSide(
               color: Color.fromARGB(255, 73, 73, 73),
             ),
             bottom: BorderSide(
-              color: Color.fromARGB(255, 73, 73, 73),
+              color: Color.fromARGB(255, 85, 85, 85),
             ),
           ),
           horizontalMargin: widget.cellMargin,
@@ -388,12 +413,13 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                   height: widget.cellHeight,
                   // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.circular(25),
                     border: Border(
                       right: BorderSide(
                         color: Color.fromARGB(255, 73, 73, 73),
                       ),
                       bottom: BorderSide(
-                        color: Color.fromARGB(255, 73, 73, 73),
+                        color: Color.fromARGB(255, 119, 119, 119),
                       ),
                     ),
                   ),
@@ -411,6 +437,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     final match = scoreboardMatchesList.firstWhere((match) => match.fixture.id == matchId);
 
     Color backgroundColor = const Color.fromARGB(255, 136, 136, 136);
+    Color backgroundColorScore = Color.fromARGB(255, 77, 77, 77);
     int score = 0;
     // final scoreboard = Scoreboard();
     bool isNewPrediction = true;
@@ -426,7 +453,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     print('MemberPredict: $memberPredict, MemberUid: $memberUid, MatchId: $matchId');
 
     if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
-      backgroundColor = Color.fromARGB(197, 102, 102, 102);
+      backgroundColor = Color.fromARGB(180, 102, 102, 102);
     } else if (prediction == '---' &&
         match.goal.home != null &&
         match.goal.away != null &&
@@ -435,9 +462,9 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     } else {
       if (match.goal.home != null && match.goal.home != null && match.fixture.status.long == 'Match Finished') {
         if (prediction == '${match.goal.home} : ${match.goal.away}') {
-          backgroundColor = Color.fromARGB(192, 22, 124, 36);
+          backgroundColorScore = Color.fromARGB(192, 22, 124, 36);
           score = 3;
-
+          backgroundColor = Color.fromARGB(40, 22, 124, 36);
           if (isNewPrediction) {
             Scoreboard().addScores(memberUid, score);
           }
@@ -452,12 +479,14 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
             if ((predictedHomeScore > predictedAwayScore && actualHomeScore > actualAwayScore) ||
                 (predictedHomeScore < predictedAwayScore && actualHomeScore < actualAwayScore) ||
                 (predictedHomeScore == predictedAwayScore && actualHomeScore == actualAwayScore)) {
-              backgroundColor = Color.fromARGB(181, 214, 211, 0);
+              backgroundColor = Color.fromARGB(40, 214, 211, 0);
+              backgroundColorScore = Color.fromARGB(181, 214, 211, 0);
               score = 1;
 
               Scoreboard().addScores(memberUid, score);
             } else {
-              backgroundColor = Color.fromARGB(133, 241, 0, 0);
+              backgroundColor = Color.fromARGB(40, 241, 0, 0);
+              backgroundColorScore = Color.fromARGB(120, 241, 0, 0);
               score = 0;
 
               Scoreboard().addScores(memberUid, score);
@@ -465,7 +494,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
           }
         }
       } else {
-        backgroundColor = Color.fromARGB(255, 77, 77, 77);
+        backgroundColor = Color.fromARGB(220, 77, 77, 77);
       }
     }
     return Container(
@@ -476,22 +505,36 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.center,
-            child: Text(
-              '$prediction',
-              style: const TextStyle(fontSize: 16),
-            ),
-          ),
-          if (match.fixture.status.long == 'Match Finished')
+              alignment: Alignment.center,
+              child: match.fixture.status.long == 'Not Started' && prediction != '---'
+                  ? Text(
+                      '?  :  ?',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    )
+                  : Text(
+                      '$prediction',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    )),
+          if (match.fixture.status.long == 'Match Finished' && prediction != '---')
+            // if (match.fixture.status.long == 'Match Finished')
             Positioned(
               top: 0,
               right: 0,
               child: Container(
-                padding: EdgeInsets.all(2),
-                color: Color.fromARGB(104, 112, 112, 112),
+                padding: EdgeInsets.all(5),
+                // color: Color.fromARGB(104, 112, 112, 112),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: backgroundColorScore,
+                ),
+
                 child: Text(
                   '+${score}',
-                  style: const TextStyle(fontSize: 13, color: Colors.white),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -501,9 +544,20 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
   }
 
   Widget _buildCornerCell() => Container(
-        color: Color.fromARGB(204, 37, 37, 37),
+        // color: Color.fromARGB(204, 37, 37, 37),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(200, 41, 41, 41),
+            gradient: const LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color.fromARGB(255, 62, 155, 19),
+                Color.fromARGB(255, 31, 77, 10),
+              ],
+            )),
         child: DataTable(
           border: TableBorder(
+            borderRadius: BorderRadius.circular(25),
             right: BorderSide(
               color: Color.fromARGB(255, 73, 73, 73),
             ),
@@ -544,10 +598,9 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     return Container(
       width: widget.fixedColWidth + (widget.cellWidth * widget.memberUsernames!.length),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Color.fromARGB(255, 73, 73, 73),
-        ),
-      ),
+          borderRadius: BorderRadius.circular(5),
+          // color: Color.fromARGB(235, 34, 34, 34),
+          border: Border.all(color: Color.fromARGB(255, 32, 168, 62), width: 0.7)),
       child: Column(
         children: [
           Row(

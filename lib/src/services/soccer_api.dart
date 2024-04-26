@@ -45,8 +45,8 @@ class SoccerApi {
     throw Exception('wystąpił błąd połączenia');
   }
 
-  Future<List<PredictionData>> getPredictions(String fixture) async {
-    String fixtureUrl = fixture.isEmpty ? "" : "fixture=$fixture";
+  Future<List<PredictionData>> getPredictions(String? fixture) async {
+    String fixtureUrl = fixture!.isEmpty ? "" : "fixture=$fixture";
 
     Response res = await get(Uri.parse('$_baseUrlPredictions$fixtureUrl'), headers: headers);
 

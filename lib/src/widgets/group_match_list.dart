@@ -38,7 +38,7 @@ class GroupMatchList extends StatefulWidget {
 
 class _GroupMatchListState extends State<GroupMatchList> {
   late Future dataFuture;
-  String? statusApi = 'ns-tbd';
+  String? statusApi = '';
   User? user = Auth().currentUser;
   String? timezoneApi = 'Europe/Warsaw';
   // List<SoccerMatch>? mergedData;
@@ -156,7 +156,8 @@ class _GroupMatchListState extends State<GroupMatchList> {
                                   return GroupMatchItem(
                                       match: nextGroupMatchesList[index],
                                       isMatchAdded: isMatchAdded,
-                                      groupId: widget.groupId);
+                                      groupId: widget.groupId,
+                                      selectedLeagueNumber: widget.leagueName);
                                 } else {
                                   return SizedBox();
                                 }

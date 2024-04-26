@@ -4,6 +4,7 @@ import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/screens/group_tabs.dart';
 // import 'package:bet_app/src/screens/predicted_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
+import 'package:bet_app/src/widgets/match_prediction_list.dart';
 import 'package:bet_app/src/widgets/match_scheduled.dart';
 // import 'package:bet_app/src/widgets/predicted_item_local.dart';
 // import 'package:bet_app/src/widgets/predicted_result_edith.dart';
@@ -29,6 +30,7 @@ class PredictResult extends StatefulWidget {
     this.leagueName,
     this.leagueNumber,
     this.groupId,
+    this.selectedLeagueNumber,
   });
 
   final String? homeName;
@@ -41,6 +43,7 @@ class PredictResult extends StatefulWidget {
   final String? leagueName;
   final int? leagueNumber;
   final String? groupId;
+  final String? selectedLeagueNumber;
 
   @override
   State<PredictResult> createState() => _PredictResultState();
@@ -386,53 +389,17 @@ class _PredictResultState extends State<PredictResult> {
                     ],
                   ),
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Zwycięstwo'),
-                //     ),
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Remis'),
-                //     ),
-                //     OutlinedButton(
-                //       onPressed: () {},
-                //       style: OutlinedButton.styleFrom(
-                //         foregroundColor: Color.fromARGB(255, 56, 179, 60),
-                //         elevation: 15.0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(5),
-                //         ),
-                //       ),
-                //       child: const Text('Zwycięstwo'),
-                //     ),
-                //   ],
-                // ),
+                // const SizedBox(height: 20),
+                MatchPredictionList(leagueNumber: widget.selectedLeagueNumber, matchId: widget.matchId.toString()),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
+                Container(
+                  width: 280,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: _savePredictResult,
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, //change background color of button
-                      backgroundColor: const Color.fromARGB(255, 40, 122, 43), //change text color of button
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 40, 122, 43),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

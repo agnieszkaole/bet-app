@@ -123,7 +123,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             borderRadius: BorderRadius.all(
               Radius.circular(25),
             ),
-            color: Color.fromARGB(255, 39, 39, 39),
+            border: Border.all(width: 0.4, color: Color.fromARGB(99, 206, 206, 206)),
+            // gradient: const LinearGradient(
+            //   begin: Alignment.topRight,
+            //   end: Alignment.bottomLeft,
+            //   colors: [
+            //     Color.fromARGB(100, 39, 39, 39),
+            //     Color.fromARGB(100, 39, 39, 39),
+            //   ],
+            // ),
+            color: Color.fromARGB(100, 39, 39, 39),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,6 +181,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
+                                backgroundColor: Color.fromARGB(255, 32, 32, 32),
                                 title: Text(
                                   "Change username",
                                   style: TextStyle(fontSize: 16),
@@ -277,80 +287,89 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               // ),
               Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Change password ', style: const TextStyle(fontSize: 18)),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text(
-                                  "Change password",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                content: Text(
-                                    'You will receive a message containing a link to reset your password to the e-mail address provided during registration. Do you agree?'),
-                                actions: [
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: Color.fromARGB(255, 205, 255, 206),
-                                        foregroundColor: Color.fromARGB(255, 2, 126, 6)),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      'No',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 50,
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Change password ', style: const TextStyle(fontSize: 18)),
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "Change password",
+                                    style: TextStyle(fontSize: 16),
                                   ),
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                        foregroundColor: Color.fromARGB(255, 255, 255, 255)),
-                                    onPressed: () async {
-                                      await UserData().sendPasswordResetEmail(email);
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      'Yes',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+                                  content: Text(
+                                      'You will receive a message containing a link to reset your password to the e-mail address provided during registration. Do you agree?'),
+                                  actions: [
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        // backgroundColor: Color.fromARGB(255, 205, 255, 206),
+                                        foregroundColor: Color.fromARGB(255, 6, 165, 11),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(25),
+                                          side: BorderSide(color: Color.fromARGB(255, 6, 165, 11)),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        'No',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  )
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: const Row(
-                          children: [
-                            Icon(
-                              Icons.password_rounded,
-                              size: 30,
-                              // color: Color.fromARGB(255, 40, 122, 43),
-                            ),
-                            SizedBox(width: 5),
-                            // Padding(
-                            //   padding: EdgeInsets.only(right: 10),
-                            //   child: Text(
-                            //     'Edith',
-                            //     style: TextStyle(
-                            //       fontSize: 14,
-                            //       fontWeight: FontWeight.bold,
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Color.fromARGB(255, 2, 126, 6),
+                                          foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                      onPressed: () async {
+                                        await UserData().sendPasswordResetEmail(email);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        'Yes',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.password_rounded,
+                                size: 30,
+                                // color: Color.fromARGB(255, 40, 122, 43),
+                              ),
+                              SizedBox(width: 5),
+                              // Padding(
+                              //   padding: EdgeInsets.only(right: 10),
+                              //   child: Text(
+                              //     'Edith',
+                              //     style: TextStyle(
+                              //       fontSize: 14,
+                              //       fontWeight: FontWeight.bold,
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -416,9 +435,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             TextButton(
-                                              style: TextButton.styleFrom(
-                                                  backgroundColor: Color.fromARGB(255, 224, 196, 196),
-                                                  foregroundColor: Color.fromARGB(255, 146, 0, 0)),
+                                              style: ElevatedButton.styleFrom(
+                                                foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(25),
+                                                  side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                                ),
+                                                // elevation: 4.0,
+                                              ),
                                               onPressed: () async {
                                                 if (_formKey.currentState!.validate()) {
                                                   try {

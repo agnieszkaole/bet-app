@@ -11,9 +11,11 @@ import 'package:provider/provider.dart';
 class MatchPredictionList extends StatefulWidget {
   const MatchPredictionList({
     super.key,
-    // required this.leagueNumber,
+    required this.leagueNumber,
+    required this.matchId,
   });
-  // final String? leagueNumber;
+  final String? leagueNumber;
+  final String? matchId;
 
   static final GlobalKey<_MatchPredictionListState> nextMatchListKey = GlobalKey<_MatchPredictionListState>();
 
@@ -43,8 +45,8 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
   }
 
   Future<List<PredictionData>> _getData() async {
-    final matchId = context.read<MatchIdProvider>().selectedMatchId;
-    final data = await SoccerApi().getPredictions(matchId);
+    //   final matchId = context.read<MatchIdProvider>().selectedMatchId;
+    final data = await SoccerApi().getPredictions(widget.matchId);
     return data;
   }
 

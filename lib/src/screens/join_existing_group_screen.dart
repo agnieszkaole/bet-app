@@ -25,6 +25,8 @@ class _GroupListScreenState extends State<GroupListScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
           title: const Text('Join a group'),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(80),
@@ -34,7 +36,8 @@ class _GroupListScreenState extends State<GroupListScreen> {
                 Container(
                   // constraints: BoxConstraints(maxWidth: kIsWeb ? 700.0 : MediaQuery.of(context).size.width),
 
-                  child: const TabBar(
+                  color: Colors.transparent,
+                  child: TabBar(
                     padding: EdgeInsets.only(bottom: 20),
                     indicatorColor: Color.fromARGB(255, 30, 117, 33),
                     indicatorWeight: 1.2,
@@ -207,12 +210,13 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
           // height: 50,
           padding: EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 46, 46, 46),
+            color: Color.fromARGB(159, 32, 32, 32),
+            // color: Color.fromARGB(255, 46, 46, 46),
             borderRadius: BorderRadius.circular(25),
-            // border: Border.all(
-            //   color: Color.fromARGB(255, 224, 224, 224),
-            //   width: 0.3,
-            // ),
+            border: Border.all(
+              color: Color.fromARGB(255, 204, 204, 204),
+              width: 0.2,
+            ),
           ),
           child: Row(
             children: [

@@ -63,6 +63,8 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
         title: Text('Create a new group'),
         leading: Container(
           child: IconButton(
@@ -75,13 +77,14 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(25),
+            // width: double.infinity,
             // decoration: BoxDecoration(
             //   borderRadius: BorderRadius.all(
             //     Radius.circular(25),
             //   ),
             //   color: Color.fromARGB(255, 39, 39, 39),
             // ),
-            width: MediaQuery.of(context).size.width - 50,
+            // width: MediaQuery.of(context).size.width - 50,
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -90,7 +93,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   // const SizedBox(height: 50),
                   Container(
                     padding: EdgeInsets.only(bottom: 5),
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: const Text(
                       'Enter the group name',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
@@ -102,25 +105,27 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       color: Colors.white,
                       fontSize: 18,
                     ),
+                    textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-                        contentPadding: EdgeInsets.all(10.0),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 31, 77, 10),
-                          ),
+                      errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                      contentPadding: EdgeInsets.all(10.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 31, 77, 10),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: const BorderSide(color: Colors.greenAccent),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
-                        ),
-                        errorText: _groupNameError),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Colors.greenAccent),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
+                      ),
+                      errorText: _groupNameError,
+                    ),
                     initialValue: "",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -132,15 +137,15 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       _groupName = value;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
 
                   Container(
                     padding: EdgeInsets.only(bottom: 5),
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: const Text(
                       'Select a league',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.left,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   Column(
@@ -166,11 +171,14 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                             ),
                           ),
                           child: SizedBox(
-                            height: 22,
+                            height: 20,
                             child: DropdownButton<Map<String, dynamic>>(
+                              isExpanded: true,
+
                               underline: Container(
                                 height: 0,
                               ),
+
                               value: selectedLeague,
                               // itemHeight: kMinInteractiveDimension,
                               items: leagueNames.map((league) {
