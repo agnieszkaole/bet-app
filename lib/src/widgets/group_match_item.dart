@@ -56,9 +56,13 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Color.fromARGB(207, 32, 32, 32),
-          border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+        borderRadius: BorderRadius.circular(25),
+        color: Color.fromARGB(207, 32, 32, 32),
+        border: Border.all(
+          width: .8,
+          color: Color.fromARGB(192, 22, 124, 36),
+        ),
+      ),
       child: Stack(children: [
         isWithinXHours || widget.isMatchAdded
             ? Positioned(
@@ -80,7 +84,8 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                                 style: TextStyle(fontSize: 18),
                               ),
                               SizedBox(height: 20),
-                              Text("The match will start soon or you have already bet on this match."),
+                              Text(
+                                  "The time for betting ends at 0 minutes before the match starts or you have already bet on this match."),
                               SizedBox(height: 10),
                               Text("Check the predicted tab. "),
                             ],

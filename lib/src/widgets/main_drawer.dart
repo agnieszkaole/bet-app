@@ -1,6 +1,6 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
-import 'package:bet_app/src/screens/leaderboard_screen.dart';
+import 'package:bet_app/src/screens/leaderboard_group.dart';
 import 'package:bet_app/src/screens/user_profile.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,8 +27,8 @@ class MainDrawer extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color.fromARGB(255, 26, 26, 26),
-            Color.fromARGB(255, 28, 70, 10),
+            Color.fromARGB(255, 29, 29, 29),
+            Color.fromARGB(255, 49, 49, 49),
           ],
         )),
         child: Column(

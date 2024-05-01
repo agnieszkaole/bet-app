@@ -101,9 +101,13 @@ class _UserGroupsState extends State<UserGroups> {
                           // padding: const EdgeInsets.all(5),
                           width: userGroups.length > 1 ? 200 : MediaQuery.of(context).size.width - 50,
 
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(
                               Radius.circular(25),
+                            ),
+                            border: Border.all(
+                              width: .5,
+                              color: Color.fromARGB(255, 151, 151, 151),
                             ),
                             image: DecorationImage(
                               image: AssetImage("./assets/images/lawn-5007569_19201.jpg"),

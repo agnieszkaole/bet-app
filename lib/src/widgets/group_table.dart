@@ -125,14 +125,9 @@ class _GroupTableState extends State<GroupTable> {
                   child: Column(
                     children: [
                       // Text("Compare predictions.", textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
-                      Text(
-                          "Your prediction will be displayed when the match starts, so no one will be able to see your bet until prediciton time ends.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18)),
-                      Text(
-                          "If you are not sure whether you have predicted the result of the match, check the Predicted tab.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18)),
+                      Text("Your prediction are only visible after time for prediction has expired.",
+                          textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
+
                       SizedBox(height: 10),
                       DataTablePage(groupId: widget.groupId),
                       SizedBox(height: 20),

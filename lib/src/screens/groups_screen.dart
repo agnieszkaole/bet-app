@@ -33,19 +33,24 @@ class _GroupsScreenState extends State<GroupsScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
+                  color: Color.fromARGB(118, 51, 51, 51),
+                  border: Border.all(
+                    width: .5,
+                    color: Color.fromARGB(224, 102, 102, 102),
+                  ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
                   ),
-                  border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color.fromARGB(100, 39, 39, 39),
-                      Color.fromARGB(100, 39, 39, 39),
-                    ],
-                  ),
-                  // color: Color.fromARGB(255, 39, 39, 39),
+
+                  // color: Color.fromARGB(100, 39, 39, 39),
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topRight,
+                  //   end: Alignment.bottomLeft,
+                  //   colors: [
+                  //     Color.fromARGB(100, 62, 155, 19),
+                  //     Color.fromARGB(100, 31, 77, 10),
+                  //   ],
+                  // ),
                 ),
                 child: GestureDetector(
                   onTap: () {
@@ -67,7 +72,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                           // width: 300,
                           // color: const Color.fromARGB(255, 148, 119, 13),
                           child: Text(
-                            'Create a new group and invite your friends.',
+                            'Create a new group, select a league and invite your friends.',
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
@@ -88,7 +93,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                             borderRadius: BorderRadius.all(
                               Radius.circular(25),
                             ),
-                            // border: Border.all(color: Color.fromARGB(255, 2, 47, 64), width: 1),
+                            border: Border.all(color: Color.fromARGB(174, 187, 187, 187), width: 0.5),
                           ),
                           child: Center(
                             child: Text(
@@ -106,18 +111,26 @@ class _GroupsScreenState extends State<GroupsScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
+                  border: Border.all(
+                    width: .5,
+                    color: Color.fromARGB(224, 102, 102, 102),
+                  ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
                   ),
-                  border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color.fromARGB(100, 39, 39, 39),
-                      Color.fromARGB(100, 39, 39, 39),
-                    ],
-                  ),
+                  color: Color.fromARGB(118, 51, 51, 51),
+                  // color: Color.fromARGB(100, 39, 39, 39),
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topRight,
+                  //   end: Alignment.bottomLeft,
+                  //   colors: [
+                  //     Color.fromARGB(159, 51, 53, 190),
+                  //     Color.fromARGB(159, 0, 137, 223),
+
+                  //     // Color.fromARGB(100, 0, 0, 70),
+                  //     // Color.fromARGB(100, 28, 181, 224),
+                  //   ],
+                  // ),
                 ),
                 // color: Color.fromARGB(255, 39, 39, 39)),
                 child: GestureDetector(
@@ -144,16 +157,16 @@ class _GroupsScreenState extends State<GroupsScreen> {
                             begin: Alignment.topRight,
                             end: Alignment.bottomLeft,
                             colors: [
-                              Color.fromARGB(200, 247, 191, 35),
-                              Color.fromARGB(200, 167, 77, 4),
-                              // Color.fromARGB(100, 0, 179, 80),
-                              // Color.fromARGB(100, 0, 80, 36),
+                              Color.fromARGB(255, 0, 137, 223),
+                              Color.fromARGB(255, 54, 55, 149),
+                              // Color.fromARGB(100, 28, 181, 224),
+                              // Color.fromARGB(100, 0, 0, 70),
                             ],
                           ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
                           ),
-                          // border: Border.all(color: Color.fromARGB(255, 2, 47, 64), width: 1),
+                          border: Border.all(color: Color.fromARGB(174, 187, 187, 187), width: 0.5),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -197,18 +210,22 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 decoration: BoxDecoration(
+                  color: Color.fromARGB(118, 51, 51, 51),
+                  border: Border.all(
+                    width: .5,
+                    color: Color.fromARGB(224, 102, 102, 102),
+                  ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
                   ),
-                  border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color.fromARGB(100, 39, 39, 39),
-                      Color.fromARGB(100, 39, 39, 39),
-                    ],
-                  ),
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topRight,
+                  //   end: Alignment.bottomLeft,
+                  //   colors: [
+                  //     Color.fromARGB(210, 39, 39, 39),
+                  //     Color.fromARGB(210, 39, 39, 39),
+                  //   ],
+                  // ),
                   // color: Color.fromARGB(255, 39, 39, 39),
                 ),
                 child: Column(

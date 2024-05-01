@@ -57,18 +57,20 @@ class MyApp extends StatelessWidget {
             child: Stack(children: [
               Container(
                 decoration: BoxDecoration(
-                    // image: DecorationImage(
-                    //   image: AssetImage('./assets/images/little-1506570_19201.png'),
-                    //   fit: BoxFit.cover,
-                    // ),
-                    gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color.fromARGB(255, 26, 26, 26),
-                    Color.fromARGB(255, 25, 61, 9),
-                  ],
-                )),
+                  color: Color.fromARGB(255, 30, 30, 30),
+                  // image: DecorationImage(
+                  //   image: AssetImage('./assets/images/little-1506570_19201.png'),
+                  //   fit: BoxFit.cover,
+                  // ),
+                  // gradient: const LinearGradient(
+                  //   begin: Alignment.topCenter,
+                  //   end: Alignment.bottomCenter,
+                  //   colors: [
+                  //     Color.fromARGB(255, 12, 12, 12),
+                  //     Color.fromARGB(255, 13, 109, 23),
+                  //   ],
+                  // )
+                ),
               ),
               MaterialApp(
                 debugShowCheckedModeBanner: false,

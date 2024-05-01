@@ -62,9 +62,15 @@ class DataPickerState extends State<DataPicker> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color.fromARGB(235, 34, 34, 34),
-                border: Border.all(color: Color.fromARGB(255, 32, 168, 62), width: 0.7)),
+              color: Color.fromARGB(118, 51, 51, 51),
+              border: Border.all(
+                width: .8,
+                color: Color.fromARGB(192, 22, 124, 36),
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(25),
+              ),
+            ),
             child: Column(
               children: [
                 SizedBox(

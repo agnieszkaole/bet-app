@@ -103,6 +103,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     // }
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
         title: const Text(
           'Profile',
           style: TextStyle(fontSize: 20),

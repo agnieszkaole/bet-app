@@ -175,7 +175,10 @@ class _PredictResultState extends State<PredictResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
+      ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(5),
@@ -183,7 +186,7 @@ class _PredictResultState extends State<PredictResult> {
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
                   'Predict the result',
@@ -399,7 +402,7 @@ class _PredictResultState extends State<PredictResult> {
                     onPressed: _savePredictResult,
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+                      backgroundColor: Color.fromARGB(255, 40, 122, 43),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

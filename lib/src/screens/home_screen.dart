@@ -1,7 +1,8 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
-import 'package:bet_app/src/screens/leaderboard_screen.dart';
+
+import 'package:bet_app/src/screens/leaderboard_tabs.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
@@ -104,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: const [
                   SelectCriteriaScreen(),
                   GroupsScreen(),
-                  LeaderboardScreen(),
+                  LeaderboardTabs(),
                 ],
               ),
             );
@@ -118,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // ),
             child: BottomNavigationBar(
               backgroundColor: Color.fromARGB(100, 0, 0, 0),
-              selectedItemColor: Color.fromARGB(255, 62, 155, 19),
+              selectedItemColor: Color.fromARGB(255, 1, 163, 9),
               type: BottomNavigationBarType.fixed,
               currentIndex: provider.selectedIndex,
               onTap: (index) {
@@ -155,8 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 // ),
 
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.groups_rounded),
-                  label: 'Groups',
+                  icon: Icon(Icons.scoreboard_rounded),
+                  label: 'Bets',
                   //
                 ),
                 BottomNavigationBarItem(

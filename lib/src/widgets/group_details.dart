@@ -102,9 +102,15 @@ class _GroupDetailsState extends State<GroupDetails> {
             width: MediaQuery.of(context).size.width - 50, constraints: const BoxConstraints(maxWidth: 400),
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color.fromARGB(207, 32, 32, 32),
-                border: Border.all(color: Color.fromARGB(255, 32, 168, 62), width: 0.4)),
+              color: Color.fromARGB(118, 51, 51, 51),
+              border: Border.all(
+                width: .8,
+                color: Color.fromARGB(192, 22, 124, 36),
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(25),
+              ),
+            ),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [

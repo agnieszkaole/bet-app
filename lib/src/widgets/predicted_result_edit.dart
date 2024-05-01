@@ -111,7 +111,10 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
     // }
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
+      ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(5),

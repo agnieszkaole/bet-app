@@ -62,9 +62,15 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         width: MediaQuery.of(context).size.width - 50,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: Color.fromARGB(207, 32, 32, 32),
-            border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+          color: Color.fromARGB(118, 51, 51, 51),
+          border: Border.all(
+            width: .5,
+            color: Color.fromARGB(192, 145, 145, 145),
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(25),
+          ),
+        ),
         child: Stack(
           children: [
             Column(
@@ -143,6 +149,65 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                   ],
                 ),
               ],
+            ),
+            Positioned(
+              right: 0.0,
+              top: 0.0,
+              child: SizedBox(
+                width: 35,
+                height: 35,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: EdgeInsets.all(0),
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(
+                      width: 1,
+                      color: Color.fromARGB(255, 129, 129, 129),
+                    ),
+                    // side: BorderSide.none,
+                    foregroundColor:
+                        // const Color.fromARGB(255, 176, 206, 177),
+                        Color.fromARGB(255, 129, 129, 129),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              title: Text(
+                                'Edition unavailable',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              content: Text("The prediction can only be edited until the match starts.",
+                                  style: TextStyle(fontSize: 14)),
+                              actions: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: Color.fromARGB(255, 2, 126, 6),
+                                      foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(
+                                    'Ok',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ]);
+                        });
+                  },
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.edit_note_rounded,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
             ),
             if (isWithinXHours == false)
               Positioned(

@@ -289,8 +289,9 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                                    margin: const EdgeInsets.only(bottom: 18),
+                                    margin: const EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
+                                      color: Color.fromARGB(94, 39, 134, 26),
                                       border: Border(
                                         bottom: BorderSide(
                                           width: 1.2,
@@ -319,7 +320,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                 style: const TextStyle(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(255, 60, 165, 83),
+                                                    color: Color.fromARGB(255, 74, 219, 105),
                                                     overflow: TextOverflow.ellipsis),
                                               ),
                                               Text(
@@ -433,8 +434,9 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                               children: [
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                                  margin: const EdgeInsets.only(bottom: 18),
+                                  margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
+                                    color: Color.fromARGB(94, 39, 134, 26),
                                     border: Border(
                                       bottom: BorderSide(
                                         width: 1.2,
@@ -459,9 +461,10 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                             Text('$groupName',
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(255, 60, 165, 83))),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(255, 74, 219, 105),
+                                                )),
                                             Text(
                                               'League: $selectedLeague',
                                               overflow: TextOverflow.ellipsis,

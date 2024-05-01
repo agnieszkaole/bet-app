@@ -126,8 +126,8 @@ class _GroupTabsState extends State<GroupTabs> {
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60),
               child: Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width - 20,
+                // alignment: Alignment.center,
+                // width: MediaQuery.of(context).size.width - 20,
                 constraints: BoxConstraints(maxWidth: 600),
                 child: TabBar(
                   onTap: (index) async {
@@ -139,62 +139,98 @@ class _GroupTabsState extends State<GroupTabs> {
                   padding: const EdgeInsets.only(bottom: 10),
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorColor: Colors.green,
-                  indicatorWeight: 1.2,
+                  indicatorWeight: 1.5,
                   labelColor: Colors.white,
                   dividerColor: Color.fromARGB(38, 255, 255, 255),
-                  tabs: const [
+                  tabs: [
                     Tab(
-                      iconMargin: EdgeInsets.zero,
                       icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.info_outline_rounded, size: 20),
-                          SizedBox(width: 3),
-                          Text(
-                            'Info',
-                            style: TextStyle(fontSize: 13),
+                          Icon(Icons.info_outline_rounded, size: 25),
+                          SizedBox(width: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Group',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                'details',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                     Tab(
-                      iconMargin: EdgeInsets.zero,
                       icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.sports_soccer_rounded, size: 20),
-                          SizedBox(width: 3),
-                          Text(
-                            'Scheduled',
-                            style: TextStyle(fontSize: 13),
+                          Icon(Icons.sports_soccer_rounded, size: 25),
+                          SizedBox(width: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Predict',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                'result',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                     Tab(
-                      iconMargin: EdgeInsets.zero,
                       icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.scoreboard_outlined, size: 20),
-                          SizedBox(width: 3),
-                          Text(
-                            'Predicted',
-                            style: TextStyle(fontSize: 13),
+                          Icon(Icons.scoreboard_outlined, size: 25),
+                          SizedBox(width: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Your',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                'bets',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                     Tab(
-                      iconMargin: EdgeInsets.zero,
                       icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.handshake, size: 20),
-                          SizedBox(width: 3),
-                          Text(
-                            'Bets',
-                            style: TextStyle(fontSize: 13),
+                          Icon(Icons.handshake, size: 25),
+                          SizedBox(width: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Bets',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                'table',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -206,11 +242,12 @@ class _GroupTabsState extends State<GroupTabs> {
           ),
           body: Container(
             decoration: BoxDecoration(
-              image: const DecorationImage(
-                image: AssetImage("./assets/images/the-ball-488712_192011.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
+
+                // image: const DecorationImage(
+                //   image: AssetImage("./assets/images/the-ball-488712_192011.png"),
+                //   fit: BoxFit.cover,
+                // ),
+                ),
             child: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               children: [

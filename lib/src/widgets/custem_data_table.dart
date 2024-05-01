@@ -464,7 +464,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         if (prediction == '${match.goal.home} : ${match.goal.away}') {
           backgroundColorScore = Color.fromARGB(192, 22, 124, 36);
           score = 3;
-          backgroundColor = Color.fromARGB(40, 22, 124, 36);
+          backgroundColor = Color.fromARGB(60, 22, 124, 36);
           if (isNewPrediction) {
             Scoreboard().addScores(memberUid, score);
           }
@@ -479,13 +479,13 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
             if ((predictedHomeScore > predictedAwayScore && actualHomeScore > actualAwayScore) ||
                 (predictedHomeScore < predictedAwayScore && actualHomeScore < actualAwayScore) ||
                 (predictedHomeScore == predictedAwayScore && actualHomeScore == actualAwayScore)) {
-              backgroundColor = Color.fromARGB(40, 214, 211, 0);
+              backgroundColor = Color.fromARGB(60, 214, 211, 0);
               backgroundColorScore = Color.fromARGB(181, 214, 211, 0);
               score = 1;
 
               Scoreboard().addScores(memberUid, score);
             } else {
-              backgroundColor = Color.fromARGB(40, 241, 0, 0);
+              backgroundColor = Color.fromARGB(60, 241, 0, 0);
               backgroundColorScore = Color.fromARGB(120, 241, 0, 0);
               score = 0;
 

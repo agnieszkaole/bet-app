@@ -54,7 +54,7 @@ class _PrevMatchListState extends State<PrevMatchList> {
       league: widget.leagueNumber,
       season: '2023',
       status: statusApi,
-      last: '10',
+      last: '15',
       timezone: timezoneApi,
     );
     final season2Data = await SoccerApi().getMatches(
@@ -62,7 +62,7 @@ class _PrevMatchListState extends State<PrevMatchList> {
       league: widget.leagueNumber,
       season: '2024',
       status: statusApi,
-      last: '10',
+      last: '15',
       timezone: timezoneApi,
     );
 
@@ -128,30 +128,46 @@ class _PrevMatchListState extends State<PrevMatchList> {
               );
             } else if (snapshot.hasData) {
               if (snapshot.data != []) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 160,
-                      child: Consumer<PrevMatchesProvider>(builder: (context, provider, _) {
-                        return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          controller: _scrollController,
-                          itemCount: provider.prevMatchesList.length,
-                          itemBuilder: (context, index) {
-                            PrevMatchesProvider.sortMatchesByDate(provider.prevMatchesList);
-                            if (index < provider.prevMatchesList.length) {
-                              return PrevMatchItem(
-                                match: provider.prevMatchesList[index],
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
-                        );
-                      }),
-                    )
-                  ],
+                return Container(
+                  height: 310,
+                  padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
+                  decoration: BoxDecoration(
+                      // color: Color.fromARGB(118, 51, 51, 51),
+                      // border: Border.all(
+                      //   width: .5,
+                      //   color: Color.fromARGB(224, 102, 102, 102),
+                      // ),
+                      // borderRadius: BorderRadius.all(
+                      //   Radius.circular(25),
+                      // ),
+                      ),
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: Consumer<PrevMatchesProvider>(builder: (context, provider, _) {
+                    return RawScrollbar(
+                      interactive: true,
+                      trackColor: const Color.fromARGB(43, 40, 122, 43),
+                      thumbColor: Color.fromARGB(255, 4, 109, 10),
+                      controller: _scrollController,
+                      radius: const Radius.circular(10),
+                      thumbVisibility: true,
+                      trackVisibility: true,
+                      child: ListView.builder(
+                        // scrollDirection: Axis.horizontal,
+                        controller: _scrollController,
+                        itemCount: provider.prevMatchesList.length,
+                        itemBuilder: (context, index) {
+                          PrevMatchesProvider.sortMatchesByDate(provider.prevMatchesList);
+                          if (index < provider.prevMatchesList.length) {
+                            return PrevMatchItem(
+                              match: provider.prevMatchesList[index],
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    );
+                  }),
                 );
               } else {
                 return const Center(

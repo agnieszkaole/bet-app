@@ -109,8 +109,6 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
           });
           return Column(
             children: [
-              Text("The prediction can only be edited until the match starts.",
-                  textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
               Expanded(
                 child: ListView.builder(
                   itemCount: firestoreDocuments.length,

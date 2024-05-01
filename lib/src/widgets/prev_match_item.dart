@@ -35,40 +35,42 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
     // var leagueName = widget.match.league.name;
     // var leagueNumber = widget.match.league.id;
 
-    return GestureDetector(
-      key: Key(matchId.toString()),
-      onTap: () {
-        // print(matchId);
-        String matchIdString = matchId.toString();
-        Provider.of<MatchIdProvider>(context, listen: false).updateSelectedMatchId(matchIdString);
-      },
-      child: Container(
-        width: 260,
-        margin: const EdgeInsets.only(right: 10, top: 8, bottom: 8),
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(134, 41, 41, 41),
-          gradient: const LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color.fromARGB(214, 37, 37, 37),
-              Color.fromARGB(206, 29, 29, 29),
-            ],
-          ),
-          border: Border.all(
-            width: .6,
-            color: Color.fromARGB(255, 0, 168, 76),
-          ),
-          // image: DecorationImage(image: AssetImage('./assets/images/lawn-5007569_1920.jpg'), fit: BoxFit.cover),
-          borderRadius: BorderRadius.all(
-            Radius.circular(25),
-          ),
+    return Container(
+      margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      decoration: BoxDecoration(
+        // color: Color.fromARGB(195, 8, 119, 4),
+        gradient: const LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            // Color.fromARGB(200, 31, 77, 10),
+            Color.fromARGB(197, 31, 31, 31),
+            Color.fromARGB(200, 62, 155, 19),
+          ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(children: [
+        border: Border.all(
+          width: .5,
+          color: Color.fromARGB(255, 116, 116, 116),
+        ),
+        // image: DecorationImage(
+        //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),
+        //   fit: BoxFit.cover,
+        //   colorFilter: ColorFilter.mode(
+        //     Color.fromARGB(70, 29, 29, 29),
+        //     BlendMode.srcATop,
+        //   ),
+        // ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(25),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            width: 120,
+            child: Column(children: [
               Text(
                 matchTime.toString(),
                 style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
@@ -78,105 +80,116 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
                 style: const TextStyle(fontSize: 12),
               ),
             ]),
-            const SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 80,
-                      width: 90,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              homeName,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: 80,
+                    width: 70,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            homeName,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: Container(
+                            padding: const EdgeInsets.all(5.0),
+                            child: CachedNetworkImage(
+                              imageUrl: homeLogo,
+                              fadeInDuration: const Duration(milliseconds: 50),
+                              placeholder: (context, url) => const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                              width: 25,
                             ),
                           ),
-                          SizedBox(
-                            height: 40,
-                            child: Container(
-                              padding: const EdgeInsets.all(5.0),
-                              child: CachedNetworkImage(
-                                imageUrl: homeLogo,
-                                fadeInDuration: const Duration(milliseconds: 50),
-                                placeholder: (context, url) => const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                                width: 25,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(width: 15, margin: EdgeInsets.only(top: 20), child: Text(homeGoal.toString())),
-                  ],
-                ),
-                Container(
-                  width: 30,
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    "vs",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(width: 15, margin: EdgeInsets.only(top: 20), child: Text(awayGoal.toString())),
-                    SizedBox(
-                      height: 80,
-                      width: 90,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              awayName,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 40,
-                            child: Container(
-                              padding: const EdgeInsets.all(5.0),
-                              child: CachedNetworkImage(
-                                imageUrl: awayLogo,
-                                placeholder: (context, url) => const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                                width: 25,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  Container(
+                    width: 10,
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
+                      homeGoal.toString(),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              Container(
+                width: 30,
+                margin: EdgeInsets.only(top: 20),
+                child: Text(
+                  "vs",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 10,
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
+                      awayGoal.toString(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 80,
+                    width: 70,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            awayName,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: Container(
+                            padding: const EdgeInsets.all(5.0),
+                            child: CachedNetworkImage(
+                              imageUrl: awayLogo,
+                              placeholder: (context, url) => const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                              width: 25,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

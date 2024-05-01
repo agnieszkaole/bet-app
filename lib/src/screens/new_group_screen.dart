@@ -76,15 +76,24 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(25),
-            // width: double.infinity,
-            // decoration: BoxDecoration(
-            //   borderRadius: BorderRadius.all(
-            //     Radius.circular(25),
-            //   ),
-            //   color: Color.fromARGB(255, 39, 39, 39),
-            // ),
-            // width: MediaQuery.of(context).size.width - 50,
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+            width: MediaQuery.of(context).size.width - 50,
+            constraints: BoxConstraints(maxWidth: 400),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(25),
+              ),
+              border: Border.all(width: 0.4, color: Color.fromARGB(99, 206, 206, 206)),
+              // color: Color.fromARGB(100, 39, 39, 39),
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color.fromARGB(199, 50, 124, 15),
+                  Color.fromARGB(200, 31, 77, 10),
+                ],
+              ),
+            ),
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -113,12 +122,12 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 31, 77, 10),
+                          color: Color.fromARGB(255, 93, 207, 40),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(color: Colors.greenAccent),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 145, 255, 71)),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
@@ -158,7 +167,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
                               borderSide: const BorderSide(
-                                color: Color.fromARGB(255, 31, 77, 10),
+                                color: Color.fromARGB(255, 93, 207, 40),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -167,7 +176,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                             ),
                             errorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
-                              borderSide: const BorderSide(color: Color.fromARGB(255, 255, 52, 37)),
+                              borderSide: const BorderSide(color: Color.fromARGB(255, 145, 255, 71)),
                             ),
                           ),
                           child: SizedBox(
@@ -241,6 +250,12 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       _privacySettings = val!;
                     }),
                   ),
+                  const SizedBox(height: 15),
+                  const Text(
+                    'Once you create the group, you will be able to invite your friends to join it',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
@@ -251,7 +266,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: const Color.fromARGB(255, 31, 77, 10),
+                        backgroundColor: Color.fromARGB(255, 45, 139, 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),

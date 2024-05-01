@@ -52,7 +52,7 @@ class _NextMatchListState extends State<NextMatchList> {
       league: widget.leagueNumber,
       season: '2023',
       status: statusApi,
-      next: '10',
+      next: '15',
       timezone: timezoneApi,
     );
     final season2Data = await SoccerApi().getMatches(
@@ -60,7 +60,7 @@ class _NextMatchListState extends State<NextMatchList> {
       league: widget.leagueNumber,
       season: '2024',
       status: statusApi,
-      next: '10',
+      next: '15',
       timezone: timezoneApi,
     );
 
@@ -105,7 +105,7 @@ class _NextMatchListState extends State<NextMatchList> {
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             } else if (snapshot.data!.isEmpty) {
               return SizedBox(
-                height: 160,
+                height: 150,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -126,31 +126,46 @@ class _NextMatchListState extends State<NextMatchList> {
               );
             } else if (snapshot.hasData) {
               if (snapshot.data != []) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // SizedBox(height: 5),
-                    SizedBox(
-                      height: 160,
-                      child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
-                        return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          controller: _scrollController,
-                          itemCount: provider.nextMatchesList.length,
-                          itemBuilder: (context, index) {
-                            NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
-                            if (index < provider.nextMatchesList.length) {
-                              return NextMatchItem(
-                                match: provider.nextMatchesList[index],
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
-                        );
-                      }),
-                    )
-                  ],
+                return Container(
+                  height: 310,
+                  padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
+                  decoration: BoxDecoration(
+                      // color: Color.fromARGB(118, 51, 51, 51),
+                      // border: Border.all(
+                      //   width: .5,
+                      //   color: Color.fromARGB(224, 102, 102, 102),
+                      // ),
+                      // borderRadius: BorderRadius.all(
+                      //   Radius.circular(25),
+                      // ),
+                      ),
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                    return RawScrollbar(
+                      interactive: true,
+                      trackColor: const Color.fromARGB(43, 40, 122, 43),
+                      thumbColor: Color.fromARGB(255, 0, 137, 223),
+                      controller: _scrollController,
+                      radius: const Radius.circular(10),
+                      thumbVisibility: true,
+                      trackVisibility: true,
+                      child: ListView.builder(
+                        // scrollDirection: Axis.horizontal,
+                        controller: _scrollController,
+                        itemCount: provider.nextMatchesList.length,
+                        itemBuilder: (context, index) {
+                          NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
+                          if (index < provider.nextMatchesList.length) {
+                            return NextMatchItem(
+                              match: provider.nextMatchesList[index],
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    );
+                  }),
                 );
               } else {
                 return const Center(

@@ -79,23 +79,28 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(width: 0.5, color: Color.fromARGB(255, 0, 168, 76)),
-                    gradient: const LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Color.fromARGB(100, 39, 39, 39),
-                        Color.fromARGB(100, 39, 39, 39),
-                      ],
-                    )),
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(
+                    width: 0.5,
+                    color: Color.fromARGB(170, 62, 155, 19),
+                  ),
+                  // color: const Color.fromARGB(20, 0, 0, 0),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromARGB(120, 62, 155, 19),
+                      Color.fromARGB(120, 31, 77, 10),
+                    ],
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -121,21 +126,22 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 10),
 
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
-                    gradient: const LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Color.fromARGB(100, 39, 39, 39),
-                        Color.fromARGB(100, 39, 39, 39),
-                      ],
-                    )),
+                  borderRadius: BorderRadius.circular(25),
+                  // border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
+                  // gradient: const LinearGradient(
+                  //   begin: Alignment.topRight,
+                  //   end: Alignment.bottomLeft,
+                  //   colors: [
+                  //     Color.fromARGB(100, 39, 39, 39),
+                  //     Color.fromARGB(100, 39, 39, 39),
+                  //   ],
+                  // )
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -169,16 +175,16 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                             begin: Alignment.topRight,
                                             end: Alignment.bottomLeft,
                                             colors: [
-                                              Color.fromARGB(255, 62, 155, 19),
-                                              Color.fromARGB(255, 31, 77, 10),
+                                              Color.fromARGB(220, 62, 155, 19),
+                                              Color.fromARGB(220, 31, 77, 10),
                                             ],
                                           )
                                         : const LinearGradient(
                                             begin: Alignment.topRight,
                                             end: Alignment.bottomLeft,
                                             colors: [
-                                              Color.fromARGB(255, 39, 39, 39),
-                                              Color.fromARGB(255, 39, 39, 39),
+                                              Color.fromARGB(150, 39, 39, 39),
+                                              Color.fromARGB(150, 39, 39, 39),
                                             ],
                                           )),
                                 child: Center(
@@ -212,20 +218,21 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
               //   color: Color.fromARGB(255, 99, 99, 99),
               //   thickness: 1,
               // ),
-              SizedBox(height: 20),
+
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
-                    gradient: const LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Color.fromARGB(100, 39, 39, 39),
-                        Color.fromARGB(100, 39, 39, 39),
-                      ],
-                    )),
+                  borderRadius: BorderRadius.circular(25),
+                  // border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
+                  // gradient: const LinearGradient(
+                  //   begin: Alignment.topRight,
+                  //   end: Alignment.bottomLeft,
+                  //   colors: [
+                  //     Color.fromARGB(100, 39, 39, 39),
+                  //     Color.fromARGB(100, 39, 39, 39),
+                  //   ],
+                  // )
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -237,8 +244,11 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                     //     // fontWeight: FontWeight.bold,
                     //   ),
                     // ),
-
-                    // SizedBox(height: 10),
+                    const Text(
+                      'Overview',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(height: 10),
                     const Text(
                       'Upcoming matches',
                       // ' | Next matches',
@@ -247,12 +257,12 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
-                    // SizedBox(height: 10),
+                    SizedBox(height: 10),
                     NextMatchList(
                       leagueNumber: selectedLeagueNumber,
                       isSelectedLeague: isSelectedLeague,
                     ),
-                    // const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     const Text(
                       'Latest Scores',
                       style: TextStyle(
@@ -260,6 +270,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
+                    SizedBox(height: 10),
                     PrevMatchList(
                       leagueNumber: selectedLeagueNumber,
                       isSelectedLeague: isSelectedLeague,
