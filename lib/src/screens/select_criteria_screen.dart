@@ -177,6 +177,8 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                             colors: [
                                               Color.fromARGB(220, 62, 155, 19),
                                               Color.fromARGB(220, 31, 77, 10),
+                                              // Color.fromARGB(149, 80, 80, 80),
+                                              // Color.fromARGB(149, 99, 99, 99),
                                             ],
                                           )
                                         : const LinearGradient(
@@ -257,7 +259,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 5),
                     NextMatchList(
                       leagueNumber: selectedLeagueNumber,
                       isSelectedLeague: isSelectedLeague,
@@ -270,7 +272,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 5),
                     PrevMatchList(
                       leagueNumber: selectedLeagueNumber,
                       isSelectedLeague: isSelectedLeague,

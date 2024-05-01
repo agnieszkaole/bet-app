@@ -144,7 +144,7 @@ class _NextMatchListState extends State<NextMatchList> {
                     return RawScrollbar(
                       interactive: true,
                       trackColor: const Color.fromARGB(43, 40, 122, 43),
-                      thumbColor: Color.fromARGB(255, 0, 137, 223),
+                      thumbColor: Color.fromARGB(200, 62, 155, 19),
                       controller: _scrollController,
                       radius: const Radius.circular(10),
                       thumbVisibility: true,

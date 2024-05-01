@@ -80,20 +80,20 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             width: MediaQuery.of(context).size.width - 50,
             constraints: BoxConstraints(maxWidth: 400),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-              border: Border.all(width: 0.4, color: Color.fromARGB(99, 206, 206, 206)),
-              // color: Color.fromARGB(100, 39, 39, 39),
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color.fromARGB(199, 50, 124, 15),
-                  Color.fromARGB(200, 31, 77, 10),
-                ],
-              ),
-            ),
+                // borderRadius: BorderRadius.all(
+                //   Radius.circular(25),
+                // ),
+                // border: Border.all(width: 0.4, color: Color.fromARGB(99, 206, 206, 206)),
+                // // color: Color.fromARGB(100, 39, 39, 39),
+                // gradient: LinearGradient(
+                //   begin: Alignment.topRight,
+                //   end: Alignment.bottomLeft,
+                //   colors: [
+                //     Color.fromARGB(200, 31, 77, 10),
+                //     Color.fromARGB(200, 53, 131, 17),
+                //   ],
+                // ),
+                ),
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,

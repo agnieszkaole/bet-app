@@ -42,15 +42,16 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            // Color.fromARGB(200, 62, 155, 19),
-            // Color.fromARGB(200, 31, 77, 10),
-            Color.fromARGB(180, 0, 137, 223),
-            Color.fromARGB(180, 54, 55, 149),
+            Color.fromARGB(200, 62, 155, 19),
+            Color.fromARGB(197, 31, 31, 31),
+
+            // Color.fromARGB(180, 0, 137, 223),
+            // Color.fromARGB(180, 54, 55, 149),
           ],
         ),
         border: Border.all(
           width: .5,
-          color: Color.fromARGB(255, 116, 116, 116),
+          color: Color.fromARGB(138, 88, 88, 88),
         ),
         // image: DecorationImage(
         //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),
@@ -141,7 +142,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 12,
                     ),
                   ),
                 ),

@@ -51,7 +51,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
         ),
         border: Border.all(
           width: .5,
-          color: Color.fromARGB(255, 116, 116, 116),
+          color: Color.fromARGB(138, 88, 88, 88),
         ),
         // image: DecorationImage(
         //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),

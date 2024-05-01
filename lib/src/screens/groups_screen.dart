@@ -22,14 +22,38 @@ class _GroupsScreenState extends State<GroupsScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           width: double.infinity,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text(
-              //   'Betting rules',
-              //   style: TextStyle(fontSize: 18),
-              // ),
-              // UserGroups(),
-              SizedBox(height: 20),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(118, 14, 71, 0),
+                  border: Border.all(
+                    width: .5,
+                    color: Color.fromARGB(224, 102, 102, 102),
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Choose your betting method ',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      '💡',
+                      style: TextStyle(fontSize: 26),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 25),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
@@ -86,8 +110,8 @@ class _GroupsScreenState extends State<GroupsScreen> {
                               begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
                               colors: [
-                                Color.fromARGB(255, 62, 155, 19),
                                 Color.fromARGB(255, 31, 77, 10),
+                                Color.fromARGB(255, 79, 194, 25),
                               ],
                             ),
                             borderRadius: BorderRadius.all(
@@ -106,8 +130,31 @@ class _GroupsScreenState extends State<GroupsScreen> {
                   ),
                 ),
               ),
-
-              SizedBox(height: 15),
+              // SizedBox(height: 15),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              //   decoration: BoxDecoration(
+              //     color: Color.fromARGB(118, 14, 71, 0),
+              //     border: Border.all(
+              //       width: .5,
+              //       color: Color.fromARGB(224, 102, 102, 102),
+              //     ),
+              //     borderRadius: BorderRadius.all(
+              //       Radius.circular(25),
+              //     ),
+              //   ),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       Text(
+              //         'or',
+              //         style: TextStyle(fontSize: 20),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
@@ -157,10 +204,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
                             begin: Alignment.topRight,
                             end: Alignment.bottomLeft,
                             colors: [
-                              Color.fromARGB(255, 0, 137, 223),
-                              Color.fromARGB(255, 54, 55, 149),
-                              // Color.fromARGB(100, 28, 181, 224),
-                              // Color.fromARGB(100, 0, 0, 70),
+                              // Color.fromARGB(255, 0, 137, 223),
+                              // Color.fromARGB(255, 54, 55, 149),
+                              Color.fromARGB(255, 79, 194, 25),
+                              Color.fromARGB(255, 31, 77, 10),
                             ],
                           ),
                           borderRadius: BorderRadius.all(
@@ -198,19 +245,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              UserGroups(),
-              SizedBox(height: 15),
-              Text(
-                'Scoring rules',
-                style: TextStyle(fontSize: 18),
-              ),
-              const SizedBox(height: 10),
+              SizedBox(height: 25),
               Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(118, 51, 51, 51),
+                  color: Color.fromARGB(118, 14, 71, 0),
                   border: Border.all(
                     width: .5,
                     color: Color.fromARGB(224, 102, 102, 102),
@@ -218,124 +257,24 @@ class _GroupsScreenState extends State<GroupsScreen> {
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
                   ),
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topRight,
-                  //   end: Alignment.bottomLeft,
-                  //   colors: [
-                  //     Color.fromARGB(210, 39, 39, 39),
-                  //     Color.fromARGB(210, 39, 39, 39),
-                  //   ],
-                  // ),
-                  // color: Color.fromARGB(255, 39, 39, 39),
                 ),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListTile(
-                      leading: Image.asset(
-                        './assets/images/football-157931_1280.png',
-                        width: 30,
-                      ),
-                      trailing: Container(
-                        width: 55,
-                        padding: EdgeInsets.all(5),
-                        // color: Color.fromARGB(104, 112, 112, 112),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(192, 22, 124, 36),
-                        ),
-                        child: Text(
-                          '3 pts',
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(1.0, 1.0),
-                                blurRadius: 1.0,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      title: Container(
-                        child: Text(
-                          'Exact result',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      subtitle: Text('Correctly predicted the exact result.'),
-                    ),
-                    ListTile(
-                      leading: Image.asset(
-                        './assets/images/football-157931_1280.png',
-                        width: 30,
-                      ),
-                      trailing: Container(
-                        width: 55,
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(230, 175, 172, 9),
-                        ),
-                        child: Text(
-                          '1 pt',
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(1, 1),
-                                blurRadius: 1.0,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        'Trend of result',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      subtitle: Text('Correctly predicted the trend of result (win, draw, lose).'),
-                    ),
-                    ListTile(
-                      leading: Image.asset(
-                        './assets/images/football-157931_1280.png',
-                        width: 30,
-                      ),
-                      trailing: Container(
-                        width: 55,
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(120, 241, 0, 0),
-                        ),
-                        child: Text(
-                          '0 pt',
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(1.0, 1.0),
-                                blurRadius: 1.0,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        'Wrong result',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      subtitle: Text('Inorrectly predicted the result.'),
-                    ),
+                    Text('You can use both of them ', style: TextStyle(fontSize: 20)),
+                    Text(' 👍 ', style: TextStyle(fontSize: 26)),
                   ],
                 ),
-              )
+              ),
+              // SizedBox(height: 30),
+              Divider(
+                height: 80,
+                thickness: 1.5,
+                color: Color.fromARGB(255, 20, 99, 0),
+              ),
+              UserGroups(),
+              SizedBox(height: 15),
             ],
           ),
         ),

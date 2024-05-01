@@ -142,7 +142,7 @@ class _GroupTabsState extends State<GroupTabs> {
                   indicatorWeight: 1.5,
                   labelColor: Colors.white,
                   dividerColor: Color.fromARGB(38, 255, 255, 255),
-                  tabs: [
+                  tabs: const [
                     Tab(
                       icon: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

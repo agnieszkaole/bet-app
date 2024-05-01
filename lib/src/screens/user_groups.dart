@@ -27,7 +27,7 @@ class _UserGroupsState extends State<UserGroups> {
             return Container(
               height: 140,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'Your groups',

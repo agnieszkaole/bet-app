@@ -125,16 +125,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             borderRadius: BorderRadius.all(
               Radius.circular(25),
             ),
+
             border: Border.all(width: 0.4, color: Color.fromARGB(99, 206, 206, 206)),
-            // gradient: const LinearGradient(
-            //   begin: Alignment.topRight,
-            //   end: Alignment.bottomLeft,
-            //   colors: [
-            //     Color.fromARGB(100, 39, 39, 39),
-            //     Color.fromARGB(100, 39, 39, 39),
-            //   ],
-            // ),
-            color: Color.fromARGB(100, 39, 39, 39),
+            // color: Color.fromARGB(100, 39, 39, 39),
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color.fromARGB(120, 50, 124, 15),
+                Color.fromARGB(120, 31, 77, 10),
+              ],
+            ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

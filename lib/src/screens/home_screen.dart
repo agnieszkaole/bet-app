@@ -3,6 +3,7 @@ import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
 
 import 'package:bet_app/src/screens/leaderboard_tabs.dart';
+import 'package:bet_app/src/screens/rules_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
@@ -104,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 index: provider.selectedIndex,
                 children: const [
                   SelectCriteriaScreen(),
+                  RulesScreen(),
                   GroupsScreen(),
                   LeaderboardTabs(),
                 ],
@@ -119,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // ),
             child: BottomNavigationBar(
               backgroundColor: Color.fromARGB(100, 0, 0, 0),
-              selectedItemColor: Color.fromARGB(255, 1, 163, 9),
+              selectedItemColor: Color.fromARGB(220, 77, 189, 25),
               type: BottomNavigationBarType.fixed,
               currentIndex: provider.selectedIndex,
               onTap: (index) {
@@ -148,15 +150,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(Icons.home),
                   label: 'Home',
                 ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(
-                //     Icons.scoreboard_outlined,
-                //   ),
-                //   label: 'Predictions',
-                // ),
-
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.scoreboard_rounded),
+                  icon: Icon(
+                    Icons.info,
+                  ),
+                  label: 'Rules',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.scoreboard_outlined,
+                  ),
                   label: 'Bets',
                   //
                 ),
