@@ -1,12 +1,9 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/predicted_match_provider.dart';
 
 import 'package:bet_app/src/widgets/predict_result.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class GroupMatchItem extends StatefulWidget {
   GroupMatchItem({
@@ -57,16 +54,16 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: Color.fromARGB(207, 32, 32, 32),
+        color: const Color.fromARGB(70, 49, 49, 49),
         border: Border.all(
           width: .8,
-          color: Color.fromARGB(192, 22, 124, 36),
+          color: const Color.fromARGB(192, 22, 124, 36),
         ),
       ),
       child: Stack(children: [
         isWithinXHours || widget.isMatchAdded
             ? Positioned(
-                right: 25.0,
+                right: 20.0,
                 bottom: 10.0,
                 child: GestureDetector(
                   onTap: () {
@@ -92,25 +89,25 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                           ),
                           actions: [
                             TextButton(
-                              child: Text("OK"),
                               style: TextButton.styleFrom(
-                                  backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                  foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                  backgroundColor: const Color.fromARGB(255, 2, 126, 6),
+                                  foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                               onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("OK"),
                             ),
                           ],
                         );
                       },
                     );
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.info_outline_rounded,
                     size: 28,
                     color: Color.fromARGB(255, 255, 242, 63),
                   ),
                 ),
               )
-            : SizedBox(),
+            : const SizedBox(),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -118,7 +115,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
               matchTime.toString(),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               leagueRound.toString(),
               style: const TextStyle(
@@ -152,7 +149,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                 ),
                 Container(
                   width: 30,
-                  child: Text(
+                  child: const Text(
                     "vs",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -185,7 +182,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
             const SizedBox(height: 10),
             Container(
               height: 40,
-              width: 200,
+              width: 180,
               child: !isWithinXHours && !widget.isMatchAdded
                   ? ElevatedButton(
                       onPressed: () async {
@@ -206,7 +203,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Color.fromARGB(255, 15, 105, 35),
+                        backgroundColor: const Color.fromARGB(255, 40, 122, 43),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
@@ -217,7 +214,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                   : OutlinedButton(
                       onPressed: null,
                       style: ElevatedButton.styleFrom(
-                        disabledForegroundColor: Color.fromARGB(193, 206, 206, 206),
+                        disabledForegroundColor: const Color.fromARGB(193, 206, 206, 206),
                         elevation: 3.0,
                       ),
                       child: const Text('Predict the result'),

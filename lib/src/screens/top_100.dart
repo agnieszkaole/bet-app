@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Top100 extends StatefulWidget {
   const Top100({super.key});
@@ -15,14 +14,14 @@ class _LeaderboardGroupState extends State<Top100> {
       child: Column(children: [
         Container(
           height: 50,
-          margin: EdgeInsets.all(8),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(78, 59, 59, 59),
+            color: const Color.fromARGB(78, 59, 59, 59),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
               width: 0.6,
-              color: Color.fromARGB(255, 148, 148, 148),
+              color: const Color.fromARGB(255, 148, 148, 148),
             ),
           ),
           child: SizedBox(
@@ -36,9 +35,9 @@ class _LeaderboardGroupState extends State<Top100> {
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(
                       width: 0.6,
-                      color: Color.fromARGB(255, 148, 148, 148),
+                      color: const Color.fromARGB(255, 148, 148, 148),
                     ),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
@@ -47,7 +46,7 @@ class _LeaderboardGroupState extends State<Top100> {
                       ],
                     ),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.center,
                     child: Text(
                       '1.  ',
@@ -59,22 +58,22 @@ class _LeaderboardGroupState extends State<Top100> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
-                Text('Staś'),
+                const SizedBox(width: 20),
+                const Text('Staś'),
               ],
             ),
           ),
         ),
         Container(
           height: 50,
-          margin: EdgeInsets.all(8),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(78, 59, 59, 59),
+            color: const Color.fromARGB(78, 59, 59, 59),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
               width: 0.6,
-              color: Color.fromARGB(255, 148, 148, 148),
+              color: const Color.fromARGB(255, 148, 148, 148),
             ),
           ),
           child: SizedBox(
@@ -88,9 +87,9 @@ class _LeaderboardGroupState extends State<Top100> {
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(
                       width: 0.6,
-                      color: Color.fromARGB(255, 148, 148, 148),
+                      color: const Color.fromARGB(255, 148, 148, 148),
                     ),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
@@ -99,7 +98,7 @@ class _LeaderboardGroupState extends State<Top100> {
                       ],
                     ),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.center,
                     child: Text(
                       '2.  ',
@@ -111,22 +110,22 @@ class _LeaderboardGroupState extends State<Top100> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
-                Text('Maciej'),
+                const SizedBox(width: 20),
+                const Text('Maciej'),
               ],
             ),
           ),
         ),
         Container(
           height: 50,
-          margin: EdgeInsets.all(8),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(78, 59, 59, 59),
+            color: const Color.fromARGB(78, 59, 59, 59),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
               width: 0.6,
-              color: Color.fromARGB(255, 148, 148, 148),
+              color: const Color.fromARGB(255, 148, 148, 148),
             ),
           ),
           child: SizedBox(
@@ -140,9 +139,9 @@ class _LeaderboardGroupState extends State<Top100> {
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(
                       width: 0.6,
-                      color: Color.fromARGB(255, 148, 148, 148),
+                      color: const Color.fromARGB(255, 148, 148, 148),
                     ),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
@@ -151,7 +150,7 @@ class _LeaderboardGroupState extends State<Top100> {
                       ],
                     ),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.center,
                     child: Text(
                       '3.  ',
@@ -163,22 +162,22 @@ class _LeaderboardGroupState extends State<Top100> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
-                Text('Zosia'),
+                const SizedBox(width: 20),
+                const Text('Zosia'),
               ],
             ),
           ),
         ),
         Container(
           height: 50,
-          margin: EdgeInsets.all(8),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(78, 59, 59, 59),
+            color: const Color.fromARGB(78, 59, 59, 59),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
               width: 0.6,
-              color: Color.fromARGB(255, 148, 148, 148),
+              color: const Color.fromARGB(255, 148, 148, 148),
             ),
           ),
           child: SizedBox(
@@ -192,10 +191,10 @@ class _LeaderboardGroupState extends State<Top100> {
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(
                       width: 0.6,
-                      color: Color.fromARGB(255, 148, 148, 148),
+                      color: const Color.fromARGB(255, 148, 148, 148),
                     ),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.center,
                     child: Text(
                       '4.  ',
@@ -207,22 +206,22 @@ class _LeaderboardGroupState extends State<Top100> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
-                Text('Aga'),
+                const SizedBox(width: 20),
+                const Text('Aga'),
               ],
             ),
           ),
         ),
         Container(
           height: 50,
-          margin: EdgeInsets.all(8),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(78, 59, 59, 59),
+            color: const Color.fromARGB(78, 59, 59, 59),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
               width: 0.6,
-              color: Color.fromARGB(255, 148, 148, 148),
+              color: const Color.fromARGB(255, 148, 148, 148),
             ),
           ),
           child: SizedBox(
@@ -236,10 +235,10 @@ class _LeaderboardGroupState extends State<Top100> {
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(
                       width: 0.6,
-                      color: Color.fromARGB(255, 148, 148, 148),
+                      color: const Color.fromARGB(255, 148, 148, 148),
                     ),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.center,
                     child: Text(
                       '5.  ',
@@ -251,8 +250,8 @@ class _LeaderboardGroupState extends State<Top100> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
-                Text('Michał'),
+                const SizedBox(width: 20),
+                const Text('Michał'),
               ],
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
-import 'package:bet_app/src/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 
 class SuccessfulDelete extends StatefulWidget {
@@ -22,15 +21,15 @@ class _SuccessfulDeleteState extends State<SuccessfulDelete> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Profile ',
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
                   '${widget.deletedUser} ',
-                  style: TextStyle(fontSize: 24),
+                  style: const TextStyle(fontSize: 24),
                 ),
-                Text(
+                const Text(
                   ' has been deleted',
                   style: TextStyle(fontSize: 20),
                 ),
@@ -40,7 +39,7 @@ class _SuccessfulDeleteState extends State<SuccessfulDelete> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
+                        builder: (context) => const LoginScreen(),
                       ));
                     },
                     style: ElevatedButton.styleFrom(

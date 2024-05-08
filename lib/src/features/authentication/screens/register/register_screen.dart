@@ -1,7 +1,7 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
-import 'package:bet_app/src/features/authentication/screens/login/widgets/continue_as_guest.dart';
+
 import 'package:bet_app/src/features/authentication/screens/register/successful_registration.dart';
-import 'package:bet_app/src/screens/home_screen.dart';
+
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -168,15 +168,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Column(
+                  const Column(
                     children: <Widget>[
-                      const SizedBox(height: 60.0),
+                      SizedBox(height: 60.0),
                       Text(
                         "GreatBet",
                         style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                       ),
-                      const Text("Create your account", style: TextStyle(fontSize: 16)),
-                      const SizedBox(
+                      Text("Create your account", style: TextStyle(fontSize: 16)),
+                      SizedBox(
                         height: 50,
                       ),
                     ],

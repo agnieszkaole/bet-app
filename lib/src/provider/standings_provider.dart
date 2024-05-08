@@ -1,5 +1,5 @@
 import 'package:bet_app/src/models/league_standings.dart';
-import 'package:bet_app/src/models/soccermodel.dart';
+
 import 'package:flutter/material.dart';
 
 class StandingsProvider extends ChangeNotifier {

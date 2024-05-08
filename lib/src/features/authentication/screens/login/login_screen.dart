@@ -1,7 +1,6 @@
-import 'package:bet_app/src/features/authentication/screens/login/widgets/continue_as_guest.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/login_form_widget.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/login_header_widget.dart';
-import 'package:bet_app/src/features/authentication/screens/register/register_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:bet_app/src/provider/match_id_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/match_prediction_item.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,9 +66,9 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
 
             return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
           } else if (snapshot.data!.isEmpty) {
-            return SizedBox(
+            return const SizedBox(
               height: 140,
-              child: const Center(
+              child: Center(
                 child: Text(
                   'Cannot get next predictions.',
                   style: TextStyle(fontSize: 14),
@@ -89,6 +89,7 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
                 children: [
                   Container(
                     // height: 240,
+
                     child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
                       return MatchPredictionItem(
                         prediction: predictions,
@@ -110,9 +111,9 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
             );
           }
         }
-        return SizedBox(
+        return const SizedBox(
           height: 140,
-          child: const Center(
+          child: Center(
             child: Text(
               'Unexpected state encountered. Please try again later.',
               style: TextStyle(fontSize: 20),

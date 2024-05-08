@@ -1,6 +1,5 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
-import 'package:bet_app/src/screens/groups_screen.dart';
-import 'package:bet_app/src/screens/leaderboard_group.dart';
+
 import 'package:bet_app/src/screens/user_profile.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,12 +17,12 @@ class MainDrawer extends StatelessWidget {
     User? user = Auth().currentUser;
     return Drawer(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             // image: DecorationImage(
             //   image: AssetImage('./assets/images/little-1506570_19201.png'),
             //   fit: BoxFit.cover,
             // ),
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
@@ -33,12 +32,12 @@ class MainDrawer extends StatelessWidget {
         )),
         child: Column(
           children: [
-            SizedBox(
-              height: 80,
+            const SizedBox(
+              height: 100,
               child: DrawerHeader(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
@@ -64,13 +63,13 @@ class MainDrawer extends StatelessWidget {
                 size: 26,
                 color: Theme.of(context).colorScheme.onBackground,
               ),
-              title: Text('Profile'),
+              title: const Text('Profile'),
               onTap: () {
                 Navigator.of(context).pop();
 
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => UserProfileScreen(),
+                    builder: (ctx) => const UserProfileScreen(),
                   ),
                 );
               },
@@ -98,7 +97,7 @@ class MainDrawer extends StatelessWidget {
                 size: 26,
                 color: Theme.of(context).colorScheme.onBackground,
               ),
-              title: Text('Logout'),
+              title: const Text('Logout'),
               onTap: () async {
                 signOut();
                 print('User is logged out: ${user!.uid}');

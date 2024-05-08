@@ -1,9 +1,8 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
+
 import 'package:bet_app/src/provider/prev_matches_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
-import 'package:bet_app/src/widgets/match_prediction_list.dart';
-import 'package:bet_app/src/widgets/next_match_item.dart';
+
 import 'package:bet_app/src/widgets/prev_match_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -106,7 +105,7 @@ class _PrevMatchListState extends State<PrevMatchList> {
 
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             } else if (snapshot.data!.isEmpty) {
-              return SizedBox(
+              return const SizedBox(
                 height: 150,
                 child: Center(
                   child: Column(
@@ -131,7 +130,7 @@ class _PrevMatchListState extends State<PrevMatchList> {
                 return Container(
                   height: 310,
                   padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       // color: Color.fromARGB(118, 51, 51, 51),
                       // border: Border.all(
                       //   width: .5,
@@ -141,12 +140,12 @@ class _PrevMatchListState extends State<PrevMatchList> {
                       //   Radius.circular(25),
                       // ),
                       ),
-                  constraints: BoxConstraints(maxWidth: 400),
+                  constraints: const BoxConstraints(maxWidth: 400),
                   child: Consumer<PrevMatchesProvider>(builder: (context, provider, _) {
                     return RawScrollbar(
                       interactive: true,
                       trackColor: const Color.fromARGB(43, 40, 122, 43),
-                      thumbColor: Color.fromARGB(255, 4, 109, 10),
+                      thumbColor: const Color.fromARGB(255, 4, 109, 10),
                       controller: _scrollController,
                       radius: const Radius.circular(10),
                       thumbVisibility: true,
@@ -181,9 +180,9 @@ class _PrevMatchListState extends State<PrevMatchList> {
             }
           }
 
-          return SizedBox(
+          return const SizedBox(
             height: 140,
-            child: const Center(
+            child: Center(
               child: Text(
                 'Unexpected state encountered. Please try again later.',
                 style: TextStyle(fontSize: 20),

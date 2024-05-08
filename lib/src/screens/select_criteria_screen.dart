@@ -1,23 +1,11 @@
 import 'dart:async';
 import 'package:bet_app/src/constants/league_names.dart';
-import 'package:bet_app/src/models/match_predictions_model.dart';
-import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
-import 'package:bet_app/src/widgets/match_prediction.dart';
-import 'package:bet_app/src/widgets/match_prediction_list.dart';
-import 'package:bet_app/src/widgets/match_scheduled.dart';
-
 import 'package:bet_app/src/widgets/next_match_list.dart';
 import 'package:bet_app/src/widgets/prev_match_list.dart';
-import 'package:bet_app/src/widgets/standings_list.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
-import 'package:provider/provider.dart';
 
 class SelectCriteriaScreen extends StatefulWidget {
   const SelectCriteriaScreen({
@@ -89,7 +77,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                   borderRadius: BorderRadius.circular(25),
                   border: Border.all(
                     width: 0.5,
-                    color: Color.fromARGB(170, 62, 155, 19),
+                    color: const Color.fromARGB(170, 62, 155, 19),
                   ),
                   // color: const Color.fromARGB(20, 0, 0, 0),
                   gradient: const LinearGradient(
@@ -100,6 +88,13 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                       Color.fromARGB(120, 31, 77, 10),
                     ],
                   ),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.black.withOpacity(0.4),
+                  //     offset: Offset(6.0, 6.0),
+                  //     blurRadius: 10.0,
+                  //   ),
+                  // ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,9 +105,9 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                           'Hello ${username != null ? '$username' : ''}',
                           style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                         ),
-                        Text(
+                        const Text(
                           '   👋',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 25,
                           ),
                         ),
@@ -126,7 +121,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                 ),
               ),
 
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -151,7 +146,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         fontSize: 20,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SizedBox(
                       height: 40,
                       child: ListView.builder(
@@ -168,8 +163,8 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     border: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
-                                        ? Border.all(width: 0.2, color: Color.fromARGB(255, 0, 168, 76))
-                                        : Border.all(width: 0.8, color: Color.fromARGB(255, 0, 100, 45)),
+                                        ? Border.all(width: 0.2, color: const Color.fromARGB(255, 0, 168, 76))
+                                        : Border.all(width: 0.8, color: const Color.fromARGB(255, 0, 100, 45)),
                                     gradient: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
                                         ? const LinearGradient(
                                             begin: Alignment.topRight,
@@ -250,7 +245,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                       'Overview',
                       style: TextStyle(fontSize: 20),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     const Text(
                       'Upcoming matches',
                       // ' | Next matches',
@@ -259,12 +254,12 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     NextMatchList(
                       leagueNumber: selectedLeagueNumber,
                       isSelectedLeague: isSelectedLeague,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     const Text(
                       'Latest Scores',
                       style: TextStyle(
@@ -272,7 +267,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     PrevMatchList(
                       leagueNumber: selectedLeagueNumber,
                       isSelectedLeague: isSelectedLeague,

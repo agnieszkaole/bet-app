@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'package:bet_app/main.dart';
-import 'package:bet_app/src/screens/groups_screen.dart';
+
 import 'package:bet_app/src/screens/home_screen.dart';
-import 'package:bet_app/src/screens/user_groups.dart';
-import 'package:rxdart/rxdart.dart';
+
 import 'package:bet_app/src/services/groups.dart';
-import 'package:bet_app/src/widgets/group_details.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -26,7 +24,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
+          surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
           title: const Text('Join a group'),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(80),
@@ -37,7 +35,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                   // constraints: BoxConstraints(maxWidth: kIsWeb ? 700.0 : MediaQuery.of(context).size.width),
 
                   color: Colors.transparent,
-                  child: TabBar(
+                  child: const TabBar(
                     padding: EdgeInsets.only(bottom: 20),
                     indicatorColor: Color.fromARGB(255, 30, 117, 33),
                     indicatorWeight: 1.2,
@@ -208,28 +206,28 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
         Container(
           width: 300,
           // height: 50,
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
-            color: Color.fromARGB(159, 32, 32, 32),
+            color: const Color.fromARGB(159, 32, 32, 32),
             // color: Color.fromARGB(255, 46, 46, 46),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
-              color: Color.fromARGB(255, 204, 204, 204),
+              color: const Color.fromARGB(255, 204, 204, 204),
               width: 0.2,
             ),
           ),
           child: Row(
             children: [
-              Icon(Icons.search),
-              SizedBox(width: 10),
+              const Icon(Icons.search),
+              const SizedBox(width: 10),
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Search group',
                     border: InputBorder.none,
                     hintStyle: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   controller: _searchController,
                   onChanged: (text) {
                     updateFilteredGroups(text);
@@ -239,7 +237,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _searchController.text.isNotEmpty
             ? Expanded(
                 child: StreamBuilder<List<Map<String, dynamic>>>(
@@ -291,10 +289,10 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                     margin: const EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
-                                      color: Color.fromARGB(100, 14, 71, 0),
+                                      color: const Color.fromARGB(223, 34, 34, 34),
                                       border: Border.all(
                                         width: 0.8,
-                                        color: Color.fromARGB(255, 26, 112, 0),
+                                        color: const Color.fromARGB(255, 26, 112, 0),
                                       ),
                                       borderRadius: BorderRadius.circular(25),
                                     ),
@@ -304,7 +302,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           width: 180,
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,9 +419,9 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                           String? selectedLeague = groupData['selectedLeague']['leagueName'];
                           int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
                           String? creatorUsername = groupData['creatorUsername'];
-
+                          print('hjkjhkhjkjhkjhkhj$groupMembers');
                           return Container(
-                            constraints: BoxConstraints(maxWidth: 400),
+                            constraints: const BoxConstraints(maxWidth: 400),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -431,10 +429,10 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(100, 14, 71, 0),
+                                    color: const Color.fromARGB(223, 34, 34, 34),
                                     border: Border.all(
                                       width: 0.8,
-                                      color: Color.fromARGB(255, 26, 112, 0),
+                                      color: const Color.fromARGB(255, 26, 112, 0),
                                     ),
                                     borderRadius: BorderRadius.circular(25),
                                   ),
@@ -442,7 +440,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: 220,
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -511,7 +509,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                       context: context,
                                                       builder: (BuildContext context) {
                                                         return AlertDialog(
-                                                          title: Text(
+                                                          title: const Text(
                                                             'Enter access code:',
                                                             style: TextStyle(fontSize: 16),
                                                           ),
@@ -534,7 +532,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                             color: Colors.red, fontSize: 14.0),
                                                                         border: OutlineInputBorder(
                                                                             borderRadius: BorderRadius.circular(25)),
-                                                                        contentPadding: EdgeInsets.all(10.0),
+                                                                        contentPadding: const EdgeInsets.all(10.0),
                                                                         enabledBorder: OutlineInputBorder(
                                                                           borderRadius: BorderRadius.circular(25),
                                                                           borderSide: const BorderSide(
@@ -592,13 +590,14 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                     },
                                                                     style: ElevatedButton.styleFrom(
                                                                       foregroundColor: Colors.white,
-                                                                      backgroundColor: Color.fromARGB(255, 44, 107, 15),
+                                                                      backgroundColor:
+                                                                          const Color.fromARGB(255, 44, 107, 15),
                                                                       shape: RoundedRectangleBorder(
                                                                         borderRadius: BorderRadius.circular(25),
                                                                       ),
                                                                       // elevation: 4.0,
                                                                     ),
-                                                                    child: Text('Confirm'),
+                                                                    child: const Text('Confirm'),
                                                                   ),
                                                                 ],
                                                               ),
@@ -634,7 +633,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                   },
                 ),
               ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ],
     );
   }

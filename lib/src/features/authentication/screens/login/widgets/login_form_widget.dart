@@ -1,4 +1,4 @@
-import 'package:bet_app/src/features/authentication/screens/login/widgets/forget_password.dart';
+
 import 'package:bet_app/src/features/authentication/screens/register/register_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/home_screen.dart';

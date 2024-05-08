@@ -125,21 +125,19 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const Text(
-                  //   'Decide which matches you want to bet on.',
-                  //   style: TextStyle(
-                  //     fontSize: 14,
-                  //     // fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 20),
+                  const Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '◀   Scroll to see upcoming matches   ▶',
+                      style: TextStyle(
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+
                   Container(
                     height: 40,
-
-                    // decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(20),
-                    //     color: Color.fromARGB(207, 32, 32, 32),
-                    //     border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
                     child: Consumer<NextMatchesScheduledProvider>(builder: (context, provider, _) {
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,

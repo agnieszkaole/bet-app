@@ -1,8 +1,7 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/match_id_provider.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class NextMatchItem extends StatefulWidget {
   const NextMatchItem({
@@ -51,7 +50,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
         ),
         border: Border.all(
           width: .5,
-          color: Color.fromARGB(138, 88, 88, 88),
+          color: const Color.fromARGB(138, 88, 88, 88),
         ),
         // image: DecorationImage(
         //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),
@@ -61,7 +60,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
         //     BlendMode.srcATop,
         //   ),
         // ),
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(25),
         ),
       ),
@@ -136,8 +135,8 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                 ),
                 Container(
                   width: 15,
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: const Text(
                     "vs",
                     textAlign: TextAlign.center,
                     style: TextStyle(

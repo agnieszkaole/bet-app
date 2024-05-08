@@ -1,12 +1,12 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
+
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 import 'package:bet_app/src/widgets/custem_data_table.dart';
 // import 'package:bet_app/src/widgets/selectable_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:horizontal_data_table/horizontal_data_table.dart';
+
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -52,7 +52,7 @@ class _GroupTableState extends State<GroupTable> {
   void _formatDate() {
     createdAtDate = widget.createdAt!.toDate();
     formattedCreatedAtDate = DateFormat('yyyy-MM-dd').format(createdAtDate);
-    DateTime newDate = createdAtDate.add(Duration(days: 365 * 2));
+    DateTime newDate = createdAtDate.add(const Duration(days: 365 * 2));
     formattedCreatedAtDateEnd = DateFormat('yyyy-MM-dd').format(newDate);
   }
 
@@ -120,17 +120,13 @@ class _GroupTableState extends State<GroupTable> {
             } else if (snapshot.hasData) {
               return Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // Text("Compare predictions.", textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
-                      Text("Your prediction are only visible after time for prediction has expired.",
-                          textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
-
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       DataTablePage(groupId: widget.groupId),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),

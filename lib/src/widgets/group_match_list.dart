@@ -1,17 +1,15 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_group_matches_provider.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/provider/predicted_match_provider.dart';
+
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
-import 'package:bet_app/src/widgets/data_picker.dart';
+
 import 'package:bet_app/src/widgets/group_match_item.dart';
-import 'package:bet_app/src/widgets/match_scheduled.dart';
-import 'package:bet_app/src/widgets/predict_result.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:provider/provider.dart';
 
 class GroupMatchList extends StatefulWidget {
@@ -159,7 +157,7 @@ class _GroupMatchListState extends State<GroupMatchList> {
                                       groupId: widget.groupId,
                                       selectedLeagueNumber: widget.leagueName);
                                 } else {
-                                  return SizedBox();
+                                  return const SizedBox();
                                 }
                               },
                             );

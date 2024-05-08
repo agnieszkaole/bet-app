@@ -1,10 +1,10 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
-
-import 'package:bet_app/src/screens/leaderboard_tabs.dart';
+import 'package:bet_app/src/screens/leaderboard_screen.dart';
 import 'package:bet_app/src/screens/rules_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
+
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
@@ -78,10 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           // backgroundColor: Color.fromARGB(100, 0, 0, 0),
           backgroundColor: Colors.transparent,
-          surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
-          flexibleSpace: Center(
+          surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
+          flexibleSpace: const Center(
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
               child: Text(
                 'GreatBet',
                 style: TextStyle(fontSize: 24),
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SelectCriteriaScreen(),
                   RulesScreen(),
                   GroupsScreen(),
-                  LeaderboardTabs(),
+                  LeaderboardScreen(),
                 ],
               ),
             );
@@ -120,8 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
             //   maxWidth: kIsWeb ? 400.0 : MediaQuery.of(context).size.width,
             // ),
             child: BottomNavigationBar(
-              backgroundColor: Color.fromARGB(100, 0, 0, 0),
-              selectedItemColor: Color.fromARGB(220, 77, 189, 25),
+              backgroundColor: const Color.fromARGB(100, 0, 0, 0),
+              selectedItemColor: const Color.fromARGB(220, 77, 189, 25),
               type: BottomNavigationBarType.fixed,
               currentIndex: provider.selectedIndex,
               onTap: (index) {
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (isAnonymous && (index == 2 || index == 3)) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Zaloguj się aby korzystać z tych funkcji.'),
+                      content: const Text('Zaloguj się aby korzystać z tych funkcji.'),
                       action: SnackBarAction(
                         label: 'Zaloguj',
                         onPressed: () {

@@ -1,8 +1,7 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/match_id_provider.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PrevMatchItem extends StatefulWidget {
   const PrevMatchItem({
@@ -51,7 +50,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
         ),
         border: Border.all(
           width: .5,
-          color: Color.fromARGB(138, 88, 88, 88),
+          color: const  Color.fromARGB(138, 88, 88, 88),
         ),
         // image: DecorationImage(
         //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),
@@ -61,14 +60,14 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
         //     BlendMode.srcATop,
         //   ),
         // ),
-        borderRadius: BorderRadius.all(
+        borderRadius: const  BorderRadius.all(
           Radius.circular(25),
         ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+     Container(
             width: 120,
             child: Column(children: [
               Text(
@@ -123,7 +122,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
                   ),
                   Container(
                     width: 10,
-                    margin: EdgeInsets.only(top: 20),
+                    margin: const  EdgeInsets.only(top: 20),
                     child: Text(
                       homeGoal.toString(),
                     ),
@@ -132,8 +131,8 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
               ),
               Container(
                 width: 30,
-                margin: EdgeInsets.only(top: 20),
-                child: Text(
+                margin: const  EdgeInsets.only(top: 20),
+                child: const  Text(
                   "vs",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -147,7 +146,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
                 children: [
                   Container(
                     width: 10,
-                    margin: EdgeInsets.only(top: 20),
+                    margin: const  EdgeInsets.only(top: 20),
                     child: Text(
                       awayGoal.toString(),
                     ),

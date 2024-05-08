@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -113,7 +112,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
+        surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
       ),
       body: Center(
         child: Container(
@@ -153,7 +152,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
                                     imageUrl: widget.teamHomeLogo,
-                                    fadeInDuration: Duration(milliseconds: 50),
+                                    fadeInDuration: const Duration(milliseconds: 50),
                                     placeholder: (context, url) => const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) => const Icon(Icons.error),
                                     width: 45.0,
@@ -223,8 +222,8 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text(
+                      padding: const EdgeInsets.all(5.0),
+                      child: const Text(
                         "-",
                         style: TextStyle(
                           color: Colors.white,
@@ -305,7 +304,7 @@ class _PredictedResultEdithState extends State<PredictedResultEdit> {
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
                                     imageUrl: widget.teamAwayLogo,
-                                    fadeInDuration: Duration(milliseconds: 50),
+                                    fadeInDuration: const Duration(milliseconds: 50),
                                     placeholder: (context, url) => const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) => const Icon(Icons.error),
                                     width: 45.0,

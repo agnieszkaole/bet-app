@@ -1,13 +1,9 @@
 import "package:bet_app/src/models/soccermodel.dart";
-import "package:bet_app/src/provider/next_matches_provider.dart";
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import "package:bet_app/src/services/groups.dart";
-import "package:bet_app/src/services/soccer_api.dart";
 import "package:bet_app/src/widgets/group_details.dart";
-import "package:bet_app/src/widgets/group_match_list.dart";
 import "package:bet_app/src/widgets/group_table.dart";
 import "package:bet_app/src/widgets/match_scheduled.dart";
-import "package:bet_app/src/widgets/predict_result.dart";
 import "package:bet_app/src/widgets/predicted_matches_firebase.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
@@ -124,11 +120,11 @@ class _GroupTabsState extends State<GroupTabs> {
               ],
             ),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(60),
+              preferredSize: const Size.fromHeight(50),
               child: Container(
                 // alignment: Alignment.center,
                 // width: MediaQuery.of(context).size.width - 20,
-                constraints: BoxConstraints(maxWidth: 600),
+                constraints: const BoxConstraints(maxWidth: 600),
                 child: TabBar(
                   onTap: (index) async {
                     if (index == 1) {
@@ -141,7 +137,7 @@ class _GroupTabsState extends State<GroupTabs> {
                   indicatorColor: Colors.green,
                   indicatorWeight: 1.5,
                   labelColor: Colors.white,
-                  dividerColor: Color.fromARGB(38, 255, 255, 255),
+                  dividerColor: const Color.fromARGB(38, 255, 255, 255),
                   tabs: const [
                     Tab(
                       icon: Row(
@@ -241,12 +237,13 @@ class _GroupTabsState extends State<GroupTabs> {
             ),
           ),
           body: Container(
-            decoration: BoxDecoration(
-
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            decoration: const BoxDecoration(
                 // image: const DecorationImage(
                 //   image: AssetImage("./assets/images/the-ball-488712_192011.png"),
                 //   fit: BoxFit.cover,
                 // ),
+
                 ),
             child: TabBarView(
               physics: const NeverScrollableScrollPhysics(),

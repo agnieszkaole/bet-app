@@ -19,12 +19,12 @@ class _PredictedItemLocalState extends State<PredictedItemLocal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
 
           // color: Color.fromARGB(82, 40, 122, 43),
-          border: Border.all(width: 1, color: Color.fromARGB(162, 145, 145, 145)),
+          border: Border.all(width: 1, color: const Color.fromARGB(162, 145, 145, 145)),
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Stack(
         children: [
@@ -104,11 +104,11 @@ class _PredictedItemLocalState extends State<PredictedItemLocal> {
               const SizedBox(
                 height: 10,
               ),
-              Text('Końcowy wynik meczu:'),
-              Text(
+              const Text('Końcowy wynik meczu:'),
+              const Text(
                 "? - ?",
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 22.0,
                 ),
@@ -126,7 +126,7 @@ class _PredictedItemLocalState extends State<PredictedItemLocal> {
                   ? null
                   : OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         shape: const StadiumBorder(),
                         side: const BorderSide(
                           width: 1,
@@ -135,7 +135,7 @@ class _PredictedItemLocalState extends State<PredictedItemLocal> {
                         // side: BorderSide.none,
                         foregroundColor:
                             // const Color.fromARGB(255, 176, 206, 177),
-                            Color.fromARGB(255, 66, 201, 70),
+                            const Color.fromARGB(255, 66, 201, 70),
                       ),
                       // onPressed: () {},
                       onPressed: () {

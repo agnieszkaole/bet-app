@@ -1,10 +1,8 @@
 import 'package:bet_app/src/models/league_standings.dart';
-import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
+
 import 'package:bet_app/src/provider/standings_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
-import 'package:bet_app/src/widgets/match_prediction_list.dart';
-import 'package:bet_app/src/widgets/next_match_item.dart';
+
 import 'package:bet_app/src/widgets/standings_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +79,7 @@ class _StandingsListState extends State<StandingsList> {
 
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             } else if (snapshot.data!.isEmpty) {
-              return SizedBox(
+              return const SizedBox(
                 height: 160,
                 child: Center(
                   child: Column(
@@ -124,9 +122,9 @@ class _StandingsListState extends State<StandingsList> {
               );
             }
           }
-          return SizedBox(
+          return const SizedBox(
             height: 140,
-            child: const Center(
+            child: Center(
               child: Text(
                 'Unexpected state encountered. Please try again later.',
                 style: TextStyle(fontSize: 20),

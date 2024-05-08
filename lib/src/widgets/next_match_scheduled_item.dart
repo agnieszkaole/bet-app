@@ -1,8 +1,6 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/match_id_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class NextMatchScheduledItem extends StatefulWidget {
   const NextMatchScheduledItem({
@@ -28,7 +26,7 @@ class _NextMatchItemState extends State<NextMatchScheduledItem>
 
     return Container(
       // width: 140,
-      margin: const EdgeInsets.all(6),
+      margin: const EdgeInsets.all(5),
       padding: const EdgeInsets.all(5),
       // decoration: BoxDecoration(
       //     borderRadius: BorderRadius.circular(25),
@@ -41,7 +39,7 @@ class _NextMatchItemState extends State<NextMatchScheduledItem>
             "./assets/images/football-157931_1280.png",
             width: 22,
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Text(
             matchTime.toString(),
             style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),

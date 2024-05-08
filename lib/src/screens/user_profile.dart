@@ -1,7 +1,7 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/user_profile_delete_succesful.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bet_app/src/services/auth.dart';
@@ -52,7 +52,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         bool isUsernameAvailableField = await UserData().isUsernameNameAvailable(newUsername);
 
         if (!isUsernameAvailableAuth || !isUsernameAvailableField) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Username is already taken. Please choose a different username.'),
           ));
           return;
@@ -62,13 +62,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         setState(() {
           username = newUsername;
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Username updated successfully'),
         ));
         _controllerNewUsername.clear();
         Navigator.of(context).pop();
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Failed to update username. Please try again later.'),
         ));
         print('Error updating user details: $e');
@@ -104,7 +104,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
+        surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
         title: const Text(
           'Profile',
           style: TextStyle(fontSize: 20),
@@ -119,16 +119,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: Container(
           height: 500,
           width: MediaQuery.of(context).size.width - 50,
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 400),
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(25),
             ),
 
-            border: Border.all(width: 0.4, color: Color.fromARGB(99, 206, 206, 206)),
+            border: Border.all(width: 0.4, color: const Color.fromARGB(99, 206, 206, 206)),
             // color: Color.fromARGB(100, 39, 39, 39),
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
@@ -149,7 +149,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       children: [
                         Container(
                           decoration: const BoxDecoration(
-                            gradient: const LinearGradient(
+                            gradient: LinearGradient(
                               begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
                               colors: [
@@ -161,8 +161,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(50.0)),
                           ),
                           child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Icon(
+                            padding: const EdgeInsets.all(10),
+                            child: const Icon(
                               Icons.person_rounded,
                               size: 60,
                             ),
@@ -173,7 +173,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Text('Username: ', style: const TextStyle(fontSize: 14)),
+                  const Text('Username: ', style: TextStyle(fontSize: 14)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -184,8 +184,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor: Color.fromARGB(255, 32, 32, 32),
-                                title: Text(
+                                backgroundColor: const Color.fromARGB(255, 32, 32, 32),
+                                title: const Text(
                                   "Change username",
                                   style: TextStyle(fontSize: 16),
                                 ),
@@ -206,7 +206,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           decoration: InputDecoration(
                                             errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
                                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-                                            contentPadding: EdgeInsets.all(10.0),
+                                            contentPadding: const EdgeInsets.all(10.0),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(25),
                                               borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
@@ -232,7 +232,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             newUsername = value;
                                           },
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         ElevatedButton(
                                           onPressed: () {
                                             updateUserDetails(_controllerNewUsername.text, _controllerNewUsername.text);
@@ -245,7 +245,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             ),
                                             // elevation: 4.0,
                                           ),
-                                          child: Text('Update'),
+                                          child: const Text('Update'),
                                         ),
                                       ],
                                     ),
@@ -279,8 +279,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Text('Email: ', style: const TextStyle(fontSize: 14)),
+                  const SizedBox(height: 20),
+                  const Text('Email: ', style: TextStyle(fontSize: 14)),
                   Text(user?.email != null ? '${user?.email}' : 'No data', style: const TextStyle(fontSize: 24)),
                 ],
               ),
@@ -296,27 +296,27 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Change password ', style: const TextStyle(fontSize: 18)),
+                        const Text('Change password ', style: TextStyle(fontSize: 18)),
                         GestureDetector(
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text(
+                                  title: const Text(
                                     "Change password",
                                     style: TextStyle(fontSize: 16),
                                   ),
-                                  content: Text(
+                                  content: const Text(
                                       'You will receive a message containing a link to reset your password to the e-mail address provided during registration. Do you agree?'),
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
                                         // backgroundColor: Color.fromARGB(255, 205, 255, 206),
-                                        foregroundColor: Color.fromARGB(255, 6, 165, 11),
+                                        foregroundColor: const Color.fromARGB(255, 6, 165, 11),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(25),
-                                          side: BorderSide(color: Color.fromARGB(255, 6, 165, 11)),
+                                          side: const BorderSide(color: Color.fromARGB(255, 6, 165, 11)),
                                         ),
                                       ),
                                       onPressed: () {
@@ -331,8 +331,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     ),
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                          foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                          backgroundColor: const Color.fromARGB(255, 2, 126, 6),
+                                          foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                                       onPressed: () async {
                                         await UserData().sendPasswordResetEmail(email);
                                         Navigator.of(context).pop();
@@ -378,18 +378,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Delete profile', style: const TextStyle(fontSize: 18)),
+                      const Text('Delete profile', style: TextStyle(fontSize: 18)),
                       GestureDetector(
                         onTap: () {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text(
+                                title: const Text(
                                   "Delete profile",
                                   style: TextStyle(fontSize: 20),
                                 ),
-                                content: Text(
+                                content: const Text(
                                     'Deleting your profile will remove all of your information. Once deleted it cannot be recovered.'),
                                 actions: [
                                   Form(
@@ -397,8 +397,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
                                     child: Column(
                                       children: [
-                                        Text('Enter password to confirm deletion.'),
-                                        SizedBox(height: 10),
+                                        const Text('Enter password to confirm deletion.'),
+                                        const SizedBox(height: 10),
                                         TextFormField(
                                           controller: _controllerPassword,
                                           autofocus: false,
@@ -410,7 +410,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           decoration: InputDecoration(
                                             errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
                                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-                                            contentPadding: EdgeInsets.all(10.0),
+                                            contentPadding: const EdgeInsets.all(10.0),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(25),
                                               borderSide: const BorderSide(color: Color.fromARGB(255, 40, 122, 43)),
@@ -433,16 +433,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             return null;
                                           },
                                         ),
-                                        SizedBox(height: 15),
+                                        const SizedBox(height: 15),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             TextButton(
                                               style: ElevatedButton.styleFrom(
-                                                foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                                foregroundColor: const Color.fromARGB(255, 255, 1, 1),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(25),
-                                                  side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                                  side: const BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
                                                 ),
                                                 // elevation: 4.0,
                                               ),
@@ -460,7 +460,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                                         builder: (context) =>
                                                             SuccessfulDelete(deletedUser: user.email)));
                                                   } catch (e) {
-                                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                                       content: Text('Incorrect password. Please try again.'),
                                                     ));
                                                   }
@@ -476,8 +476,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             ),
                                             TextButton(
                                               style: TextButton.styleFrom(
-                                                  backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                                  foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                                  backgroundColor: const Color.fromARGB(255, 2, 126, 6),
+                                                  foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },

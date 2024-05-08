@@ -8,6 +8,7 @@ import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_scheduled_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/provider/prev_matches_provider.dart';
+import 'package:bet_app/src/provider/scoreboard_manager_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/provider/standings_provider.dart';
 
@@ -46,17 +47,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => BottomNavigationProvider()),
         ChangeNotifierProvider(create: (context) => MatchIdProvider()),
         ChangeNotifierProvider(create: (context) => StandingsProvider()),
+        // ChangeNotifierProvider(create: (context) => ScoreboardManagerProvider()),
 
         // ChangeNotifierProvider(create: (context) => PredictionsProvider()),
       ],
       child: Container(
-        constraints: BoxConstraints(maxWidth: 600),
+        constraints: const BoxConstraints(maxWidth: 600),
         child: Center(
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Stack(children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 30, 30, 30),
                   // image: DecorationImage(
                   //   image: AssetImage('./assets/images/little-1506570_19201.png'),

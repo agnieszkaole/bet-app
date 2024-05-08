@@ -64,11 +64,11 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
-        title: Text('Create a new group'),
+        surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
+        title: const Text('Create a new group'),
         leading: Container(
           child: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -78,8 +78,9 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             width: MediaQuery.of(context).size.width - 50,
-            constraints: BoxConstraints(maxWidth: 400),
-            decoration: BoxDecoration(
+            constraints: const BoxConstraints(maxWidth: 400),
+            decoration: const BoxDecoration(
+
                 // borderRadius: BorderRadius.all(
                 //   Radius.circular(25),
                 // ),
@@ -101,7 +102,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                 children: [
                   // const SizedBox(height: 50),
                   Container(
-                    padding: EdgeInsets.only(bottom: 5),
+                    padding: const EdgeInsets.only(bottom: 5),
                     alignment: Alignment.center,
                     child: const Text(
                       'Enter the group name',
@@ -118,11 +119,12 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     decoration: InputDecoration(
                       errorStyle: const TextStyle(color: Colors.red, fontSize: 14.0),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-                      contentPadding: EdgeInsets.all(10.0),
+                      contentPadding: const EdgeInsets.all(10.0),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: const BorderSide(
                           color: Color.fromARGB(255, 93, 207, 40),
+                          width: 0.5,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -149,7 +151,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   const SizedBox(height: 30),
 
                   Container(
-                    padding: EdgeInsets.only(bottom: 5),
+                    padding: const EdgeInsets.only(bottom: 5),
                     alignment: Alignment.center,
                     child: const Text(
                       'Select a league',
@@ -168,6 +170,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                               borderRadius: BorderRadius.circular(25),
                               borderSide: const BorderSide(
                                 color: Color.fromARGB(255, 93, 207, 40),
+                                width: 0.5,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -216,9 +219,9 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   const SizedBox(height: 20),
                   RadioListTile(
                     value: 'public',
-                    title: Row(
+                    title: const Row(
                       children: [
-                        const Text("Public"),
+                        Text("Public"),
                         Text(
                           '  🔓',
                           style: TextStyle(fontSize: 20),
@@ -234,9 +237,9 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   ),
                   RadioListTile(
                     value: 'private',
-                    title: Row(
+                    title: const Row(
                       children: [
-                        const Text("Private"),
+                        Text("Private"),
                         Text(
                           '  🔐',
                           style: TextStyle(fontSize: 20),
@@ -250,9 +253,9 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       _privacySettings = val!;
                     }),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   const Text(
-                    'Once you create the group, you will be able to invite your friends to join it',
+                    'Once you create the group, you will be able to invite your friends to join it.',
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
@@ -266,7 +269,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Color.fromARGB(255, 45, 139, 1),
+                        backgroundColor: const Color.fromARGB(255, 45, 139, 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),

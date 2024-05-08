@@ -1,13 +1,9 @@
 // import 'dart:convert';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
-import 'package:bet_app/src/screens/group_tabs.dart';
-// import 'package:bet_app/src/screens/predicted_screen.dart';
+
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/widgets/match_prediction_list.dart';
-import 'package:bet_app/src/widgets/match_scheduled.dart';
-// import 'package:bet_app/src/widgets/predicted_item_local.dart';
-// import 'package:bet_app/src/widgets/predicted_result_edith.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,7 +80,7 @@ class _PredictResultState extends State<PredictResult> {
 
       if (existingPrediction.docs.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Prediction for this match already exists.'),
           ),
         );
@@ -161,8 +157,8 @@ class _PredictResultState extends State<PredictResult> {
           },
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Mecz został dodany!'),
+          const SnackBar(
+            content: Text('Mecz został dodany!'),
           ),
         );
       }
@@ -177,7 +173,7 @@ class _PredictResultState extends State<PredictResult> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        surfaceTintColor: Color.fromARGB(255, 26, 26, 26),
+        surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
       ),
       body: Center(
         child: Container(
@@ -204,7 +200,7 @@ class _PredictResultState extends State<PredictResult> {
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             width: 130,
                             height: 150,
                             child: Column(
@@ -217,12 +213,12 @@ class _PredictResultState extends State<PredictResult> {
                                   maxLines: 3,
                                   textAlign: TextAlign.center,
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Container(
                                   padding: const EdgeInsets.all(5.0),
                                   child: CachedNetworkImage(
                                     imageUrl: widget.homeLogo!,
-                                    fadeInDuration: Duration(milliseconds: 50),
+                                    fadeInDuration: const Duration(milliseconds: 50),
                                     placeholder: (context, url) => const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) => const Icon(Icons.error),
                                     width: 45.0,
@@ -361,7 +357,7 @@ class _PredictResultState extends State<PredictResult> {
                             ),
                           ),
                           Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               width: 130,
                               height: 150,
                               child: Column(
@@ -374,12 +370,12 @@ class _PredictResultState extends State<PredictResult> {
                                     maxLines: 3,
                                     textAlign: TextAlign.center,
                                   ),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   Container(
                                     padding: const EdgeInsets.all(5.0),
                                     child: CachedNetworkImage(
                                       imageUrl: widget.awayLogo!,
-                                      fadeInDuration: Duration(milliseconds: 50),
+                                      fadeInDuration: const Duration(milliseconds: 50),
                                       placeholder: (context, url) => const CircularProgressIndicator(),
                                       errorWidget: (context, url, error) => const Icon(Icons.error),
                                       width: 45.0,
@@ -402,7 +398,7 @@ class _PredictResultState extends State<PredictResult> {
                     onPressed: _savePredictResult,
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Color.fromARGB(255, 40, 122, 43),
+                      backgroundColor: const Color.fromARGB(255, 40, 122, 43),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

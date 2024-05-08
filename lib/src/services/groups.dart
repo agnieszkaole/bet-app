@@ -28,6 +28,7 @@ class Groups {
         members?.add({
           'memberUid': currentUser.uid,
           'memberUsername': currentUser.displayName,
+          'totalScore': 0,
         });
 
         Timestamp currentTime = Timestamp.now();
@@ -193,7 +194,8 @@ class Groups {
         if (userSnapshot.exists) {
           userGroups = List<Map<String, dynamic>>.from(userSnapshot.data()?['groups'] ?? []);
 
-          await Future.wait(userGroups.map((group) async {
+          // Use Future.forEach to await async operations within the loop
+          await Future.forEach(userGroups, (group) async {
             String? groupId = group['groupId'];
             Map<String, dynamic> groupData = await getDataAboutGroup(groupId ?? '');
 
@@ -202,7 +204,7 @@ class Groups {
 
             group['numberOfUsers'] = numberOfUsers ?? 0;
             group['creatorUsername'] = creatorUsername;
-          }));
+          });
         }
       }
       return userGroups;

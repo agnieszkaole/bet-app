@@ -1,13 +1,10 @@
-import 'package:bet_app/src/screens/group_tabs.dart';
-import 'package:bet_app/src/screens/groups_screen.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:bet_app/src/widgets/group_members_list.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+
 import 'package:share_plus/share_plus.dart';
 
 class GroupDetails extends StatefulWidget {
@@ -75,7 +72,7 @@ class _GroupDetailsState extends State<GroupDetails> {
 
   void deleteGroupFromFirebase() async {
     await groups.deleteGroup(widget.groupId);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Group deleted successfully'),
     ));
     Navigator.of(context).push(
@@ -96,26 +93,34 @@ class _GroupDetailsState extends State<GroupDetails> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Container(
             // height: 500,
             width: MediaQuery.of(context).size.width - 50, constraints: const BoxConstraints(maxWidth: 400),
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             decoration: BoxDecoration(
-              color: Color.fromARGB(118, 51, 51, 51),
               border: Border.all(
-                width: .8,
-                color: Color.fromARGB(192, 22, 124, 36),
+                width: 0.5,
+                color: const Color.fromARGB(170, 62, 155, 19),
               ),
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(25),
+              ),
+              // color: const Color.fromARGB(20, 0, 0, 0),
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromARGB(150, 45, 112, 14),
+                  Color.fromARGB(150, 22, 53, 7),
+                ],
               ),
             ),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -123,7 +128,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                         'Group name',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Color.fromARGB(255, 39, 190, 72),
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 2, 177, 2),
                         ),
                       ),
                       Row(
@@ -148,18 +154,19 @@ class _GroupDetailsState extends State<GroupDetails> {
                 ),
                 Container(
                   // width: double.infinity,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Selected league',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
-                          color: Color.fromARGB(255, 60, 165, 83),
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 2, 177, 2),
                         ),
                       ),
-                      SizedBox(height: 3),
+                      const SizedBox(height: 3),
                       SizedBox(
                         width: double.infinity,
                         child: Text(
@@ -175,7 +182,7 @@ class _GroupDetailsState extends State<GroupDetails> {
 
                 Container(
                   // width: double.infinity,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -183,14 +190,15 @@ class _GroupDetailsState extends State<GroupDetails> {
                         'Creation date',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Color.fromARGB(255, 60, 165, 83),
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 2, 177, 2),
                         ),
                       ),
                       Column(
                         children: [
                           widget.createdAt != null
                               ? Text(widget.createdAt!, style: const TextStyle(fontSize: 18))
-                              : Text(' ', style: const TextStyle(fontSize: 18))
+                              : const Text(' ', style: TextStyle(fontSize: 18))
                         ],
                       ),
                     ],
@@ -199,7 +207,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                 // SizedBox(height: 15),
                 Container(
                   width: 220,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -207,7 +215,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                         'Members (${widget.groupMembers})',
                         style: const TextStyle(
                           fontSize: 18,
-                          color: Color.fromARGB(255, 60, 165, 83),
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 2, 177, 2),
                         ),
                       ),
                       GroupMembersList(groupId: widget.groupId!, creatorUsername: widget.creatorUsername!),
@@ -217,47 +226,47 @@ class _GroupDetailsState extends State<GroupDetails> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           widget.creatorUsername != currentUser
               ? Container(
                   width: MediaQuery.of(context).size.width - 50,
                   constraints: const BoxConstraints(maxWidth: 400),
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                   decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
                         colors: [
-                          Color.fromARGB(150, 62, 155, 19),
-                          Color.fromARGB(150, 31, 77, 10),
+                          Color.fromARGB(255, 62, 155, 19),
+                          Color.fromARGB(255, 31, 77, 10),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+                      border: Border.all(color: const Color.fromARGB(255, 102, 102, 102), width: 0.4)),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Leave', style: const TextStyle(fontSize: 18)),
+                          const Text('Leave group', style: TextStyle(fontSize: 18)),
                           GestureDetector(
                             onTap: () {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                        title: Text('Delete group'),
-                                        content: Text('Are you sure you want to leave this group? '),
+                                        title: const Text('Delete group'),
+                                        content: const Text('Are you sure you want to leave this group? '),
                                         actions: [
                                           TextButton(
                                             style: ElevatedButton.styleFrom(
-                                              foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                              foregroundColor: const Color.fromARGB(255, 255, 1, 1),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(25),
-                                                side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                                side: const BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
                                               ),
                                               // elevation: 4.0,
                                             ),
@@ -283,8 +292,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                                           ),
                                           TextButton(
                                             style: TextButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                                foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                                backgroundColor: const Color.fromARGB(255, 2, 126, 6),
+                                                foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
@@ -317,7 +326,7 @@ class _GroupDetailsState extends State<GroupDetails> {
               : Container(
                   width: MediaQuery.of(context).size.width - 50,
                   constraints: const BoxConstraints(maxWidth: 400),
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                   decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         begin: Alignment.topRight,
@@ -328,7 +337,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                         ],
                       ),
                       borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+                      border: Border.all(color: const Color.fromARGB(255, 102, 102, 102), width: 0.4)),
                   child: Column(
                     children: [
                       widget.privacyType == 'private'
@@ -337,18 +346,18 @@ class _GroupDetailsState extends State<GroupDetails> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Access code', style: const TextStyle(fontSize: 18)),
+                                    const Text('Access code', style: TextStyle(fontSize: 18)),
                                     Text('${groupAccessCode}', style: const TextStyle(fontSize: 18)),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Invite friends', style: const TextStyle(fontSize: 18)),
+                          const Text('Invite friends', style: TextStyle(fontSize: 18)),
                           GestureDetector(
                             onTap: () {
                               widget.privacyType == 'private'
@@ -370,27 +379,27 @@ class _GroupDetailsState extends State<GroupDetails> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Delete group', style: const TextStyle(fontSize: 18)),
+                          const Text('Delete group', style: const TextStyle(fontSize: 18)),
                           GestureDetector(
                             onTap: () {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                        title: Text('Delete group'),
-                                        content: Text(
+                                        title: const Text('Delete group'),
+                                        content: const Text(
                                             'Are you sure you want to delete this group? Once deleted it cannot be recovered.'),
                                         actions: [
                                           TextButton(
                                             style: ElevatedButton.styleFrom(
-                                              foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                              foregroundColor: const Color.fromARGB(255, 255, 1, 1),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(25),
-                                                side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                                side: const BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
                                               ),
                                               // elevation: 4.0,
                                             ),
@@ -407,8 +416,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                                           ),
                                           TextButton(
                                             style: TextButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                                foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                                backgroundColor: const Color.fromARGB(255, 2, 126, 6),
+                                                foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },

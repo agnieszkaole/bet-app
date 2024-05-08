@@ -24,7 +24,7 @@ class SuccessfulRegistration extends StatelessWidget {
                 const SizedBox(height: 30),
                 Text(
                   'Registration of account: \n ${user?.email} \n was successful.',
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 50),
@@ -33,7 +33,7 @@ class SuccessfulRegistration extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
+                        builder: (context) => const LoginScreen(),
                       ));
                     },
                     style: ElevatedButton.styleFrom(

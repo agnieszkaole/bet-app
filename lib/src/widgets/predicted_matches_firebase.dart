@@ -1,11 +1,7 @@
-import "dart:async";
-
-import "package:bet_app/src/provider/predicted_match_provider.dart";
 import "package:bet_app/src/widgets/predicted_item_firebase.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
 
 class PredictedMatchesFirebase extends StatefulWidget {
   const PredictedMatchesFirebase({
@@ -127,9 +123,9 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
           );
         }
 
-        return SizedBox(
+        return const SizedBox(
           height: 140,
-          child: const Center(
+          child: Center(
             child: Text(
               'Unexpected state encountered. Please try again later.',
               style: TextStyle(fontSize: 20),

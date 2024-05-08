@@ -24,7 +24,7 @@ class DataPickerState extends State<DataPicker> {
   late DateTime _selectedDate = DateTime.now();
 
   void _handleDateChange(DateTime value) {
-    if (value.isAfter(DateTime.now().subtract(Duration(days: 1)))) {
+    if (value.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
       // if (true) {
       setState(() {
         _selectedDate = value;
@@ -35,11 +35,11 @@ class DataPickerState extends State<DataPicker> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Invalid Date"),
-            content: Text("You cannot bet on previous matches. Please select today's date or later."),
+            title: const Text("Invalid Date"),
+            content: const Text("You cannot bet on previous matches. Please select today's date or later."),
             actions: [
               TextButton(
-                child: Text("OK"),
+                child: const Text("OK"),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -60,14 +60,22 @@ class DataPickerState extends State<DataPicker> {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
             decoration: BoxDecoration(
-              color: Color.fromARGB(118, 51, 51, 51),
+              // color: Color.fromARGB(223, 34, 34, 34),
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromARGB(150, 45, 112, 14),
+                  Color.fromARGB(150, 22, 53, 7),
+                ],
+              ),
               border: Border.all(
                 width: .8,
-                color: Color.fromARGB(192, 22, 124, 36),
+                color: const Color.fromARGB(192, 22, 124, 36),
               ),
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(25),
               ),
             ),
@@ -77,16 +85,16 @@ class DataPickerState extends State<DataPicker> {
                   width: 280,
                   child: Text(
                     '${widget.leagueName}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 32, 168, 62),
+                      color: Color.fromARGB(255, 2, 177, 2),
                       overflow: TextOverflow.ellipsis,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 5),
+
                 NextMatchScheduledList(leagueNumber: widget.leagueNumber),
                 // Text(
                 //   '↪',
@@ -97,7 +105,7 @@ class DataPickerState extends State<DataPicker> {
                 //   ),
                 // ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: Column(
                     children: [
                       // SizedBox(height: 15),
@@ -106,7 +114,7 @@ class DataPickerState extends State<DataPicker> {
                         selectedDay: _selectedDate,
                         changeDay: (value) => _handleDateChange(value),
                         enableWeeknumberText: false,
-                        weeknumberColor: Color.fromARGB(255, 36, 165, 41),
+                        weeknumberColor: const Color.fromARGB(255, 36, 165, 41),
                         weeknumberTextColor: Colors.white,
                         backgroundColor: Colors.transparent,
                         weekdayTextColor: const Color(0xFF8A8A8A),

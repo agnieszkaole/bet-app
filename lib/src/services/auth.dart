@@ -1,10 +1,6 @@
 // import 'dart:js';
 
-import 'package:bet_app/src/features/authentication/screens/register/successful_registration.dart';
-import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 // typedef ErrorCallback = void Function(String errorMessageAuth);
 
@@ -19,8 +15,7 @@ class Auth {
     required String email,
     required String password,
   }) async {
-    UserCredential userCredential =
-        await _firebaseAuth.signInWithEmailAndPassword(
+    UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -45,8 +40,7 @@ class Auth {
     required String password,
   }) async {
     try {
-      UserCredential userCredential =
-          await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );

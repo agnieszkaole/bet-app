@@ -1,8 +1,7 @@
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/continue_as_guest.dart';
 import 'package:bet_app/src/features/authentication/screens/register/successful_registration.dart';
-import 'package:bet_app/src/screens/home_screen.dart';
-import 'package:bet_app/src/services/auth.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerConfirmPassword =
-      TextEditingController();
+  final TextEditingController _controllerConfirmPassword = TextEditingController();
 
   void showSuccesfulScreen() {
     Navigator.of(context).push(MaterialPageRoute(
@@ -39,9 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       controller: controller,
       decoration: InputDecoration(
         labelText: title,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: BorderSide.none),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
         fillColor: const Color.fromARGB(255, 48, 85, 50),
         filled: true,
         prefixIcon: Icon(icon),
@@ -60,8 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Future<String?> createUserAndCheckEmail(
-      String email, String password, String username) async {
+  Future<String?> createUserAndCheckEmail(String email, String password, String username) async {
     if (_controllerEmail.text.isEmpty ||
         _controllerPassword.text.isEmpty ||
         _controllerName.text.isEmpty ||
@@ -80,8 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -111,8 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           errorMessage = "Hasło powinno mieć co najmniej 6 znaków";
           break;
         default:
-          errorMessage =
-              "Rejestracja nie powiodła się. Proszę spróbować ponownie.";
+          errorMessage = "Rejestracja nie powiodła się. Proszę spróbować ponownie.";
           break;
       }
 
@@ -158,16 +151,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               Column(
                 children: <Widget>[
-                  _entryField('nazwa użytkownika', _controllerName,
-                      Icons.person, false),
+                  _entryField('nazwa użytkownika', _controllerName, Icons.person, false),
                   const SizedBox(height: 20),
                   _entryField('e-mail', _controllerEmail, Icons.email, false),
                   const SizedBox(height: 20),
-                  _entryField(
-                      'hasło', _controllerPassword, Icons.password, true),
+                  _entryField('hasło', _controllerPassword, Icons.password, true),
                   const SizedBox(height: 20),
-                  _entryField('potwierdź hasło', _controllerConfirmPassword,
-                      Icons.password, true),
+                  _entryField('potwierdź hasło', _controllerConfirmPassword, Icons.password, true),
                   const SizedBox(height: 10),
                   _errorMessage(),
                   const SizedBox(height: 20),

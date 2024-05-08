@@ -1,9 +1,6 @@
 import 'package:bet_app/src/models/league_standings.dart';
-import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/match_id_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class StandingsItem extends StatefulWidget {
   const StandingsItem({
@@ -28,9 +25,9 @@ class _StandingsItemState extends State<StandingsItem> with AutomaticKeepAliveCl
       width: 200,
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color.fromARGB(255, 41, 41, 41),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [

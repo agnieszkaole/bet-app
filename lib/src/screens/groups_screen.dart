@@ -20,261 +20,217 @@ class _GroupsScreenState extends State<GroupsScreen> {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          width: double.infinity,
+          // width: double.infinity,
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // const SizedBox(height: 15),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                // width: 350,
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(118, 14, 71, 0),
+                  borderRadius: BorderRadius.circular(25),
                   border: Border.all(
-                    width: .5,
-                    color: Color.fromARGB(224, 102, 102, 102),
+                    width: 0.5,
+                    color: const Color.fromARGB(170, 62, 155, 19),
                   ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Choose your betting method ',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      '💡',
-                      style: TextStyle(fontSize: 26),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 25),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(118, 51, 51, 51),
-                  border: Border.all(
-                    width: .5,
-                    color: Color.fromARGB(224, 102, 102, 102),
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-
-                  // color: Color.fromARGB(100, 39, 39, 39),
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topRight,
-                  //   end: Alignment.bottomLeft,
-                  //   colors: [
-                  //     Color.fromARGB(100, 62, 155, 19),
-                  //     Color.fromARGB(100, 31, 77, 10),
-                  //   ],
-                  // ),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                      builder: (context) => NewGroupScreen(),
-                    ))
-                        .then((value) {
-                      if (value != null && value == true) {
-                        setState(() {});
-                      }
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          // width: 300,
-                          // color: const Color.fromARGB(255, 148, 119, 13),
-                          child: Text(
-                            'Create a new group, select a league and invite your friends.',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
-                      ),
-                      Container(
-                          width: 105,
-                          height: 90,
-                          margin: EdgeInsets.only(left: 15),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                                Color.fromARGB(255, 31, 77, 10),
-                                Color.fromARGB(255, 79, 194, 25),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            border: Border.all(color: Color.fromARGB(174, 187, 187, 187), width: 0.5),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Create",
-                              style: TextStyle(fontSize: 18, color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                          )),
+                  // color: const Color.fromARGB(20, 0, 0, 0),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromARGB(120, 62, 155, 19),
+                      Color.fromARGB(120, 31, 77, 10),
                     ],
                   ),
                 ),
+                child: const Text(
+                  'How do you want to play?',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              // SizedBox(height: 15),
-              // Container(
-              //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              //   decoration: BoxDecoration(
-              //     color: Color.fromARGB(118, 14, 71, 0),
-              //     border: Border.all(
-              //       width: .5,
-              //       color: Color.fromARGB(224, 102, 102, 102),
-              //     ),
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(25),
-              //     ),
-              //   ),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       Text(
-              //         'or',
-              //         style: TextStyle(fontSize: 20),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              SizedBox(height: 20),
+              const SizedBox(height: 15),
+              const Text(
+                '👇',
+                style: TextStyle(fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 15),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: .5,
-                    color: Color.fromARGB(224, 102, 102, 102),
-                  ),
+                constraints: const BoxConstraints(maxWidth: 400),
+                width: MediaQuery.of(context).size.width - 60,
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(118, 51, 51, 51),
+                  // border: Border.all(
+                  //   width: .5,
+                  //   color: const Color.fromARGB(224, 102, 102, 102),
+                  // ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
                   ),
-                  color: Color.fromARGB(118, 51, 51, 51),
-                  // color: Color.fromARGB(100, 39, 39, 39),
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topRight,
-                  //   end: Alignment.bottomLeft,
-                  //   colors: [
-                  //     Color.fromARGB(159, 51, 53, 190),
-                  //     Color.fromARGB(159, 0, 137, 223),
-
-                  //     // Color.fromARGB(100, 0, 0, 70),
-                  //     // Color.fromARGB(100, 28, 181, 224),
-                  //   ],
-                  // ),
                 ),
-                // color: Color.fromARGB(255, 39, 39, 39)),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                      builder: (context) => GroupListScreen(),
-                    ))
-                        .then((value) {
-                      if (value != null && value == true) {
-                        setState(() {});
-                      }
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 105,
-                        height: 90,
-                        margin: EdgeInsets.only(right: 15),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              // Color.fromARGB(255, 0, 137, 223),
-                              // Color.fromARGB(255, 54, 55, 149),
-                              Color.fromARGB(255, 79, 194, 25),
-                              Color.fromARGB(255, 31, 77, 10),
-                            ],
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      decoration: const BoxDecoration(
+                          // color: const Color.fromARGB(118, 51, 51, 51),
+                          // border: Border.all(
+                          //   width: .5,
+                          //   color: const Color.fromARGB(224, 102, 102, 102),
+                          // ),
+                          // borderRadius: const BorderRadius.all(
+                          //   Radius.circular(25),
+                          // ),
                           ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(25),
-                          ),
-                          border: Border.all(color: Color.fromARGB(174, 187, 187, 187), width: 0.5),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                            builder: (context) => const NewGroupScreen(),
+                          ))
+                              .then((value) {
+                            if (value != null && value == true) {
+                              setState(() {});
+                            }
+                          });
+                        },
+                        child: Column(
                           children: [
-                            Text(
-                              "Join",
-                              style: TextStyle(fontSize: 18, color: Colors.white),
-                              textAlign: TextAlign.center,
+                            const SizedBox(
+                              width: 250,
+                              child: Text(
+                                'Create a new group, select a\u{00A0}league and invite your friends.',
+                                style: TextStyle(fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            // SizedBox(width: 20),
-                            // Icon(
-                            //   Icons.group_add_rounded,
-                            //   color: Colors.white,
-                            //   size: 30,
-                            // ),
+                            Container(
+                              width: 250,
+                              height: 50,
+                              margin: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    // Color.fromARGB(255, 0, 137, 223),
+                                    // Color.fromARGB(255, 54, 55, 149),
+                                    Color.fromARGB(255, 79, 194, 25),
+                                    Color.fromARGB(255, 31, 77, 10),
+                                  ],
+                                ),
+                                boxShadow: [
+                                  // BoxShadow(
+                                  //   color: Colors.white.withOpacity(0.1),
+                                  //   offset: Offset(-6.0, -6.0),
+                                  //   blurRadius: 5.0,
+                                  // ),
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.4),
+                                    offset: const Offset(6.0, 6.0),
+                                    blurRadius: 10.0,
+                                  ),
+                                ],
+                                color: const Color(0xFF292D32),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              child: const Center(
+                                  child: Text(
+                                'Create',
+                                style: TextStyle(fontSize: 18, color: Colors.white),
+                                textAlign: TextAlign.center,
+                              )),
+                            ),
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          // width: 300,
-                          child: Text(
-                            'Join one of the existing public or private groups.',
-                            style: TextStyle(fontSize: 18),
+                    ),
+                    Container(
+                      width: 320,
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      decoration: const BoxDecoration(
+                          // border: Border.all(
+                          //   width: .5,
+                          //   color: const Color.fromARGB(224, 102, 102, 102),
+                          // ),
+                          // borderRadius: const BorderRadius.all(
+                          //   Radius.circular(25),
+                          // ),
+                          // color: const Color.fromARGB(118, 51, 51, 51),
                           ),
+                      // color: Color.fromARGB(255, 39, 39, 39)),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                            builder: (context) => const GroupListScreen(),
+                          ))
+                              .then((value) {
+                            if (value != null && value == true) {
+                              setState(() {});
+                            }
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 250,
+                              child: const Text(
+                                'Join one of the existing public or\u{00A0}private groups.',
+                                style: TextStyle(fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Container(
+                              width: 250,
+                              height: 50,
+                              margin: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    // Color.fromARGB(255, 0, 137, 223),
+                                    // Color.fromARGB(255, 54, 55, 149),
+                                    Color.fromARGB(255, 79, 194, 25),
+                                    Color.fromARGB(255, 31, 77, 10),
+                                  ],
+                                ),
+                                boxShadow: [
+                                  // BoxShadow(
+                                  //   color: Colors.white.withOpacity(0.1),
+                                  //   offset: Offset(-6.0, -6.0),
+                                  //   blurRadius: 5.0,
+                                  // ),
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.4),
+                                    offset: const Offset(6.0, 6.0),
+                                    blurRadius: 10.0,
+                                  ),
+                                ],
+                                color: const Color(0xFF292D32),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              child: const Center(
+                                  child: Text(
+                                'Join',
+                                style: TextStyle(fontSize: 18, color: Colors.white),
+                                textAlign: TextAlign.center,
+                              )),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 25),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(118, 14, 71, 0),
-                  border: Border.all(
-                    width: .5,
-                    color: Color.fromARGB(224, 102, 102, 102),
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('You can use both of them ', style: TextStyle(fontSize: 20)),
-                    Text(' 👍 ', style: TextStyle(fontSize: 26)),
+                    ),
                   ],
                 ),
               ),
-              // SizedBox(height: 30),
-              Divider(
-                height: 80,
-                thickness: 1.5,
-                color: Color.fromARGB(255, 20, 99, 0),
-              ),
-              UserGroups(),
-              SizedBox(height: 15),
+              const SizedBox(height: 25),
+              const UserGroups(),
+              const SizedBox(height: 20),
             ],
           ),
         ),

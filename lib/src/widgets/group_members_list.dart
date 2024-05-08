@@ -21,11 +21,11 @@ class _GroupMembersListState extends State<GroupMembersList> {
         future: groups.getDataAboutGroup(widget.groupId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return SizedBox(width: 30, height: 30, child: CircularProgressIndicator());
+            return const SizedBox(width: 30, height: 30, child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Text(
+            return const Text(
               'Nie można pobrać listy użytkowników',
               style: TextStyle(fontSize: 18),
             );
@@ -39,7 +39,7 @@ class _GroupMembersListState extends State<GroupMembersList> {
                 controller: _scrollController,
                 trackVisibility: true,
                 thumbVisibility: true,
-                radius: Radius.circular(10),
+                radius: const Radius.circular(10),
                 thickness: 1,
                 child: ListView.builder(
                     controller: _scrollController,
@@ -52,20 +52,20 @@ class _GroupMembersListState extends State<GroupMembersList> {
                         children: [
                           Container(
                             height: 25,
-                            margin: EdgeInsets.only(bottom: 5),
+                            margin: const EdgeInsets.only(bottom: 5),
                             child: ListTile(
-                              contentPadding: EdgeInsets.all(0),
+                              contentPadding: const EdgeInsets.all(0),
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     memberUsername ?? '',
-                                    style: TextStyle(fontSize: 18),
+                                    style: const TextStyle(fontSize: 18),
                                   ),
-                                  SizedBox(width: 10),
+                                  const SizedBox(width: 10),
                                   widget.creatorUsername == memberUsername
                                       // ? const Icon(Icons.admin_panel_settings_rounded)
-                                      ? Text(
+                                      ? const Text(
                                           '⭐',
                                           style: TextStyle(fontSize: 16),
                                         )

@@ -1,10 +1,8 @@
-import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/widgets/predicted_result_edit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PredictedItemFirebase extends StatefulWidget {
   PredictedItemFirebase({
@@ -57,17 +55,17 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
 
     return Center(
       child: Container(
-        constraints: BoxConstraints(maxWidth: 400),
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        constraints: const BoxConstraints(maxWidth: 400),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         width: MediaQuery.of(context).size.width - 50,
         decoration: BoxDecoration(
-          color: Color.fromARGB(118, 51, 51, 51),
+          color: const Color.fromARGB(70, 49, 49, 49),
           border: Border.all(
             width: .5,
-            color: Color.fromARGB(192, 145, 145, 145),
+            color: const Color.fromARGB(192, 145, 145, 145),
           ),
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(25),
           ),
         ),
@@ -80,7 +78,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                   children: [
                     Text(
                       matchTime,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -158,7 +156,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                 height: 35,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     shape: const StadiumBorder(),
                     side: const BorderSide(
                       width: 1,
@@ -167,24 +165,24 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                     // side: BorderSide.none,
                     foregroundColor:
                         // const Color.fromARGB(255, 176, 206, 177),
-                        Color.fromARGB(255, 129, 129, 129),
+                        const Color.fromARGB(255, 129, 129, 129),
                   ),
                   onPressed: () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                              title: Text(
+                              title: const Text(
                                 'Edition unavailable',
                                 style: TextStyle(fontSize: 18),
                               ),
-                              content: Text("The prediction can only be edited until the match starts.",
+                              content: const Text("The prediction can only be edited until the match starts.",
                                   style: TextStyle(fontSize: 14)),
                               actions: [
                                 TextButton(
                                   style: TextButton.styleFrom(
-                                      backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                      foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                      backgroundColor: const Color.fromARGB(255, 2, 126, 6),
+                                      foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
@@ -218,7 +216,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                   height: 35,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       shape: const StadiumBorder(),
                       side: const BorderSide(
                         width: 1,
@@ -227,7 +225,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                       // side: BorderSide.none,
                       foregroundColor:
                           // const Color.fromARGB(255, 176, 206, 177),
-                          Color.fromARGB(255, 66, 201, 70),
+                          const Color.fromARGB(255, 66, 201, 70),
                     ),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -258,7 +256,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                 height: 35,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     shape: const StadiumBorder(),
                     side: const BorderSide(
                       width: 1,
@@ -267,25 +265,25 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                     // side: BorderSide.none,
                     foregroundColor:
                         // const Color.fromARGB(255, 176, 206, 177),
-                        Color.fromARGB(255, 66, 201, 70),
+                        const Color.fromARGB(255, 66, 201, 70),
                   ),
                   onPressed: () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                              title: Text(
+                              title: const Text(
                                 'Delete match prediction',
                                 style: TextStyle(fontSize: 18),
                               ),
-                              content: Text('Are you sure you want to delete this prediction? '),
+                              content: const Text('Are you sure you want to delete this prediction? '),
                               actions: [
                                 TextButton(
                                   style: ElevatedButton.styleFrom(
-                                    foregroundColor: Color.fromARGB(255, 255, 1, 1),
+                                    foregroundColor: const Color.fromARGB(255, 255, 1, 1),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25),
-                                      side: BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                      side: const BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
                                     ),
                                   ),
                                   onPressed: () {
@@ -299,7 +297,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                                       if (mounted) {
                                         setState(() {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(content: Text('Prediced match deleted.')));
+                                              .showSnackBar(const SnackBar(content: Text('Prediced match deleted.')));
                                         });
                                       }
                                     });
@@ -315,8 +313,8 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                                 ),
                                 TextButton(
                                   style: TextButton.styleFrom(
-                                      backgroundColor: Color.fromARGB(255, 2, 126, 6),
-                                      foregroundColor: Color.fromARGB(255, 255, 255, 255)),
+                                      backgroundColor: const Color.fromARGB(255, 2, 126, 6),
+                                      foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
