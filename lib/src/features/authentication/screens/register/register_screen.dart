@@ -18,6 +18,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   String errorMessage = '';
+  bool _passwordVisible = false;
 
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
@@ -34,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String title,
     TextEditingController controller,
     IconData icon,
-    bool obscureText,
+    bool isPassword,
   ) {
     return TextFormField(
       controller: controller,
@@ -44,8 +45,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
         fillColor: const Color.fromARGB(255, 48, 85, 50),
         filled: true,
         prefixIcon: Icon(icon),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              )
+            : null, // Only show suffix ico
       ),
-      obscureText: obscureText,
+      obscureText: isPassword ? !_passwordVisible : false,
     );
   }
 
@@ -187,9 +200,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 20),
                       _entryField('Email', _controllerEmail, Icons.email, false),
                       const SizedBox(height: 20),
-                      _entryField('Password', _controllerPassword, Icons.password, true),
+                      _entryField('Password', _controllerPassword, Icons.lock, true),
                       const SizedBox(height: 20),
-                      _entryField('Confirm Password', _controllerConfirmPassword, Icons.password, true),
+                      _entryField('Confirm Password', _controllerConfirmPassword, Icons.lock, true),
                       const SizedBox(height: 10),
                       _errorMessage(),
                       const SizedBox(height: 20),

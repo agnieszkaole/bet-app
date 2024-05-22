@@ -50,6 +50,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             content: Text('You have created a new group: $_groupName'),
           ),
         );
+
         Navigator.of(context).pop(true);
       } else {
         setState(() {
@@ -66,10 +67,10 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         backgroundColor: Colors.transparent,
         surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
         title: const Text('Create a new group'),
-        leading: Container(
+        leading: SizedBox(
           child: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).pop(true),
           ),
         ),
       ),
@@ -218,41 +219,42 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   ),
                   const SizedBox(height: 20),
                   RadioListTile(
-                    value: 'public',
-                    title: const Row(
-                      children: [
-                        Text("Public"),
-                        Text(
-                          '  🔓',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                    subtitle: const Text("Any user can join without additional conditions."),
-                    activeColor: const Color.fromARGB(255, 40, 122, 43),
-                    groupValue: _privacySettings,
-                    onChanged: (val) => setState(() {
-                      _privacySettings = val!;
-                    }),
-                  ),
+                      value: 'public',
+                      title: const Row(
+                        children: [
+                          Text("Public"),
+                          Text(
+                            '  🔓',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      subtitle: const Text("Any user can join."),
+                      activeColor: const Color.fromARGB(255, 40, 122, 43),
+                      groupValue: _privacySettings,
+                      onChanged: (val) => setState(() {
+                            _privacySettings = val!;
+                          }),
+                      contentPadding: EdgeInsets.zero),
+
                   RadioListTile(
-                    value: 'private',
-                    title: const Row(
-                      children: [
-                        Text("Private"),
-                        Text(
-                          '  🔐',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                    subtitle: const Text("The user have to enter an access code to join the group."),
-                    activeColor: const Color.fromARGB(255, 40, 122, 43),
-                    groupValue: _privacySettings,
-                    onChanged: (val) => setState(() {
-                      _privacySettings = val!;
-                    }),
-                  ),
+                      value: 'private',
+                      title: const Row(
+                        children: [
+                          Text("Private"),
+                          Text(
+                            '  🔐',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      subtitle: const Text("Access code is required to join."),
+                      activeColor: const Color.fromARGB(255, 40, 122, 43),
+                      groupValue: _privacySettings,
+                      onChanged: (val) => setState(() {
+                            _privacySettings = val!;
+                          }),
+                      contentPadding: EdgeInsets.zero),
                   const SizedBox(height: 20),
                   const Text(
                     'Once you create the group, you will be able to invite your friends to join it.',

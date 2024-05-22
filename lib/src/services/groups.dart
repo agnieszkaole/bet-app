@@ -76,7 +76,25 @@ class Groups {
         DocumentSnapshot<Map<String, dynamic>> groupSnapshot = await _firestore.collection('groups').doc(groupId).get();
 
         if (groupSnapshot.exists) {
-          List<Map<String, dynamic>> members = List<Map<String, dynamic>>.from(groupSnapshot.data()?['members'] ?? []);
+          // List<Map<String, dynamic>> members = List<Map<String, dynamic>>.from(groupSnapshot.data()?['members'] ?? []);
+          var data = groupSnapshot.data();
+          if (data == null) {
+            print('Group data is null');
+            return;
+          }
+
+          // List<dynamic> membersList = groupSnapshot.data()?['members'] ?? [];
+          // List<Map<String, dynamic>> members = membersList.cast<Map<String, dynamic>>();
+          List<dynamic> membersList = data['members'] ?? [];
+          List<Map<String, dynamic>> members = membersList.map((member) {
+            if (member is Map<String, dynamic>) {
+              return member;
+            } else if (member is Map) {
+              return Map<String, dynamic>.from(member);
+            } else {
+              throw Exception('Invalid member type');
+            }
+          }).toList();
 
           bool isUserAlreadyMember = members.any((member) =>
               member['memberUid'] == currentUser.uid && member['memberUsername'] == currentUser.displayName);
@@ -114,6 +132,73 @@ class Groups {
     }
   }
 
+  // Future<Map<String, dynamic>> getDataAboutGroup(String? groupId) async {
+  //   try {
+  //     DocumentSnapshot<Map<String, dynamic>> groupSnapshot = await _firestore.collection('groups').doc(groupId).get();
+
+  //     if (groupSnapshot.exists) {
+  //       int? numberOfUsers;
+  //       String? creatorUsername;
+  //       String? privacyType;
+  //       String? groupRules;
+  //       List<Map<String, dynamic>> members = [];
+  //       Map<String, dynamic> selectedLeague = {};
+  //       String? groupAccessCode;
+  //       String? groupId;
+  //       Timestamp? createdAt;
+
+  //       if (groupSnapshot.data()?['members'] != null) {
+  //         members = List<Map<String, dynamic>>.from(groupSnapshot.data()?['members']);
+
+  //         numberOfUsers = members.length;
+  //       }
+  //       if (groupSnapshot.data()?['creatorUsername'] != null) {
+  //         creatorUsername = groupSnapshot.data()?['creatorUsername'];
+  //       }
+
+  //       if (groupSnapshot.data()?['privacyType'] != null) {
+  //         privacyType = groupSnapshot.data()?['privacyType'];
+  //       }
+
+  //       if (groupSnapshot.data()?['selectedLeague'] != null) {
+  //         selectedLeague = Map<String, dynamic>.from(groupSnapshot.data()?['selectedLeague']);
+  //       }
+
+  //       if (groupSnapshot.data()?['groupAccessCode'] != null) {
+  //         groupAccessCode = groupSnapshot.data()?['groupAccessCode'];
+  //       }
+  //       if (groupSnapshot.data()?['createdAt'] != null) {
+  //         createdAt = groupSnapshot.data()?['createdAt'];
+  //       }
+
+  //       if (groupSnapshot.data()?['groupRules'] != null) {
+  //         groupRules = groupSnapshot.data()?['groupRules'];
+  //       }
+  //       if (groupSnapshot.data()?['groupIds'] != null) {
+  //         groupRules = groupSnapshot.data()?['groupId'];
+  //       }
+
+  //       return {
+  //         'numberOfUsers': numberOfUsers,
+  //         'creatorUsername': creatorUsername,
+  //         'privacyType': privacyType,
+  //         'members': members,
+  //         'selectedLeague': selectedLeague,
+  //         'groupAccessCode': groupAccessCode,
+  //         'createdAt': createdAt,
+  //         'groupRules': groupRules,
+  //         'groupId': groupId,
+  //         // 'selected': members,
+  //       };
+  //     }
+
+  //     return {'error': 'Group not found'};
+  //   } catch (e) {
+  //     print('Error getting group data: $e');
+  //     return {'error': 'Error getting group data'};
+  //   }
+  // }
+
   Future<Map<String, dynamic>> getDataAboutGroup(String? groupId) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> groupSnapshot = await _firestore.collection('groups').doc(groupId).get();
@@ -126,38 +211,21 @@ class Groups {
         List<Map<String, dynamic>> members = [];
         Map<String, dynamic> selectedLeague = {};
         String? groupAccessCode;
-        String? groupId;
         Timestamp? createdAt;
 
-        if (groupSnapshot.data()?['members'] != null) {
-          members = List<Map<String, dynamic>>.from(groupSnapshot.data()?['members']);
+        var data = groupSnapshot.data();
+
+        if (data != null) {
+          members = List<Map<String, dynamic>>.from(data['members'] as List);
 
           numberOfUsers = members.length;
-        }
-        if (groupSnapshot.data()?['creatorUsername'] != null) {
-          creatorUsername = groupSnapshot.data()?['creatorUsername'];
-        }
 
-        if (groupSnapshot.data()?['privacyType'] != null) {
-          privacyType = groupSnapshot.data()?['privacyType'];
-        }
-
-        if (groupSnapshot.data()?['selectedLeague'] != null) {
-          selectedLeague = Map<String, dynamic>.from(groupSnapshot.data()?['selectedLeague']);
-        }
-
-        if (groupSnapshot.data()?['groupAccessCode'] != null) {
-          groupAccessCode = groupSnapshot.data()?['groupAccessCode'];
-        }
-        if (groupSnapshot.data()?['createdAt'] != null) {
-          createdAt = groupSnapshot.data()?['createdAt'];
-        }
-
-        if (groupSnapshot.data()?['groupRules'] != null) {
-          groupRules = groupSnapshot.data()?['groupRules'];
-        }
-        if (groupSnapshot.data()?['groupIds'] != null) {
-          groupRules = groupSnapshot.data()?['groupId'];
+          creatorUsername = data['creatorUsername'];
+          privacyType = data['privacyType'];
+          selectedLeague = Map<String, dynamic>.from(data['selectedLeague'] ?? {});
+          groupAccessCode = data['groupAccessCode'];
+          createdAt = data['createdAt'];
+          groupRules = data['groupRules'];
         }
 
         return {
@@ -170,7 +238,6 @@ class Groups {
           'createdAt': createdAt,
           'groupRules': groupRules,
           'groupId': groupId,
-          // 'selected': members,
         };
       }
 

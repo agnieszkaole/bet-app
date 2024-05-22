@@ -67,7 +67,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+          SizedBox(
             width: 120,
             // width: double.infinity,
             // decoration: BoxDecoration(
@@ -89,7 +89,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
               ],
             ),
           ),
-          Container(
+          SizedBox(
             // decoration: BoxDecoration(
             //   border: Border.all(
             //     width: .5,

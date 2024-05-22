@@ -161,7 +161,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('groups')
         .where('groupName', isGreaterThanOrEqualTo: searchText)
-        .where('groupName', isLessThanOrEqualTo: '${searchText}\uf8ff')
+        .where('groupName', isLessThanOrEqualTo: '$searchText\uf8ff')
         .get();
 
     List<Map<String, dynamic>> groups = querySnapshot.docs.map((doc) {
@@ -281,7 +281,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
 
                             int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
-                            return Container(
+                            return SizedBox(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -337,7 +337,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                         ),
                                         // const SizedBox(width: 30),
                                         widget.privacyType == 'public'
-                                            ? Container(
+                                            ? SizedBox(
                                                 // width: 20,
                                                 child: GestureDetector(
                                                   onTap: () async {
@@ -352,7 +352,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                   ),
                                                 ),
                                               )
-                                            : Container(
+                                            : SizedBox(
                                                 width: 20,
                                                 child: GestureDetector(
                                                   onTap: () async {
@@ -419,7 +419,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                           String? selectedLeague = groupData['selectedLeague']['leagueName'];
                           int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
                           String? creatorUsername = groupData['creatorUsername'];
-                          print('hjkjhkhjkjhkjhkhj$groupMembers');
+                          print(groupMembers);
                           return Container(
                             constraints: const BoxConstraints(maxWidth: 400),
                             child: Column(
@@ -476,7 +476,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                       ),
                                       // const SizedBox(width: 30),
                                       widget.privacyType == 'public'
-                                          ? Container(
+                                          ? SizedBox(
                                               width: 50,
                                               height: 50,
                                               child: GestureDetector(
@@ -492,7 +492,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                 ),
                                               ),
                                             )
-                                          : Container(
+                                          : SizedBox(
                                               width: 50,
                                               height: 50,
                                               child: GestureDetector(

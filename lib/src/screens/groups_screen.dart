@@ -12,7 +12,15 @@ class GroupsScreen extends StatefulWidget {
   State<GroupsScreen> createState() => _GroupsScreenState();
 }
 
+typedef OnGroupCreatedCallback = void Function();
+
 class _GroupsScreenState extends State<GroupsScreen> {
+  void _refreshUserGroups() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   User? user = Auth().currentUser;
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                   ),
                 ),
                 child: const Text(
-                  'How do you want to play?',
+                  'How to bet?',
                   style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
@@ -86,23 +94,31 @@ class _GroupsScreenState extends State<GroupsScreen> {
                           // ),
                           ),
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(
+                        // onTap: () {
+                        //   Navigator.of(context)
+                        //       .push(MaterialPageRoute(
+                        //     builder: (context) => const NewGroupScreen(),
+                        //   ))
+                        //       .then((value) {
+                        //     if (value != null && value == true) {
+                        //       setState(() {});
+                        //     }
+                        //   });
+                        // },
+                        onTap: () async {
+                          final result = await Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const NewGroupScreen(),
-                          ))
-                              .then((value) {
-                            if (value != null && value == true) {
-                              setState(() {});
-                            }
-                          });
+                          ));
+                          if (result != null && result == true && mounted) {
+                            setState(() {});
+                          }
                         },
                         child: Column(
                           children: [
                             const SizedBox(
-                              width: 250,
+                              width: 260,
                               child: Text(
-                                'Create a new group, select a\u{00A0}league and invite your friends.',
+                                'Create a new group, select a\u{00A0}league and invite your friends (max. 15).',
                                 style: TextStyle(fontSize: 16),
                                 textAlign: TextAlign.center,
                               ),
@@ -173,12 +189,13 @@ class _GroupsScreenState extends State<GroupsScreen> {
                               setState(() {});
                             }
                           });
+                          _refreshUserGroups();
                         },
                         child: Column(
                           children: [
-                            Container(
+                            const SizedBox(
                               width: 250,
-                              child: const Text(
+                              child: Text(
                                 'Join one of the existing public or\u{00A0}private groups.',
                                 style: TextStyle(fontSize: 16),
                                 textAlign: TextAlign.center,
@@ -229,7 +246,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 ),
               ),
               const SizedBox(height: 25),
-              const UserGroups(),
+              UserGroups(onGroupCreated: _refreshUserGroups),
               const SizedBox(height: 20),
             ],
           ),

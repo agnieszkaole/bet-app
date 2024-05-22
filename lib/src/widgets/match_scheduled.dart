@@ -23,14 +23,21 @@ class MatchScheduled extends StatefulWidget {
 }
 
 class _MatchScheduledState extends State<MatchScheduled> {
-  DateTime _selectedDate = DateTime.now();
+  DateTime? _selectedDate = DateTime.now();
   String? formattedDate;
+  bool _isCalendarVisible = false;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
+      formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    });
+  }
+
+  void _handleCalendarVisibilityChanged(bool isVisible) {
+    setState(() {
+      _isCalendarVisible = isVisible;
     });
   }
 
@@ -41,28 +48,43 @@ class _MatchScheduledState extends State<MatchScheduled> {
     // print(nextMatchesList);
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(5.0),
       child: Column(
         children: [
           // SizedBox(height: 10),
+          SizedBox(
+            width: 280,
+            child: Text(
+              '${widget.leagueName}',
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 2, 177, 2),
+                overflow: TextOverflow.ellipsis,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 10),
           DataPicker(
               onDateSelected: (selectedDate) {
                 _selectedDate = selectedDate;
                 setState(() {
-                  formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
+                  formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate!);
                 });
               },
+              onCalendarVisibilityChanged: _handleCalendarVisibilityChanged,
               leagueNumber: widget.leagueNumber,
               leagueName: widget.leagueName),
-
+          const SizedBox(height: 10),
           Expanded(
             child: GroupMatchList(
               selectedDate: formattedDate,
               leagueNumber: widget.leagueNumber,
               groupId: widget.groupId,
+              isCalendarVisible: _isCalendarVisible,
             ),
           ),
-
           const SizedBox(height: 10)
         ],
       ),

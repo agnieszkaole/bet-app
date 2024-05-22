@@ -42,7 +42,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               const LeaderboardGroup()

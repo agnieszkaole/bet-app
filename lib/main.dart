@@ -8,10 +8,8 @@ import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_scheduled_provider.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/provider/prev_matches_provider.dart';
-import 'package:bet_app/src/provider/scoreboard_manager_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/provider/standings_provider.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,9 +45,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => BottomNavigationProvider()),
         ChangeNotifierProvider(create: (context) => MatchIdProvider()),
         ChangeNotifierProvider(create: (context) => StandingsProvider()),
-        // ChangeNotifierProvider(create: (context) => ScoreboardManagerProvider()),
-
-        // ChangeNotifierProvider(create: (context) => PredictionsProvider()),
       ],
       child: Container(
         constraints: const BoxConstraints(maxWidth: 600),

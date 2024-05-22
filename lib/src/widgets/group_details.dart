@@ -98,24 +98,24 @@ class _GroupDetailsState extends State<GroupDetails> {
             // height: 500,
             width: MediaQuery.of(context).size.width - 50, constraints: const BoxConstraints(maxWidth: 400),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 0.5,
-                color: const Color.fromARGB(170, 62, 155, 19),
-              ),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(25),
-              ),
-              // color: const Color.fromARGB(20, 0, 0, 0),
-              gradient: const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromARGB(150, 45, 112, 14),
-                  Color.fromARGB(150, 22, 53, 7),
-                ],
-              ),
-            ),
+            // decoration: BoxDecoration(
+            //   border: Border.all(
+            //     width: 0.5,
+            //     color: const Color.fromARGB(170, 62, 155, 19),
+            //   ),
+            //   borderRadius: const BorderRadius.all(
+            //     Radius.circular(25),
+            //   ),
+            //   // color: const Color.fromARGB(20, 0, 0, 0),
+            //   gradient: const LinearGradient(
+            //     begin: Alignment.topCenter,
+            //     end: Alignment.bottomCenter,
+            //     colors: [
+            //       Color.fromARGB(150, 45, 112, 14),
+            //       Color.fromARGB(150, 22, 53, 7),
+            //     ],
+            //   ),
+            // ),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -33,7 +33,7 @@ class _GroupMembersListState extends State<GroupMembersList> {
             Map<String, dynamic>? groupData = snapshot.data ?? {};
             List<Map<String, dynamic>> membersList = groupData['members'] ?? [];
 
-            return Container(
+            return SizedBox(
               height: 180,
               child: Scrollbar(
                 controller: _scrollController,

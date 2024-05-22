@@ -20,6 +20,7 @@ class GroupMatchList extends StatefulWidget {
     this.leagueLogo,
     this.selectedDate,
     this.groupId,
+    this.isCalendarVisible,
   });
 
   final String? leagueName;
@@ -27,6 +28,7 @@ class GroupMatchList extends StatefulWidget {
   final String? leagueLogo;
   final String? selectedDate;
   final String? groupId;
+  final bool? isCalendarVisible;
 
   static final GlobalKey<_GroupMatchListState> nextMatchListKey = GlobalKey<_GroupMatchListState>();
 
@@ -42,14 +44,14 @@ class _GroupMatchListState extends State<GroupMatchList> {
   // List<SoccerMatch>? mergedData;
   // final ScrollController _scrollController = ScrollController();
   late ScrollController _scrollController;
-  int displayedItems = 20;
+  String displayedItems = '30';
+  // DateTime? selectedDate;
+  // bool? showCalendar;
 
   @override
   void initState() {
     super.initState();
-    // setState(() {
-    //   dataFuture = _getData();
-    // });
+
     _scrollController = ScrollController();
     dataFuture = _getData();
   }
@@ -57,36 +59,111 @@ class _GroupMatchListState extends State<GroupMatchList> {
   @override
   void didUpdateWidget(GroupMatchList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedDate != widget.selectedDate) {
+    if (oldWidget.selectedDate != widget.selectedDate || oldWidget.isCalendarVisible != widget.isCalendarVisible) {
       setState(() {
         dataFuture = _getData();
       });
     }
   }
 
-  Future<List<SoccerMatch>> _getData() async {
-    final season1Data = await SoccerApi().getMatches(
-      widget.selectedDate,
-      league: widget.leagueNumber,
-      season: '2023',
-      status: statusApi,
-      timezone: timezoneApi,
-    );
-    final season2Data = await SoccerApi().getMatches(
-      widget.selectedDate,
-      league: widget.leagueNumber,
-      season: '2024',
-      status: statusApi,
-      timezone: timezoneApi,
-    );
+  // Future<List<SoccerMatch>> _getData() async {
+  //   if (widget.selectedDate == DateFormat('d MMMM yyyy').format(DateTime.now())) {
+  //     final season1Data = await SoccerApi().getMatches(
+  //       null,
+  //       league: widget.leagueNumber,
+  //       season: '2023',
+  //       status: 'ns-tbd',
+  //       timezone: timezoneApi,
+  //       next: displayedItems,
+  //     );
+  //     final season2Data = await SoccerApi().getMatches(
+  //       null,
+  //       league: widget.leagueNumber,
+  //       season: '2024',
+  //       status: 'ns-tbd',
+  //       timezone: timezoneApi,
+  //       next: displayedItems,
+  //     );
 
+  //     List<SoccerMatch> mergedData = [];
+
+  //     mergedData.addAll(season1Data);
+  //     mergedData.addAll(season2Data);
+
+  //     Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
+  //     print(mergedData);
+  //     return mergedData;
+  //   } else {
+  //     final season1Data = await SoccerApi().getMatches(
+  //       widget.selectedDate,
+  //       league: widget.leagueNumber,
+  //       season: '2023',
+  //       status: statusApi,
+  //       timezone: timezoneApi,
+  //     );
+  //     final season2Data = await SoccerApi().getMatches(
+  //       widget.selectedDate,
+  //       league: widget.leagueNumber,
+  //       season: '2024',
+  //       status: statusApi,
+  //       timezone: timezoneApi,
+  //     );
+
+  //     List<SoccerMatch> mergedData = [];
+
+  //     mergedData.addAll(season1Data);
+  //     mergedData.addAll(season2Data);
+
+  //     Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
+
+  //     return mergedData;
+  //   }
+  // }
+
+  Future<List<SoccerMatch>> _getData() async {
     List<SoccerMatch> mergedData = [];
 
-    mergedData.addAll(season1Data);
-    mergedData.addAll(season2Data);
+    if (!widget.isCalendarVisible!) {
+      final season1Data = await SoccerApi().getMatches(
+        "",
+        league: widget.leagueNumber,
+        season: '2023',
+        status: 'ns-tbd',
+        timezone: timezoneApi,
+        next: displayedItems,
+      );
+      final season2Data = await SoccerApi().getMatches(
+        "",
+        league: widget.leagueNumber,
+        season: '2024',
+        status: 'ns-tbd',
+        timezone: timezoneApi,
+        next: displayedItems,
+      );
+
+      mergedData.addAll(season1Data);
+      mergedData.addAll(season2Data);
+    } else {
+      final season1Data = await SoccerApi().getMatches(
+        widget.selectedDate,
+        league: widget.leagueNumber,
+        season: '2023',
+        status: statusApi,
+        timezone: timezoneApi,
+      );
+      final season2Data = await SoccerApi().getMatches(
+        widget.selectedDate,
+        league: widget.leagueNumber,
+        season: '2024',
+        status: statusApi,
+        timezone: timezoneApi,
+      );
+
+      mergedData.addAll(season1Data);
+      mergedData.addAll(season2Data);
+    }
 
     Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
-
     return mergedData;
   }
 
@@ -115,58 +192,50 @@ class _GroupMatchListState extends State<GroupMatchList> {
                 ),
               );
             } else if (snapshot.hasData) {
-              return SingleChildScrollView(
-                child: SizedBox(
-                  // height: MediaQuery.of(context).size.height,
-                  height: 400,
-                  child: Column(children: [
-                    Expanded(
-                      child: RawScrollbar(
-                        // thumbVisibility: true,
-                        // trackVisibility: true,
-                        trackColor: const Color.fromARGB(43, 40, 122, 43),
-                        thumbColor: const Color.fromARGB(255, 40, 122, 43),
-                        controller: _scrollController,
-                        radius: const Radius.circular(10),
-                        crossAxisMargin: 2,
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          itemCount: nextGroupMatchesList.length,
-                          itemBuilder: (context, index) {
-                            Future<bool> getIsMatchAdded() async {
-                              final querySnapshot = await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(user?.uid)
-                                  .collection('predictions')
-                                  .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
-                                  .where('groupId', isEqualTo: widget.groupId)
-                                  .limit(1)
-                                  .get();
-                              setState(() {});
-                              return querySnapshot.docs.isNotEmpty;
-                            }
+              return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: RawScrollbar(
+                  thumbVisibility: true,
+                  trackVisibility: true,
+                  trackColor: const Color.fromARGB(43, 40, 122, 43),
+                  thumbColor: const Color.fromARGB(255, 40, 122, 43),
+                  controller: _scrollController,
+                  radius: const Radius.circular(10),
+                  crossAxisMargin: 2,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: nextGroupMatchesList.length,
+                    itemBuilder: (context, index) {
+                      Future<bool> getIsMatchAdded() async {
+                        final querySnapshot = await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(user?.uid)
+                            .collection('predictions')
+                            .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
+                            .where('groupId', isEqualTo: widget.groupId)
+                            .limit(1)
+                            .get();
+                        setState(() {});
+                        return querySnapshot.docs.isNotEmpty;
+                      }
 
-                            return FutureBuilder<bool>(
-                              future: getIsMatchAdded(),
-                              builder: (context, snapshot) {
-                                final isMatchAdded = snapshot.data ?? false;
-                                if (index < nextGroupMatchesList.length) {
-                                  return GroupMatchItem(
-                                      match: nextGroupMatchesList[index],
-                                      isMatchAdded: isMatchAdded,
-                                      groupId: widget.groupId,
-                                      selectedLeagueNumber: widget.leagueName);
-                                } else {
-                                  return const SizedBox();
-                                }
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    // const SizedBox(height: 15),
-                  ]),
+                      return FutureBuilder<bool>(
+                        future: getIsMatchAdded(),
+                        builder: (context, snapshot) {
+                          final isMatchAdded = snapshot.data ?? false;
+                          if (index < nextGroupMatchesList.length) {
+                            return GroupMatchItem(
+                                match: nextGroupMatchesList[index],
+                                isMatchAdded: isMatchAdded,
+                                groupId: widget.groupId,
+                                selectedLeagueNumber: widget.leagueName);
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      );
+                    },
+                  ),
                 ),
               );
             }

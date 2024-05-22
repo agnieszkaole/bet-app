@@ -3,8 +3,8 @@ import 'package:bet_app/src/services/groups.dart';
 import 'package:flutter/material.dart';
 
 class UserGroups extends StatefulWidget {
-  const UserGroups({super.key});
-
+  UserGroups({super.key, this.onGroupCreated});
+  final onGroupCreated;
   @override
   State<UserGroups> createState() => _UserGroupsState();
 }
@@ -40,15 +40,18 @@ class _UserGroupsState extends State<UserGroups> {
                     width: MediaQuery.of(context).size.width,
                     height: 100,
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(255, 19, 19, 19).withOpacity(0.6),
+                          offset: const Offset(5.0, 5.0),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(25),
                       ),
-                      // border: Border.all(color: Color.fromARGB(255, 53, 53, 53), width: 1),
-                      image: DecorationImage(
-                        image: AssetImage("./assets/images/lawn-5007569_19201.jpg"),
-                        fit: BoxFit.cover,
-                      ),
+                      color: const Color.fromARGB(211, 58, 139, 21),
                     ),
                     child: const Center(
                       child: Text(
@@ -93,7 +96,7 @@ class _UserGroupsState extends State<UserGroups> {
                 Container(
                   height: 150,
                   constraints: const BoxConstraints(maxWidth: 400),
-                  width: MediaQuery.of(context).size.width - 60,
+                  width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(15),
 
                   //  image: AssetImage("./assets/images/lawn-5007569_19201.jpg"),
@@ -131,11 +134,11 @@ class _UserGroupsState extends State<UserGroups> {
                               privacyType: privacyType,
                             ),
                           ));
-                          print('$creatorUsername');
+                          // print('$creatorUsername');
                         },
                         child: Container(
                           // padding: const EdgeInsets.all(5),
-                          width: userGroups.length > 1 ? 200 : MediaQuery.of(context).size.width - 50,
+                          width: userGroups.length > 1 ? 200 : MediaQuery.of(context).size.width - 80,
 
                           decoration: BoxDecoration(
                             boxShadow: [
@@ -161,7 +164,7 @@ class _UserGroupsState extends State<UserGroups> {
                           constraints: const BoxConstraints(maxWidth: 400),
                           margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                           child: Container(
-                            width: 140,
+                            width: userGroups.length > 1 ? 140 : double.infinity,
                             padding: const EdgeInsets.all(20),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,

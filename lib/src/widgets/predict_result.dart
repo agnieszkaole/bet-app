@@ -288,9 +288,9 @@ class _PredictResultState extends State<PredictResult> {
                           ),
                         ],
                       ),
-                      Container(
+                      const SizedBox(
                         width: 14,
-                        child: const Text(
+                        child: Text(
                           "-",
                           style: TextStyle(
                             color: Colors.white,
@@ -391,7 +391,7 @@ class _PredictResultState extends State<PredictResult> {
                 // const SizedBox(height: 20),
                 MatchPredictionList(leagueNumber: widget.selectedLeagueNumber, matchId: widget.matchId.toString()),
                 const SizedBox(height: 20),
-                Container(
+                SizedBox(
                   width: 280,
                   height: 50,
                   child: ElevatedButton(

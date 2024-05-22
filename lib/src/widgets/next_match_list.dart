@@ -1,5 +1,6 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/services/soccer_api.dart';
 
 import 'package:bet_app/src/widgets/next_match_item.dart';
@@ -35,6 +36,7 @@ class _NextMatchListState extends State<NextMatchList> {
   @override
   void initState() {
     super.initState();
+
     dataFuture = _getData();
   }
 
@@ -76,14 +78,14 @@ class _NextMatchListState extends State<NextMatchList> {
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
 
-    int availableMatches = mergedData.length;
-    int requestedMatches = 10;
+    // int availableMatches = mergedData.length;
+    // int requestedMatches = 10;
 
-    if (availableMatches > requestedMatches) {
-      mergedData = mergedData.sublist(0, requestedMatches);
-    }
+    // if (availableMatches > requestedMatches) {
+    //   mergedData = mergedData.sublist(0, requestedMatches);
+    // }
+
     Provider.of<NextMatchesProvider>(context, listen: false).saveMatches(mergedData);
-
     return mergedData;
   }
 
@@ -103,7 +105,8 @@ class _NextMatchListState extends State<NextMatchList> {
               final error = snapshot.error;
 
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
-            } else if (snapshot.data!.isEmpty) {
+            }
+            if (snapshot.data!.isEmpty) {
               return const SizedBox(
                 height: 150,
                 child: Center(
@@ -124,23 +127,24 @@ class _NextMatchListState extends State<NextMatchList> {
                   ),
                 ),
               );
-            } else if (snapshot.hasData) {
-              if (snapshot.data != []) {
-                return Container(
-                  height: 310,
-                  padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
-                  decoration: const BoxDecoration(
-                      // color: Color.fromARGB(118, 51, 51, 51),
-                      // border: Border.all(
-                      //   width: .5,
-                      //   color: Color.fromARGB(224, 102, 102, 102),
-                      // ),
-                      // borderRadius: BorderRadius.all(
-                      //   Radius.circular(25),
-                      // ),
-                      ),
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+            }
+            if (snapshot.hasData) {
+              return Container(
+                height: 310,
+                padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
+                decoration: const BoxDecoration(
+                    // color: Color.fromARGB(118, 51, 51, 51),
+                    // border: Border.all(
+                    //   width: .5,
+                    //   color: Color.fromARGB(224, 102, 102, 102),
+                    // ),
+                    // borderRadius: BorderRadius.all(
+                    //   Radius.circular(25),
+                    // ),
+                    ),
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
+                  if (Provider.of<NextMatchesProvider>(context, listen: false).nextMatchesList.isNotEmpty) {
                     return RawScrollbar(
                       interactive: true,
                       trackColor: const Color.fromARGB(43, 40, 122, 43),
@@ -150,35 +154,32 @@ class _NextMatchListState extends State<NextMatchList> {
                       thumbVisibility: true,
                       trackVisibility: true,
                       child: ListView.builder(
-                        // scrollDirection: Axis.horizontal,
-                        controller: _scrollController,
-                        itemCount: provider.nextMatchesList.length,
-                        itemBuilder: (context, index) {
-                          NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
-                          if (index < provider.nextMatchesList.length) {
-                            return NextMatchItem(
-                              match: provider.nextMatchesList[index],
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      ),
+                          // scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: provider.nextMatchesList.length,
+                          itemBuilder: (context, index) {
+                            NextMatchesProvider.sortMatchesByDate(provider.nextMatchesList);
+
+                            if (index < provider.nextMatchesList.length) {
+                              return NextMatchItem(
+                                match: provider.nextMatchesList[index],
+                              );
+                            } else {
+                              return null;
+                            }
+                          }),
                     );
-                  }),
-                );
-              } else {
-                return const Center(
-                  child: Text(
-                    'There are no matches to display or an unexpected error occurred.',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+                  } else {
+                    return Center(
+                        child: Text(
+                      'There are no matches to display.',
+                      style: TextStyle(fontSize: 18),
+                    ));
+                  }
+                }),
+              );
             }
           }
-
           return const SizedBox(
             height: 140,
             child: Center(

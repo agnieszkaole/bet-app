@@ -1,4 +1,4 @@
-
+import 'package:bet_app/src/features/authentication/screens/login/widgets/forget_password.dart';
 import 'package:bet_app/src/features/authentication/screens/register/register_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
@@ -16,6 +16,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   String errorMessage = '';
+  bool _passwordVisible = false;
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
@@ -30,21 +31,31 @@ class _LoginFormState extends State<LoginForm> {
     String title,
     TextEditingController controller,
     IconData icon,
-    bool obscureText,
+    bool isPassword,
   ) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.never,
         labelText: title,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
         fillColor: const Color.fromARGB(255, 48, 85, 50),
         filled: true,
         prefixIcon: Icon(icon),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              )
+            : null, // Only show suffix icon if it's a password field
       ),
-      obscureText: obscureText,
+      obscureText: isPassword ? !_passwordVisible : false,
     );
   }
 
@@ -81,8 +92,7 @@ class _LoginFormState extends State<LoginForm> {
 
       if (user != null) {
         print('User is logged in: ${user.uid}');
-        Provider.of<BottomNavigationProvider>(context, listen: false)
-            .updateIndex(0);
+        Provider.of<BottomNavigationProvider>(context, listen: false).updateIndex(0);
         showHomeScreen(context);
         return null;
       }
@@ -100,8 +110,7 @@ class _LoginFormState extends State<LoginForm> {
           break;
         case "too-many-requests":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
-          errorMessage =
-              "Access blocked due to unusual activity. Please try again later.";
+          errorMessage = "Access blocked due to unusual activity. Please try again later.";
           break;
         case "invalid-credential":
           print('FirebaseAuthException: ${e.message}, code: ${e.code}');
@@ -127,7 +136,7 @@ class _LoginFormState extends State<LoginForm> {
       children: <Widget>[
         _entryField('Email', _controllerEmail, Icons.email, false),
         const SizedBox(height: 20),
-        _entryField('Password', _controllerPassword, Icons.password, true),
+        _entryField('Password', _controllerPassword, Icons.lock, true),
         const SizedBox(height: 5),
         _errorMessage(),
         const Text(
@@ -135,7 +144,8 @@ class _LoginFormState extends State<LoginForm> {
           style: TextStyle(fontSize: 12),
         ),
         const SizedBox(height: 20),
-        // ForgetPassword(),
+
+        ForgetPassword(),
         const SizedBox(height: 20),
         SizedBox(
           width: double.infinity,
@@ -144,8 +154,7 @@ class _LoginFormState extends State<LoginForm> {
               signInUser(context);
             },
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               padding: const EdgeInsets.symmetric(vertical: 16),
               backgroundColor: const Color.fromARGB(255, 40, 122, 43),
             ),
@@ -155,7 +164,6 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

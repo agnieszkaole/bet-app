@@ -142,30 +142,38 @@ class _PrevMatchListState extends State<PrevMatchList> {
                       ),
                   constraints: const BoxConstraints(maxWidth: 400),
                   child: Consumer<PrevMatchesProvider>(builder: (context, provider, _) {
-                    return RawScrollbar(
-                      interactive: true,
-                      trackColor: const Color.fromARGB(43, 40, 122, 43),
-                      thumbColor: const Color.fromARGB(255, 4, 109, 10),
-                      controller: _scrollController,
-                      radius: const Radius.circular(10),
-                      thumbVisibility: true,
-                      trackVisibility: true,
-                      child: ListView.builder(
-                        // scrollDirection: Axis.horizontal,
+                    if (Provider.of<PrevMatchesProvider>(context, listen: false).prevMatchesList.isNotEmpty) {
+                      return RawScrollbar(
+                        interactive: true,
+                        trackColor: const Color.fromARGB(43, 40, 122, 43),
+                        thumbColor: const Color.fromARGB(255, 4, 109, 10),
                         controller: _scrollController,
-                        itemCount: provider.prevMatchesList.length,
-                        itemBuilder: (context, index) {
-                          PrevMatchesProvider.sortMatchesByDate(provider.prevMatchesList);
-                          if (index < provider.prevMatchesList.length) {
-                            return PrevMatchItem(
-                              match: provider.prevMatchesList[index],
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      ),
-                    );
+                        radius: const Radius.circular(10),
+                        thumbVisibility: true,
+                        trackVisibility: true,
+                        child: ListView.builder(
+                          // scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: provider.prevMatchesList.length,
+                          itemBuilder: (context, index) {
+                            PrevMatchesProvider.sortMatchesByDate(provider.prevMatchesList);
+                            if (index < provider.prevMatchesList.length) {
+                              return PrevMatchItem(
+                                match: provider.prevMatchesList[index],
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        ),
+                      );
+                    } else {
+                      return Center(
+                          child: Text(
+                        'There are no scores to display.',
+                        style: TextStyle(fontSize: 18),
+                      ));
+                    }
                   }),
                 );
               } else {

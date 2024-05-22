@@ -53,7 +53,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
       league: widget.leagueNumber,
       season: '2023',
       status: statusApi,
-      next: '15',
+      next: '20',
       timezone: timezoneApi,
     );
     final season2Data = await SoccerApi().getMatches(
@@ -61,30 +61,14 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
       league: widget.leagueNumber,
       season: '2024',
       status: statusApi,
-      next: '15',
+      next: '20',
       timezone: timezoneApi,
     );
-    // final season3Data = await SoccerApi().getMatches(
-    //   '',
-    //   league: widget.leagueNumber,
-    //   season: '2023',
-    //   status: statusApi,
-    //   timezone: timezoneApi,
-    // );
-    // final season4Data = await SoccerApi().getMatches(
-    //   '',
-    //   league: widget.leagueNumber,
-    //   season: '2024',
-    //   status: statusApi,
-    //   timezone: timezoneApi,
-    // );
 
     List<SoccerMatch> mergedData = [];
 
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
-    // mergedData.addAll(season3Data);
-    // mergedData.addAll(season4Data);
 
     int availableMatches = mergedData.length;
     int requestedMatches = 15;
@@ -123,7 +107,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
             } else if (snapshot.hasData) {
               List<SoccerMatch> nextMatchesScheduledList = snapshot.data!;
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
                   const Align(
@@ -136,7 +120,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
                     ),
                   ),
 
-                  Container(
+                  SizedBox(
                     height: 40,
                     child: Consumer<NextMatchesScheduledProvider>(builder: (context, provider, _) {
                       return ListView.builder(

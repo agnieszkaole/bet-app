@@ -87,7 +87,7 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     // height: 240,
 
                     child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {

@@ -14,6 +14,7 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
   String? selectedGroupId;
   String? groupName;
   User? user = Auth().currentUser;
+  final ScrollController _scrollController = ScrollController();
 
   Future<void> fetchGroupData(String selectedGroupId) async {
     try {
@@ -71,6 +72,7 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
             List<String> documentIds = userGroups.map((doc) => doc.id).toList();
             List<String> groupNames = userGroups.map((doc) => (doc.data()['groupName']) as String).toList();
             print(groupNames);
+
 // all groups
             // List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = snapshot.data!.docs;
             // List<String> documentIds = documents.map((doc) => doc.id).toList();
@@ -84,13 +86,14 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(20),
                     borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 31, 77, 10),
+                      color: Color.fromARGB(255, 51, 126, 17),
+                      width: 1.5,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(20),
                     borderSide: const BorderSide(color: Colors.greenAccent),
                   ),
                 ),
@@ -192,204 +195,258 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                     return scoreB.compareTo(scoreA);
                   });
 
-                  return SizedBox(
-                    width: 350,
-                    child: ListView.builder(
-                      itemCount: members.length,
-                      itemBuilder: (context, index) {
-                        final member = members[index] as Map<String, dynamic>;
-                        final memberUsername = member['memberUsername'] as String?;
-                        final totalScore = member['totalScore'] as int?;
-                        final rankingOrder = index + 1;
+                  return Container(
+                      width: 350,
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        // color: Color.fromARGB(118, 51, 51, 51),
+                        border: Border.all(
+                          color: Color.fromARGB(255, 51, 126, 17),
+                          width: 0.8,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      child: RawScrollbar(
+                        interactive: true,
+                        trackColor: const Color.fromARGB(43, 40, 122, 43),
+                        thumbColor: const Color.fromARGB(255, 4, 109, 10),
+                        controller: _scrollController,
+                        radius: const Radius.circular(10),
+                        thumbVisibility: true,
+                        trackVisibility: true,
+                        child: ListView.builder(
+                          itemCount: members.length,
+                          itemBuilder: (context, index) {
+                            final member = members[index] as Map<String, dynamic>;
+                            final memberUsername = member['memberUsername'] as String?;
+                            final totalScore = member['totalScore'] as int?;
+                            final rankingOrder = index + 1;
 
-                        String imageAsset = "";
-                        Color backgroundColor = Colors.transparent;
-                        Color gradient1 = Colors.transparent;
-                        Color gradient2 = Colors.transparent;
+                            String imageAsset = "";
+                            Color backgroundColor;
 
-                        Color textColor = const Color.fromARGB(255, 255, 255, 255);
-                        TextStyle usernameTextStyle = const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        );
+                            Color gradient1 = Colors.transparent;
+                            Color gradient2 = Colors.transparent;
 
-                        if (rankingOrder == 1) {
-                          imageAsset = './assets/images/trophy-153395_1280.png';
+                            Color textColor = const Color.fromARGB(255, 255, 255, 255);
+                            TextStyle usernameTextStyle = const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            );
 
-                          backgroundColor = const Color.fromARGB(255, 235, 177, 5);
-                          gradient1 = const Color.fromARGB(255, 255, 204, 0);
-                          gradient2 = const Color.fromARGB(255, 212, 175, 55);
-                          textColor = const Color.fromARGB(255, 255, 255, 255);
-                          usernameTextStyle = const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          );
-                        } else if (rankingOrder == 2) {
-                          imageAsset = './assets/images/cup-2015198_1280.png';
-                          backgroundColor = const Color.fromARGB(255, 122, 122, 122);
-                          gradient1 = const Color.fromARGB(255, 97, 98, 99);
-                          gradient2 = const Color.fromARGB(255, 185, 185, 185);
-                          textColor = const Color.fromARGB(255, 255, 255, 255);
-                          usernameTextStyle = const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          );
-                        } else if (rankingOrder == 3) {
-                          imageAsset = './assets/images/football-157931_1280.png';
-                          backgroundColor = const Color.fromARGB(255, 126, 75, 0);
-                          gradient1 = const Color.fromARGB(255, 151, 101, 21);
-                          gradient2 = const Color.fromARGB(255, 184, 134, 11);
-                          textColor = const Color.fromARGB(255, 255, 255, 255);
-                          usernameTextStyle = const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          );
-                        }
+                            if (rankingOrder == 1) {
+                              imageAsset = './assets/images/trophy-153395_1280.png';
 
-                        return rankingOrder < 4
-                            ? Container(
-                                height: 50,
-                                margin: const EdgeInsets.all(8),
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(200, 14, 71, 0),
-                                  borderRadius: BorderRadius.circular(25),
-                                  border: Border.all(
-                                    width: 0.6,
-                                    color: const Color.fromARGB(255, 148, 148, 148),
-                                  ),
-                                  // gradient: LinearGradient(
-                                  //   begin: Alignment.topCenter,
-                                  //   end: Alignment.bottomCenter,
-                                  //   colors: [gradient1, gradient2],
-                                  // ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 200,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [gradient1, gradient2],
-                                              ),
-                                              borderRadius: BorderRadius.circular(25),
-                                              border: Border.all(
-                                                width: 0.6,
-                                                color: const Color.fromARGB(255, 148, 148, 148),
-                                              ),
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                '$rankingOrder.  ',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: textColor,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            '$memberUsername',
-                                            style: usernameTextStyle,
-                                          ),
-                                          const SizedBox(width: 15),
-                                          if (rankingOrder == 1)
-                                            Image.asset(
-                                              imageAsset,
-                                              height: 35,
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      ' ${totalScore ?? '0'}',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: textColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Container(
-                                height: 50,
-                                margin: const EdgeInsets.all(8),
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(100, 14, 71, 0),
-                                  borderRadius: BorderRadius.circular(25),
-                                  border: Border.all(
-                                    width: 0.6,
-                                    color: const Color.fromARGB(255, 148, 148, 148),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 200,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [gradient1, gradient2],
-                                              ),
-                                              // borderRadius: BorderRadius.circular(25),
-                                              // border: Border.all(
-                                              //   width: 0.6,
-                                              //   color: Color.fromARGB(255, 148, 148, 148),
-                                              // ),
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text('$rankingOrder.  ',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18,
-                                                    color: textColor,
-                                                  ),
-                                                  textAlign: TextAlign.center),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            '$memberUsername',
-                                            style: usernameTextStyle,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      '${totalScore ?? '0'}',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: textColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              backgroundColor = const Color.fromARGB(255, 235, 177, 5);
+                              gradient1 = const Color.fromARGB(255, 255, 204, 0);
+                              gradient2 = const Color.fromARGB(255, 212, 175, 55);
+                              textColor = const Color.fromARGB(255, 255, 255, 255);
+                              usernameTextStyle = const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               );
-                      },
-                    ),
-                  );
+                            } else if (rankingOrder == 2) {
+                              imageAsset = './assets/images/cup-2015198_1280.png';
+                              backgroundColor = const Color.fromARGB(255, 122, 122, 122);
+                              gradient1 = const Color.fromARGB(255, 97, 98, 99);
+                              gradient2 = const Color.fromARGB(255, 185, 185, 185);
+                              textColor = const Color.fromARGB(255, 255, 255, 255);
+                              usernameTextStyle = const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              );
+                            } else if (rankingOrder == 3) {
+                              imageAsset = './assets/images/football-157931_1280.png';
+                              backgroundColor = const Color.fromARGB(255, 126, 75, 0);
+                              gradient1 = const Color.fromARGB(255, 151, 101, 21);
+                              gradient2 = const Color.fromARGB(255, 184, 134, 11);
+                              textColor = const Color.fromARGB(255, 255, 255, 255);
+                              usernameTextStyle = const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              );
+                            }
+
+                            return rankingOrder < 4
+                                ? Container(
+                                    height: 55,
+                                    // width: 350,
+                                    margin: const EdgeInsets.all(5),
+                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      // color: const Color.fromARGB(200, 14, 71, 0),
+                                      // borderRadius: BorderRadius.circular(25),
+                                      // border: Border.all(
+                                      //   width: 0.6,
+                                      //   color: const Color.fromARGB(255, 148, 148, 148),
+                                      // ),
+                                      // gradient: LinearGradient(
+                                      //   begin: Alignment.topCenter,
+                                      //   end: Alignment.bottomCenter,
+                                      //   colors: [gradient1, gradient2],
+                                      // ),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color.fromARGB(200, 51, 126, 17),
+                                          width: 0.8,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: 200,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 35,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [gradient1, gradient2],
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(25),
+                                                  border: Border.all(
+                                                    width: 0.6,
+                                                    color: const Color.fromARGB(255, 148, 148, 148),
+                                                  ),
+                                                ),
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    '$rankingOrder  ',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 18,
+                                                      color: textColor,
+                                                      shadows: const <Shadow>[
+                                                        Shadow(
+                                                          offset: Offset(1.0, 1.0),
+                                                          blurRadius: 3.0,
+                                                          color: Color.fromARGB(255, 0, 0, 0),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 15),
+                                              Text(
+                                                '$memberUsername',
+                                                style: usernameTextStyle,
+                                              ),
+                                              const SizedBox(width: 15),
+                                              if (rankingOrder == 1)
+                                                Image.asset(
+                                                  imageAsset,
+                                                  height: 35,
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          ' ${totalScore ?? '0'}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: textColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Container(
+                                    height: 55,
+                                    // width: 350,
+                                    margin: const EdgeInsets.all(5),
+                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      // color: const Color.fromARGB(100, 14, 71, 0),
+                                      // borderRadius: BorderRadius.circular(25),
+                                      // border: Border.all(
+                                      //   width: 0.6,
+                                      //   color: const Color.fromARGB(255, 148, 148, 148),
+                                      // ),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color.fromARGB(200, 51, 126, 17),
+                                          width: 0.8,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: 200,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: 35,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [gradient1, gradient2],
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(25),
+                                                  border: Border.all(
+                                                    width: 0.6,
+                                                    color: const Color.fromARGB(255, 148, 148, 148),
+                                                  ),
+                                                ),
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    '$rankingOrder  ',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 18,
+                                                      color: textColor,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ),
+                                              // Align(
+                                              //   alignment: Alignment.center,
+                                              //   child: Text('$rankingOrder.  ',
+                                              //       style: TextStyle(
+                                              //         fontWeight: FontWeight.bold,
+                                              //         fontSize: 18,
+                                              //         color: textColor,
+                                              //       ),
+                                              //       textAlign: TextAlign.center),
+                                              // ),
+                                              const SizedBox(width: 15),
+                                              Text(
+                                                '$memberUsername',
+                                                style: usernameTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          '${totalScore ?? '0'}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: textColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                          },
+                        ),
+                      ));
                 } else {
                   return Center(
                     child: Column(

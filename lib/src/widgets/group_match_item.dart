@@ -76,15 +76,24 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Text(
+                              //   "Betting is unavailable.",
+                              //   style: TextStyle(fontSize: 18),
+                              // ),
+                              // SizedBox(height: 20),
                               Text(
-                                "Betting on this match is unavailable. ",
-                                style: TextStyle(fontSize: 18),
+                                "The match has already started, finished or you have already placed a bet on this match.",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                              SizedBox(height: 20),
-                              Text(
-                                  "The time for betting ends at 0 minutes before the match starts or you have already bet on this match."),
                               SizedBox(height: 10),
-                              Text("Check the predicted tab. "),
+                              Text(
+                                'Check the "Your bets" tab. ',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
                             ],
                           ),
                           actions: [
@@ -147,9 +156,9 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                     height: 36.0,
                   ),
                 ),
-                Container(
+                const SizedBox(
                   width: 30,
-                  child: const Text(
+                  child: Text(
                     "vs",
                     textAlign: TextAlign.center,
                     style: TextStyle(

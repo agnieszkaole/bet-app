@@ -400,6 +400,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
     final memberCount = widget.fixedRowCells.length;
     // final userId = FirebaseAuth.instance.currentUser?.uid ?? 'Unknown';
+    // final totalScores = _calculateTotalScores(scoreboardMatchesList, memberCount);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,7 +436,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     final scoreboardMatchesList = Provider.of<ScoreboardProvider>(context, listen: false).scoreboardMatchesList;
     var prediction = '---';
     final match = scoreboardMatchesList.firstWhere((match) => match.fixture.id == matchId);
-    // scoreboardManager.setScoreboardMatchesList(scoreboardMatchesList);
+
     Color backgroundColor = const Color.fromARGB(255, 136, 136, 136);
     Color backgroundColorScore = const Color.fromARGB(255, 77, 77, 77);
     int score = 0;
@@ -448,6 +449,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     if (memberPredict != null) {
       prediction = memberPredict['prediction'];
     }
+    print(prediction);
 
     Future<void> sumScores() async {
       Scoreboard scoreboard = Scoreboard();
@@ -464,7 +466,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
             backgroundColorScore = const Color.fromARGB(192, 22, 124, 36);
             score = 3;
             backgroundColor = const Color.fromARGB(60, 22, 124, 36);
-            await scoreboard.updateScore(widget.groupId!, memberUid, matchId, score);
+            await scoreboard.updateScore(widget.groupId!, memberUid, matchId, score, prediction);
           } else {
             List<String> predictedScores = prediction.split(':');
             if (predictedScores.length == 2) {
@@ -481,19 +483,14 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                 score = 1;
                 // print(' ${widget.groupId!}, $memberUid, $matchId, $prediction, $score, $scoreboardMatchesList');
 
-                await scoreboard.updateScore(widget.groupId!, memberUid, matchId, score);
+                await scoreboard.updateScore(widget.groupId!, memberUid, matchId, score, prediction);
 
                 // print(' ${widget.groupId!}, $memberUid, $score');
               } else {
                 backgroundColor = const Color.fromARGB(60, 241, 0, 0);
                 backgroundColorScore = const Color.fromARGB(120, 241, 0, 0);
                 score = 0;
-                // scoreboard.updateScore(
-                //   widget.groupId!,
-                //   memberUid,
-                //   matchId,
-                //   score,
-                // );
+                await scoreboard.updateScore(widget.groupId!, memberUid, matchId, score, prediction);
               }
             }
           }
@@ -504,6 +501,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     }
 
     sumScores();
+
     return Container(
       width: double.infinity,
       height: double.infinity,
