@@ -120,7 +120,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           height: 500,
           width: MediaQuery.of(context).size.width - 50,
           constraints: const BoxConstraints(maxWidth: 400),
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(
               Radius.circular(25),
@@ -128,14 +128,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             border: Border.all(width: 0.4, color: const Color.fromARGB(99, 206, 206, 206)),
             // color: Color.fromARGB(100, 39, 39, 39),
-            gradient: const LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color.fromARGB(120, 50, 124, 15),
-                Color.fromARGB(120, 31, 77, 10),
-              ],
-            ),
+            // gradient: const LinearGradient(
+            //   begin: Alignment.topRight,
+            //   end: Alignment.bottomLeft,
+            //   colors: [
+            //     Color.fromARGB(120, 50, 124, 15),
+            //     Color.fromARGB(120, 31, 77, 10),
+            //   ],
+            // ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bet_app/src/screens/home_screen.dart';
+import 'package:bet_app/src/services/auth.dart';
 
 import 'package:bet_app/src/services/groups.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -183,19 +185,84 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
     });
   }
 
+  // Future<String?> joinToExistingGroup(
+  //     String? groupId, String? groupName, String? privacyType, BuildContext context) async {
+  //   try {
+  //     await groups.joinGroup(groupId);
+
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text('You have joined the group: $groupName'),
+  //     ));
+
+  //     Navigator.of(context).pop(true);
+  //     return groupId;
+  //   } catch (e) {
+  //     print('Error joining group: $e');
+  //     rethrow;
+  //   }
+  // }
+
   Future<String?> joinToExistingGroup(
       String? groupId, String? groupName, String? privacyType, BuildContext context) async {
     try {
-      await groups.joinGroup(groupId);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('You have joined the group: $groupName'),
-      ));
+      // Fetch the current number of members in the group
+      DocumentSnapshot<Map<String, dynamic>> groupSnapshot = await _firestore.collection('groups').doc(groupId).get();
+      User? currentUser = Auth().currentUser;
 
-      Navigator.of(context).pop(true);
-      return groupId;
+      if (groupSnapshot.exists) {
+        var data = groupSnapshot.data();
+        if (data == null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Error: Group data is null.'),
+          ));
+          return null;
+        }
+
+        List<dynamic> membersList = data['members'] ?? [];
+
+        bool isUserAlreadyMember = membersList.any((member) =>
+            member['memberUid'] == currentUser?.uid && member['memberUsername'] == currentUser?.displayName);
+
+        if (isUserAlreadyMember) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('You are already a member of the group: $groupName'),
+          ));
+          return null;
+        }
+
+        if (membersList.length >= 10) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('The group is full, you cannot join.'),
+          ));
+          return null;
+        }
+
+        if (currentUser == null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Error: User is not authenticated.'),
+          ));
+          return null;
+        }
+
+        await groups.joinGroup(groupId);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('You have joined the group: $groupName'),
+        ));
+
+        Navigator.of(context).pop(true);
+        return groupId;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Group does not exist.'),
+        ));
+        return null;
+      }
     } catch (e) {
       print('Error joining group: $e');
-      rethrow;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('An error occurred while joining the group.'),
+      ));
+      return null;
     }
   }
 

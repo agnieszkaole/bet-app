@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ForgetPassword extends StatefulWidget {
-  ForgetPassword({super.key});
+  ForgetPassword({super.key, this.email});
+  String? email;
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -12,24 +13,24 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   // User? user = Auth().currentUser;
-  String email = '';
+  // String email = '';
 
-  @override
-  void initState() {
-    super.initState();
-    initUserDetails();
-  }
+  // @override
+  // void initState() {
+  // super.initState();
+  // initUserDetails();
+  // }
 
-  Future<void> initUserDetails() async {
-    setState(() {
-      User? user = Auth().currentUser;
-      if (user != null) {
-        email = user.email!;
-      }
-    });
+  // Future<void> initUserDetails() async {
+  //   setState(() {
+  //     User? user = Auth().currentUser;
+  //     if (user != null) {
+  //       email = user.email!;
+  //     }
+  //   });
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 style: TextStyle(fontSize: 16),
               ),
               content: const Text(
-                  'You will receive a message containing a link to reset your password to the e-mail address provided during registration. Do you agree?'),
+                  'You will receive a message containing a link to reset your password to the e-mail address. Do you agree?'),
               actions: [
                 TextButton(
                   style: TextButton.styleFrom(
@@ -70,7 +71,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       backgroundColor: const Color.fromARGB(255, 2, 126, 6),
                       foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
                   onPressed: () async {
-                    await UserData().sendPasswordResetEmail(email);
+                    await UserData().sendPasswordResetEmail(widget.email!);
                     Navigator.of(context).pop();
                   },
                   child: const Text(
@@ -87,7 +88,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         );
       },
       style: TextButton.styleFrom(
-        alignment: Alignment.centerRight,
+        alignment: Alignment.topRight,
       ),
       child: const Text(
         "Forgot password?",

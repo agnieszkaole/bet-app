@@ -32,7 +32,7 @@ class _GroupTableState extends State<GroupTable> {
   bool isAscending = true;
   // int sortType = sortName;
   // List users = ['User 1', 'User 2', 'User 3', 'User 4', 'User 5'];
-  String? statusApi = 'ns-tbd-ft-aet-pen-1H-HT-2H-ET-BT-P-SUSP-INT';
+  String? statusApi = 'ns-tbd-ft-aet-pen-1H-HT-2H-ET-BT-P-SUSP-INT-PST-CAN-ABDC';
   // String? statusApi = '';
   String? timezoneApi = 'Europe/Warsaw';
   late DateTime createdAtDate;

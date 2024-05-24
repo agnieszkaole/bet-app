@@ -34,13 +34,15 @@ class _GroupMembersListState extends State<GroupMembersList> {
             List<Map<String, dynamic>> membersList = groupData['members'] ?? [];
 
             return SizedBox(
-              height: 180,
-              child: Scrollbar(
+              height: 150,
+              child: RawScrollbar(
                 controller: _scrollController,
-                trackVisibility: true,
-                thumbVisibility: true,
+                interactive: true,
+                trackColor: const Color.fromARGB(43, 40, 122, 43),
+                thumbColor: const Color.fromARGB(255, 4, 109, 10),
                 radius: const Radius.circular(10),
-                thickness: 1,
+                thumbVisibility: true,
+                trackVisibility: true,
                 child: ListView.builder(
                     controller: _scrollController,
                     itemCount: membersList.length,
@@ -60,7 +62,7 @@ class _GroupMembersListState extends State<GroupMembersList> {
                                 children: [
                                   Text(
                                     memberUsername ?? '',
-                                    style: const TextStyle(fontSize: 18),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                   const SizedBox(width: 10),
                                   widget.creatorUsername == memberUsername

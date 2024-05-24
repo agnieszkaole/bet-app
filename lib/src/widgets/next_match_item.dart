@@ -35,56 +35,16 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
     return Container(
       margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 15),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-      decoration: BoxDecoration(
-        // color: Color.fromARGB(195, 8, 119, 4),
-        gradient: const LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Color.fromARGB(200, 62, 155, 19),
-            Color.fromARGB(197, 31, 31, 31),
-
-            // Color.fromARGB(180, 0, 137, 223),
-            // Color.fromARGB(180, 54, 55, 149),
-          ],
-        ),
-        border: Border.all(
-          width: .5,
-          color: const Color.fromARGB(138, 88, 88, 88),
-        ),
-        // image: DecorationImage(
-        //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),
-        //   fit: BoxFit.cover,
-        //   colorFilter: ColorFilter.mode(
-        //     Color.fromARGB(70, 29, 29, 29),
-        //     BlendMode.srcATop,
-        //   ),
-        // ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(25),
-        ),
-      ),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(
             width: 120,
-            // width: double.infinity,
-            // decoration: BoxDecoration(
-            //   border: Border.all(
-            //     width: .5,
-            //     color: Color.fromARGB(255, 116, 116, 116),
-            //   ),
-            // ),
             child: Column(
               children: [
                 Text(
                   matchTime.toString(),
                   style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  leagueRound,
-                  style: const TextStyle(fontSize: 12),
                 ),
               ],
             ),
@@ -100,9 +60,9 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Column(
+                  height: 60,
+                  width: 140,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
@@ -117,6 +77,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                           maxLines: 2,
                         ),
                       ),
+                      SizedBox(width: 15),
                       SizedBox(
                         height: 40,
                         child: Container(
@@ -146,23 +107,11 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                   ),
                 ),
                 SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Column(
+                  height: 60,
+                  width: 140,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Flexible(
-                        child: Text(
-                          awayName,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      ),
                       SizedBox(
                         height: 40,
                         child: Container(
@@ -175,12 +124,30 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                           ),
                         ),
                       ),
+                      SizedBox(width: 15),
+                      Flexible(
+                        child: Text(
+                          awayName,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
+          Divider(
+            height: 0.5,
+            thickness: 0.5,
+            color: Color.fromARGB(255, 0, 117, 10),
+          )
         ],
       ),
     );

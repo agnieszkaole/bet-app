@@ -82,7 +82,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                               // ),
                               // SizedBox(height: 20),
                               Text(
-                                "The match has already started, finished or you have already placed a bet on this match.",
+                                "The match has already started, finished or you have already predicted the result.",
                                 style: TextStyle(
                                   fontSize: 14,
                                 ),

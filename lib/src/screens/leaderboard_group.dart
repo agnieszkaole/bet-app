@@ -210,14 +210,15 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                         ),
                       ),
                       child: RawScrollbar(
+                        controller: _scrollController,
                         interactive: true,
                         trackColor: const Color.fromARGB(43, 40, 122, 43),
                         thumbColor: const Color.fromARGB(255, 4, 109, 10),
-                        controller: _scrollController,
                         radius: const Radius.circular(10),
                         thumbVisibility: true,
                         trackVisibility: true,
                         child: ListView.builder(
+                          controller: _scrollController,
                           itemCount: members.length,
                           itemBuilder: (context, index) {
                             final member = members[index] as Map<String, dynamic>;

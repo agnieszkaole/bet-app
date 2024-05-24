@@ -2,9 +2,7 @@ import 'package:bet_app/src/features/authentication/screens/login/login_screen.d
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
 import 'package:bet_app/src/screens/leaderboard_screen.dart';
-import 'package:bet_app/src/screens/rules_screen.dart';
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
-
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/main_drawer.dart';
@@ -105,7 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 index: provider.selectedIndex,
                 children: const [
                   SelectCriteriaScreen(),
-                  RulesScreen(),
                   GroupsScreen(),
                   LeaderboardScreen(),
                 ],
@@ -125,23 +122,24 @@ class _HomeScreenState extends State<HomeScreen> {
               type: BottomNavigationBarType.fixed,
               currentIndex: provider.selectedIndex,
               onTap: (index) {
-                // provider.updateIndex(index);
-                if (!isAnonymous || (index == 0 || index == 1)) {
-                  provider.updateIndex(index);
-                } else if (isAnonymous && (index == 2 || index == 3)) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Zaloguj się aby korzystać z tych funkcji.'),
-                      action: SnackBarAction(
-                        label: 'Zaloguj',
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ));
-                        },
-                      ),
-                    ),
-                  );
+                provider.updateIndex(index);
+                if (index == 0 || index == 1 || index == 2) {
+                  // provider.updateIndex(index);
+                } else if (index == 3) {
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: const Text('Not available in freemium plan. Upgrade your plan.'),
+                  //     // content: const Text('Zaloguj się aby korzystać z tych funkcji.'),
+                  //     // action: SnackBarAction(
+                  //     //   label: 'Zaloguj',
+                  //     //   onPressed: () {
+                  //     //     Navigator.of(context).push(MaterialPageRoute(
+                  //     //       builder: (context) => const LoginScreen(),
+                  //     //     ));
+                  //     //   },
+                  //     // ),
+                  //   ),
+                  // );
                 }
               },
               items: const [
@@ -149,12 +147,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   // icon: Icon(Icons.emoji_events_rounded),
                   icon: Icon(Icons.home),
                   label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.info,
-                  ),
-                  label: 'Rules',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(

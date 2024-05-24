@@ -84,11 +84,6 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
-                  Text(
-                    'Please try again later.',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
                 ],
               ),
             ),

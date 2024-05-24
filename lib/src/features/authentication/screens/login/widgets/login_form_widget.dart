@@ -139,13 +139,18 @@ class _LoginFormState extends State<LoginForm> {
         _entryField('Password', _controllerPassword, Icons.lock, true),
         const SizedBox(height: 5),
         _errorMessage(),
-        const Text(
-          'By logging in, I agree with Terms of Use and Privacy Policy.',
-          style: TextStyle(fontSize: 12),
+        // const Text(
+        //   'By loggin, you confirm that you agree with our Privacy Policy and Terms of Use.',
+        //   style: TextStyle(fontSize: 12),
+        // ),
+        // const SizedBox(height: 20),
+        Container(
+          height: 35,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: ForgetPassword(email: _controllerEmail.text),
+          ),
         ),
-        const SizedBox(height: 20),
-
-        ForgetPassword(),
         const SizedBox(height: 20),
         SizedBox(
           width: double.infinity,

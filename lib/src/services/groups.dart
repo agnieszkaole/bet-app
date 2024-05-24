@@ -96,6 +96,11 @@ class Groups {
             }
           }).toList();
 
+          // if (membersList.length >= 3) {
+          //   print('Group is full, cannot join.');
+          //   return;
+          // }
+
           bool isUserAlreadyMember = members.any((member) =>
               member['memberUid'] == currentUser.uid && member['memberUsername'] == currentUser.displayName);
 

@@ -118,7 +118,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                             const SizedBox(
                               width: 260,
                               child: Text(
-                                'Create a new group, select a\u{00A0}league and invite your friends (max. 15).',
+                                'Create a new group, select a\u{00A0}league and invite your friends (max. 10).',
                                 style: TextStyle(fontSize: 16),
                                 textAlign: TextAlign.center,
                               ),

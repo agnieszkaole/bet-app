@@ -19,7 +19,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   String errorMessage = '';
   bool _passwordVisible = false;
-
+  bool? _checkedValue = false;
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
@@ -69,6 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       style: const TextStyle(
         color: Colors.red,
       ),
+      textAlign: TextAlign.center,
     );
   }
 
@@ -99,6 +100,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_controllerPassword.text != _controllerConfirmPassword.text) {
       setState(() {
         errorMessage = "Provide passwords are different.";
+      });
+      return errorMessage;
+    }
+
+    if (!_checkedValue!) {
+      setState(() {
+        errorMessage = "You must agree to the Privacy Policy and Terms of Use.";
       });
       return errorMessage;
     }
@@ -156,6 +164,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'username': username,
           'email': email,
+          'privacyPolicyText': "I have read and agree to our Privacy Policy and Terms of Use.",
+          'privacyPolicyVersion': "1.0",
+          'agreedToPrivacyPolicy': true,
+          'consentTimestamp': FieldValue.serverTimestamp(),
         });
       } else {
         print('User is not authenticated');
@@ -182,6 +194,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   const Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 60.0),
                       Text(
@@ -204,10 +217,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 20),
                       _entryField('Confirm Password', _controllerConfirmPassword, Icons.lock, true),
                       const SizedBox(height: 10),
-                      _errorMessage(),
-                      const SizedBox(height: 20),
+
+                      // const SizedBox(height: 20),
                     ],
                   ),
+
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.only(left: 0, right: 0),
+                    title: Text(
+                      "I have read and agree to our Privacy Policy and Terms of Use.",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    value: _checkedValue,
+                    activeColor: Color.fromARGB(255, 0, 161, 27),
+                    checkColor: Color.fromARGB(255, 255, 255, 255),
+                    onChanged: (bool? newValue) {
+                      setState(() {
+                        _checkedValue = newValue ?? false;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                  ),
+                  _errorMessage(),
+                  const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.only(top: 3, left: 3),
                     child: ElevatedButton(
@@ -217,6 +249,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _controllerPassword.text,
                           _controllerName.text,
                         );
+
                         // await createUserAndCheckEmail(
                         //   _controllerEmail.text,
                         //   _controllerPassword.text,

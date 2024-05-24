@@ -39,18 +39,18 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       decoration: BoxDecoration(
         // color: Color.fromARGB(195, 8, 119, 4),
-        gradient: const LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            // Color.fromARGB(200, 31, 77, 10),
-            Color.fromARGB(197, 31, 31, 31),
-            Color.fromARGB(200, 62, 155, 19),
-          ],
-        ),
+        // gradient: const LinearGradient(
+        //   begin: Alignment.topRight,
+        //   end: Alignment.bottomLeft,
+        //   colors: [
+        //     // Color.fromARGB(200, 31, 77, 10),
+        //     Color.fromARGB(197, 31, 31, 31),
+        //     Color.fromARGB(200, 62, 155, 19),
+        //   ],
+        // ),
         border: Border.all(
           width: .5,
-          color: const Color.fromARGB(138, 88, 88, 88),
+          color: Color.fromARGB(198, 0, 138, 0),
         ),
         // image: DecorationImage(
         //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),

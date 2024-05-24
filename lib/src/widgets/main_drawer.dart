@@ -93,6 +93,15 @@ class MainDrawer extends StatelessWidget {
             // ),
             ListTile(
               leading: Icon(
+                Icons.stars_rounded,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: const Text('Upgrade'),
+              onTap: () async {},
+            ),
+            ListTile(
+              leading: Icon(
                 Icons.logout_rounded,
                 size: 26,
                 color: Theme.of(context).colorScheme.onBackground,

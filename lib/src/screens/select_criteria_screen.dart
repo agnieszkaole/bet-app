@@ -105,7 +105,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                       children: [
                         Text(
                           'Hello ${username != null ? '$username' : ''}',
-                          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         const Text(
                           '   👋',
@@ -115,10 +115,10 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         ),
                       ],
                     ),
-                    const Text(
-                      'Let\'s bet with friends!',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    // const Text(
+                    //   'Let\'s bet with friends!',
+                    //   style: TextStyle(fontSize: 18),
+                    // ),
                   ],
                 ),
               ),
@@ -143,7 +143,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Top leagues',
+                      'Select league',
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -243,10 +243,10 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                     //     // fontWeight: FontWeight.bold,
                     //   ),
                     // ),
-                    const Text(
-                      'Overview',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    // const Text(
+                    //   'League overview',
+                    //   style: TextStyle(fontSize: 20),
+                    // ),
                     const SizedBox(height: 10),
                     const Text(
                       'Upcoming matches',

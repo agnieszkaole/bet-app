@@ -108,7 +108,7 @@ class _NextMatchListState extends State<NextMatchList> {
             }
             if (snapshot.data!.isEmpty) {
               return const SizedBox(
-                height: 150,
+                height: 100,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
