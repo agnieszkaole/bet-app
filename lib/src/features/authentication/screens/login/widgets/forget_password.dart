@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,9 +38,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     return TextButton(
       onPressed: () {
         showDialog(
+          barrierColor: Color.fromARGB(167, 9, 11, 29),
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: AppColors.green), borderRadius: BorderRadius.all(Radius.circular(25.0))),
               title: const Text(
                 "Forget password",
                 style: TextStyle(fontSize: 16),
@@ -48,28 +52,31 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   'You will receive a message containing a link to reset your password to the e-mail address. Do you agree?'),
               actions: [
                 TextButton(
-                  style: TextButton.styleFrom(
-                    // backgroundColor: Color.fromARGB(255, 205, 255, 206),
-                    foregroundColor: const Color.fromARGB(255, 6, 165, 11),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: AppColors.greenDark,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
-                      side: const BorderSide(color: Color.fromARGB(255, 6, 165, 11)),
+                      side: const BorderSide(width: 1, color: AppColors.greenDark),
                     ),
+                    // elevation: 4.0,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                   child: const Text(
                     'No',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.green),
                   ),
                 ),
                 TextButton(
-                  style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 2, 126, 6),
-                      foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: AppColors.greenDark,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      side: const BorderSide(width: 1, color: AppColors.greenDark),
+                    ),
+                    // elevation: 4.0,
+                  ),
                   onPressed: () async {
                     await UserData().sendPasswordResetEmail(widget.email!);
                     Navigator.of(context).pop();
@@ -92,7 +99,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       ),
       child: const Text(
         "Forgot password?",
-        style: TextStyle(color: Color.fromARGB(255, 58, 158, 61)),
+        style: TextStyle(color: AppColors.green),
       ),
     );
   }

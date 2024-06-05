@@ -34,7 +34,7 @@ class _GroupMembersListState extends State<GroupMembersList> {
             List<Map<String, dynamic>> membersList = groupData['members'] ?? [];
 
             return SizedBox(
-              height: 150,
+              height: membersList.length > 3 ? 200 : 120,
               child: RawScrollbar(
                 controller: _scrollController,
                 interactive: true,

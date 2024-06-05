@@ -18,18 +18,20 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: Container(
         decoration: const BoxDecoration(
-            // image: DecorationImage(
-            //   image: AssetImage('./assets/images/little-1506570_19201.png'),
-            //   fit: BoxFit.cover,
-            // ),
-            gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color.fromARGB(255, 29, 29, 29),
-            Color.fromARGB(255, 49, 49, 49),
-          ],
-        )),
+          //   // image: DecorationImage(
+          //   //   image: AssetImage('./assets/images/little-1506570_19201.png'),
+          //   //   fit: BoxFit.cover,
+          //   // ),
+          //   gradient: LinearGradient(
+          // begin: Alignment.topCenter,
+          // end: Alignment.bottomCenter,
+          // colors: [
+          //   Color.fromARGB(255, 29, 29, 29),
+          //   Color.fromARGB(255, 49, 49, 49),
+          // ],
+          // )
+          color: Color.fromARGB(255, 4, 0, 37),
+        ),
         child: Column(
           children: [
             const SizedBox(
@@ -37,20 +39,21 @@ class MainDrawer extends StatelessWidget {
               child: DrawerHeader(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color.fromARGB(255, 62, 155, 19),
-                      Color.fromARGB(255, 31, 77, 10),
-                    ],
-                  ),
+                  color: Color.fromARGB(255, 4, 0, 37),
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topRight,
+                  //   end: Alignment.bottomLeft,
+                  //   colors: [
+                  //     Color.fromARGB(255, 62, 155, 19),
+                  //     Color.fromARGB(255, 31, 77, 10),
+                  //   ],
+                  // ),
                   // border: Border.all(color: Color.fromARGB(255, 2, 47, 64), width: 1),
                 ),
                 child: Row(
                   children: [
                     Text(
-                      'GreatBet',
+                      '',
                       style: TextStyle(color: Colors.white, fontSize: 26),
                     ),
                   ],

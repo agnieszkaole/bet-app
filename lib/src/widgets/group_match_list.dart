@@ -1,10 +1,13 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_group_matches_provider.dart';
+import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/provider/predicted_match_provider.dart';
 
 import 'package:bet_app/src/services/auth.dart';
-import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:bet_app/src/services/match_api.dart';
 
 import 'package:bet_app/src/widgets/group_match_item.dart';
+import 'package:bet_app/src/widgets/predicted_matches_preview.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -124,7 +127,7 @@ class _GroupMatchListState extends State<GroupMatchList> {
     List<SoccerMatch> mergedData = [];
 
     if (!widget.isCalendarVisible!) {
-      final season1Data = await SoccerApi().getMatches(
+      final season1Data = await MatchApi().getMatches(
         "",
         league: widget.leagueNumber,
         season: '2023',
@@ -132,7 +135,7 @@ class _GroupMatchListState extends State<GroupMatchList> {
         timezone: timezoneApi,
         next: displayedItems,
       );
-      final season2Data = await SoccerApi().getMatches(
+      final season2Data = await MatchApi().getMatches(
         "",
         league: widget.leagueNumber,
         season: '2024',
@@ -140,27 +143,44 @@ class _GroupMatchListState extends State<GroupMatchList> {
         timezone: timezoneApi,
         next: displayedItems,
       );
+      final season3Data = await MatchApi().getMatches(
+        "",
+        league: widget.leagueNumber,
+        season: '2025',
+        status: 'ns-tbd',
+        timezone: timezoneApi,
+        next: displayedItems,
+      );
 
       mergedData.addAll(season1Data);
       mergedData.addAll(season2Data);
+      mergedData.addAll(season3Data);
     } else {
-      final season1Data = await SoccerApi().getMatches(
+      final season1Data = await MatchApi().getMatches(
         widget.selectedDate,
         league: widget.leagueNumber,
         season: '2023',
         status: statusApi,
         timezone: timezoneApi,
       );
-      final season2Data = await SoccerApi().getMatches(
+      final season2Data = await MatchApi().getMatches(
         widget.selectedDate,
         league: widget.leagueNumber,
         season: '2024',
         status: statusApi,
         timezone: timezoneApi,
       );
+      final season3Data = await MatchApi().getMatches(
+        widget.selectedDate,
+        league: widget.leagueNumber,
+        season: '2025',
+        status: statusApi,
+        timezone: timezoneApi,
+      );
 
       mergedData.addAll(season1Data);
       mergedData.addAll(season2Data);
+      mergedData.addAll(season3Data);
     }
 
     Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
@@ -192,6 +212,8 @@ class _GroupMatchListState extends State<GroupMatchList> {
                 ),
               );
             } else if (snapshot.hasData) {
+              final predictedMatchProvider = Provider.of<PredictedMatchProvider>(context);
+
               return SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: RawScrollbar(
@@ -206,34 +228,46 @@ class _GroupMatchListState extends State<GroupMatchList> {
                     controller: _scrollController,
                     itemCount: nextGroupMatchesList.length,
                     itemBuilder: (context, index) {
-                      Future<bool> getIsMatchAdded() async {
-                        final querySnapshot = await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(user?.uid)
-                            .collection('predictions')
-                            .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
-                            .where('groupId', isEqualTo: widget.groupId)
-                            .limit(1)
-                            .get();
-                        setState(() {});
-                        return querySnapshot.docs.isNotEmpty;
-                      }
+                      NextMatchesProvider.sortMatchesByDate(nextGroupMatchesList);
+                      final match = nextGroupMatchesList[index];
 
-                      return FutureBuilder<bool>(
-                        future: getIsMatchAdded(),
-                        builder: (context, snapshot) {
-                          final isMatchAdded = snapshot.data ?? false;
-                          if (index < nextGroupMatchesList.length) {
-                            return GroupMatchItem(
-                                match: nextGroupMatchesList[index],
-                                isMatchAdded: isMatchAdded,
-                                groupId: widget.groupId,
-                                selectedLeagueNumber: widget.leagueName);
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
+                      final isMatchAdded = predictedMatchProvider.isMatchAdded(match.fixture.id);
+
+                      return GroupMatchItem(
+                        match: match,
+                        isMatchAdded: isMatchAdded,
+                        groupId: widget.groupId,
+                        selectedLeagueNumber: widget.leagueName,
                       );
+                      // Future<bool> getIsMatchAdded() async {
+                      //   final querySnapshot = await FirebaseFirestore.instance
+                      //       .collection('users')
+                      //       .doc(user?.uid)
+                      //       .collection('predictions')
+                      //       .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
+                      //       .where('groupId', isEqualTo: widget.groupId)
+                      //       .limit(1)
+                      //       .get();
+                      //   // setState(() {});
+                      //   return querySnapshot.docs.isNotEmpty;
+                      // }
+
+                      // return FutureBuilder<bool>(
+                      //   future: getIsMatchAdded(),
+                      //   builder: (context, snapshot) {
+                      //     final isMatchAdded = snapshot.data ?? false;
+
+                      //     if (index < nextGroupMatchesList.length) {
+                      //       return GroupMatchItem(
+                      //           match: nextGroupMatchesList[index],
+                      //           isMatchAdded: isMatchAdded,
+                      //           groupId: widget.groupId,
+                      //           selectedLeagueNumber: widget.leagueName);
+                      //     } else {
+                      //       return const SizedBox();
+                      //     }
+                      //   },
+                      // );
                     },
                   ),
                 ),

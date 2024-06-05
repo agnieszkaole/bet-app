@@ -1,7 +1,9 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/groups_screen.dart';
 import 'package:bet_app/src/screens/leaderboard_screen.dart';
+
 import 'package:bet_app/src/screens/select_criteria_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
@@ -10,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({
@@ -77,13 +80,26 @@ class _HomeScreenState extends State<HomeScreen> {
           // backgroundColor: Color.fromARGB(100, 0, 0, 0),
           backgroundColor: Colors.transparent,
           surfaceTintColor: const Color.fromARGB(255, 26, 26, 26),
-          flexibleSpace: const Center(
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                'GreatBet',
-                style: TextStyle(fontSize: 24),
-              ),
+          // flexibleSpace: const Center(
+          //   child: Padding(
+          //     padding: EdgeInsets.all(10.0),
+          //     child: Text(
+          //       'BetSprint',
+          //       style: TextStyle(fontSize: 24),
+          //     ),
+          //   ),
+          // ),
+          // title: Image.asset(
+          //   './assets/logo/logo.png',
+          //   width: 200,
+          // ),
+          title: Text(
+            'BETsprint',
+            style: TextStyle(
+              color: AppColors.green,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Montserrat-BoldItalic',
+              fontSize: 25,
             ),
           ),
           centerTitle: true,
@@ -104,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: const [
                   SelectCriteriaScreen(),
                   GroupsScreen(),
+                  // LeagueOverviewScreen(),
                   LeaderboardScreen(),
                 ],
               ),
@@ -118,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // ),
             child: BottomNavigationBar(
               backgroundColor: const Color.fromARGB(100, 0, 0, 0),
-              selectedItemColor: const Color.fromARGB(220, 77, 189, 25),
+              selectedItemColor: const Color.fromARGB(220, 1, 207, 40),
               type: BottomNavigationBarType.fixed,
               currentIndex: provider.selectedIndex,
               onTap: (index) {
@@ -150,11 +167,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.scoreboard_outlined,
-                  ),
-                  label: 'Bets',
+                      // Icons.scoreboard_outlined,
+                      Icons.groups_2_rounded),
+                  label: 'Groups',
                   //
                 ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.scoreboard_outlined),
+                //   // Icons.text_snippet_rounded),
+                //   label: 'Leagues',
+                //   //
+                // ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.workspace_premium_rounded),
                   label: 'Leaderboard',

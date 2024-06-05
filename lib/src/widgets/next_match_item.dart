@@ -33,8 +33,9 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
     // var leagueNumber = widget.match.league.id;
 
     return Container(
+      // height: ,
       margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 15),
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -49,99 +50,90 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
               ],
             ),
           ),
-          SizedBox(
-            // decoration: BoxDecoration(
-            //   border: Border.all(
-            //     width: .5,
-            //     color: Color.fromARGB(255, 116, 116, 116),
-            //   ),
-            // ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: 60,
-                  width: 140,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          homeName,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12.0,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: 50,
+                width: 140,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        homeName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
-                      SizedBox(width: 15),
-                      SizedBox(
-                        height: 40,
-                        child: Container(
-                          padding: const EdgeInsets.all(5.0),
-                          child: CachedNetworkImage(
-                            imageUrl: homeLogo,
-                            fadeInDuration: const Duration(milliseconds: 50),
-                            placeholder: (context, url) => const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
-                            width: 25,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 15,
-                  margin: const EdgeInsets.only(top: 20),
-                  child: const Text(
-                    "vs",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 60,
-                  width: 140,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 40,
-                        child: Container(
-                          padding: const EdgeInsets.all(5.0),
-                          child: CachedNetworkImage(
-                            imageUrl: awayLogo,
-                            placeholder: (context, url) => const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
-                            width: 25,
-                          ),
+                    SizedBox(width: 15),
+                    SizedBox(
+                      height: 40,
+                      child: Container(
+                        padding: const EdgeInsets.all(5.0),
+                        child: CachedNetworkImage(
+                          imageUrl: homeLogo,
+                          fadeInDuration: const Duration(milliseconds: 50),
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          width: 25,
                         ),
                       ),
-                      SizedBox(width: 15),
-                      Flexible(
-                        child: Text(
-                          awayName,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 15,
+                child: const Text(
+                  "vs",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
                   ),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 50,
+                width: 140,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: Container(
+                        padding: const EdgeInsets.all(5.0),
+                        child: CachedNetworkImage(
+                          imageUrl: awayLogo,
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          width: 25,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    Flexible(
+                      child: Text(
+                        awayName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           Divider(
             height: 0.5,

@@ -9,7 +9,7 @@ import 'package:http/http.dart';
 // import 'package:build_runner/build_runner.dart';
 // import 'package:bet_app/env.dart';
 
-class SoccerApi {
+class MatchApi {
   static const _baseUrlFixture = "https://v3.football.api-sports.io/fixtures?";
   static const _baseUrlStandings = "https://v3.football.api-sports.io/standings?";
   static const _baseUrlPredictions = "https://v3.football.api-sports.io/predictions?";

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:bet_app/src/constants/app_colors.dart';
+import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/auth.dart';
 
@@ -9,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:provider/provider.dart';
 
 class GroupListScreen extends StatefulWidget {
   const GroupListScreen({super.key});
@@ -249,7 +252,11 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
           content: Text('You have joined the group: $groupName'),
         ));
 
-        Navigator.of(context).pop(true);
+        // Navigator.of(context).pop(true);
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => HomeScreen()),
+        // );
         return groupId;
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -275,7 +282,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
           // height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(159, 32, 32, 32),
+            color: Color.fromARGB(57, 80, 80, 80),
             // color: Color.fromARGB(255, 46, 46, 46),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
@@ -345,7 +352,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                             String? groupId = groupData['groupId'];
                             String? creatorUsername = groupData['creatorUsername'];
                             String? selectedLeague = groupData['selectedLeague']['leagueName'];
-
+                            String? groupAccessCode = groupData['groupAccessCode'];
                             int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
 
                             return SizedBox(
@@ -356,7 +363,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                     margin: const EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
-                                      color: const Color.fromARGB(223, 34, 34, 34),
+                                      color: Color.fromARGB(57, 80, 80, 80),
                                       border: Border.all(
                                         width: 0.8,
                                         color: const Color.fromARGB(255, 26, 112, 0),
@@ -411,6 +418,17 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                     if (groupId != null) {
                                                       await joinToExistingGroup(
                                                           groupId, groupName, widget.privacyType, context);
+                                                      Provider.of<BottomNavigationProvider>(context, listen: false)
+                                                          .updateIndex(0);
+                                                      Navigator.of(context)
+                                                          .push(MaterialPageRoute(
+                                                        builder: (context) => HomeScreen(),
+                                                      ))
+                                                          .then((value) {
+                                                        if (value != null && value == true) {
+                                                          setState(() {});
+                                                        }
+                                                      });
                                                     }
                                                   },
                                                   child: const Icon(
@@ -422,14 +440,125 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                             : SizedBox(
                                                 width: 20,
                                                 child: GestureDetector(
-                                                  onTap: () async {
-                                                    // if (groupId != null) {
-                                                    //   await joinToExistingGroup(
-                                                    //       groupId,
-                                                    //       groupName,
-                                                    //       privacyType,
-                                                    //       context);
-                                                    // }
+                                                  onTap: () {
+                                                    setState(() {
+                                                      accessCodeError = null;
+                                                    });
+
+                                                    _controllerAccessCode.clear();
+
+                                                    if (groupId != null) {
+                                                      showDialog(
+                                                        barrierColor: Color.fromARGB(167, 9, 11, 29),
+                                                        barrierDismissible: true,
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            shape: RoundedRectangleBorder(
+                                                                side: BorderSide(color: AppColors.green),
+                                                                borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                                                            title: const Text(
+                                                              'Enter access code:',
+                                                              style: TextStyle(fontSize: 16),
+                                                            ),
+                                                            // content: Text("Enter new username"),
+                                                            actions: [
+                                                              Form(
+                                                                key: _formKey,
+                                                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                                child: Column(
+                                                                  children: [
+                                                                    TextFormField(
+                                                                      controller: _controllerAccessCode,
+                                                                      autofocus: false,
+                                                                      style: const TextStyle(
+                                                                        color: Colors.white,
+                                                                        fontSize: 20,
+                                                                      ),
+                                                                      decoration: InputDecoration(
+                                                                          errorStyle: const TextStyle(
+                                                                              color: Colors.red, fontSize: 14.0),
+                                                                          border: OutlineInputBorder(
+                                                                              borderRadius: BorderRadius.circular(25)),
+                                                                          contentPadding: const EdgeInsets.all(10.0),
+                                                                          enabledBorder: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.circular(25),
+                                                                            borderSide: const BorderSide(
+                                                                                color:
+                                                                                    Color.fromARGB(255, 40, 122, 43)),
+                                                                          ),
+                                                                          focusedBorder: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.circular(25),
+                                                                            borderSide: const BorderSide(
+                                                                                color: Colors.greenAccent),
+                                                                          ),
+                                                                          errorBorder: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.circular(25),
+                                                                            borderSide: const BorderSide(
+                                                                                color:
+                                                                                    Color.fromARGB(255, 255, 52, 37)),
+                                                                          ),
+                                                                          errorText: accessCodeError),
+
+                                                                      validator: (value) {
+                                                                        if (value == null || value.isEmpty) {
+                                                                          return 'Please enter a access code';
+                                                                        }
+
+                                                                        return null;
+                                                                      },
+                                                                      // onSaved: (value) async {
+                                                                      //   // newUsername = value;
+                                                                      // },
+                                                                    ),
+                                                                    const SizedBox(height: 30),
+                                                                    ElevatedButton(
+                                                                      onPressed: () async {
+                                                                        if (_formKey.currentState!.validate()) {
+                                                                          if (_controllerAccessCode.text ==
+                                                                              groupAccessCode) {
+                                                                            await joinToExistingGroup(groupId,
+                                                                                groupName, widget.privacyType, context);
+                                                                            Provider.of<BottomNavigationProvider>(
+                                                                                    context,
+                                                                                    listen: false)
+                                                                                .updateIndex(0);
+                                                                            Navigator.of(context)
+                                                                                .push(MaterialPageRoute(
+                                                                              builder: (context) => HomeScreen(),
+                                                                            ))
+                                                                                .then((value) {
+                                                                              if (value != null && value == true) {
+                                                                                setState(() {});
+                                                                              }
+                                                                            });
+                                                                            _controllerAccessCode.clear();
+                                                                          } else {
+                                                                            setState(() {
+                                                                              accessCodeError = 'Incorrect access code';
+                                                                            });
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      style: ElevatedButton.styleFrom(
+                                                                        foregroundColor: Colors.white,
+                                                                        backgroundColor:
+                                                                            const Color.fromARGB(255, 44, 107, 15),
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(25),
+                                                                        ),
+                                                                        // elevation: 4.0,
+                                                                      ),
+                                                                      child: const Text('Confirm'),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                    }
                                                   },
                                                   child: const Icon(
                                                     Icons.key_outlined,
@@ -496,7 +625,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromARGB(223, 34, 34, 34),
+                                    color: Color.fromARGB(57, 80, 80, 80),
                                     border: Border.all(
                                       width: 0.8,
                                       color: const Color.fromARGB(255, 26, 112, 0),
@@ -551,6 +680,17 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                   if (groupId != null) {
                                                     await joinToExistingGroup(
                                                         groupId, groupName, widget.privacyType, context);
+                                                    Provider.of<BottomNavigationProvider>(context, listen: false)
+                                                        .updateIndex(0);
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) => HomeScreen(),
+                                                    ))
+                                                        .then((value) {
+                                                      if (value != null && value == true) {
+                                                        setState(() {});
+                                                      }
+                                                    });
                                                   }
                                                 },
                                                 child: const Icon(
@@ -572,10 +712,14 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
 
                                                   if (groupId != null) {
                                                     showDialog(
+                                                      barrierColor: Color.fromARGB(167, 9, 11, 29),
                                                       barrierDismissible: true,
                                                       context: context,
                                                       builder: (BuildContext context) {
                                                         return AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                              side: BorderSide(color: AppColors.green),
+                                                              borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                                           title: const Text(
                                                             'Enter access code:',
                                                             style: TextStyle(fontSize: 16),
@@ -637,6 +781,9 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                           await joinToExistingGroup(groupId, groupName,
                                                                               widget.privacyType, context);
 
+                                                                          Provider.of<BottomNavigationProvider>(context,
+                                                                                  listen: false)
+                                                                              .updateIndex(0);
                                                                           Navigator.of(context)
                                                                               .push(MaterialPageRoute(
                                                                             builder: (context) => HomeScreen(),
@@ -646,6 +793,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                               setState(() {});
                                                                             }
                                                                           });
+
                                                                           _controllerAccessCode.clear();
                                                                         } else {
                                                                           print('fdhgdfghd');

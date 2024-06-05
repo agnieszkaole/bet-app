@@ -1,7 +1,8 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 
 import 'package:bet_app/src/provider/prev_matches_provider.dart';
-import 'package:bet_app/src/services/soccer_api.dart';
+
+import 'package:bet_app/src/services/match_api.dart';
 
 import 'package:bet_app/src/widgets/prev_match_item.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _PrevMatchListState extends State<PrevMatchList> {
   }
 
   Future<List<SoccerMatch>> _getData() async {
-    final season1Data = await SoccerApi().getMatches(
+    final season1Data = await MatchApi().getMatches(
       '',
       league: widget.leagueNumber,
       season: '2023',
@@ -56,10 +57,18 @@ class _PrevMatchListState extends State<PrevMatchList> {
       last: '15',
       timezone: timezoneApi,
     );
-    final season2Data = await SoccerApi().getMatches(
+    final season2Data = await MatchApi().getMatches(
       '',
       league: widget.leagueNumber,
       season: '2024',
+      status: statusApi,
+      last: '15',
+      timezone: timezoneApi,
+    );
+    final season3Data = await MatchApi().getMatches(
+      '',
+      league: widget.leagueNumber,
+      season: '2025',
       status: statusApi,
       last: '15',
       timezone: timezoneApi,
@@ -76,21 +85,22 @@ class _PrevMatchListState extends State<PrevMatchList> {
 
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
+    mergedData.addAll(season3Data);
 
-    int availableMatches = mergedData.length;
-    int requestedMatches = 10;
+    // int availableMatches = mergedData.length;
+    // int requestedMatches = 10;
 
-    if (availableMatches > requestedMatches) {
-      mergedData = mergedData.sublist(0, requestedMatches);
-    }
+    // if (availableMatches > requestedMatches) {
+    // mergedData = mergedData.sublist(0, requestedMatches);
+    // }
+
     Provider.of<PrevMatchesProvider>(context, listen: false).saveMatches(mergedData);
-
+    print('prev${mergedData}');
     return mergedData;
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.leagueNumber);
     return FutureBuilder(
         future: dataFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -98,34 +108,34 @@ class _PrevMatchListState extends State<PrevMatchList> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
+          } else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
               final error = snapshot.error;
-
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
-            } else if (snapshot.data!.isEmpty) {
-              return const SizedBox(
-                height: 150,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Cannot get next matches.',
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'An unexpected error occurred',
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            } else if (snapshot.hasData) {
+            }
+            // if (snapshot.data!.isEmpty) {
+            //   return const SizedBox(
+            //     height: 100,
+            //     child: Center(
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           Text(
+            //             'Cannot get next matches.',
+            //             style: TextStyle(fontSize: 14),
+            //             textAlign: TextAlign.center,
+            //           ),
+            //           Text(
+            //             'An unexpected error occurred',
+            //             style: TextStyle(fontSize: 14),
+            //             textAlign: TextAlign.center,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   );
+            // }
+            if (snapshot.hasData) {
               if (snapshot.data != []) {
                 return Container(
                   height: 310,

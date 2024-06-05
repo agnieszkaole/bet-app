@@ -1,18 +1,23 @@
+import 'package:bet_app/src/constants/app_colors.dart';
+import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/widgets/predicted_result_edit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PredictedItemFirebase extends StatefulWidget {
   PredictedItemFirebase({
     required this.data,
     required this.docId,
+    required this.matchId,
     super.key,
   });
 
   late Map<String, dynamic> data;
   String docId;
+  int? matchId;
 
   @override
   State<PredictedItemFirebase> createState() => _PredictedItemFirebaseState();
@@ -50,15 +55,16 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
     }
 
     DateTime matchDateTime = parseDate(matchTime);
-    Duration timeDifference = matchDateTime.difference(DateTime.now()); // Calculate time difference correctly
+    Duration timeDifference = matchDateTime.difference(DateTime.now());
     bool isWithinXHours = timeDifference.inMinutes <= 0;
 
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400),
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        width: MediaQuery.of(context).size.width - 50,
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        padding: const EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width - 20,
+        // height: 80,
         decoration: BoxDecoration(
           color: const Color.fromARGB(70, 49, 49, 49),
           border: Border.all(
@@ -71,82 +77,22 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
         ),
         child: Stack(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      matchTime,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    'Your bet:',
+                  ),
+                  Text(
+                    "$homeGoal - $awayGoal",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        homeName,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: CachedNetworkImage(
-                        imageUrl: homeLogo,
-                        fadeInDuration: const Duration(milliseconds: 50),
-                        placeholder: (context, url) => const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                        width: 30.0,
-                        // height: 30.0,
-                      ),
-
-                      //  Image.network(
-                      //   homeLogo,
-                      //   width: 36.0,
-                      // height: 36.0,
-                      // ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "$homeGoal - $awayGoal",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: CachedNetworkImage(
-                        imageUrl: awayLogo,
-                        placeholder: (context, url) => const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                        width: 30.0,
-                        // height: 30.0,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        awayName,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
             Positioned(
               right: 0.0,
@@ -169,9 +115,13 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                   ),
                   onPressed: () {
                     showDialog(
+                        barrierColor: Color.fromARGB(167, 9, 11, 29),
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: AppColors.green),
+                                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
                               title: const Text(
                                 'Edition unavailable',
                                 style: TextStyle(fontSize: 18),
@@ -269,14 +219,18 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                   ),
                   onPressed: () {
                     showDialog(
+                        barrierColor: Color.fromARGB(167, 9, 11, 29),
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: AppColors.green),
+                                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
                               title: const Text(
-                                'Delete match prediction',
+                                'Delete bet',
                                 style: TextStyle(fontSize: 18),
                               ),
-                              content: const Text('Are you sure you want to delete this prediction? '),
+                              content: const Text('Are you sure you want to delete this bet? '),
                               actions: [
                                 TextButton(
                                   style: ElevatedButton.styleFrom(
@@ -287,6 +241,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    Navigator.of(context).pop();
                                     FirebaseFirestore.instance
                                         .collection('users')
                                         .doc(user!.uid)
@@ -301,7 +256,10 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                                         });
                                       }
                                     });
-                                    Navigator.of(context).pop();
+                                    Provider.of<PredictedMatchProvider>(context, listen: false).removeMatch(matchId);
+                                    // print(
+                                    //     Provider.of<PredictedMatchProvider>(context, listen: false).predictedMatchList);
+                                    setState(() {});
                                   },
                                   child: const Text(
                                     'Yes',
@@ -312,16 +270,21 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                                   ),
                                 ),
                                 TextButton(
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 2, 126, 6),
-                                      foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: AppColors.greenDark,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                      side: const BorderSide(width: 1, color: AppColors.greenDark),
+                                    ),
+                                    // elevation: 4.0,
+                                  ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
                                   child: const Text(
                                     'No',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.green,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

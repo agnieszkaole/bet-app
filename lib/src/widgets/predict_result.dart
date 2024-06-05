@@ -109,62 +109,43 @@ class _PredictResultState extends State<PredictResult> {
   }
 
   void _savePredictResult() async {
-    // final predictedMatchList =
-    //     context.watch<PredictedMatchProvider>().predictedMatchList;
-    // int? predictedMatchId;
-    // for (var i = 0; i > predictedMatchList.length; i++) {
-    //   predictedMatchId = predictedMatchList[i]['matchId'];
-    // }
-
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
       if (!context.mounted) {
         return;
       }
-      // setState(() {
-      //   isNewMatch = !isNewMatch;
-      // });
 
-      if (!isAnonymous) {
-        addPredictedMatch(widget.homeName, widget.awayName, widget.homeLogo, widget.awayLogo, _resultHome, _resultAway,
-            widget.leagueName, widget.leagueNumber, widget.matchId, widget.matchTime);
-      } else {
-        // if (predictedMatchId == widget.matchId) {
-        //   print('dfgdfg $predictedMatchId');
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(
-        //       content: const Text('Ten mecz jest już dodany!'),
-        //     ),
-        //   );
-        //   Navigator.of(context).pop();
-        //   return;
-        // }
+      final predictedMatchProvider = Provider.of<PredictedMatchProvider>(context, listen: false);
 
-        Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
-          {
-            'teamHomeName': widget.homeName,
-            'teamHomeLogo': widget.homeLogo,
-            'teamHomeGoal': _resultHome,
-            'teamAwayName': widget.awayName,
-            'teamAwayLogo': widget.awayLogo,
-            'teamAwayGoal': _resultAway,
-            'matchTime': widget.matchTime,
-            'matchId': widget.matchId,
-            'leagueName': widget.leagueName,
-            'leagueNumber': widget.leagueNumber,
-            'groupId': widget.groupId
-          },
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Mecz został dodany!'),
-          ),
-        );
-      }
+      // if (!isAnonymous) {
+      addPredictedMatch(widget.homeName, widget.awayName, widget.homeLogo, widget.awayLogo, _resultHome, _resultAway,
+          widget.leagueName, widget.leagueNumber, widget.matchId, widget.matchTime);
+      // } else {
+      Provider.of<PredictedMatchProvider>(context, listen: false).addMatch(
+        {
+          'teamHomeName': widget.homeName,
+          'teamHomeLogo': widget.homeLogo,
+          'teamHomeGoal': _resultHome,
+          'teamAwayName': widget.awayName,
+          'teamAwayLogo': widget.awayLogo,
+          'teamAwayGoal': _resultAway,
+          'matchTime': widget.matchTime,
+          'matchId': widget.matchId,
+          'leagueName': widget.leagueName,
+          'leagueNumber': widget.leagueNumber,
+          'groupId': widget.groupId
+        },
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Mecz został dodany!'),
+        ),
+      );
+      // }
 
-      // Navigator.of(context).pop();
-      Navigator.pop(context, true);
+      predictedMatchProvider.updateMatchResult(widget.matchId!, _resultHome!, _resultAway!);
+      Navigator.of(context).pop();
     }
   }
 
@@ -202,7 +183,7 @@ class _PredictResultState extends State<PredictResult> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             width: 130,
-                            height: 150,
+                            height: 160,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -359,7 +340,7 @@ class _PredictResultState extends State<PredictResult> {
                           Container(
                               padding: const EdgeInsets.all(10),
                               width: 130,
-                              height: 150,
+                              height: 160,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/constants/league_names.dart';
+import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
+import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:bet_app/src/services/auth.dart';
+import 'package:bet_app/src/services/groups.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/next_match_list.dart';
 import 'package:bet_app/src/widgets/prev_match_list.dart';
@@ -23,17 +27,19 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
   // String? selectedLeagueName;
   User? user = Auth().currentUser;
   // bool? isAnonymous = true;
-  bool? isUsernameModify = false;
+  // bool? isUsernameModify = false;
   String? username;
   String? selectedLeagueNumber;
   bool isSelectedLeague = false;
+  late Future<List<Map<String, dynamic>>> userGroupsFuture;
 
   @override
   void initState() {
     super.initState();
     initUserDetails();
-    selectedLeagueNumber = '106';
+    selectedLeagueNumber = '4';
     isSelectedLeague = true;
+    userGroupsFuture = Groups().getUserGroupsData();
   }
 
   Future<void> initUserDetails() async {
@@ -69,35 +75,35 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                // padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  border: Border.all(
-                    width: 0.5,
-                    color: const Color.fromARGB(170, 62, 155, 19),
-                  ),
-                  // color: const Color.fromARGB(20, 0, 0, 0),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromARGB(120, 62, 155, 19),
-                      Color.fromARGB(120, 31, 77, 10),
-                    ],
-                  ),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.4),
-                  //     offset: Offset(6.0, 6.0),
-                  //     blurRadius: 10.0,
-                  //   ),
-                  // ],
-                ),
+                    // borderRadius: BorderRadius.circular(25),
+                    // border: Border.all(
+                    //   width: 1,
+                    //   color: const Color.fromARGB(170, 62, 155, 19),
+                    // ),
+                    // color: const Color.fromARGB(20, 0, 0, 0),
+                    // gradient: const LinearGradient(
+                    //   begin: Alignment.topCenter,
+                    //   end: Alignment.bottomCenter,
+                    //   colors: [
+                    //     Color.fromARGB(120, 62, 155, 19),
+                    //     Color.fromARGB(120, 31, 77, 10),
+                    //   ],
+                    // ),
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Colors.black.withOpacity(0.4),
+                    //     offset: Offset(6.0, 6.0),
+                    //     blurRadius: 10.0,
+                    //   ),
+                    // ],
+                    ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -115,37 +121,133 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                         ),
                       ],
                     ),
-                    // const Text(
-                    //   'Let\'s bet with friends!',
-                    //   style: TextStyle(fontSize: 18),
-                    // ),
                   ],
                 ),
               ),
-
+              const SizedBox(height: 20),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // Text(
+                      //   '⭐️   ',
+                      //   style: TextStyle(fontSize: 16),
+                      // ),
+                      // Text(
+                      //   'Your groups',
+                      //   style: TextStyle(fontSize: 22),
+                      // ),
+                    ],
+                  ),
+                  Text(
+                    'Choose one of your groups and start betting.',
+                    style: TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
               const SizedBox(height: 10),
-
+              FutureBuilder<List<Map<String, dynamic>>>(
+                future: userGroupsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: SizedBox(width: 30, height: 30, child: CircularProgressIndicator()),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Container(
+                      // height: 200,
+                      width: MediaQuery.of(context).size.width,
+                      // padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(118, 48, 48, 48),
+                        // border: Border.all(width: 0.8, color: Color.fromARGB(215, 69, 167, 24)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: Column(
+                        children: [
+                          Text('You are not a member of any group yet.'),
+                          Text('Create a new group or join to existing one.'),
+                          SizedBox(height: 15),
+                          const Text(
+                            '👇',
+                            style: TextStyle(fontSize: 25),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 15),
+                          GestureDetector(
+                            onTap: () {
+                              Provider.of<BottomNavigationProvider>(context, listen: false).updateIndex(1);
+                            },
+                            child: Container(
+                              width: 180,
+                              height: 50,
+                              // margin: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    // Color.fromARGB(255, 0, 137, 223),
+                                    // Color.fromARGB(255, 54, 55, 149),
+                                    Color.fromARGB(255, 79, 194, 25),
+                                    Color.fromARGB(255, 31, 77, 10),
+                                  ],
+                                ),
+                                boxShadow: [
+                                  // BoxShadow(
+                                  //   color: Colors.white.withOpacity(0.1),
+                                  //   offset: Offset(-6.0, -6.0),
+                                  //   blurRadius: 5.0,
+                                  // ),
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.4),
+                                    offset: const Offset(6.0, 6.0),
+                                    blurRadius: 10.0,
+                                  ),
+                                ],
+                                color: const Color(0xFF292D32),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Groups',
+                                  style: TextStyle(fontSize: 18, color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    List<Map<String, dynamic>> userGroups = snapshot.data!;
+                    return UserGroups(userGroups: userGroups);
+                  }
+                },
+              ),
+              const SizedBox(height: 10),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  // border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
-                  // gradient: const LinearGradient(
-                  //   begin: Alignment.topRight,
-                  //   end: Alignment.bottomLeft,
-                  //   colors: [
-                  //     Color.fromARGB(100, 39, 39, 39),
-                  //     Color.fromARGB(100, 39, 39, 39),
-                  //   ],
-                  // )
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Select league',
+                      'Upcoming matches',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -163,29 +265,14 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                 padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                                 margin: const EdgeInsets.only(right: 5),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    border: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
-                                        ? Border.all(width: 0.2, color: const Color.fromARGB(255, 0, 168, 76))
-                                        : Border.all(width: 0.8, color: const Color.fromARGB(255, 0, 100, 45)),
-                                    gradient: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
-                                        ? const LinearGradient(
-                                            begin: Alignment.topRight,
-                                            end: Alignment.bottomLeft,
-                                            colors: [
-                                              Color.fromARGB(220, 62, 155, 19),
-                                              Color.fromARGB(220, 31, 77, 10),
-                                              // Color.fromARGB(149, 80, 80, 80),
-                                              // Color.fromARGB(149, 99, 99, 99),
-                                            ],
-                                          )
-                                        : const LinearGradient(
-                                            begin: Alignment.topRight,
-                                            end: Alignment.bottomLeft,
-                                            colors: [
-                                              Color.fromARGB(150, 39, 39, 39),
-                                              Color.fromARGB(150, 39, 39, 39),
-                                            ],
-                                          )),
+                                  borderRadius: BorderRadius.circular(25),
+                                  border: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
+                                      ? Border.all(width: 1, color: AppColors.green)
+                                      : Border.all(width: 0.5, color: AppColors.greenDark),
+                                  color: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
+                                      ? AppColors.greenDark
+                                      : Color.fromARGB(57, 80, 80, 80),
+                                ),
                                 child: Center(
                                   child: Text(
                                     league["name"],
@@ -211,85 +298,23 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                   ],
                 ),
               ),
-
-              // const Divider(
-              //   height: 40,
-              //   color: Color.fromARGB(255, 99, 99, 99),
-              //   thickness: 1,
-              // ),
-
+              const SizedBox(height: 10),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  // border: Border.all(width: 0.4, color: Color.fromARGB(60, 206, 206, 206)),
-                  // gradient: const LinearGradient(
-                  //   begin: Alignment.topRight,
-                  //   end: Alignment.bottomLeft,
-                  //   colors: [
-                  //     Color.fromARGB(100, 39, 39, 39),
-                  //     Color.fromARGB(100, 39, 39, 39),
-                  //   ],
-                  // )
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   'League overview',
-                    //   // 'Quick overview | Next matches',
-                    //   style: TextStyle(
-                    //     fontSize: 18,
-                    //     // fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    // const Text(
-                    //   'League overview',
-                    //   style: TextStyle(fontSize: 20),
-                    // ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Upcoming matches',
-                      // ' | Next matches',
-                      style: TextStyle(
-                        fontSize: 16,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
                     NextMatchList(
                       leagueNumber: selectedLeagueNumber,
                       isSelectedLeague: isSelectedLeague,
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      'Latest Scores',
-                      style: TextStyle(
-                        fontSize: 16,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    PrevMatchList(
-                      leagueNumber: selectedLeagueNumber,
-                      isSelectedLeague: isSelectedLeague,
-                    ),
-                    // const Text(
-                    //   'Standings',
-                    //   style: TextStyle(
-                    //     fontSize: 18,
-                    //     // fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    // StandingsList(
-                    //   leagueNumber: selectedLeagueNumber,
-                    // ),
-                    // SizedBox(height: 10),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 20),
             ],
           ),
         ),

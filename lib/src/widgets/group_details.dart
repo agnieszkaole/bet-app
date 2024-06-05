@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:bet_app/src/widgets/group_members_list.dart';
@@ -95,129 +96,125 @@ class _GroupDetailsState extends State<GroupDetails> {
         children: [
           const SizedBox(height: 20),
           Container(
-            width: MediaQuery.of(context).size.width - 40,
+            width: 250,
+            // width: MediaQuery.of(context).size.width - 40,
             constraints: const BoxConstraints(maxWidth: 400),
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // height: 250,
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+                  decoration: BoxDecoration(
+                    // border: Border.all(
+                    //   width: 0.8,
+                    //   color: const Color.fromARGB(170, 62, 155, 19),
+                    // ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                    color: Color.fromARGB(57, 80, 80, 80),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Container(
-                          height: 250,
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 0.8,
-                              color: const Color.fromARGB(170, 62, 155, 19),
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Group name',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 2, 177, 2),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${widget.groupName}  ',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 15),
-                                    // textAlign: TextAlign.left,
-                                  ),
-                                  Text(
-                                    '${widget.privacyType == "private" ? " 🔐" : " 🔓"}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 18),
-                                    // textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              const Text(
-                                'Selected league',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 2, 177, 2),
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              SizedBox(
-                                width: double.infinity,
-                                child: Text(
-                                  '${widget.selectedLeagueName}',
-                                  style: const TextStyle(fontSize: 16),
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Column(
-                                children: [
-                                  const Text(
-                                    'Creation date',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 2, 177, 2),
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      widget.createdAt != null
-                                          ? Text(widget.createdAt!, style: const TextStyle(fontSize: 15))
-                                          : const Text(' ', style: TextStyle(fontSize: 15))
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                      const Text(
+                        'Group name',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.green,
                         ),
                       ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Container(
-                          height: 250,
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 0.8,
-                              color: const Color.fromARGB(170, 62, 155, 19),
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 130),
+                            child: Text(
+                              '${widget.groupName}  ',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 15),
+                              // textAlign: TextAlign.left,
                             ),
                           ),
-                          child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Members (${widget.groupMembers})',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 2, 177, 2),
-                                ),
-                              ),
-                              GroupMembersList(groupId: widget.groupId!, creatorUsername: widget.creatorUsername!),
-                            ],
+                          Text(
+                            '${widget.privacyType == "private" ? " 🔐" : " 🔓"}',
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 18),
+                            // textAlign: TextAlign.left,
                           ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      const Text(
+                        'Selected league',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.green,
                         ),
                       ),
+                      const SizedBox(height: 3),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          '${widget.selectedLeagueName}',
+                          style: const TextStyle(fontSize: 16),
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Column(
+                        children: [
+                          const Text(
+                            'Creation date',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.green,
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              widget.createdAt != null
+                                  ? Text(widget.createdAt!, style: const TextStyle(fontSize: 15))
+                                  : const Text(' ', style: TextStyle(fontSize: 15))
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  // height: 230,
+                  width: 250,
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+                  decoration: BoxDecoration(
+                    // border: Border.all(
+                    //   width: 0.8,
+                    //   color: const Color.fromARGB(170, 62, 155, 19),
+                    // ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                    color: Color.fromARGB(57, 80, 80, 80),
+                  ),
+
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Members (${widget.groupMembers})',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.green,
+                        ),
+                      ),
+                      GroupMembersList(groupId: widget.groupId!, creatorUsername: widget.creatorUsername!),
                     ],
                   ),
                 ),
@@ -230,16 +227,9 @@ class _GroupDetailsState extends State<GroupDetails> {
             constraints: const BoxConstraints(maxWidth: 400),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Color.fromARGB(100, 62, 155, 19),
-                    Color.fromARGB(100, 31, 77, 10),
-                  ],
-                ),
+                color: AppColors.greenDark,
                 borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: const Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+                border: Border.all(color: AppColors.greenDark, width: 0.6)),
             child: Column(
               children: [
                 Row(
@@ -249,7 +239,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
-                            backgroundColor: Color.fromARGB(235, 29, 29, 29),
+                            backgroundColor: const Color.fromARGB(221, 0, 3, 31),
                             isScrollControlled: true,
                             context: context,
                             builder: (BuildContext context) {
@@ -260,15 +250,15 @@ class _GroupDetailsState extends State<GroupDetails> {
                                   child: SingleChildScrollView(
                                     child: Stack(children: [
                                       Positioned(
-                                        right: -15,
-                                        top: -15,
-                                        child: ElevatedButton(
+                                        right: 0,
+                                        top: 0,
+                                        child: GestureDetector(
                                           child: Icon(
                                             Icons.close_rounded,
                                             color: Colors.white,
                                             size: 25,
                                           ),
-                                          onPressed: () => Navigator.pop(context),
+                                          onTap: () => Navigator.pop(context),
                                         ),
                                       ),
                                       SizedBox(height: 20),
@@ -329,7 +319,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                                   ),
                                                   title: const SizedBox(
                                                     child: Text(
-                                                      'The bet can only be edited until the match starts. It can be done in "Your bets" tab.',
+                                                      'The bet can only be edited until the match starts. It can be done in "Bets" tab.',
                                                       style: TextStyle(
                                                         fontSize: 14,
                                                       ),
@@ -502,16 +492,9 @@ class _GroupDetailsState extends State<GroupDetails> {
                   constraints: const BoxConstraints(maxWidth: 400),
                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                   decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color.fromARGB(255, 62, 155, 19),
-                          Color.fromARGB(255, 31, 77, 10),
-                        ],
-                      ),
+                      color: const Color.fromARGB(255, 1, 129, 24),
                       borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: const Color.fromARGB(255, 102, 102, 102), width: 0.4)),
+                      border: Border.all(color: AppColors.greenDark, width: 0.6)),
                   child: Column(
                     children: [
                       Row(
@@ -522,8 +505,12 @@ class _GroupDetailsState extends State<GroupDetails> {
                             onTap: () {
                               showDialog(
                                   context: context,
+                                  barrierColor: Color.fromARGB(167, 9, 11, 29),
                                   builder: (BuildContext context) {
                                     return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(color: AppColors.green),
+                                            borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                         title: const Text('Leave group'),
                                         content: const Text('Are you sure you want to leave this group? '),
                                         actions: [
@@ -532,7 +519,8 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               foregroundColor: const Color.fromARGB(255, 255, 1, 1),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(25),
-                                                side: const BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                                side:
+                                                    const BorderSide(width: 0.8, color: Color.fromARGB(255, 255, 1, 1)),
                                               ),
                                               // elevation: 4.0,
                                             ),
@@ -557,16 +545,21 @@ class _GroupDetailsState extends State<GroupDetails> {
                                             ),
                                           ),
                                           TextButton(
-                                            style: TextButton.styleFrom(
-                                                backgroundColor: const Color.fromARGB(255, 2, 126, 6),
-                                                foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
+                                            style: ElevatedButton.styleFrom(
+                                              foregroundColor: AppColors.greenDark,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(25),
+                                                side: const BorderSide(width: 1, color: AppColors.greenDark),
+                                              ),
+                                              // elevation: 4.0,
+                                            ),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
                                             child: const Text(
                                               'No',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: AppColors.green,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -628,10 +621,10 @@ class _GroupDetailsState extends State<GroupDetails> {
                             onTap: () {
                               widget.privacyType == 'private'
                                   ? Share.share(
-                                      'Are you ready to bet with your friends? Download GreatBet and join a private group: "${widget.groupName}" - access code: ${groupAccessCode} or other public group. GreatBet Team',
+                                      'Are you ready to bet with your friends? Download BetSprint and join a private group: "${widget.groupName}" - access code: ${groupAccessCode} or other public group. BetSprint Team',
                                     )
                                   : Share.share(
-                                      'Are you ready to bet with your friends? Download GreatBet and join a public group: "${widget.groupName}" or create a private group. GreatBet Team');
+                                      'Are you ready to bet with your friends? Download BetSprint and join a public group: "${widget.groupName}" or create a private group. BetSprint Team');
                             },
                             child: const Row(
                               children: [
@@ -653,9 +646,13 @@ class _GroupDetailsState extends State<GroupDetails> {
                           GestureDetector(
                             onTap: () {
                               showDialog(
+                                  barrierColor: Color.fromARGB(167, 9, 11, 29),
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(color: AppColors.green),
+                                            borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                         title: const Text('Delete group'),
                                         content: const Text(
                                             'Are you sure you want to delete this group? Once deleted it cannot be recovered.'),

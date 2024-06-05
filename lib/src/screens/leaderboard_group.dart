@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +30,15 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
           groupName = snapshot.data()?['groupName'];
         });
       } else {
-        setState(() {
-          groupName = '';
-        });
+        // setState(() {
+        //   groupName = '';
+        // });
         print('Document does not exist for ID: $selectedGroupId');
       }
     } catch (e) {
-      setState(() {
-        groupName = '';
-      });
+      // setState(() {
+      //   groupName = '';
+      // });
       print('Error fetching document: $e');
     }
   }
@@ -71,7 +72,8 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
 
             List<String> documentIds = userGroups.map((doc) => doc.id).toList();
             List<String> groupNames = userGroups.map((doc) => (doc.data()['groupName']) as String).toList();
-            print(groupNames);
+            print(groupNames.length);
+            print(documentIds.length);
 
 // all groups
             // List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = snapshot.data!.docs;
@@ -80,7 +82,7 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
 
             return Container(
               height: 80,
-              width: 350,
+              // width: 350,
               margin: const EdgeInsets.only(top: 25),
               child: InputDecorator(
                 decoration: InputDecoration(
@@ -89,7 +91,7 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                     borderRadius: BorderRadius.circular(20),
                     borderSide: const BorderSide(
                       color: Color.fromARGB(255, 51, 126, 17),
-                      width: 1.5,
+                      width: 1,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -131,7 +133,7 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                         }
                       },
                       icon: const SizedBox.shrink(),
-                      items: documentIds.map(
+                      items: documentIds.map<DropdownMenuItem<String>>(
                         (documentId) {
                           int index = documentIds.indexOf(documentId);
                           String groupName = groupNames[index];
@@ -199,16 +201,16 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                       width: 350,
                       constraints: const BoxConstraints(maxWidth: 400),
                       padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        // color: Color.fromARGB(118, 51, 51, 51),
-                        border: Border.all(
-                          color: Color.fromARGB(255, 51, 126, 17),
-                          width: 0.8,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        ),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   color: Color.fromARGB(118, 48, 48, 48),
+                      //   border: Border.all(
+                      //     // color: Color.fromARGB(255, 51, 126, 17),
+                      //     width: 0.8,
+                      //   ),
+                      //   borderRadius: BorderRadius.all(
+                      //     Radius.circular(25),
+                      //   ),
+                      // ),
                       child: RawScrollbar(
                         controller: _scrollController,
                         interactive: true,
@@ -278,24 +280,24 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                                     margin: const EdgeInsets.all(5),
                                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                     decoration: BoxDecoration(
-                                      // color: const Color.fromARGB(200, 14, 71, 0),
-                                      // borderRadius: BorderRadius.circular(25),
-                                      // border: Border.all(
-                                      //   width: 0.6,
-                                      //   color: const Color.fromARGB(255, 148, 148, 148),
-                                      // ),
-                                      // gradient: LinearGradient(
-                                      //   begin: Alignment.topCenter,
-                                      //   end: Alignment.bottomCenter,
-                                      //   colors: [gradient1, gradient2],
-                                      // ),
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: Color.fromARGB(200, 51, 126, 17),
-                                          width: 0.8,
+                                        // color: const Color.fromARGB(200, 14, 71, 0),
+                                        // borderRadius: BorderRadius.circular(25),
+                                        // border: Border.all(
+                                        //   width: 0.6,
+                                        //   color: const Color.fromARGB(255, 148, 148, 148),
+                                        // ),
+                                        // gradient: LinearGradient(
+                                        //   begin: Alignment.topCenter,
+                                        //   end: Alignment.bottomCenter,
+                                        //   colors: [gradient1, gradient2],
+                                        // ),
+                                        // border: Border(
+                                        //   bottom: BorderSide(
+                                        //     color: Color.fromARGB(255, 100, 100, 100),
+                                        //     width: 0.8,
+                                        //   ),
+                                        // ),
                                         ),
-                                      ),
-                                    ),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -369,19 +371,19 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                                     margin: const EdgeInsets.all(5),
                                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                     decoration: BoxDecoration(
-                                      // color: const Color.fromARGB(100, 14, 71, 0),
-                                      // borderRadius: BorderRadius.circular(25),
-                                      // border: Border.all(
-                                      //   width: 0.6,
-                                      //   color: const Color.fromARGB(255, 148, 148, 148),
-                                      // ),
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: Color.fromARGB(200, 51, 126, 17),
-                                          width: 0.8,
+                                        // color: const Color.fromARGB(100, 14, 71, 0),
+                                        // borderRadius: BorderRadius.circular(25),
+                                        // border: Border.all(
+                                        //   width: 0.6,
+                                        //   color: const Color.fromARGB(255, 148, 148, 148),
+                                        // ),
+                                        // border: Border(
+                                        //   bottom: BorderSide(
+                                        //     color: Color.fromARGB(255, 100, 100, 100),
+                                        //     width: 0.8,
+                                        //   ),
+                                        // ),
                                         ),
-                                      ),
-                                    ),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [

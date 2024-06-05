@@ -1,7 +1,7 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
-import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:bet_app/src/services/match_api.dart';
 
 import 'package:bet_app/src/widgets/next_match_item.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,6 @@ class _NextMatchListState extends State<NextMatchList> {
   @override
   void initState() {
     super.initState();
-
     dataFuture = _getData();
   }
 
@@ -49,7 +48,7 @@ class _NextMatchListState extends State<NextMatchList> {
   }
 
   Future<List<SoccerMatch>> _getData() async {
-    final season1Data = await SoccerApi().getMatches(
+    final season1Data = await MatchApi().getMatches(
       '',
       league: widget.leagueNumber,
       season: '2023',
@@ -57,10 +56,18 @@ class _NextMatchListState extends State<NextMatchList> {
       next: '15',
       timezone: timezoneApi,
     );
-    final season2Data = await SoccerApi().getMatches(
+    final season2Data = await MatchApi().getMatches(
       '',
       league: widget.leagueNumber,
       season: '2024',
+      status: statusApi,
+      next: '15',
+      timezone: timezoneApi,
+    );
+    final season3Data = await MatchApi().getMatches(
+      '',
+      league: widget.leagueNumber,
+      season: '2025',
       status: statusApi,
       next: '15',
       timezone: timezoneApi,
@@ -77,6 +84,7 @@ class _NextMatchListState extends State<NextMatchList> {
 
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
+    mergedData.addAll(season3Data);
 
     // int availableMatches = mergedData.length;
     // int requestedMatches = 10;
@@ -86,12 +94,12 @@ class _NextMatchListState extends State<NextMatchList> {
     // }
 
     Provider.of<NextMatchesProvider>(context, listen: false).saveMatches(mergedData);
+    print('next${mergedData}');
     return mergedData;
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.leagueNumber);
     return FutureBuilder(
         future: dataFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -99,11 +107,9 @@ class _NextMatchListState extends State<NextMatchList> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
+          } else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
               final error = snapshot.error;
-
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             }
             if (snapshot.data!.isEmpty) {
@@ -130,18 +136,18 @@ class _NextMatchListState extends State<NextMatchList> {
             }
             if (snapshot.hasData) {
               return Container(
-                height: 310,
-                padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
-                decoration: const BoxDecoration(
-                    // color: Color.fromARGB(118, 51, 51, 51),
-                    // border: Border.all(
-                    //   width: .5,
-                    //   color: Color.fromARGB(224, 102, 102, 102),
-                    // ),
-                    // borderRadius: BorderRadius.all(
-                    //   Radius.circular(25),
-                    // ),
-                    ),
+                height: 340,
+                padding: const EdgeInsets.only(left: 5, top: 20, right: 15, bottom: 20),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(57, 80, 80, 80),
+                  // border: Border.all(
+                  //   width: 0.8,
+                  //   color: Color.fromARGB(215, 69, 167, 24),
+                  // ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
                 constraints: const BoxConstraints(maxWidth: 400),
                 child: Consumer<NextMatchesProvider>(builder: (context, provider, _) {
                   if (Provider.of<NextMatchesProvider>(context, listen: false).nextMatchesList.isNotEmpty) {

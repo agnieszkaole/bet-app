@@ -273,9 +273,13 @@ class Groups {
 
             int? numberOfUsers = groupData['numberOfUsers'];
             String? creatorUsername = groupData['creatorUsername'];
+            Map<String, dynamic>? selectedLeague = groupData['selectedLeague'];
+
+            String? leagueName = selectedLeague!['leagueName'];
 
             group['numberOfUsers'] = numberOfUsers ?? 0;
             group['creatorUsername'] = creatorUsername;
+            group['leagueName'] = leagueName;
           });
         }
       }

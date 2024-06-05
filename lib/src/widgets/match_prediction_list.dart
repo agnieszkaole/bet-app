@@ -2,7 +2,7 @@ import 'package:bet_app/src/models/match_predictions_model.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/match_id_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:bet_app/src/services/match_api.dart';
 import 'package:bet_app/src/widgets/match_prediction_item.dart';
 
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
 
   Future<List<PredictionData>> _getData() async {
     //   final matchId = context.read<MatchIdProvider>().selectedMatchId;
-    final data = await SoccerApi().getPredictions(widget.matchId);
+    final data = await MatchApi().getPredictions(widget.matchId);
     return data;
   }
 

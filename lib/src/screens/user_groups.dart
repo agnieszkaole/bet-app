@@ -1,214 +1,94 @@
+import 'package:bet_app/src/constants/app_colors.dart';
+import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/group_tabs.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
-class UserGroups extends StatefulWidget {
-  UserGroups({super.key, this.onGroupCreated});
+class UserGroups extends StatelessWidget {
+  final List<Map<String, dynamic>> userGroups;
+
+  UserGroups({required this.userGroups, super.key, this.onGroupCreated});
   final onGroupCreated;
-  @override
-  State<UserGroups> createState() => _UserGroupsState();
-}
 
-class _UserGroupsState extends State<UserGroups> {
   @override
   Widget build(BuildContext context) {
-    Groups groups = Groups();
+    return Container(
+      height: 90,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: userGroups.length,
+        itemBuilder: (context, index) {
+          final groupData = userGroups[index];
+          String? groupName = groupData['groupName'];
+          String? groupId = groupData['groupId'];
+          String? privacyType = groupData['privacyType'];
+          String? leagueName = groupData['leagueName'];
+          String? creatorUsername = groupData['creatorUsername'];
+          int? groupMembers = groupData['numberOfUsers'];
 
-    return FutureBuilder<List<Map<String, dynamic>>>(
-        future: groups.getUserGroupsData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: SizedBox(width: 30, height: 30, child: CircularProgressIndicator()),
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Container(
-              height: 140,
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => GroupTabs(
+                  groupName: groupName,
+                  groupId: groupId,
+                  groupMembers: groupMembers,
+                  creatorUsername: creatorUsername,
+                  privacyType: privacyType,
+                ),
+              ));
+            },
+            child: Container(
+              width: userGroups.length == 1 ? MediaQuery.of(context).size.width - 50 : 250,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               constraints: const BoxConstraints(maxWidth: 400),
-              width: MediaQuery.of(context).size.width - 60,
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Your groups',
-                    style: TextStyle(fontSize: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color.fromARGB(255, 19, 19, 19).withOpacity(0.6),
+                    offset: const Offset(5.0, 5.0),
+                    blurRadius: 6.0,
                   ),
-                  const SizedBox(height: 10),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 100,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 19, 19, 19).withOpacity(0.6),
-                          offset: const Offset(5.0, 5.0),
-                          blurRadius: 6.0,
-                        ),
-                      ],
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(25),
+                ],
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                color: AppColors.greenDark,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$groupName',
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      color: const Color.fromARGB(211, 58, 139, 21),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'You are not a member of any group yet.',
-                        style: TextStyle(
-                          fontSize: 18,
+                      SizedBox(
+                        width: 180,
+                        child: Text(
+                          '$leagueName',
+                          style: const TextStyle(fontSize: 14),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.login_rounded,
+                    size: 26,
                   ),
                 ],
               ),
-            );
-          } else {
-            List<Map<String, dynamic>> userGroups = snapshot.data!;
-            // print(userGroups);
-            return Column(
-              children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '⭐️   ',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Your groups',
-                      style: TextStyle(fontSize: 22),
-                    ),
-                    Text(
-                      '   ⭐️',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-                const Text(
-                  'Choose one of your groups and start betting.',
-                  style: TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 15),
-                Container(
-                  height: 150,
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.all(15),
-
-                  //  image: AssetImage("./assets/images/lawn-5007569_19201.jpg"),
-                  decoration: const BoxDecoration(
-                    // image: const DecorationImage(
-                    //   image: AssetImage("./assets/images/lawn-5007569_19201.jpg"),
-                    //   fit: BoxFit.cover,
-                    // ),
-                    color: Color.fromARGB(200, 39, 39, 39),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                  ),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: userGroups.length,
-                    itemBuilder: (context, index) {
-                      final groupData = userGroups[index];
-                      String? groupName = groupData['groupName'];
-                      String? groupId = groupData['groupId'];
-                      String? privacyType = groupData['privacyType'];
-
-                      String? creatorUsername = groupData['creatorUsername'];
-
-                      int? groupMembers = groupData['numberOfUsers'];
-
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => GroupTabs(
-                              groupName: groupName,
-                              groupId: groupId,
-                              groupMembers: groupMembers,
-                              creatorUsername: creatorUsername,
-                              privacyType: privacyType,
-                            ),
-                          ));
-                          // print('$creatorUsername');
-                        },
-                        child: Container(
-                          // padding: const EdgeInsets.all(5),
-                          width: userGroups.length > 1 ? 200 : MediaQuery.of(context).size.width - 80,
-
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color.fromARGB(255, 19, 19, 19).withOpacity(0.6),
-                                offset: const Offset(5.0, 5.0),
-                                blurRadius: 6.0,
-                              ),
-                            ],
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            // border: Border.all(
-                            //   width: .5,
-                            //   color: const Color.fromARGB(255, 151, 151, 151),
-                            // ),
-                            // image: const DecorationImage(
-                            //   image: AssetImage("./assets/images/lawn-5007569_19201.jpg"),
-                            //   fit: BoxFit.cover,
-                            // ),
-                            color: const Color.fromARGB(211, 58, 139, 21),
-                          ),
-                          constraints: const BoxConstraints(maxWidth: 400),
-                          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                          child: Container(
-                            width: userGroups.length > 1 ? 140 : double.infinity,
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '$groupName',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        // color: Color.fromARGB(255, 255, 255, 255),
-                                        // color: Color.fromARGB(255, 60, 165, 83),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Text(
-                                      'Members: $groupMembers',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        // fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Icon(
-                                  Icons.login_rounded,
-                                  size: 26,
-                                  // color: Color.fromARGB(255, 0, 151, 68),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          }
-        });
+            ),
+          );
+        },
+      ),
+    );
   }
 }

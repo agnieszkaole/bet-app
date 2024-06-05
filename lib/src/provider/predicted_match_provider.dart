@@ -43,9 +43,8 @@ class PredictedMatchProvider extends ChangeNotifier {
     return predictedMatchList.any((predictedMatch) => predictedMatch['matchId'] == matchId);
   }
 
-  void removeMatch(Map<String, dynamic> match) {
-    predictedMatchList.remove(match);
-
+  void removeMatch(int? matchId) {
+    predictedMatchList.removeWhere((match) => match['matchId'] == matchId);
     notifyListeners();
   }
 
@@ -53,14 +52,25 @@ class PredictedMatchProvider extends ChangeNotifier {
     return predictedMatchList.where((match) => match['leagueNumber'] == league).toList();
   }
 
-  void updateMatchResult(int matchId, int teamHomeGoal, int teamAwayGoal) {
+  void updateMatchResult(int matchId, int? teamHomeGoal, int? teamAwayGoal) {
     int matchIndex = predictedMatchList.indexWhere((predictedMatch) => predictedMatch['matchId'] == matchId);
 
     if (matchIndex != -1) {
       predictedMatchList[matchIndex]['teamHomeGoal'] = teamHomeGoal;
       predictedMatchList[matchIndex]['teamAwayGoal'] = teamAwayGoal;
-
       notifyListeners();
     }
+  }
+
+  Map<String, int?> getMatchGoals(int matchId, String? groupId) {
+    final match = predictedMatchList.firstWhere(
+      (predictedMatch) => predictedMatch['matchId'] == matchId && predictedMatch['groupId'] == groupId,
+      orElse: () => {},
+    );
+
+    return {
+      'teamHomeGoal': match['teamHomeGoal'] as int?,
+      'teamAwayGoal': match['awayHomeGoal'] as int?,
+    };
   }
 }

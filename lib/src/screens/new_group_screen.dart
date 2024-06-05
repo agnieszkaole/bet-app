@@ -1,6 +1,10 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/constants/league_names.dart';
+import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
+import 'package:bet_app/src/screens/home_screen.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 // import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -50,8 +54,17 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             content: Text('You have created a new group: $_groupName'),
           ),
         );
-
-        Navigator.of(context).pop(true);
+        Provider.of<BottomNavigationProvider>(context, listen: false).updateIndex(0);
+        Navigator.of(context)
+            .push(MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ))
+            .then((value) {
+          if (value != null && value == true) {
+            setState(() {});
+          }
+        });
+        // Navigator.of(context).pop(true);
       } else {
         setState(() {
           _groupNameError = 'Group name "$_groupName" already exists.';
@@ -271,7 +284,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: const Color.fromARGB(255, 45, 139, 1),
+                        backgroundColor: AppColors.greenDark,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),

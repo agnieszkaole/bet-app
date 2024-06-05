@@ -1,7 +1,8 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_scheduled_provider.dart';
-import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:bet_app/src/services/match_api.dart';
+
 import 'package:bet_app/src/widgets/next_match_scheduled_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +49,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
   }
 
   Future<List<SoccerMatch>> _getData() async {
-    final season1Data = await SoccerApi().getMatches(
+    final season1Data = await MatchApi().getMatches(
       '',
       league: widget.leagueNumber,
       season: '2023',
@@ -56,10 +57,18 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
       next: '20',
       timezone: timezoneApi,
     );
-    final season2Data = await SoccerApi().getMatches(
+    final season2Data = await MatchApi().getMatches(
       '',
       league: widget.leagueNumber,
       season: '2024',
+      status: statusApi,
+      next: '20',
+      timezone: timezoneApi,
+    );
+    final season3Data = await MatchApi().getMatches(
+      '',
+      league: widget.leagueNumber,
+      season: '2025',
       status: statusApi,
       next: '20',
       timezone: timezoneApi,
@@ -69,6 +78,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
 
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
+    mergedData.addAll(season3Data);
 
     int availableMatches = mergedData.length;
     int requestedMatches = 15;
@@ -113,7 +123,7 @@ class _NextMatchScheduledListState extends State<NextMatchScheduledList> {
                   const Align(
                     alignment: Alignment.center,
                     child: Text(
-                      '◀   Scroll to see upcoming matches   ▶',
+                      '⬅ Scroll to see upcoming matches  ➡',
                       style: TextStyle(
                         fontSize: 13,
                       ),

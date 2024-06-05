@@ -1,3 +1,4 @@
+import "package:bet_app/src/constants/app_colors.dart";
 import "package:bet_app/src/models/soccermodel.dart";
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import "package:bet_app/src/services/groups.dart";
@@ -83,10 +84,11 @@ class _GroupTabsState extends State<GroupTabs> {
         return true;
       },
       child: DefaultTabController(
-        length: 4,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             // title: Text('Grupa:  $groupName'),
+            backgroundColor: Color.fromARGB(255, 0, 3, 31),
             title: Row(
               children: [
                 Row(
@@ -131,17 +133,17 @@ class _GroupTabsState extends State<GroupTabs> {
                       setState(() {});
                     }
                   },
-                  tabAlignment: TabAlignment.center,
+                  // tabAlignment: TabAlignment.center,
                   padding: const EdgeInsets.only(bottom: 10),
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorColor: Colors.green,
+                  indicatorColor: AppColors.green,
                   indicatorWeight: 1.5,
                   labelColor: Colors.white,
                   dividerColor: const Color.fromARGB(38, 255, 255, 255),
                   tabs: const [
                     Tab(
                       icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.info_outline_rounded, size: 25),
                           SizedBox(width: 5),
@@ -149,12 +151,12 @@ class _GroupTabsState extends State<GroupTabs> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              // Text(
+                              //   'Group',
+                              //   style: TextStyle(fontSize: 12),
+                              // ),
                               Text(
-                                'Group',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                'details',
+                                'Details',
                                 style: TextStyle(fontSize: 12),
                               ),
                             ],
@@ -164,7 +166,7 @@ class _GroupTabsState extends State<GroupTabs> {
                     ),
                     Tab(
                       icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.sports_soccer_rounded, size: 25),
                           SizedBox(width: 5),
@@ -172,12 +174,12 @@ class _GroupTabsState extends State<GroupTabs> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              // Text(
+                              //   'Predict',
+                              //   style: TextStyle(fontSize: 12),
+                              // ),
                               Text(
-                                'Predict',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                'result',
+                                'Bets',
                                 style: TextStyle(fontSize: 12),
                               ),
                             ],
@@ -185,9 +187,32 @@ class _GroupTabsState extends State<GroupTabs> {
                         ],
                       ),
                     ),
+                    // Tab(
+                    //   icon: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     children: [
+                    //       Icon(Icons.scoreboard_outlined, size: 25),
+                    //       SizedBox(width: 5),
+                    //       Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.center,
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           // Text(
+                    //           //   'My',
+                    //           //   style: TextStyle(fontSize: 12),
+                    //           // ),
+                    //           Text(
+                    //             'Bets',
+                    //             style: TextStyle(fontSize: 12),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Tab(
                       icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.scoreboard_outlined, size: 25),
                           SizedBox(width: 5),
@@ -195,35 +220,12 @@ class _GroupTabsState extends State<GroupTabs> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              // Text(
+                              //   'Bets',
+                              //   style: TextStyle(fontSize: 12),
+                              // ),
                               Text(
-                                'Your',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                'bets',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Tab(
-                      icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.handshake, size: 25),
-                          SizedBox(width: 5),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Bets',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                'table',
+                                'Scoreboard',
                                 style: TextStyle(fontSize: 12),
                               ),
                             ],
@@ -264,10 +266,10 @@ class _GroupTabsState extends State<GroupTabs> {
                   leagueName: selectedLeagueName.toString(),
                   groupId: widget.groupId,
                 ),
-                PredictedMatchesFirebase(
-                  leagueNumber: selectedLeagueNumber,
-                  groupId: widget.groupId,
-                ),
+                // PredictedMatchesFirebase(
+                //   leagueNumber: selectedLeagueNumber,
+                //   groupId: widget.groupId,
+                // ),
                 GroupTable(
                   createdAt: createdAt,
                   leagueNumber: selectedLeagueNumber.toString(),

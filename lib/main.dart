@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             child: Stack(children: [
               Container(
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 30, 30, 30),
+                  color: Color.fromARGB(255, 0, 3, 31),
                   // image: DecorationImage(
                   //   image: AssetImage('./assets/images/little-1506570_19201.png'),
                   //   fit: BoxFit.cover,
@@ -71,17 +71,20 @@ class MyApp extends StatelessWidget {
               ),
               MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'GreatBet',
+                title: 'BetSprint',
                 // themeMode: ThemeMode.system,
                 theme: ThemeData(
                     useMaterial3: true,
                     brightness: Brightness.dark,
-                    primaryColor: const Color.fromARGB(200, 40, 122, 43),
+                    // primaryColor: const Color.fromARGB(200, 40, 122, 43),
                     textTheme: Theme.of(context).textTheme.apply(
                           bodyColor: const Color.fromARGB(255, 255, 255, 255),
                           fontFamily: GoogleFonts.lato().fontFamily,
                         ),
-                    scaffoldBackgroundColor: Colors.transparent),
+                    dialogBackgroundColor: Color.fromARGB(255, 0, 3, 31),
+
+                    // scaffoldBackgroundColor: Colors.transparent),
+                    scaffoldBackgroundColor: Color.fromARGB(255, 0, 3, 31)),
                 home: StreamBuilder<User?>(
                   stream: firebaseAuth.authStateChanges(),
                   builder: (context, AsyncSnapshot<User?> snapshot) {

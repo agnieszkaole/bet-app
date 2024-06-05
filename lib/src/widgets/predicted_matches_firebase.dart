@@ -1,16 +1,15 @@
+import "package:bet_app/src/provider/predicted_match_provider.dart";
 import "package:bet_app/src/widgets/predicted_item_firebase.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class PredictedMatchesFirebase extends StatefulWidget {
-  const PredictedMatchesFirebase({
-    super.key,
-    required this.leagueNumber,
-    this.groupId,
-  });
+  const PredictedMatchesFirebase({super.key, required this.leagueNumber, this.groupId, this.matchId});
   final int? leagueNumber;
   final String? groupId;
+  final int? matchId;
   @override
   State<PredictedMatchesFirebase> createState() => _PredictedMatchesFirebaseState();
 }
@@ -67,54 +66,65 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
           final error = snapshot.error;
           return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
         }
-        if (snapshot.data!.docs.isEmpty) {
-          return const SizedBox(
-            height: 140,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'You have not added any predictions',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'or unexpected state encountered. ',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
+        // if (snapshot.data!.docs.isEmpty) {
+        //   return const SizedBox(
+        //     height: 140,
+        //     child: Center(
+        //       child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: [
+        //           Text(
+        //             'You have not added any bets',
+        //             style: TextStyle(fontSize: 16),
+        //             textAlign: TextAlign.center,
+        //           ),
+        //           Text(
+        //             'or unexpected state encountered. ',
+        //             style: TextStyle(fontSize: 16),
+        //             textAlign: TextAlign.center,
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   );
+        // }
         if (snapshot.hasData) {
           // if (snapshot.data != []) {
           List<DocumentSnapshot> firestoreDocuments = snapshot.data!.docs;
-          print('Document Count: ${firestoreDocuments.length}');
+          // print('Document Count: ${firestoreDocuments.length}');
           firestoreDocuments.sort((a, b) {
             DateTime aTime = _parseDate(a['matchTime'] as String);
             DateTime bTime = _parseDate(b['matchTime'] as String);
             return aTime.compareTo(bTime);
           });
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: firestoreDocuments.length,
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
+          return SizedBox(
+            height: 90,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: firestoreDocuments.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> userPrediction = firestoreDocuments[index].data() as Map<String, dynamic>;
+                      Provider.of<PredictedMatchProvider>(context).addMatch(userPrediction);
 
-                    if (userPrediction['leagueNumber'] == widget.leagueNumber) {
-                      String documentId = firestoreDocuments[index].id;
-                      return PredictedItemFirebase(data: userPrediction, docId: documentId);
-                    }
-                    return Container();
-                  },
+                      if (userPrediction['leagueNumber'] == widget.leagueNumber) {
+                        String documentId = firestoreDocuments[index].id;
+                        return userPrediction['matchId'] == widget.matchId
+                            ? PredictedItemFirebase(
+                                data: userPrediction,
+                                docId: documentId,
+                                matchId: widget.matchId,
+                              )
+                            : SizedBox();
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
 

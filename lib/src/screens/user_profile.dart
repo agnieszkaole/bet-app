@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/user_profile_delete_succesful.dart';
@@ -122,23 +123,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           constraints: const BoxConstraints(maxWidth: 400),
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           decoration: BoxDecoration(
+            color: Color.fromARGB(57, 80, 80, 80),
             borderRadius: const BorderRadius.all(
               Radius.circular(25),
             ),
-
             border: Border.all(width: 0.4, color: const Color.fromARGB(99, 206, 206, 206)),
-            // color: Color.fromARGB(100, 39, 39, 39),
-            // gradient: const LinearGradient(
-            //   begin: Alignment.topRight,
-            //   end: Alignment.bottomLeft,
-            //   colors: [
-            //     Color.fromARGB(120, 50, 124, 15),
-            //     Color.fromARGB(120, 31, 77, 10),
-            //   ],
-            // ),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,10 +173,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       GestureDetector(
                         onTap: () {
                           showDialog(
+                            barrierColor: Color.fromARGB(167, 9, 11, 29),
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor: const Color.fromARGB(255, 32, 32, 32),
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(color: AppColors.green),
+                                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                                backgroundColor: AppColors.blueDark,
                                 title: const Text(
                                   "Change username",
                                   style: TextStyle(fontSize: 16),
@@ -261,19 +257,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             Icon(
                               Icons.edit_sharp,
                               size: 30,
-                              // color: Color.fromARGB(255, 40, 122, 43),
                             ),
                             SizedBox(width: 5),
-                            // Padding(
-                            //   padding: EdgeInsets.only(right: 10),
-                            //   child: Text(
-                            //     'Edith',
-                            //     style: TextStyle(
-                            //       fontSize: 14,
-                            //       fontWeight: FontWeight.bold,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -300,9 +285,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         GestureDetector(
                           onTap: () {
                             showDialog(
+                              barrierColor: Color.fromARGB(167, 9, 11, 29),
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(color: AppColors.green),
+                                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                   title: const Text(
                                     "Change password",
                                     style: TextStyle(fontSize: 16),
@@ -311,22 +300,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       'You will receive a message containing a link to reset your password to the e-mail address provided during registration. Do you agree?'),
                                   actions: [
                                     TextButton(
-                                      style: TextButton.styleFrom(
-                                        // backgroundColor: Color.fromARGB(255, 205, 255, 206),
-                                        foregroundColor: const Color.fromARGB(255, 6, 165, 11),
+                                      style: ElevatedButton.styleFrom(
+                                        foregroundColor: AppColors.greenDark,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(25),
-                                          side: const BorderSide(color: Color.fromARGB(255, 6, 165, 11)),
+                                          side: const BorderSide(width: 1, color: AppColors.greenDark),
                                         ),
+                                        // elevation: 4.0,
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text(
                                         'No',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.green),
                                       ),
                                     ),
                                     TextButton(
@@ -355,19 +342,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               Icon(
                                 Icons.password_rounded,
                                 size: 30,
-                                // color: Color.fromARGB(255, 40, 122, 43),
                               ),
                               SizedBox(width: 5),
-                              // Padding(
-                              //   padding: EdgeInsets.only(right: 10),
-                              //   child: Text(
-                              //     'Edith',
-                              //     style: TextStyle(
-                              //       fontSize: 14,
-                              //       fontWeight: FontWeight.bold,
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -382,9 +358,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       GestureDetector(
                         onTap: () {
                           showDialog(
+                            barrierColor: Color.fromARGB(167, 9, 11, 29),
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(color: AppColors.green),
+                                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                 title: const Text(
                                   "Delete profile",
                                   style: TextStyle(fontSize: 20),
@@ -442,7 +422,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                                 foregroundColor: const Color.fromARGB(255, 255, 1, 1),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(25),
-                                                  side: const BorderSide(color: Color.fromARGB(255, 255, 1, 1)),
+                                                  side: const BorderSide(
+                                                      width: 0.6, color: Color.fromARGB(255, 255, 1, 1)),
                                                 ),
                                                 // elevation: 4.0,
                                               ),
@@ -475,16 +456,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                               ),
                                             ),
                                             TextButton(
-                                              style: TextButton.styleFrom(
-                                                  backgroundColor: const Color.fromARGB(255, 2, 126, 6),
-                                                  foregroundColor: const Color.fromARGB(255, 255, 255, 255)),
+                                              style: ElevatedButton.styleFrom(
+                                                foregroundColor: AppColors.greenDark,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(25),
+                                                  side: const BorderSide(width: 1, color: AppColors.greenDark),
+                                                ),
+                                                // elevation: 4.0,
+                                              ),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
                                               child: const Text(
                                                 'Keep profile',
                                                 style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: AppColors.green,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -504,19 +490,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             Icon(
                               Icons.delete_forever_rounded,
                               size: 30,
-                              // color: Color.fromARGB(255, 40, 122, 43),
                             ),
                             SizedBox(width: 5),
-                            // Padding(
-                            //   padding: EdgeInsets.only(right: 10),
-                            //   child: Text(
-                            //     'Delete',
-                            //     style: TextStyle(
-                            //       fontSize: 14,
-                            //       fontWeight: FontWeight.bold,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/scoreboard_manager_provider.dart';
 
@@ -215,7 +216,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
           height: widget.cellHeight,
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           decoration: const BoxDecoration(
-            color: Color.fromARGB(207, 41, 41, 41),
+            color: Color.fromARGB(57, 80, 80, 80),
             border: Border(
               right: BorderSide(
                 color: Color.fromARGB(255, 73, 73, 73),
@@ -358,12 +359,11 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         decoration: const BoxDecoration(
             color: Color.fromARGB(200, 41, 41, 41),
             gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               colors: [
-                Color.fromARGB(255, 62, 155, 19),
-                Color.fromARGB(255, 31, 77, 10),
-                Color.fromARGB(255, 62, 155, 19),
+                AppColors.greenDark,
+                AppColors.green,
               ],
             )),
         child: DataTable(
@@ -454,7 +454,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     Future<void> sumScores() async {
       Scoreboard scoreboard = Scoreboard();
       if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
-        backgroundColor = const Color.fromARGB(180, 102, 102, 102);
+        backgroundColor = Color.fromARGB(167, 43, 43, 43);
       } else if (prediction == '---' &&
           match.goal.home != null &&
           match.goal.away != null &&
@@ -465,7 +465,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
           if (prediction == '${match.goal.home} : ${match.goal.away}') {
             backgroundColorScore = const Color.fromARGB(192, 22, 124, 36);
             score = 3;
-            backgroundColor = const Color.fromARGB(60, 22, 124, 36);
+            backgroundColor = const Color.fromARGB(80, 22, 124, 36);
             await scoreboard.updateScore(widget.groupId!, memberUid, matchId, score, prediction);
           } else {
             List<String> predictedScores = prediction.split(':');
@@ -478,7 +478,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
               if ((predictedHomeScore > predictedAwayScore && actualHomeScore > actualAwayScore) ||
                   (predictedHomeScore < predictedAwayScore && actualHomeScore < actualAwayScore) ||
                   (predictedHomeScore == predictedAwayScore && actualHomeScore == actualAwayScore)) {
-                backgroundColor = const Color.fromARGB(60, 214, 211, 0);
+                backgroundColor = const Color.fromARGB(80, 214, 211, 0);
                 backgroundColorScore = const Color.fromARGB(181, 214, 211, 0);
                 score = 1;
                 // print(' ${widget.groupId!}, $memberUid, $matchId, $prediction, $score, $scoreboardMatchesList');
@@ -487,7 +487,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
 
                 // print(' ${widget.groupId!}, $memberUid, $score');
               } else {
-                backgroundColor = const Color.fromARGB(60, 241, 0, 0);
+                backgroundColor = const Color.fromARGB(80, 241, 0, 0);
                 backgroundColorScore = const Color.fromARGB(120, 241, 0, 0);
                 score = 0;
                 await scoreboard.updateScore(widget.groupId!, memberUid, matchId, score, prediction);
@@ -511,15 +511,17 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         children: [
           Align(
               alignment: Alignment.center,
-              child: match.fixture.status.long == 'Not Started' && prediction != '---'
-                  ? const Text(
-                      '?  :  ?',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    )
-                  : Text(
-                      '$prediction',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    )),
+              child:
+                  (match.fixture.status.long == 'Not Started' || match.fixture.status.long == 'Time to be defined') &&
+                          prediction != '---'
+                      ? const Text(
+                          '?  :  ?',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          '$prediction',
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        )),
           if (match.fixture.status.long == 'Match Finished' && prediction != '---')
             // if (match.fixture.status.long == 'Match Finished')
             Positioned(
@@ -553,11 +555,11 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
         decoration: const BoxDecoration(
             color: Color.fromARGB(200, 41, 41, 41),
             gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               colors: [
-                Color.fromARGB(255, 62, 155, 19),
-                Color.fromARGB(255, 31, 77, 10),
+                AppColors.greenDark,
+                AppColors.green,
               ],
             )),
         child: DataTable(
@@ -605,7 +607,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           // color: Color.fromARGB(235, 34, 34, 34),
-          border: Border.all(color: const Color.fromARGB(255, 32, 168, 62), width: 0.7)),
+          border: Border.all(color: Color.fromARGB(255, 85, 85, 85), width: 0.7)),
       child: Column(
         children: [
           Row(

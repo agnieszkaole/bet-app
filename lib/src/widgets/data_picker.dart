@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/widgets/next_match_scheduled_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -71,7 +72,7 @@ class DataPickerState extends State<DataPicker> {
                   children: [
                     _isCalendarVisible
                         ? const Text(
-                            'Hide calendar',
+                            'Show all matches',
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           )
                         : const Text(
@@ -81,7 +82,7 @@ class DataPickerState extends State<DataPicker> {
                     const SizedBox(width: 8),
                     Switch(
                       value: _isCalendarVisible,
-                      activeColor: const Color.fromARGB(255, 2, 214, 2),
+                      activeColor: AppColors.green,
                       inactiveTrackColor: const Color.fromARGB(137, 78, 78, 78),
                       onChanged: (bool value) {
                         setState(() {
@@ -100,15 +101,15 @@ class DataPickerState extends State<DataPicker> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                     decoration: BoxDecoration(
-                      // color: Color.fromARGB(223, 34, 34, 34),
-                      gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color.fromARGB(150, 45, 112, 14),
-                          Color.fromARGB(150, 22, 53, 7),
-                        ],
-                      ),
+                      color: Color.fromARGB(173, 5, 71, 17),
+                      // gradient: const LinearGradient(
+                      //   begin: Alignment.topCenter,
+                      //   end: Alignment.bottomCenter,
+                      //   colors: [
+                      //     Color.fromARGB(150, 45, 112, 14),
+                      //     Color.fromARGB(150, 22, 53, 7),
+                      //   ],
+                      // ),
                       border: Border.all(
                         width: .8,
                         color: const Color.fromARGB(192, 22, 124, 36),

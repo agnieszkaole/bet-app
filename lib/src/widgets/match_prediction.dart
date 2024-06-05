@@ -1,7 +1,7 @@
 // import 'package:bet_app/src/models/match_predictions_model.dart';
 // import 'package:bet_app/src/models/match_ranking.dart';
 // import 'package:bet_app/src/provider/predictions_provider.dart';
-// import 'package:bet_app/src/services/soccer_api.dart';
+// import 'package:bet_app/src/services/MatchApi.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 

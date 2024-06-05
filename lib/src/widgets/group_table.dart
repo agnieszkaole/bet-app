@@ -1,7 +1,6 @@
 import 'package:bet_app/src/models/soccermodel.dart';
-
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
-import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:bet_app/src/services/match_api.dart';
 import 'package:bet_app/src/widgets/custem_data_table.dart';
 // import 'package:bet_app/src/widgets/selectable_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,16 +56,23 @@ class _GroupTableState extends State<GroupTable> {
   }
 
   Future<List<SoccerMatch>> _getData() async {
-    final season1Data = await SoccerApi().getMatches('',
+    final season1Data = await MatchApi().getMatches('',
         league: widget.leagueNumber,
         season: '2023',
         from: formattedCreatedAtDate,
         to: formattedCreatedAtDateEnd,
         status: statusApi,
         timezone: timezoneApi);
-    final season2Data = await SoccerApi().getMatches('',
+    final season2Data = await MatchApi().getMatches('',
         league: widget.leagueNumber,
         season: '2024',
+        from: formattedCreatedAtDate,
+        to: formattedCreatedAtDateEnd,
+        status: statusApi,
+        timezone: timezoneApi);
+    final season3Data = await MatchApi().getMatches('',
+        league: widget.leagueNumber,
+        season: '2025',
         from: formattedCreatedAtDate,
         to: formattedCreatedAtDateEnd,
         status: statusApi,
@@ -76,6 +82,7 @@ class _GroupTableState extends State<GroupTable> {
 
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
+    mergedData.addAll(season3Data);
 
     Provider.of<ScoreboardProvider>(context, listen: false).saveMatches(mergedData);
 

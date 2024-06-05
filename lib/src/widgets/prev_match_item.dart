@@ -37,34 +37,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
     return Container(
       margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 15),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-      decoration: BoxDecoration(
-        // color: Color.fromARGB(195, 8, 119, 4),
-        // gradient: const LinearGradient(
-        //   begin: Alignment.topRight,
-        //   end: Alignment.bottomLeft,
-        //   colors: [
-        //     // Color.fromARGB(200, 31, 77, 10),
-        //     Color.fromARGB(197, 31, 31, 31),
-        //     Color.fromARGB(200, 62, 155, 19),
-        //   ],
-        // ),
-        border: Border.all(
-          width: .5,
-          color: Color.fromARGB(198, 0, 138, 0),
-        ),
-        // image: DecorationImage(
-        //   image: AssetImage('./assets/images/lawn-5007569_19201.jpg'),
-        //   fit: BoxFit.cover,
-        //   colorFilter: ColorFilter.mode(
-        //     Color.fromARGB(70, 29, 29, 29),
-        //     BlendMode.srcATop,
-        //   ),
-        // ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(25),
-        ),
-      ),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(
@@ -73,10 +46,6 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
               Text(
                 matchTime.toString(),
                 style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                leagueRound,
-                style: const TextStyle(fontSize: 12),
               ),
             ]),
           ),
@@ -188,6 +157,11 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
               ),
             ],
           ),
+          Divider(
+            height: 0.5,
+            thickness: 0.5,
+            color: Color.fromARGB(255, 0, 117, 10),
+          )
         ],
       ),
     );

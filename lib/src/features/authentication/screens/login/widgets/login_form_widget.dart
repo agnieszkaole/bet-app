@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/features/authentication/screens/login/widgets/forget_password.dart';
 import 'package:bet_app/src/features/authentication/screens/register/register_screen.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
@@ -36,10 +37,11 @@ class _LoginFormState extends State<LoginForm> {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(20),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         labelText: title,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-        fillColor: const Color.fromARGB(255, 48, 85, 50),
+        fillColor: const Color.fromARGB(110, 9, 126, 30),
         filled: true,
         prefixIcon: Icon(icon),
         suffixIcon: isPassword
@@ -161,7 +163,7 @@ class _LoginFormState extends State<LoginForm> {
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               padding: const EdgeInsets.symmetric(vertical: 16),
-              backgroundColor: const Color.fromARGB(255, 40, 122, 43),
+              backgroundColor: AppColors.greenDark,
             ),
             child: const Text(
               "Login",
@@ -181,7 +183,7 @@ class _LoginFormState extends State<LoginForm> {
               },
               child: const Text(
                 'Sign up',
-                style: TextStyle(color: Color.fromARGB(255, 58, 158, 61)),
+                style: TextStyle(color: AppColors.green),
               ),
             ),
           ],

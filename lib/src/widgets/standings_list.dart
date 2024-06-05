@@ -1,7 +1,7 @@
 import 'package:bet_app/src/models/league_standings.dart';
 
 import 'package:bet_app/src/provider/standings_provider.dart';
-import 'package:bet_app/src/services/soccer_api.dart';
+import 'package:bet_app/src/services/match_api.dart';
 
 import 'package:bet_app/src/widgets/standings_item.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +42,18 @@ class _StandingsListState extends State<StandingsList> {
   }
 
   Future<List<LeagueStandings>> _getData() async {
-    final season1Data = await SoccerApi().getStandings(
+    final season1Data = await MatchApi().getStandings(
       widget.leagueNumber,
       '2023',
     );
 
-    final season2Data = await SoccerApi().getStandings(
+    final season2Data = await MatchApi().getStandings(
       widget.leagueNumber,
       '2024',
+    );
+    final season3Data = await MatchApi().getStandings(
+      widget.leagueNumber,
+      '2025',
     );
 
     List<LeagueStandings> mergedData = [];
@@ -57,6 +61,7 @@ class _StandingsListState extends State<StandingsList> {
 
     mergedData.addAll(season1Data);
     mergedData.addAll(season2Data);
+    mergedData.addAll(season3Data);
 
     Provider.of<StandingsProvider>(context, listen: false).saveStandings(mergedData);
     // print(mergedData);

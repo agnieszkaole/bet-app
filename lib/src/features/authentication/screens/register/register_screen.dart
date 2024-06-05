@@ -1,3 +1,4 @@
+import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/features/authentication/screens/login/login_screen.dart';
 
 import 'package:bet_app/src/features/authentication/screens/register/successful_registration.dart';
@@ -42,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       decoration: InputDecoration(
         labelText: title,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-        fillColor: const Color.fromARGB(255, 48, 85, 50),
+        fillColor: const Color.fromARGB(110, 9, 126, 30),
         filled: true,
         prefixIcon: Icon(icon),
         suffixIcon: isPassword
@@ -198,8 +199,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: <Widget>[
                       SizedBox(height: 60.0),
                       Text(
-                        "GreatBet",
-                        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                        'BETsprint',
+                        style: TextStyle(
+                          color: AppColors.green,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat-BoldItalic',
+                          fontSize: 45,
+                        ),
                       ),
                       Text("Create your account", style: TextStyle(fontSize: 16)),
                       SizedBox(
@@ -291,7 +297,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: const Text(
                             "Log in",
                             style: TextStyle(
-                              color: Color.fromARGB(255, 40, 122, 43),
+                              color: AppColors.green,
                             ),
                           )),
                     ],
