@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PredictedMatchProvider extends ChangeNotifier {
-  final List<Map<String, dynamic>> predictedMatchList = [];
+  List<Map<String, dynamic>> predictedMatchList = [];
+
   // static const String _predictedMatchesKey = 'predictedMatches';
 
   // PredictedMatchProvider() {
@@ -39,8 +42,9 @@ class PredictedMatchProvider extends ChangeNotifier {
     }
   }
 
-  bool isMatchAdded(int matchId) {
-    return predictedMatchList.any((predictedMatch) => predictedMatch['matchId'] == matchId);
+  bool isMatchAdded(int? matchId, String? groupId, String userId) {
+    return predictedMatchList
+        .any((predictedMatch) => predictedMatch['matchId'] == matchId && predictedMatch['groupId'] == groupId);
   }
 
   void removeMatch(int? matchId) {

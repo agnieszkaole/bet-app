@@ -33,19 +33,20 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
   bool get wantKeepAlive => true;
   User? user = FirebaseAuth.instance.currentUser;
 
-  Future<bool> _checkIfMatchPredicted(int matchId) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return false;
+  // Future<bool> _checkIfMatchPredicted(int matchId) async {
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   if (user == null) return false;
 
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('predictions')
-        .where('matchId', isEqualTo: matchId)
-        .get();
+  //   final querySnapshot = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(user.uid)
+  //       .collection('predictions')
+  //       .where('matchId', isEqualTo: matchId)
+  //       .where('groupId', isEqualTo: widget.groupId)
+  //       .get();
 
-    return querySnapshot.docs.isNotEmpty;
-  }
+  //   return querySnapshot.docs.isNotEmpty;
+  // }
 
   @override
   Widget build(BuildContext context) {

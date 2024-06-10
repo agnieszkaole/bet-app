@@ -228,46 +228,47 @@ class _GroupMatchListState extends State<GroupMatchList> {
                     controller: _scrollController,
                     itemCount: nextGroupMatchesList.length,
                     itemBuilder: (context, index) {
+                      User? user = FirebaseAuth.instance.currentUser;
                       NextMatchesProvider.sortMatchesByDate(nextGroupMatchesList);
                       final match = nextGroupMatchesList[index];
+                      // final isMatchAdded =
+                      //     predictedMatchProvider.isMatchAdded(match.fixture.id, widget.groupId, user!.uid);
 
-                      final isMatchAdded = predictedMatchProvider.isMatchAdded(match.fixture.id);
-
-                      return GroupMatchItem(
-                        match: match,
-                        isMatchAdded: isMatchAdded,
-                        groupId: widget.groupId,
-                        selectedLeagueNumber: widget.leagueName,
-                      );
-                      // Future<bool> getIsMatchAdded() async {
-                      //   final querySnapshot = await FirebaseFirestore.instance
-                      //       .collection('users')
-                      //       .doc(user?.uid)
-                      //       .collection('predictions')
-                      //       .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
-                      //       .where('groupId', isEqualTo: widget.groupId)
-                      //       .limit(1)
-                      //       .get();
-                      //   // setState(() {});
-                      //   return querySnapshot.docs.isNotEmpty;
-                      // }
-
-                      // return FutureBuilder<bool>(
-                      //   future: getIsMatchAdded(),
-                      //   builder: (context, snapshot) {
-                      //     final isMatchAdded = snapshot.data ?? false;
-
-                      //     if (index < nextGroupMatchesList.length) {
-                      //       return GroupMatchItem(
-                      //           match: nextGroupMatchesList[index],
-                      //           isMatchAdded: isMatchAdded,
-                      //           groupId: widget.groupId,
-                      //           selectedLeagueNumber: widget.leagueName);
-                      //     } else {
-                      //       return const SizedBox();
-                      //     }
-                      //   },
+                      // return GroupMatchItem(
+                      //   match: match,
+                      //   isMatchAdded: isMatchAdded,
+                      //   groupId: widget.groupId,
+                      //   selectedLeagueNumber: widget.leagueName,
                       // );
+                      Future<bool> getIsMatchAdded() async {
+                        final querySnapshot = await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(user?.uid)
+                            .collection('predictions')
+                            .where('matchId', isEqualTo: nextGroupMatchesList[index].fixture.id)
+                            .where('groupId', isEqualTo: widget.groupId)
+                            .limit(1)
+                            .get();
+                        // setState(() {});
+                        return querySnapshot.docs.isNotEmpty;
+                      }
+
+                      return FutureBuilder<bool>(
+                        future: getIsMatchAdded(),
+                        builder: (context, snapshot) {
+                          final isMatchAdded = snapshot.data ?? false;
+
+                          if (index < nextGroupMatchesList.length) {
+                            return GroupMatchItem(
+                                match: nextGroupMatchesList[index],
+                                isMatchAdded: isMatchAdded,
+                                groupId: widget.groupId,
+                                selectedLeagueNumber: widget.leagueName);
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      );
                     },
                   ),
                 ),

@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
               ),
               MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'BetSprint',
+                title: 'BETSprint',
                 // themeMode: ThemeMode.system,
                 theme: ThemeData(
                     useMaterial3: true,
