@@ -64,7 +64,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width - 20,
-        // height: 80,
+        // height: 60,
         decoration: BoxDecoration(
           color: const Color.fromARGB(70, 49, 49, 49),
           border: Border.all(

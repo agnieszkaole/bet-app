@@ -43,4 +43,10 @@ const List<Map<String, dynamic>> leagueNames = [
     "number": 1083,
     "logo": "https://media.api-sports.io/football/leagues/5.png"
   },
+  {
+    "id": 14,
+    "name": "World Cup - Qualification Africa",
+    "number": 29,
+    "logo": "https://media.api-sports.io/football/leagues/5.png"
+  },
 ];

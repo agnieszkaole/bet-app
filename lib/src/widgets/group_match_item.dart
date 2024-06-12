@@ -75,7 +75,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
     bool isWithinXHours = timeDifference.inMinutes <= 0;
 
     return Container(
-      height: widget.isMatchAdded ? 225 : null,
+      height: widget.isMatchAdded ? 235 : null,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(

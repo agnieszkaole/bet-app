@@ -57,7 +57,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                 height: 50,
                 width: 140,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Flexible(
                       child: Text(
@@ -103,7 +103,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                 height: 50,
                 width: 140,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 40,

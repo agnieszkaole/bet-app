@@ -93,7 +93,6 @@ class MyApp extends StatelessWidget {
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else if (snapshot.hasData) {
-                      // return HomeScreen();
                       return const AuthScreens();
                     } else {
                       return const LoginScreen();
