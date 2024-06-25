@@ -126,7 +126,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                                 'Edition unavailable',
                                 style: TextStyle(fontSize: 18),
                               ),
-                              content: const Text("The prediction can only be edited until the match starts.",
+                              content: const Text("The bet can only be edited until the match starts.",
                                   style: TextStyle(fontSize: 14)),
                               actions: [
                                 TextButton(

@@ -16,6 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   get firebaseAuth => null;
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +74,9 @@ class MyApp extends StatelessWidget {
               ),
               MaterialApp(
                 debugShowCheckedModeBanner: false,
+                navigatorObservers: <NavigatorObserver>[observer],
                 title: 'BETSprint',
+
                 // themeMode: ThemeMode.system,
                 theme: ThemeData(
                     useMaterial3: true,

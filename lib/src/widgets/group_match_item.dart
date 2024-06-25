@@ -75,7 +75,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
     bool isWithinXHours = timeDifference.inMinutes <= 0;
 
     return Container(
-      height: widget.isMatchAdded ? 235 : null,
+      height: widget.isMatchAdded ? 215 : null,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
@@ -110,7 +110,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                               children: [
                                 SizedBox(height: 10),
                                 Text(
-                                  'You cannot bet, the match has alread been started or is has alread been added to your bets.',
+                                  'You cannot bet, the match has alread been started.',
                                   style: TextStyle(
                                     fontSize: 14,
                                   ),
@@ -274,22 +274,22 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
               //         groupId: widget.groupId,
               //       ),
 
-              if (isWithinXHours)
-                Container(
-                  height: 40,
-                  width: 180,
-                  margin: EdgeInsets.all(10),
-                  child: OutlinedButton(
-                    onPressed: null,
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      elevation: 3.0,
-                    ),
-                    child: const Text('Predict the result'),
-                  ),
-                ),
+              // if (isWithinXHours)
+              //   Container(
+              //     height: 40,
+              //     width: 180,
+              //     margin: EdgeInsets.all(10),
+              //     child: OutlinedButton(
+              //       onPressed: null,
+              //       style: OutlinedButton.styleFrom(
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(25),
+              //         ),
+              //         elevation: 3.0,
+              //       ),
+              //       child: const Text('Predict the result'),
+              //     ),
+              //   ),
             ],
           ),
         ],

@@ -38,15 +38,15 @@ const List<Map<String, dynamic>> leagueNames = [
   },
   {"id": 13, "name": " UEFA Nations League", "number": 5, "logo": "https://media.api-sports.io/football/leagues/5.png"},
   {
-    "id": 13,
+    "id": 14,
     "name": "  UEFA Championship - Women - Qualification",
     "number": 1083,
     "logo": "https://media.api-sports.io/football/leagues/5.png"
   },
   {
-    "id": 14,
-    "name": "World Cup - Qualification Africa",
-    "number": 29,
+    "id": 15,
+    "name": " 1. Division Belarus",
+    "number": 117,
     "logo": "https://media.api-sports.io/football/leagues/5.png"
   },
 ];

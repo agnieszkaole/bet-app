@@ -454,12 +454,12 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     Future<void> sumScores() async {
       Scoreboard scoreboard = Scoreboard();
       if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
-        backgroundColor = Color.fromARGB(167, 43, 43, 43);
+        backgroundColor = Color.fromARGB(113, 43, 43, 43);
       } else if (prediction == '---' &&
           match.goal.home != null &&
           match.goal.away != null &&
           match.fixture.status.long == 'Match Finished') {
-        backgroundColor = const Color.fromARGB(179, 56, 56, 56);
+        backgroundColor = Color.fromARGB(132, 56, 56, 56);
       } else {
         if (match.goal.home != null && match.goal.home != null && match.fixture.status.long == 'Match Finished') {
           if (prediction == '${match.goal.home} : ${match.goal.away}') {
@@ -495,7 +495,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
             }
           }
         } else {
-          backgroundColor = const Color.fromARGB(220, 77, 77, 77);
+          backgroundColor = Color.fromARGB(148, 77, 77, 77);
         }
       }
     }

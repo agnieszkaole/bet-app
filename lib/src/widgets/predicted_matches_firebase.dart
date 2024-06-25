@@ -98,7 +98,7 @@ class _PredictedMatchesFirebaseState extends State<PredictedMatchesFirebase> {
             return aTime.compareTo(bTime);
           });
           return SizedBox(
-            height: 90,
+            height: 75,
             child: Column(
               children: [
                 Expanded(

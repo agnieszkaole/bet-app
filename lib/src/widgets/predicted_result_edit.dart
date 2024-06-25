@@ -24,6 +24,7 @@ class PredictedResultEdit extends StatefulWidget {
   final String teamHomeLogo;
   final String teamAwayName;
   final String teamAwayLogo;
+
   final int matchId;
 
   @override

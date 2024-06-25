@@ -131,59 +131,61 @@ class _GroupMatchListState extends State<GroupMatchList> {
         "",
         league: widget.leagueNumber,
         season: '2023',
-        status: 'ns-tbd',
+        status: 'ns-tbd-1H-HT-2H-ET-BT-P-SUSP-INT',
         timezone: timezoneApi,
-        next: displayedItems,
+        // next: displayedItems,
       );
       final season2Data = await MatchApi().getMatches(
         "",
         league: widget.leagueNumber,
         season: '2024',
-        status: 'ns-tbd',
+        status: 'ns-tbd-1H-HT-2H-ET-BT-P-SUSP-INT',
         timezone: timezoneApi,
-        next: displayedItems,
+        // next: displayedItems,
       );
       final season3Data = await MatchApi().getMatches(
         "",
         league: widget.leagueNumber,
         season: '2025',
-        status: 'ns-tbd',
+        status: 'ns-tbd-1H-HT-2H-ET-BT-P-SUSP-INT',
         timezone: timezoneApi,
-        next: displayedItems,
+        // next: displayedItems,
       );
 
       mergedData.addAll(season1Data);
       mergedData.addAll(season2Data);
       mergedData.addAll(season3Data);
+      Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
     } else {
       final season1Data = await MatchApi().getMatches(
         widget.selectedDate,
         league: widget.leagueNumber,
         season: '2023',
-        status: statusApi,
+        status: 'ns-tbd-1H-HT-2H-ET-BT-P-SUSP-INT',
         timezone: timezoneApi,
       );
       final season2Data = await MatchApi().getMatches(
         widget.selectedDate,
         league: widget.leagueNumber,
         season: '2024',
-        status: statusApi,
+        status: 'ns-tbd-1H-HT-2H-ET-BT-P-SUSP-INT',
         timezone: timezoneApi,
       );
       final season3Data = await MatchApi().getMatches(
         widget.selectedDate,
         league: widget.leagueNumber,
         season: '2025',
-        status: statusApi,
+        status: 'ns-tbd-1H-HT-2H-ET-BT-P-SUSP-INT',
         timezone: timezoneApi,
       );
 
       mergedData.addAll(season1Data);
       mergedData.addAll(season2Data);
       mergedData.addAll(season3Data);
+      Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
     }
 
-    Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
+    // Provider.of<NextGroupMatchesProvider>(context, listen: false).saveMatches(mergedData);
     return mergedData;
   }
 

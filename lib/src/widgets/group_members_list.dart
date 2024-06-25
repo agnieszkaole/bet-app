@@ -53,8 +53,8 @@ class _GroupMembersListState extends State<GroupMembersList> {
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 25,
-                            margin: const EdgeInsets.only(bottom: 5),
+                            height: 22,
+                            margin: const EdgeInsets.only(bottom: 3),
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(0),
                               title: Row(
