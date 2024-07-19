@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class SuccessfulRegistration extends StatelessWidget {
   SuccessfulRegistration({super.key});
-  User? user = Auth().currentUser;
+  final User? user = Auth().currentUser;
 
   @override
   Widget build(BuildContext context) {

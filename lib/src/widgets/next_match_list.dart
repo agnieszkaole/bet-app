@@ -1,8 +1,6 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/services/match_api.dart';
-
 import 'package:bet_app/src/widgets/next_match_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +92,7 @@ class _NextMatchListState extends State<NextMatchList> {
     // }
 
     Provider.of<NextMatchesProvider>(context, listen: false).saveMatches(mergedData);
-    print('next${mergedData}');
+    print('next$mergedData');
     return mergedData;
   }
 
@@ -112,33 +110,33 @@ class _NextMatchListState extends State<NextMatchList> {
               final error = snapshot.error;
               return Text('$error', style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20));
             }
-            if (snapshot.data!.isEmpty) {
-              return const SizedBox(
-                height: 100,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Cannot get next matches.',
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'An unexpected error occurred',
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
+            // if (snapshot.data!.isEmpty) {
+            //   return const SizedBox(
+            //     height: 100,
+            //     child: Center(
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           Text(
+            //             'Cannot get next matches.',
+            //             style: TextStyle(fontSize: 14),
+            //             textAlign: TextAlign.center,
+            //           ),
+            //           Text(
+            //             'An unexpected error occurred',
+            //             style: TextStyle(fontSize: 14),
+            //             textAlign: TextAlign.center,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   );
+            // }
             if (snapshot.hasData) {
               return Container(
                 height: 340,
                 padding: const EdgeInsets.only(left: 5, top: 20, right: 15, bottom: 20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color.fromARGB(57, 80, 80, 80),
                   // border: Border.all(
                   //   width: 0.8,
@@ -176,7 +174,7 @@ class _NextMatchListState extends State<NextMatchList> {
                           }),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                         child: Text(
                       'There are no matches to display.',
                       style: TextStyle(fontSize: 18),

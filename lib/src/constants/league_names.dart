@@ -1,10 +1,10 @@
 const List<Map<String, dynamic>> leagueNames = [
-  {
-    "id": 1,
-    "name": "Euro Championship (EURO)",
-    "number": 4,
-    "logo": "https://media.api-sports.io/football/leagues/4.png"
-  },
+  // {
+  //   "id": 1,
+  //   "name": "Euro Championship (EURO)",
+  //   "number": 4,
+  //   "logo": "https://media.api-sports.io/football/leagues/4.png"
+  // },
   {"id": 2, "name": "Ekstraklasa (PL)", "number": 106, "logo": "https://media.api-sports.io/football/leagues/106.png"},
 
   {"id": 3, "name": "1 Liga (PL)", "number": 107, "logo": "https://media-4.api-sports.io/football/leagues/107.png"},

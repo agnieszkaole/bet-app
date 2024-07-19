@@ -86,10 +86,10 @@ class MyApp extends StatelessWidget {
                           bodyColor: const Color.fromARGB(255, 255, 255, 255),
                           fontFamily: GoogleFonts.lato().fontFamily,
                         ),
-                    dialogBackgroundColor: Color.fromARGB(255, 0, 3, 31),
+                    dialogBackgroundColor: const Color.fromARGB(255, 0, 3, 31),
 
                     // scaffoldBackgroundColor: Colors.transparent),
-                    scaffoldBackgroundColor: Color.fromARGB(255, 0, 3, 31)),
+                    scaffoldBackgroundColor: const Color.fromARGB(255, 0, 3, 31)),
                 home: StreamBuilder<User?>(
                   stream: firebaseAuth.authStateChanges(),
                   builder: (context, AsyncSnapshot<User?> snapshot) {

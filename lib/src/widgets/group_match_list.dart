@@ -1,22 +1,16 @@
 import 'package:bet_app/src/models/soccermodel.dart';
 import 'package:bet_app/src/provider/next_group_matches_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/provider/predicted_match_provider.dart';
-
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/match_api.dart';
-
 import 'package:bet_app/src/widgets/group_match_item.dart';
-import 'package:bet_app/src/widgets/predicted_matches_preview.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 class GroupMatchList extends StatefulWidget {
-  GroupMatchList({
+  const GroupMatchList({
     super.key,
     this.leagueName,
     this.leagueNumber,
@@ -214,7 +208,7 @@ class _GroupMatchListState extends State<GroupMatchList> {
                 ),
               );
             } else if (snapshot.hasData) {
-              final predictedMatchProvider = Provider.of<PredictedMatchProvider>(context);
+              // final predictedMatchProvider = Provider.of<PredictedMatchProvider>(context);
 
               return SizedBox(
                 height: MediaQuery.of(context).size.height,
@@ -229,10 +223,11 @@ class _GroupMatchListState extends State<GroupMatchList> {
                   child: ListView.builder(
                     controller: _scrollController,
                     itemCount: nextGroupMatchesList.length,
+                    cacheExtent: 10,
                     itemBuilder: (context, index) {
                       User? user = FirebaseAuth.instance.currentUser;
                       NextMatchesProvider.sortMatchesByDate(nextGroupMatchesList);
-                      final match = nextGroupMatchesList[index];
+                      // final match = nextGroupMatchesList[index];
                       // final isMatchAdded =
                       //     predictedMatchProvider.isMatchAdded(match.fixture.id, widget.groupId, user!.uid);
 

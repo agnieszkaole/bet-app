@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'package:bet_app/src/constants/league_names.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
-import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/next_match_list.dart';
 import 'package:bet_app/src/widgets/prev_match_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
-import 'package:provider/provider.dart';
 
 class LeagueOverviewScreen extends StatefulWidget {
   const LeagueOverviewScreen({

@@ -16,7 +16,7 @@ class _ContinueAsGuestScreenState extends State<ContinueAsGuestScreen> {
       User? user = await Auth().signInAnonymously();
       if (user != null) {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => const HomeScreen(),
         ));
         return user;
       }
@@ -39,7 +39,7 @@ class _ContinueAsGuestScreenState extends State<ContinueAsGuestScreen> {
         if (user != null) {
           print("User is signed in: ${user.uid}");
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => const HomeScreen(),
           ));
         } else {
           print("Failed to sign in anonymously");

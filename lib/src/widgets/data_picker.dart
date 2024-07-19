@@ -101,7 +101,7 @@ class DataPickerState extends State<DataPicker> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(173, 5, 71, 17),
+                      color: const Color.fromARGB(173, 5, 71, 17),
                       // gradient: const LinearGradient(
                       //   begin: Alignment.topCenter,
                       //   end: Alignment.bottomCenter,

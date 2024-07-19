@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({super.key});
+  const LoginForm({super.key});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -25,7 +25,7 @@ class _LoginFormState extends State<LoginForm> {
   void showHomeScreen(BuildContext context) {
     // saveUserSession(token);
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => HomeScreen(),
+      builder: (context) => const HomeScreen(),
     ));
   }
 
@@ -38,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(20),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         labelText: title,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
@@ -147,7 +147,7 @@ class _LoginFormState extends State<LoginForm> {
         //   style: TextStyle(fontSize: 12),
         // ),
         // const SizedBox(height: 20),
-        Container(
+        SizedBox(
           height: 35,
           child: Align(
             alignment: Alignment.topRight,

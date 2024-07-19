@@ -57,7 +57,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         Provider.of<BottomNavigationProvider>(context, listen: false).updateIndex(0);
         Navigator.of(context)
             .push(MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => const HomeScreen(),
         ))
             .then((value) {
           if (value != null && value == true) {

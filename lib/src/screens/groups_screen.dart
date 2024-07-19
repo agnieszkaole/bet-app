@@ -1,7 +1,6 @@
 import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/screens/new_group_screen.dart';
 import 'package:bet_app/src/screens/join_existing_group_screen.dart';
-import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";

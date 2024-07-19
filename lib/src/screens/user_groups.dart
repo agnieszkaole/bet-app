@@ -1,20 +1,16 @@
 import 'package:bet_app/src/constants/app_colors.dart';
-import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
 import 'package:bet_app/src/screens/group_tabs.dart';
-import 'package:bet_app/src/services/groups.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 class UserGroups extends StatelessWidget {
   final List<Map<String, dynamic>> userGroups;
 
-  UserGroups({required this.userGroups, super.key, this.onGroupCreated});
+  const UserGroups({required this.userGroups, super.key, this.onGroupCreated});
   final onGroupCreated;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 90,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,

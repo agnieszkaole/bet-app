@@ -5,7 +5,7 @@ import "package:bet_app/src/services/groups.dart";
 import "package:bet_app/src/widgets/group_details.dart";
 import "package:bet_app/src/widgets/group_table.dart";
 import "package:bet_app/src/widgets/match_scheduled.dart";
-import "package:bet_app/src/widgets/predicted_matches_firebase.dart";
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
@@ -88,7 +88,7 @@ class _GroupTabsState extends State<GroupTabs> {
         child: Scaffold(
           appBar: AppBar(
             // title: Text('Grupa:  $groupName'),
-            backgroundColor: Color.fromARGB(255, 0, 3, 31),
+            backgroundColor: const Color.fromARGB(255, 0, 3, 31),
             title: Row(
               children: [
                 Row(

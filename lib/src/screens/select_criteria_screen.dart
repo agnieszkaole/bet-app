@@ -2,13 +2,11 @@ import 'dart:async';
 import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/constants/league_names.dart';
 import 'package:bet_app/src/provider/bottom_navigation_provider.dart';
-import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/screens/user_groups.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:bet_app/src/services/user_data.dart';
 import 'package:bet_app/src/widgets/next_match_list.dart';
-import 'package:bet_app/src/widgets/prev_match_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
@@ -81,7 +79,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
             children: [
               Container(
                 // padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     // borderRadius: BorderRadius.circular(25),
                     // border: Border.all(
                     //   width: 1,
@@ -164,7 +162,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                       width: MediaQuery.of(context).size.width,
                       // padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 10),
                       padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromARGB(118, 48, 48, 48),
                         // border: Border.all(width: 0.8, color: Color.fromARGB(215, 69, 167, 24)),
                         borderRadius: BorderRadius.all(
@@ -174,15 +172,15 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                       constraints: const BoxConstraints(maxWidth: 400),
                       child: Column(
                         children: [
-                          Text('You are not a member of any group yet.'),
-                          Text('Create a new group or join to existing one.'),
-                          SizedBox(height: 15),
+                          const Text('You are not a member of any group yet.'),
+                          const Text('Create a new group or join to existing one.'),
+                          const SizedBox(height: 15),
                           const Text(
                             '👇',
                             style: TextStyle(fontSize: 25),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           GestureDetector(
                             onTap: () {
                               Provider.of<BottomNavigationProvider>(context, listen: false).updateIndex(1);
@@ -217,7 +215,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                 color: const Color(0xFF292D32),
                                 borderRadius: BorderRadius.circular(25.0),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Groups',
                                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -271,7 +269,7 @@ class _SelectCriteriaScreenState extends State<SelectCriteriaScreen> {
                                       : Border.all(width: 0.5, color: AppColors.greenDark),
                                   color: isSelectedLeague && selectedLeagueNumber == league['number'].toString()
                                       ? AppColors.greenDark
-                                      : Color.fromARGB(57, 80, 80, 80),
+                                      : const Color.fromARGB(57, 80, 80, 80),
                                 ),
                                 child: Center(
                                   child: Text(

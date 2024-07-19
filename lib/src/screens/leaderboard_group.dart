@@ -1,4 +1,3 @@
-import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -279,7 +278,7 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                                     // width: 350,
                                     margin: const EdgeInsets.all(5),
                                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         // color: const Color.fromARGB(200, 14, 71, 0),
                                         // borderRadius: BorderRadius.circular(25),
                                         // border: Border.all(
@@ -370,7 +369,7 @@ class _LeaderboardGroupState extends State<LeaderboardGroup> {
                                     // width: 350,
                                     margin: const EdgeInsets.all(5),
                                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         // color: const Color.fromARGB(100, 14, 71, 0),
                                         // borderRadius: BorderRadius.circular(25),
                                         // border: Border.all(

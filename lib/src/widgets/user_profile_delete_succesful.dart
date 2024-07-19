@@ -3,8 +3,8 @@ import 'package:bet_app/src/features/authentication/screens/login/login_screen.d
 import 'package:flutter/material.dart';
 
 class SuccessfulDelete extends StatefulWidget {
-  SuccessfulDelete({super.key, this.deletedUser});
-  String? deletedUser;
+  const SuccessfulDelete({super.key, this.deletedUser});
+  final String? deletedUser;
 
   @override
   State<SuccessfulDelete> createState() => _SuccessfulDeleteState();

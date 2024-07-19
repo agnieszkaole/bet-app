@@ -11,11 +11,11 @@ import 'package:bet_app/src/widgets/main_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:flutter/foundation.dart' show kIsWeb;
+// import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({
+  const HomeScreen({
     super.key,
   });
 
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //   './assets/logo/logo.png',
           //   width: 200,
           // ),
-          title: Text(
+          title: const Text(
             'BETsprint',
             style: TextStyle(
               color: AppColors.green,

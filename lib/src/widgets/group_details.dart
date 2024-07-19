@@ -77,7 +77,7 @@ class _GroupDetailsState extends State<GroupDetails> {
       content: Text('Group deleted successfully'),
     ));
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
     );
   }
 
@@ -104,12 +104,12 @@ class _GroupDetailsState extends State<GroupDetails> {
                 Container(
                   // height: 250,
                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     // border: Border.all(
                     //   width: 0.8,
                     //   color: const Color.fromARGB(170, 62, 155, 19),
                     // ),
-                    borderRadius: const BorderRadius.all(
+                    borderRadius: BorderRadius.all(
                       Radius.circular(25),
                     ),
                     color: Color.fromARGB(57, 80, 80, 80),
@@ -129,7 +129,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            constraints: BoxConstraints(maxWidth: 130),
+                            constraints: const BoxConstraints(maxWidth: 130),
                             child: Text(
                               '${widget.groupName}  ',
                               overflow: TextOverflow.ellipsis,
@@ -145,7 +145,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       const Text(
                         'Selected league',
                         style: TextStyle(
@@ -187,17 +187,17 @@ class _GroupDetailsState extends State<GroupDetails> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
                   // height: 230,
                   width: 250,
                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     // border: Border.all(
                     //   width: 0.8,
                     //   color: const Color.fromARGB(170, 62, 155, 19),
                     // ),
-                    borderRadius: const BorderRadius.all(
+                    borderRadius: BorderRadius.all(
                       Radius.circular(25),
                     ),
                     color: Color.fromARGB(57, 80, 80, 80),
@@ -253,7 +253,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                         right: 0,
                                         top: 0,
                                         child: GestureDetector(
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.close_rounded,
                                             color: Colors.white,
                                             size: 25,
@@ -261,7 +261,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                           onTap: () => Navigator.pop(context),
                                         ),
                                       ),
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -505,10 +505,10 @@ class _GroupDetailsState extends State<GroupDetails> {
                             onTap: () {
                               showDialog(
                                   context: context,
-                                  barrierColor: Color.fromARGB(167, 9, 11, 29),
+                                  barrierColor: const Color.fromARGB(167, 9, 11, 29),
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                        shape: RoundedRectangleBorder(
+                                        shape: const RoundedRectangleBorder(
                                             side: BorderSide(color: AppColors.green),
                                             borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                         title: const Text('Leave group'),
@@ -528,7 +528,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               await deleteMemberFromFirebase();
                                               Navigator.of(context)
                                                   .push(MaterialPageRoute(
-                                                builder: (context) => HomeScreen(),
+                                                builder: (context) => const HomeScreen(),
                                               ))
                                                   .then((value) {
                                                 if (value != null && value == true) {
@@ -642,15 +642,15 @@ class _GroupDetailsState extends State<GroupDetails> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Delete group', style: const TextStyle(fontSize: 18)),
+                          const Text('Delete group', style: TextStyle(fontSize: 18)),
                           GestureDetector(
                             onTap: () {
                               showDialog(
-                                  barrierColor: Color.fromARGB(167, 9, 11, 29),
+                                  barrierColor: const Color.fromARGB(167, 9, 11, 29),
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                        shape: RoundedRectangleBorder(
+                                        shape: const RoundedRectangleBorder(
                                             side: BorderSide(color: AppColors.green),
                                             borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                         title: const Text('Delete group'),

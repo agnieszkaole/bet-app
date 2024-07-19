@@ -10,7 +10,7 @@ import 'package:bet_app/src/services/groups.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+// import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 
 class GroupListScreen extends StatefulWidget {
@@ -215,7 +215,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
       if (groupSnapshot.exists) {
         var data = groupSnapshot.data();
         if (data == null) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Error: Group data is null.'),
           ));
           return null;
@@ -234,14 +234,14 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
         }
 
         if (membersList.length >= 10) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('The group is full, you cannot join.'),
           ));
           return null;
         }
 
         if (currentUser == null) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Error: User is not authenticated.'),
           ));
           return null;
@@ -259,14 +259,14 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
         // );
         return groupId;
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Group does not exist.'),
         ));
         return null;
       }
     } catch (e) {
       print('Error joining group: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('An error occurred while joining the group.'),
       ));
       return null;
@@ -282,7 +282,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
           // height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
-            color: Color.fromARGB(57, 80, 80, 80),
+            color: const Color.fromARGB(57, 80, 80, 80),
             // color: Color.fromARGB(255, 46, 46, 46),
             borderRadius: BorderRadius.circular(25),
             border: Border.all(
@@ -350,7 +350,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                             final groupData = groupsFiltered[index];
                             String? groupName = groupData['groupName'] ?? '';
                             String? groupId = groupData['groupId'];
-                            String? creatorUsername = groupData['creatorUsername'];
+                            // String? creatorUsername = groupData['creatorUsername'];
                             String? selectedLeague = groupData['selectedLeague']['leagueName'];
                             String? groupAccessCode = groupData['groupAccessCode'];
                             int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
@@ -363,7 +363,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                     margin: const EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
-                                      color: Color.fromARGB(57, 80, 80, 80),
+                                      color: const Color.fromARGB(57, 80, 80, 80),
                                       border: Border.all(
                                         width: 0.8,
                                         color: const Color.fromARGB(255, 26, 112, 0),
@@ -422,7 +422,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                           .updateIndex(0);
                                                       Navigator.of(context)
                                                           .push(MaterialPageRoute(
-                                                        builder: (context) => HomeScreen(),
+                                                        builder: (context) => const HomeScreen(),
                                                       ))
                                                           .then((value) {
                                                         if (value != null && value == true) {
@@ -449,12 +449,12 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
 
                                                     if (groupId != null) {
                                                       showDialog(
-                                                        barrierColor: Color.fromARGB(167, 9, 11, 29),
+                                                        barrierColor: const Color.fromARGB(167, 9, 11, 29),
                                                         barrierDismissible: true,
                                                         context: context,
                                                         builder: (BuildContext context) {
                                                           return AlertDialog(
-                                                            shape: RoundedRectangleBorder(
+                                                            shape: const RoundedRectangleBorder(
                                                                 side: BorderSide(color: AppColors.green),
                                                                 borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                                             title: const Text(
@@ -525,7 +525,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                                 .updateIndex(0);
                                                                             Navigator.of(context)
                                                                                 .push(MaterialPageRoute(
-                                                                              builder: (context) => HomeScreen(),
+                                                                              builder: (context) => const HomeScreen(),
                                                                             ))
                                                                                 .then((value) {
                                                                               if (value != null && value == true) {
@@ -614,7 +614,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                           String? groupAccessCode = groupData['groupAccessCode'];
                           String? selectedLeague = groupData['selectedLeague']['leagueName'];
                           int? groupMembers = (groupData['members'] as List<dynamic>?)?.length ?? 0;
-                          String? creatorUsername = groupData['creatorUsername'];
+                          // String? creatorUsername = groupData['creatorUsername'];
                           print(groupMembers);
                           return Container(
                             constraints: const BoxConstraints(maxWidth: 400),
@@ -625,7 +625,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(57, 80, 80, 80),
+                                    color: const Color.fromARGB(57, 80, 80, 80),
                                     border: Border.all(
                                       width: 0.8,
                                       color: const Color.fromARGB(255, 26, 112, 0),
@@ -684,7 +684,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                         .updateIndex(0);
                                                     Navigator.of(context)
                                                         .push(MaterialPageRoute(
-                                                      builder: (context) => HomeScreen(),
+                                                      builder: (context) => const HomeScreen(),
                                                     ))
                                                         .then((value) {
                                                       if (value != null && value == true) {
@@ -712,12 +712,12 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
 
                                                   if (groupId != null) {
                                                     showDialog(
-                                                      barrierColor: Color.fromARGB(167, 9, 11, 29),
+                                                      barrierColor: const Color.fromARGB(167, 9, 11, 29),
                                                       barrierDismissible: true,
                                                       context: context,
                                                       builder: (BuildContext context) {
                                                         return AlertDialog(
-                                                          shape: RoundedRectangleBorder(
+                                                          shape: const RoundedRectangleBorder(
                                                               side: BorderSide(color: AppColors.green),
                                                               borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                                           title: const Text(
@@ -786,7 +786,7 @@ class _JoinExistingGroupScreenState extends State<JoinExistingGroupScreen> {
                                                                               .updateIndex(0);
                                                                           Navigator.of(context)
                                                                               .push(MaterialPageRoute(
-                                                                            builder: (context) => HomeScreen(),
+                                                                            builder: (context) => const HomeScreen(),
                                                                           ))
                                                                               .then((value) {
                                                                             if (value != null && value == true) {

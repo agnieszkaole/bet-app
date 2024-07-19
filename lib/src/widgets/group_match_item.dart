@@ -1,16 +1,10 @@
 import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/widgets/match_prediction_list.dart';
 import 'package:bet_app/src/widgets/predict_result.dart';
-import 'package:bet_app/src/widgets/predicted_item_firebase.dart';
 import 'package:bet_app/src/widgets/predicted_matches_firebase.dart';
-import 'package:bet_app/src/widgets/predicted_matches_preview.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../provider/predicted_match_provider.dart';
 
 class GroupMatchItem extends StatefulWidget {
   GroupMatchItem({
@@ -80,10 +74,10 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: Color.fromARGB(70, 49, 49, 49),
+        color: const Color.fromARGB(70, 49, 49, 49),
         border: Border.all(
           width: .5,
-          color: Color.fromARGB(192, 80, 80, 80),
+          color: const Color.fromARGB(192, 80, 80, 80),
         ),
       ),
       child: Stack(
@@ -96,11 +90,11 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                   child: GestureDetector(
                     onTap: () {
                       showDialog(
-                        barrierColor: Color.fromARGB(167, 9, 11, 29),
+                        barrierColor: const Color.fromARGB(167, 9, 11, 29),
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 side: BorderSide(color: AppColors.green),
                                 borderRadius: BorderRadius.all(Radius.circular(25.0))),
                             // title: const Text("Notice"),
@@ -214,7 +208,7 @@ class _GroupMatchItemState extends State<GroupMatchItem> with AutomaticKeepAlive
                   ? Container(
                       height: 40,
                       width: 180,
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       child: ElevatedButton(
                         onPressed: () async {
                           await Navigator.of(context).push(MaterialPageRoute(

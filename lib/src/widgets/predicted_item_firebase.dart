@@ -1,7 +1,6 @@
 import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/provider/predicted_match_provider.dart';
 import 'package:bet_app/src/widgets/predicted_result_edit.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +14,9 @@ class PredictedItemFirebase extends StatefulWidget {
     super.key,
   });
 
-  late Map<String, dynamic> data;
-  String docId;
-  int? matchId;
+  late final Map<String, dynamic> data;
+  final String docId;
+  final int? matchId;
 
   @override
   State<PredictedItemFirebase> createState() => _PredictedItemFirebaseState();
@@ -80,7 +79,7 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
             Center(
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     'Your bet:',
                   ),
                   Text(
@@ -115,11 +114,11 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                   ),
                   onPressed: () {
                     showDialog(
-                        barrierColor: Color.fromARGB(167, 9, 11, 29),
+                        barrierColor: const Color.fromARGB(167, 9, 11, 29),
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   side: BorderSide(color: AppColors.green),
                                   borderRadius: BorderRadius.all(Radius.circular(25.0))),
                               title: const Text(
@@ -219,11 +218,11 @@ class _PredictedItemFirebaseState extends State<PredictedItemFirebase> {
                   ),
                   onPressed: () {
                     showDialog(
-                        barrierColor: Color.fromARGB(167, 9, 11, 29),
+                        barrierColor: const Color.fromARGB(167, 9, 11, 29),
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   side: BorderSide(color: AppColors.green),
                                   borderRadius: BorderRadius.all(Radius.circular(25.0))),
                               title: const Text(

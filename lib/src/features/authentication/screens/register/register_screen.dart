@@ -229,14 +229,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   CheckboxListTile(
-                    contentPadding: EdgeInsets.only(left: 0, right: 0),
-                    title: Text(
+                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
+                    title: const Text(
                       "I have read and agree to our Privacy Policy and Terms of Use.",
                       style: TextStyle(fontSize: 14),
                     ),
                     value: _checkedValue,
-                    activeColor: Color.fromARGB(255, 0, 161, 27),
-                    checkColor: Color.fromARGB(255, 255, 255, 255),
+                    activeColor: const Color.fromARGB(255, 0, 161, 27),
+                    checkColor: const Color.fromARGB(255, 255, 255, 255),
                     onChanged: (bool? newValue) {
                       setState(() {
                         _checkedValue = newValue ?? false;

@@ -309,7 +309,7 @@ class Groups {
       for (QueryDocumentSnapshot<Map<String, dynamic>> userSnapshot in usersSnapshot.docs) {
         if (userSnapshot.data().containsKey('groups') && userSnapshot.data()['groups'] != null) {
           List<dynamic> userGroups = List<dynamic>.from(userSnapshot.data()['groups']);
-          bool containsGroupId = userGroups.any((map) => map.containsValue(groupIdDelete));
+          // bool containsGroupId = userGroups.any((map) => map.containsValue(groupIdDelete));
 
           userGroups.removeWhere((map) => map.containsValue(groupIdDelete));
           await FirebaseFirestore.instance.collection('users').doc(userSnapshot.id).update({'groups': userGroups});

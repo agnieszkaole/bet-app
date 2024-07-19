@@ -123,7 +123,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           constraints: const BoxConstraints(maxWidth: 400),
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           decoration: BoxDecoration(
-            color: Color.fromARGB(57, 80, 80, 80),
+            color: const Color.fromARGB(57, 80, 80, 80),
             borderRadius: const BorderRadius.all(
               Radius.circular(25),
             ),
@@ -173,11 +173,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       GestureDetector(
                         onTap: () {
                           showDialog(
-                            barrierColor: Color.fromARGB(167, 9, 11, 29),
+                            barrierColor: const Color.fromARGB(167, 9, 11, 29),
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     side: BorderSide(color: AppColors.green),
                                     borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                 backgroundColor: AppColors.blueDark,
@@ -285,11 +285,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         GestureDetector(
                           onTap: () {
                             showDialog(
-                              barrierColor: Color.fromARGB(167, 9, 11, 29),
+                              barrierColor: const Color.fromARGB(167, 9, 11, 29),
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  shape: RoundedRectangleBorder(
+                                  shape: const RoundedRectangleBorder(
                                       side: BorderSide(color: AppColors.green),
                                       borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                   title: const Text(
@@ -358,11 +358,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       GestureDetector(
                         onTap: () {
                           showDialog(
-                            barrierColor: Color.fromARGB(167, 9, 11, 29),
+                            barrierColor: const Color.fromARGB(167, 9, 11, 29),
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     side: BorderSide(color: AppColors.green),
                                     borderRadius: BorderRadius.all(Radius.circular(25.0))),
                                 title: const Text(

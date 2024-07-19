@@ -1,12 +1,10 @@
 import 'package:bet_app/src/constants/app_colors.dart';
-import 'package:bet_app/src/services/auth.dart';
 import 'package:bet_app/src/services/user_data.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ForgetPassword extends StatefulWidget {
-  ForgetPassword({super.key, this.email});
-  String? email;
+  const ForgetPassword({super.key, this.email});
+  final String? email;
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -38,11 +36,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     return TextButton(
       onPressed: () {
         showDialog(
-          barrierColor: Color.fromARGB(167, 9, 11, 29),
+          barrierColor: const Color.fromARGB(167, 9, 11, 29),
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   side: BorderSide(color: AppColors.green), borderRadius: BorderRadius.all(Radius.circular(25.0))),
               title: const Text(
                 "Forget password",

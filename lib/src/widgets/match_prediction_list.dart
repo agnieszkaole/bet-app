@@ -1,6 +1,4 @@
 import 'package:bet_app/src/models/match_predictions_model.dart';
-import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/match_id_provider.dart';
 import 'package:bet_app/src/provider/next_matches_provider.dart';
 import 'package:bet_app/src/services/match_api.dart';
 import 'package:bet_app/src/widgets/match_prediction_item.dart';
@@ -24,7 +22,7 @@ class MatchPredictionList extends StatefulWidget {
 }
 
 class _MatchPredictionListState extends State<MatchPredictionList> {
-  final ScrollController _scrollController = ScrollController();
+  // final ScrollController _scrollController = ScrollController();
   late Future dataFuture;
 
   @override
@@ -36,7 +34,7 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
   @override
   void didUpdateWidget(MatchPredictionList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    late final selectedMatchId = context.watch<MatchIdProvider>().selectedMatchId;
+    // late final selectedMatchId = context.watch<MatchIdProvider>().selectedMatchId;
     // if (widget.leagueNumber != oldWidget.leagueNumber) {
     setState(() {
       dataFuture = _getData();
@@ -78,7 +76,7 @@ class _MatchPredictionListState extends State<MatchPredictionList> {
             );
           } else if (snapshot.hasData) {
             if (snapshot.data != null && snapshot.data.isNotEmpty) {
-              late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
+              // late List<SoccerMatch> nextMatchesList = context.watch<NextMatchesProvider>().nextMatchesList;
               final List<PredictionData> predictionsResponse = snapshot.data;
               final predictions = predictionsResponse[0].predictions;
               final teams = predictionsResponse[0].teams;

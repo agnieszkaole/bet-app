@@ -178,7 +178,7 @@ class _PrevMatchListState extends State<PrevMatchList> {
                         ),
                       );
                     } else {
-                      return Center(
+                      return const Center(
                           child: Text(
                         'There are no scores to display.',
                         style: TextStyle(fontSize: 18),

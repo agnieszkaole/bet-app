@@ -1,12 +1,9 @@
 import 'package:bet_app/src/constants/app_colors.dart';
 import 'package:bet_app/src/models/soccermodel.dart';
-import 'package:bet_app/src/provider/scoreboard_manager_provider.dart';
-
 import 'package:bet_app/src/provider/scoreboard_provider.dart';
 import 'package:bet_app/src/services/groups.dart';
 import 'package:bet_app/src/services/scoreboard.dart';
 import 'package:bet_app/src/services/user_data.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -454,12 +451,12 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
     Future<void> sumScores() async {
       Scoreboard scoreboard = Scoreboard();
       if (prediction == '---' && match.goal.home == null && match.goal.away == null) {
-        backgroundColor = Color.fromARGB(113, 43, 43, 43);
+        backgroundColor = const Color.fromARGB(113, 43, 43, 43);
       } else if (prediction == '---' &&
           match.goal.home != null &&
           match.goal.away != null &&
           match.fixture.status.long == 'Match Finished') {
-        backgroundColor = Color.fromARGB(132, 56, 56, 56);
+        backgroundColor = const Color.fromARGB(132, 56, 56, 56);
       } else {
         if (match.goal.home != null && match.goal.home != null && match.fixture.status.long == 'Match Finished') {
           if (prediction == '${match.goal.home} : ${match.goal.away}') {
@@ -495,7 +492,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
             }
           }
         } else {
-          backgroundColor = Color.fromARGB(148, 77, 77, 77);
+          backgroundColor = const Color.fromARGB(148, 77, 77, 77);
         }
       }
     }
@@ -519,7 +516,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         )
                       : Text(
-                          '$prediction',
+                          prediction,
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         )),
           if (match.fixture.status.long == 'Match Finished' && prediction != '---')
@@ -536,7 +533,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
                 ),
 
                 child: Text(
-                  '+${score}',
+                  '+$score',
                   style: const TextStyle(
                     fontSize: 13,
                     color: Colors.white,
@@ -607,7 +604,7 @@ class CustomDataTableState<T> extends State<CustomDataTable<T>> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           // color: Color.fromARGB(235, 34, 34, 34),
-          border: Border.all(color: Color.fromARGB(255, 85, 85, 85), width: 0.7)),
+          border: Border.all(color: const Color.fromARGB(255, 85, 85, 85), width: 0.7)),
       child: Column(
         children: [
           Row(

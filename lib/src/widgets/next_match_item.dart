@@ -28,9 +28,6 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
     var awayName = widget.match.away.name;
     var awayLogo = widget.match.away.logoUrl;
     var matchTime = widget.match.fixture.formattedDate;
-    var leagueRound = widget.match.league.round;
-    // var leagueName = widget.match.league.name;
-    // var leagueNumber = widget.match.league.id;
 
     return Container(
       // height: ,
@@ -71,7 +68,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                         maxLines: 2,
                       ),
                     ),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     SizedBox(
                       height: 40,
                       child: Container(
@@ -88,9 +85,9 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                   ],
                 ),
               ),
-              Container(
+              const SizedBox(
                 width: 15,
-                child: const Text(
+                child: Text(
                   "vs",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -117,7 +114,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
                         ),
                       ),
                     ),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     Flexible(
                       child: Text(
                         awayName,
@@ -135,7 +132,7 @@ class _NextMatchItemState extends State<NextMatchItem> with AutomaticKeepAliveCl
               ),
             ],
           ),
-          Divider(
+          const Divider(
             height: 0.5,
             thickness: 0.5,
             color: Color.fromARGB(255, 0, 117, 10),

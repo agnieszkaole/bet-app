@@ -22,7 +22,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
 
-    int matchId = widget.match.fixture.id;
+    // int matchId = widget.match.fixture.id;
     var homeName = widget.match.home.name;
     var homeLogo = widget.match.home.logoUrl;
     var homeGoal = widget.match.goal.home;
@@ -30,7 +30,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
     var awayLogo = widget.match.away.logoUrl;
     var awayGoal = widget.match.goal.away;
     var matchTime = widget.match.fixture.formattedDate;
-    var leagueRound = widget.match.league.round;
+    // var leagueRound = widget.match.league.round;
     // var leagueName = widget.match.league.name;
     // var leagueNumber = widget.match.league.id;
 
@@ -157,7 +157,7 @@ class _PrevMatchItemState extends State<PrevMatchItem> with AutomaticKeepAliveCl
               ),
             ],
           ),
-          Divider(
+          const Divider(
             height: 0.5,
             thickness: 0.5,
             color: Color.fromARGB(255, 0, 117, 10),
